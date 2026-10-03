@@ -1,0 +1,1752 @@
+/* =========================
+   フォント
+========================= */
+
+@font-face {
+    font-family: "AsWinterBegins";
+    src: url("fonts/AsWinterBegins.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Y1PixelationSerif";
+    src: url("fonts/Y1PixelationSerif.otf") format("opentype");
+}
+@font-face {
+    font-family: "BunanMarker";
+    src: url("fonts/BunanMarker.otf") format("opentype");
+}
+
+/* =========================
+   全体・背景
+========================= */
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+
+    background-color: white;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 120, 200, 0.35) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0, 120, 200, 0.35) 1px,
+            transparent 1px
+        );
+
+    background-size: 25px 25px;
+
+    /* 8bit風カーソル */
+    cursor: url("images/cursor.png") 16 16, auto;
+}
+
+
+/* =========================
+   ヘッダー
+========================= */
+
+.site-header {
+    width: 100%;
+    height: 70px;
+
+    background: blue;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 30px;
+
+    box-sizing: border-box;
+
+    position: relative;
+    z-index: 2;
+}
+
+
+/* ヘッダータイトル */
+
+.header-title {
+    color: white;
+
+    font-family: "BunanMarker", serif;
+
+    font-size: 22px;
+
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   ヘッダーメニュー
+========================= */
+
+.header-menu {
+    display: flex;
+
+    align-items: center;
+
+    gap: 35px;
+
+    margin-left: auto;
+}
+
+
+.header-menu a {
+    color: white;
+
+    font-family: "Y1PixelationSerif", serif;
+
+    font-size: 18px;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        text-shadow 0.2s ease;
+}
+
+
+.header-menu a:hover {
+    color: white;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 10px white;
+}
+
+/* =========================
+   横に流れるディスプレイ
+========================= */
+
+.gallery {
+    width: 100%;
+
+    overflow: hidden;
+
+    padding-top: 40px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.gallery-track {
+    display: flex;
+
+    width: max-content;
+
+    animation: scroll 45s linear infinite;
+}
+
+
+.gallery-set {
+    display: flex;
+
+    gap: 12px;
+
+    padding-right: 12px;
+
+    flex-shrink: 0;
+}
+
+
+.gallery-set img {
+    width: 230px;
+
+    height: auto;
+
+    display: block;
+
+    border-radius: 15px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================
+   永遠に途切れず流れる
+========================= */
+
+@keyframes scroll {
+
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+
+}
+
+/* =========================
+   メインタイトル
+========================= */
+
+h1 {
+    color: black;
+
+    text-align: center;
+
+    font-family: "AsWinterBegins", serif;
+
+    font-size: 80px;
+
+    margin-top: 80px;
+}
+
+
+/* タイトルの歪み */
+
+.wiggle-title {
+    filter: url(#wavy);
+}
+
+
+/* SVGフィルターを非表示 */
+
+.svg-filter {
+    position: absolute;
+
+    width: 0;
+    height: 0;
+
+    overflow: hidden;
+    
+}
+
+
+/* =========================
+   サブタイトル
+========================= */
+
+p {
+    color: black;
+
+    text-align: center;
+
+    font-size: 28px;
+    font-family: "AsWinterBegins", serif;
+    font-weight: bold;
+    
+
+}
+
+
+/* =========================
+   テプラ風リンクメニュー
+========================= */
+
+.link-menu {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 45px;
+
+    margin-top: 70px;
+
+    flex-wrap: wrap;
+}
+
+
+.glitch-link {
+    background: yellow;
+
+    color: black;
+
+    font-family: "Y1PixelationSerif", serif;
+
+    font-size: 22px;
+
+    text-decoration: none;
+
+    padding: 10px 18px;
+
+    border: 1px solid #cccccc;
+
+    box-shadow:
+        3px 3px 2px rgba(0, 0, 0, 0.18);
+
+    transform-origin: center;
+
+    transition:
+        color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* バラバラに貼られた感じ */
+
+.glitch-link:nth-child(1) {
+    transform: rotate(-4deg) translateY(-8px);
+}
+
+.glitch-link:nth-child(2) {
+    transform: rotate(2deg) translateY(7px);
+}
+
+.glitch-link:nth-child(3) {
+    transform: rotate(-1deg) translateY(-4px);
+}
+
+.glitch-link:nth-child(4) {
+    transform: rotate(5deg) translateY(8px);
+}
+
+
+/* ホバー */
+
+.glitch-link:hover {
+    color: blue;
+}
+
+
+.glitch-link:nth-child(1):hover {
+    animation: peel1 0.5s ease forwards;
+}
+
+.glitch-link:nth-child(2):hover {
+    animation: peel2 0.5s ease forwards;
+}
+
+.glitch-link:nth-child(3):hover {
+    animation: peel3 0.5s ease forwards;
+}
+
+.glitch-link:nth-child(4):hover {
+    animation: peel4 0.5s ease forwards;
+}
+
+
+/* テプラがはがれる動き */
+
+@keyframes peel1 {
+
+    0% {
+        transform: rotate(-4deg) translateY(-8px);
+    }
+
+    100% {
+        transform:
+            rotate(-6deg)
+            translateY(-12px)
+            translateX(-2px)
+            scale(1.06);
+    }
+
+}
+
+
+@keyframes peel2 {
+
+    0% {
+        transform: rotate(2deg) translateY(7px);
+    }
+
+    100% {
+        transform:
+            rotate(4deg)
+            translateY(2px)
+            translateX(2px)
+            scale(1.06);
+    }
+
+}
+
+
+@keyframes peel3 {
+
+    0% {
+        transform: rotate(-1deg) translateY(-4px);
+    }
+
+    100% {
+        transform:
+            rotate(-3deg)
+            translateY(-9px)
+            translateX(2px)
+            scale(1.06);
+    }
+
+}
+
+
+@keyframes peel4 {
+
+    0% {
+        transform: rotate(5deg) translateY(8px);
+    }
+
+    100% {
+        transform:
+            rotate(7deg)
+            translateY(3px)
+            translateX(-2px)
+            scale(1.06);
+    }
+
+}
+
+
+/* =========================
+   INVESTIGATORS エリア
+========================= */
+
+.investigators-page {
+    max-width: 1400px;
+
+    margin: 230px auto 0;
+
+    padding: 100px 40px 150px;
+
+    border: 6px solid #0047ff;
+
+    background-color: rgba(255, 255, 255, 0.75);
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* =========================
+   INVESTIGATORS タイトル
+========================= */
+
+.page-title {
+    margin: 0 0 100px;
+
+    font-family: "BunanMarker", serif;
+
+    font-size: 60px;
+
+    color: #0047ff;
+
+    text-align: center;
+
+    letter-spacing: 8px;
+}
+
+
+/* =========================
+   探索者一覧
+========================= */
+
+.investigator-grid {
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 70px 30px;
+
+    align-items: start;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* =========================
+   探索者カード
+========================= */
+
+.investigator-card {
+    position: relative;
+
+    display: block;
+
+    background: white;
+
+    padding: 5px;
+
+    color: black;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    box-shadow:
+        4px 5px 3px rgba(0, 0, 0, 0.28);
+
+    transition:
+        box-shadow 0.3s ease;
+}
+
+
+.investigator-card:hover {
+    box-shadow:
+        4px 5px 5px rgba(0, 0, 0, 0.20);
+}
+
+
+/* =========================
+   写真エリア
+========================= */
+
+.photo-area {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 3 / 4;
+
+    /* ★通常時の背景色 */
+    background-color: #61b3ff;
+
+    /* ラベルを写真の外へ飛び出させる */
+    overflow: visible;
+
+    transition:
+        background-color 0.15s steps(2);
+}
+
+
+/* 人物画像 */
+
+.photo-area img {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+/* =========================
+   写真の切り替え
+========================= */
+
+/* 通常画像 */
+
+.photo-normal {
+    opacity: 1;
+
+    transition:
+        opacity 0.3s ease;
+}
+
+
+/* ホバー画像 */
+
+.photo-hover {
+    opacity: 0;
+
+    transition:
+        opacity 0.3s ease;
+
+    transition-delay: 0.15s;
+}
+
+
+/* =========================
+   ホバー画像
+========================= */
+
+.photo-hover {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    opacity: 0;
+
+    /* 最初から通常画像より上 */
+    z-index: 2;
+
+    transition:
+        opacity 0.2s ease;
+}
+
+
+/* =========================
+   ホバーしたとき
+========================= */
+
+/* 背景を青くする */
+
+.investigator-card:hover .photo-area {
+    background-color: #0066ff;
+}
+
+
+/* ホバー画像を最前面にすぐ表示 */
+
+.investigator-card:hover .photo-hover {
+    opacity: 1;
+
+    z-index: 3;
+}
+
+
+/* 通常画像は少し遅れて消える */
+
+.investigator-card:hover .photo-normal {
+    opacity: 0;
+
+    transition-delay: 0.15s;
+}
+
+
+/* =========================
+   カーソルを外したとき
+========================= */
+
+.investigator-card:not(:hover) .photo-normal {
+    transition-delay: 0s;
+}
+
+.investigator-card:not(:hover) .photo-hover {
+    transition-delay: 0.15s;
+}
+/* ホバー画像なし */
+
+.investigator-card.no-hover:hover .photo-normal {
+    opacity: 1;
+}
+
+
+/* =========================
+   出身シナリオ ラベル
+========================= */
+
+.scenario-bubble {
+    position: absolute;
+
+    /* 写真の左上から飛び出す */
+    top: -65px;
+    left: -20px;
+
+    background: white;
+
+    color: black;
+
+    font-family: "AsWinterBegins", serif;
+
+    font-weight: bold;
+
+    text-shadow:
+        0.5px 0 black,
+        -0.5px 0 black,
+        0 0.5px black,
+        0 -0.5px black;
+
+    font-size: 20px;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    padding: 12px 20px;
+
+    border: 3px solid black;
+
+    /* 少しなみなみ */
+    border-radius:
+        12px 20px 14px 18px
+        / 18px 12px 20px 14px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 100;
+
+    transform:
+        translateY(10px)
+        scale(0.8);
+
+    transform-origin: left bottom;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* ホバーしたらポップ */
+
+.photo-area:hover .scenario-bubble {
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
+/* 吹き出しのしっぽを完全に消す */
+
+.scenario-bubble::before,
+.scenario-bubble::after {
+    content: none;
+    display: none;
+}
+/* ========================= 
+   名前ラベル 
+========================= */
+
+.name-label {
+    position: absolute;
+
+    left: 50%;
+    bottom: -35px;
+
+    background: white;
+
+    color: black;
+
+    font-family: "AsWinterBegins", serif;
+    font-size: 20px;
+    font-weight: normal;
+
+    padding: 10px 25px;
+
+    white-space: nowrap;
+
+    border: 1px solid #cccccc;
+
+    box-shadow:
+        3px 3px 2px rgba(0, 0, 0, 0.18);
+
+    z-index: 10;
+}
+
+
+/* 名前の文字 */
+
+.name-text {
+    display: inline-block;
+
+    font-family: "AsWinterBegins", serif;
+    font-weight: normal;
+
+    text-shadow:
+        0.3px 0 black,
+        -0.3px 0 black,
+        0 0.3px black,
+        0 -0.3px black;
+}
+
+
+/* ========================= 
+   探索者カード
+========================= */
+
+.investigator-card {
+    opacity: 1;
+}
+/* ========================= 
+   カードのふわふわ
+   縦列が同じ動きにならないようにする
+========================= */
+
+/* 1人目 */
+.investigator-card:nth-child(8n + 1) {
+    animation: float1 4.7s ease-in-out infinite;
+}
+
+/* 2人目 */
+.investigator-card:nth-child(8n + 2) {
+    animation: float2 5.3s ease-in-out infinite;
+}
+
+/* 3人目 */
+.investigator-card:nth-child(8n + 3) {
+    animation: float3 4.1s ease-in-out infinite;
+}
+
+/* 4人目 */
+.investigator-card:nth-child(8n + 4) {
+    animation: float4 5.8s ease-in-out infinite;
+}
+
+
+/* 5人目 → 1人目と違う動き */
+
+.investigator-card:nth-child(8n + 5) {
+    animation: float3 5.1s ease-in-out infinite;
+}
+
+
+/* 6人目 */
+
+.investigator-card:nth-child(8n + 6) {
+    animation: float4 4.4s ease-in-out infinite;
+}
+
+
+/* 7人目 */
+
+.investigator-card:nth-child(8n + 7) {
+    animation: float1 5.6s ease-in-out infinite;
+}
+
+
+/* 8人目 */
+
+.investigator-card:nth-child(8n) {
+    animation: float2 4.3s ease-in-out infinite;
+}
+/* =========================
+   スクロール登場アニメーション
+========================= */
+/* =========================
+   探索者カード
+   ========================= */
+
+.investigator-card {
+    position: relative;
+
+    display: block;
+
+    background: white;
+
+    padding: 5px;
+
+    color: black;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    box-shadow:
+        4px 5px 3px rgba(0, 0, 0, 0.28);
+
+    transition:
+        box-shadow 0.3s ease;
+
+
+
+
+}
+/* ========================= 
+   ふわふわアニメーション
+========================= */
+
+@keyframes float1 {
+
+    0%, 100% {
+        transform:
+            rotate(-2deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            rotate(-2deg)
+            translateY(-7px);
+    }
+
+}
+
+
+@keyframes float2 {
+
+    0%, 100% {
+        transform:
+            rotate(1deg)
+            translateY(5px);
+    }
+
+    50% {
+        transform:
+            rotate(1deg)
+            translateY(-4px);
+    }
+
+}
+
+
+@keyframes float3 {
+
+    0%, 100% {
+        transform:
+            rotate(-1deg)
+            translateY(-4px);
+    }
+
+    50% {
+        transform:
+            rotate(-1deg)
+            translateY(-12px);
+    }
+
+}
+
+
+@keyframes float4 {
+
+    0%, 100% {
+        transform:
+            rotate(2deg)
+            translateY(6px);
+    }
+
+    50% {
+        transform:
+            rotate(2deg)
+            translateY(-3px);
+    }
+
+}
+
+
+/* ========================= 
+   名前ラベルを別々にふわふわ
+========================= */
+
+.investigator-card:nth-child(4n + 1) .name-label {
+    animation: label1 3.2s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(4n + 2) .name-label {
+    animation: label2 4.1s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(4n + 3) .name-label {
+    animation: label3 3.6s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(4n + 4) .name-label {
+    animation: label4 4.5s ease-in-out infinite;
+}
+
+
+@keyframes label1 {
+
+    0%, 100% {
+        transform:
+            translateX(-50%)
+            rotate(-3deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            rotate(-3deg)
+            translateY(-4px);
+    }
+
+}
+
+
+@keyframes label2 {
+
+    0%, 100% {
+        transform:
+            translateX(-50%)
+            rotate(2deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            rotate(2deg)
+            translateY(5px);
+    }
+
+}
+
+
+@keyframes label3 {
+
+    0%, 100% {
+        transform:
+            translateX(-50%)
+            rotate(-1deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            rotate(-1deg)
+            translateY(-5px);
+    }
+
+}
+
+
+@keyframes label4 {
+
+    0%, 100% {
+        transform:
+            translateX(-50%)
+            rotate(3deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            rotate(3deg)
+            translateY(4px);
+    }
+
+}
+
+/* =========================
+   クリック：星が弾ける
+========================= */
+
+.click-star {
+    position: fixed;
+
+    width: 8px;
+    height: 8px;
+
+    background: red;
+
+    pointer-events: none;
+
+    z-index: 9999;
+
+    animation:
+        star-burst 0.5s steps(4) forwards;
+}
+
+
+@keyframes star-burst {
+
+    0% {
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translate(
+                calc(-50% + var(--x)),
+                calc(-50% + var(--y))
+            )
+            scale(0);
+
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================
+   浮かぶネオン星
+========================= */
+
+.floating-star {
+    position: fixed;
+
+    width: var(--star-size);
+    height: var(--star-size);
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    opacity: 0;
+
+    animation:
+        floatingUp var(--duration)
+        linear
+        forwards;
+}
+
+
+.star-shape {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: var(--star-color);
+
+    filter:
+        drop-shadow(0 0 3px var(--star-color))
+        drop-shadow(0 0 8px var(--star-color));
+
+    animation:
+        underwaterSway 3.5s
+        ease-in-out
+        infinite alternate;
+}
+
+
+/* 上昇 */
+
+@keyframes floatingUp {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(40px)
+            scale(0.7);
+    }
+
+    15% {
+        opacity: 0.8;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translateY(-160px)
+            scale(0.8);
+    }
+
+}
+
+
+/* 横揺れ */
+
+@keyframes underwaterSway {
+
+    0% {
+        transform:
+            translateX(calc(var(--sway) * -1))
+            rotate(-5deg);
+    }
+
+    50% {
+        transform:
+            translateX(var(--sway))
+            rotate(5deg);
+    }
+
+    100% {
+        transform:
+            translateX(calc(var(--sway) * -0.6))
+            rotate(-3deg);
+    }
+
+}
+
+
+/* =========================
+   星の種類
+========================= */
+
+/* 十字 */
+
+.star-cross {
+    background: var(--star-color);
+
+    clip-path: polygon(
+        35% 0%,
+        65% 0%,
+        65% 35%,
+        100% 35%,
+        100% 65%,
+        65% 65%,
+        65% 100%,
+        35% 100%,
+        35% 65%,
+        0% 65%,
+        0% 35%,
+        35% 35%
+    );
+}
+
+
+/* キラキラ星 */
+
+.star-sparkle {
+    background: var(--star-color);
+
+    clip-path: polygon(
+        50% 0%,
+        58% 35%,
+        100% 50%,
+        58% 58%,
+        50% 100%,
+        42% 58%,
+        0% 50%,
+        42% 42%
+    );
+}
+
+
+/* ダイヤ */
+
+.star-diamond {
+    background: var(--star-color);
+
+    clip-path: polygon(
+        50% 0%,
+        100% 50%,
+        50% 100%,
+        0% 50%
+    );
+}
+
+
+/* 小さい十字 */
+
+.star-small {
+    background: var(--star-color);
+
+    clip-path: polygon(
+        40% 0%,
+        60% 0%,
+        60% 40%,
+        100% 40%,
+        100% 60%,
+        60% 60%,
+        60% 100%,
+        40% 100%,
+        40% 60%,
+        0% 60%,
+        0% 40%,
+        40% 40%
+    );
+}
+
+
+/* 細いプラス */
+
+.star-plus {
+    background: var(--star-color);
+
+    clip-path: polygon(
+        43% 0%,
+        57% 0%,
+        57% 43%,
+        100% 43%,
+        100% 57%,
+        57% 57%,
+        57% 100%,
+        43% 100%,
+        43% 57%,
+        0% 57%,
+        0% 43%,
+        43% 43%
+    );
+}
+
+/* =========================
+   WATER LINKS
+========================= */
+
+.water-links {
+    position: relative;
+
+    width: 100%;
+
+    height: 900px;
+
+    margin-top: 180px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 8%,
+            #5c94fc 8%,
+            #0066ff 100%
+        );
+}
+
+
+/* =========================
+   水面：3重のなみなみ
+========================= */
+
+.water-surface {
+    position: absolute;
+
+    left: -10%;
+
+    width: 120%;
+
+    height: 90px;
+
+    pointer-events: none;
+
+    border-radius:
+        50% 50% 45% 55%
+        / 40% 35% 65% 60%;
+}
+
+
+/* 1枚目の波 */
+
+.water-surface1 {
+    top: 6%;
+
+    background: #5c94fc;
+
+    z-index: 3;
+
+    animation:
+        wave1 4s ease-in-out infinite alternate;
+}
+
+
+/* 2枚目の波 */
+
+.water-surface2 {
+    top: 7%;
+
+    background: #78cfe3;
+
+    opacity: 0.8;
+
+    z-index: 2;
+
+    animation:
+        wave2 5s ease-in-out infinite alternate;
+}
+
+
+/* 3枚目の波 */
+
+.water-surface3 {
+    top: 8%;
+
+    background: #5c94fc;
+
+    opacity: 0.9;
+
+    z-index: 1;
+
+    animation:
+        wave3 3.5s ease-in-out infinite alternate;
+}
+
+
+@keyframes wave1 {
+
+    0% {
+        transform:
+            translateX(-30px)
+            translateY(0)
+            rotate(-1deg);
+    }
+
+    100% {
+        transform:
+            translateX(30px)
+            translateY(10px)
+            rotate(1deg);
+    }
+
+}
+
+
+@keyframes wave2 {
+
+    0% {
+        transform:
+            translateX(25px)
+            translateY(5px)
+            rotate(1deg);
+    }
+
+    100% {
+        transform:
+            translateX(-25px)
+            translateY(-8px)
+            rotate(-1deg);
+    }
+
+}
+
+
+@keyframes wave3 {
+
+    0% {
+        transform:
+            translateX(-15px)
+            translateY(0);
+    }
+
+    100% {
+        transform:
+            translateX(15px)
+            translateY(8px);
+    }
+
+}
+
+
+/* =========================
+   GALLERY：水面に浮かぶ
+========================= */
+
+.water-gallery {
+    position: absolute;
+
+    top: 2%;
+
+    left: 50%;
+
+    display: block;
+
+    text-decoration: none;
+
+    color: black;
+
+    z-index: 20;
+
+    animation:
+        galleryFloat 4s ease-in-out infinite;
+
+    will-change: transform;
+
+    backface-visibility: hidden;
+}
+
+
+.gallery-card {
+    background: white;
+
+    padding: 25px 45px;
+
+    border: 4px solid black;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        7px 8px 0 rgba(86, 57, 134, 0.2);
+
+    text-align: center;
+
+    transition:
+        transform 0.2s ease;
+
+    transform: translateZ(0);
+
+    backface-visibility: hidden;
+}
+
+
+.water-gallery:hover .gallery-card {
+    transform:
+        translateZ(0)
+        scale(1.08);
+}
+
+
+/* GALLERYがぷかぷか */
+
+@keyframes galleryFloat {
+
+    0%,
+    100% {
+        transform:
+            translateX(-50%)
+            translateY(0)
+            rotate(-2deg);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            translateY(-18px)
+            rotate(2deg);
+    }
+
+}
+
+
+/* =========================
+   ABOUT：水の中に沈む
+========================= */
+
+.water-about {
+    position: absolute;
+
+    top: 430px;
+
+    left: 50%;
+
+    text-decoration: none;
+
+    color: black;
+
+    z-index: 10;
+
+    animation:
+        aboutSink 6s ease-in-out infinite;
+}
+
+
+.about-card {
+    background:
+        rgba(255, 255, 255, 0.85);
+
+    padding: 25px 45px;
+
+    border: 3px solid white;
+
+    box-shadow:
+        0 0 25px rgba(255, 255, 255, 0.4);
+
+    text-align: center;
+
+    opacity: 0.85;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.water-about:hover .about-card {
+    transform: scale(1.08);
+
+    opacity: 1;
+}
+
+
+@keyframes aboutSink {
+
+    0%,
+    100% {
+        transform:
+            translateX(-50%)
+            translateY(0)
+            rotate(1deg);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            translateY(25px)
+            rotate(-1deg);
+    }
+
+}
+
+
+/* =========================
+   タイトル
+========================= */
+
+.water-title {
+    font-family:
+        "BunanMarker",
+        serif;
+
+    font-size: 42px;
+
+    letter-spacing: 23px;
+
+    margin-bottom: 15px;
+}
+
+
+.water-links p {
+    margin: 0;
+
+    font-family:
+        "BunanMarker",
+        serif;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+
+    color: black;
+}
+
+
+/* =========================
+   泡
+========================= */
+
+.bubble {
+    position: absolute;
+
+    display: block;
+
+    border-radius: 50%;
+
+    border: 3px solid white;
+
+    background:
+        rgba(255, 255, 255, 0.15);
+
+    animation:
+        bubbleUp linear infinite;
+
+    z-index: 5;
+
+    pointer-events: none;
+}
+
+
+.bubble1 {
+    width: 18px;
+    height: 18px;
+
+    left: 20%;
+    top: 650px;
+
+    animation-duration: 5s;
+}
+
+
+.bubble2 {
+    width: 30px;
+    height: 30px;
+
+    left: 30%;
+    top: 800px;
+
+    animation-duration: 7s;
+}
+
+
+.bubble3 {
+    width: 12px;
+    height: 12px;
+
+    left: 65%;
+    top: 600px;
+
+    animation-duration: 4s;
+}
+
+
+.bubble4 {
+    width: 25px;
+    height: 25px;
+
+    left: 75%;
+    top: 750px;
+
+    animation-duration: 6s;
+}
+
+
+.bubble5 {
+    width: 15px;
+    height: 15px;
+
+    left: 45%;
+    top: 700px;
+
+    animation-duration: 5.5s;
+}
+
+
+.bubble6 {
+    width: 35px;
+    height: 35px;
+
+    left: 55%;
+    top: 850px;
+
+    animation-duration: 8s;
+}
+
+
+@keyframes bubbleUp {
+
+    0% {
+        transform:
+            translateY(0)
+            scale(0.6);
+
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.8;
+    }
+
+    80% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform:
+            translateY(-300px)
+            translateX(20px)
+            scale(1);
+
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================
+   スマホ対応
+========================= */
+
+@media (max-width: 800px) {
+
+    .water-links {
+        height: 800px;
+
+        margin-top: 120px;
+    }
+
+
+    .gallery-card,
+    .about-card {
+        padding:
+            20px
+            25px;
+
+        width: 230px;
+    }
+
+
+    .water-title {
+        font-size: 32px;
+    }
+
+
+    .water-links p {
+        font-size: 13px;
+    }
+
+
+    .water-about {
+        top: 400px;
+    }
+
+}
+

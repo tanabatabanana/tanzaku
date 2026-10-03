@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>短冊の部屋</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<header class="site-header">
+
+    <div class="header-title">
+        短冊の部屋
+    </div>
+
+    <nav class="header-menu">
+
+        <a href="#">HOME</a>
+
+        <a href="#">ABOUT</a>
+
+        <a href="#">INVESTIGATORS</a>
+
+        <a href="#">GALLERY</a>
+
+    </nav>
+
+</header>
+<div id="star-container"></div>
+
+<script src="script.js"></script>
+
+<body>
+
+   <!-- =========================
+     横に流れるディスプレイ
+========================= -->
+
+<div class="gallery">
+    <div class="gallery-track">
+
+        <!-- 1セット目 -->
+        <div class="gallery-set">
+
+            <img src="images/display/d-kinse.png" alt="">
+            <img src="images/display/d-madara.png" alt="">
+            <img src="images/display/d-zugai.png" alt="">
+            <img src="images/display/d-muerute.png" alt="">
+            <img src="images/display/d-mujyo.png" alt="">
+        
+
+            <img src="images/display/d-doru.png" alt="">
+            <img src="images/display/d-shuni.PNG" alt="">
+            <img src="images/display/d-syota.png" alt="">
+            <img src="images/display/d-mimika.png" alt="">
+
+        </div>
+
+
+        <!-- 2セット目（1セット目と完全に同じ） -->
+        <div class="gallery-set">
+
+               <img src="images/display/d-kinse.png" alt="">
+            <img src="images/display/d-madara.png" alt="">
+            <img src="images/display/d-zugai.png" alt="">
+            <img src="images/display/d-muerute.png" alt="">
+            <img src="images/display/d-mujyo.png" alt="">
+        
+
+            <img src="images/display/d-doru.png" alt="">
+            <img src="images/display/d-shuni.PNG" alt="">
+            <img src="images/display/d-syota.png" alt="">
+            <img src="images/display/d-mimika.png" alt="">
+
+        </div>
+
+    </div>
+</div>
+
+
+    <!-- メイン部分 -->
+    <main>
+
+        <!-- タイトル -->
+        <h1 class="wiggle-title">短冊の部屋</h1>
+
+
+        <!-- 文字の輪郭を歪ませる装置 -->
+        <svg class="svg-filter" aria-hidden="true">
+
+            <filter id="wavy">
+
+                <feTurbulence
+                    type="fractalNoise"
+                    baseFrequency="0.01 0.03"
+                    numOctaves="3"
+                    result="noise">
+
+                    <animate
+                        attributeName="baseFrequency"
+                        dur="7s"
+                        values="0.008 0.02; 0.025 0.01; 0.012 0.04; 0.008 0.02"
+                        calcMode="discrete"
+                        repeatCount="indefinite" />
+
+                </feTurbulence>
+
+
+                <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="noise"
+                    scale="7"
+                    xChannelSelector="R"
+                    yChannelSelector="G" />
+
+            </filter>
+
+        </svg>
+
+
+        <!-- サブタイトル -->
+        <p class="subtitle">trpgサイト</p>
+
+
+        <!-- リンク -->
+        <nav class="link-menu">
+
+            <a href="https://tanzaku7.wixsite.com/scenariomatome"
+               target="_blank"
+               class="glitch-link">
+                <span>SCENARIO</span>
+            </a>
+
+
+            <a href="https://poipiku.com/10743334"
+               target="_blank"
+               class="glitch-link">
+                <span>POIPIKU</span>
+            </a>
+
+
+            <a href="https://fusetter.com/u/qwerqwer"
+               target="_blank"
+               class="glitch-link">
+                <span>FUSETER</span>
+            </a>
+
+
+            <a href="https://www.pixiv.net/users/118443135"
+               target="_blank"
+               class="glitch-link">
+                <span>PIXIV</span>
+            </a>
+
+        </nav>
+
+    </main>
+
+<!-- =========================
+     INVESTIGATORS
+========================= -->
+
+<section class="investigators-page">
+
+<h1 class="page-title">INVESTIGATORS</h1>
+
+<div class="investigator-grid">
+
+
+    <!-- 小猫 -->
+    <a href="investigators/character01.html"
+       class="investigator-card">
+
+        <div class="photo-area">
+
+            <img
+                src="images/kao/k-xiaomao.png"
+                class="photo-normal"
+                alt="小猫">
+
+            <img
+                src="images/kao/k-xiaomao2.png"
+                class="photo-hover"
+                alt="">
+
+            <!-- 吹き出し -->
+            <div class="scenario-bubble">
+                よよてん<br>
+                HO1
+            </div>
+
+        </div>
+
+        <span class="name-label">
+            <span class="name-text wiggle-title">小猫</span>
+        </span>
+
+    </a>
+
+
+    <!-- 日皿魚 根黒 -->
+    <a href="investigators/character02.html"
+       class="investigator-card">
+
+        <div class="photo-area">
+
+            <img
+                src="images/kao/k-kyoso.png"
+                class="photo-normal"
+                alt="日皿魚 根黒">
+
+            <img
+                src="images/kao/k-kyoso2.png"
+                class="photo-hover"
+                alt="">
+
+            <!-- 吹き出し -->
+            <div class="scenario-bubble">
+                いわひら<br>
+                HO1
+            </div>
+
+        </div>
+
+        <span class="name-label">
+            <span class="name-text wiggle-title">日皿魚 根黒</span>
+        </span>
+
+    </a>
+
+
+    <!-- 山田 ミミ花 -->
+    <a href="investigators/character03.html"
+       class="investigator-card">
+
+        <div class="photo-area">
+
+            <img
+                src="images/kao/k-mimika.png"
+                class="photo-normal"
+                alt="山田 ミミ花">
+
+            <img
+                src="images/kao/k-mimika2.png"
+                class="photo-hover"
+                alt="">
+
+            <!-- 吹き出し -->
+            <div class="scenario-bubble">
+                しんない<br>
+                KPC
+            </div>
+
+        </div>
+
+        <span class="name-label">
+            <span class="name-text wiggle-title">山田 ミミ花</span>
+        </span>
+
+    </a>
+
+
+    <!-- センバ -->
+    <a href="investigators/character04.html"
+       class="investigator-card">
+
+        <div class="photo-area">
+
+            <img
+                src="images/kao/k-senba.png"
+                class="photo-normal"
+                alt="センバ">
+
+            <img
+                src="images/kao/k-senba2.png"
+                class="photo-hover"
+                alt="">
+
+            <!-- 吹き出し -->
+            <div class="scenario-bubble">
+                終末旅行<br>
+                HO2
+            </div>
+
+        </div>
+
+        <span class="name-label">
+            <span class="name-text wiggle-title">センバ</span>
+        </span>
+
+    </a>
+    <!-- 阿吽 -->
+<a href="investigators/character05.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-aun.png"
+            class="photo-normal"
+            alt="阿吽">
+
+        <img
+            src="images/kao/k-aun2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            都市伝説課<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">阿吽</span>
+    </span>
+
+</a>
+
+
+<!-- ケチャップ&マスタード -->
+<a href="investigators/character06.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-ketya.png"
+            class="photo-normal"
+            alt="ケチャップ&マスタード">
+
+        <img
+            src="images/kao/k-ketya2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            GGG<br>
+            HO2
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">ケチャップ&マスタード</span>
+    </span>
+
+</a>
+
+
+<!-- 怪盗ブラック -->
+<a href="investigators/character07.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-buraku.png"
+            class="photo-normal"
+            alt="怪盗ブラック">
+
+        <img
+            src="images/kao/k-buraku2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            レプ葬<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">怪盗ブラック</span>
+    </span>
+
+</a>
+<!-- オールノウ -->
+<a href="investigators/character09.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-oruno.png"
+            class="photo-normal"
+            alt="オールノウ">
+
+        <img
+            src="images/kao/k-oruno2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            エルコル<br>
+            HO4
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">オールノウ</span>
+    </span>
+
+</a>
+
+<!-- 蛾場 マダラ -->
+<a href="investigators/character08.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-madara.png"
+            class="photo-normal"
+            alt="蛾場 マダラ">
+
+        <img
+            src="images/kao/k-madara2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            はいかん<br>
+            HO5
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">蛾場 マダラ</span>
+    </span>
+
+</a>
+<!-- 朝喰ふたね -->
+<a href="investigators/character11.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-futane.png"
+            class="photo-normal"
+            alt="朝喰ふたね">
+
+        <img
+            src="images/kao/k-futane2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            かなきみ<br>
+            HO4
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">朝喰ふたね</span>
+    </span>
+
+</a>
+
+<!-- 工亍 公 -->
+<a href="investigators/character09.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-ete.png"
+            class="photo-normal"
+            alt="工亍 公">
+
+        <img
+            src="images/kao/k-ete2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            ロトあだ<br>
+            HO2
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">工亍 公</span>
+    </span>
+
+</a>
+
+
+<!-- 華道家 -->
+<a href="investigators/character10.html"
+   class="investigator-card no-hover">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-kado.png"
+            class="photo-normal"
+            alt="華道家">
+
+        <div class="scenario-bubble">
+            片鱗<br>
+            HO2
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">華道家</span>
+    </span>
+
+</a>
+<!-- スポット・ワグナー -->
+<a href="investigators/character13.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-supo.png"
+            class="photo-normal"
+            alt="スポット・ワグナー">
+
+        <img
+            src="images/kao/k-supo2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            花冷え<br>
+            HO2
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">スポット・ワグナー</span>
+    </span>
+
+</a>
+
+
+<!-- 子 鼠陽 -->
+<a href="investigators/character14.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-etohajime.png"
+            class="photo-normal"
+            alt="子 鼠陽">
+
+        <img
+            src="images/kao/k-etohajime2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            こげぬ<br>
+            HO2
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">子 鼠陽</span>
+    </span>
+
+</a>
+
+
+<!-- 谷地 心 -->
+<a href="investigators/character15.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-yati.png"
+            class="photo-normal"
+            alt="谷地 心">
+
+        <img
+            src="images/kao/k-yati2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            バイサマ
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">谷地 心</span>
+    </span>
+
+</a>
+
+
+<!-- 望風 小春 -->
+<a href="investigators/character16.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-koharu.png"
+            class="photo-normal"
+            alt="望風 小春">
+
+        <img
+            src="images/kao/k-koharu2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            四季送り<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">望風 小春</span>
+    </span>
+
+</a>
+
+
+<!-- 卍真・頭蓋大明神卍 -->
+<a href="investigators/character17.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-zugai.png"
+            class="photo-normal"
+            alt="卍真・頭蓋大明神卍">
+
+        <img
+            src="images/kao/k-zugai2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            カノヨ街<br>
+            HO4
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">卍真・頭蓋大明神卍</span>
+    </span>
+
+</a>
+
+
+<!-- ミクス・パーシャル -->
+<a href="investigators/character18.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-mikupa.png"
+            class="photo-normal"
+            alt="ミクス・パーシャル">
+
+        <img
+            src="images/kao/k-mikupa2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            カエラズノケン<br>
+            HO3
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">ミクス・パーシャル</span>
+    </span>
+
+</a>
+
+
+<!-- 隼高 翔太 -->
+<a href="investigators/character19.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-syota.png"
+            class="photo-normal"
+            alt="隼高 翔太">
+
+        <img
+            src="images/kao/k-syota2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            プル夜<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">隼高 翔太</span>
+    </span>
+
+</a>
+
+
+<!-- キンセー -->
+<a href="investigators/character20.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-kinsei.png"
+            class="photo-normal"
+            alt="キンセー">
+
+        <img
+            src="images/kao/k-kinsei2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            VOID<br>
+            HO4
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">キンセー</span>
+    </span>
+
+</a>
+
+
+<!-- 泡泡 花子 -->
+<a href="investigators/character21.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-hanako.png"
+            class="photo-normal"
+            alt="泡泡 花子">
+
+        <img
+            src="images/kao/k-hanako2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            ソプスク<br>
+            HO2
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">泡泡 花子</span>
+    </span>
+
+</a>
+
+
+<!-- 葦原 べこ -->
+<a href="investigators/character22.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-beko.png"
+            class="photo-normal"
+            alt="葦原 べこ">
+
+        <img
+            src="images/kao/k-beko2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            ぼくそう<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">葦原 べこ</span>
+    </span>
+
+</a>
+
+
+<!-- ファレン・コワルスキー -->
+<a href="investigators/character23.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-faren.png"
+            class="photo-normal"
+            alt="ファレン・コワルスキー">
+
+        <img
+            src="images/kao/k-faren2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            ヤゼル<br>
+            PC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">ファレン・コワルスキー</span>
+    </span>
+
+</a>
+
+
+<!-- 清 蠢 -->
+<a href="investigators/character24.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-oro.png"
+            class="photo-normal"
+            alt="清 蠢">
+
+        <img
+            src="images/kao/k-oro2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            夏箱恋慕<br>
+            HO2
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">清 蠢</span>
+    </span>
+
+</a>
+
+
+<!-- 火魚 モミジ -->
+<a href="investigators/character25.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-momiji.png"
+            class="photo-normal"
+            alt="火魚 モミジ">
+
+        <img
+            src="images/kao/k-momiji2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            mua<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">火魚 モミジ</span>
+    </span>
+
+</a>
+
+
+<!-- 珠真 あける -->
+<a href="investigators/character26.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-akeru.png"
+            class="photo-normal"
+            alt="珠真 あける">
+
+        <img
+            src="images/kao/k-akeru2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            すやゆだ<br>
+            HO4
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">珠真 あける</span>
+    </span>
+
+</a>
+
+
+<!-- TEDDY ver5.2 -->
+<a href="investigators/character27.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-teddy.png"
+            class="photo-normal"
+            alt="TEDDY ver5.2">
+
+        <img
+            src="images/kao/k-teddy2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            蹂躙<br>
+            HO4
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">TEDDY ver5.2</span>
+    </span>
+
+</a>
+
+<!-- 尾瀬 口一 -->
+<a href="investigators/character28.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-ose.png"
+            class="photo-normal"
+            alt="尾瀬 口一">
+
+        <img
+            src="images/kao/k-ose2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            エメ激<br>
+            PC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">尾瀬 口一</span>
+    </span>
+
+</a>
+
+
+<!-- 愛 -->
+<a href="investigators/character29.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-ai.png"
+            class="photo-normal"
+            alt="愛">
+
+        <img
+            src="images/kao/k-ai2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            DOGMA<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">愛</span>
+    </span>
+
+</a>
+
+
+<!-- 銈膝寺 炎 -->
+<a href="investigators/character30.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-ennra.png"
+            class="photo-normal"
+            alt="銈膝寺 炎">
+
+        <img
+            src="images/kao/k-ennra2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            はいよか<br>
+            PC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">銈膝寺 炎</span>
+    </span>
+
+</a>
+
+
+<!-- 灰原 龍水 -->
+<a href="investigators/character31.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-ryusu.png"
+            class="photo-normal"
+            alt="灰原 龍水">
+
+        <img
+            src="images/kao/k-ryusu2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            はいよか<br>
+            KPC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">灰原 龍水</span>
+    </span>
+
+</a>
+
+
+<!-- 薄荷 スギナ -->
+<a href="investigators/character32.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-sugina.png"
+            class="photo-normal"
+            alt="薄荷 スギナ">
+
+        <img
+            src="images/kao/k-sugina2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            庭師<br>
+            HO4
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">薄荷 スギナ</span>
+    </span>
+
+</a>
+
+
+<!-- スランバーズ -->
+<a href="investigators/character33.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-sura.png"
+            class="photo-normal"
+            alt="スランバーズ">
+
+        <img
+            src="images/kao/k-sura2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            ジョカジョカ<br>
+            HO3
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">スランバーズ</span>
+    </span>
+
+</a>
+
+
+<!-- ミラ -->
+<a href="investigators/character34.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-mira.png"
+            class="photo-normal"
+            alt="ミラ">
+
+        <img
+            src="images/kao/k-mira2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            グドモ<br>
+            HO不老不死
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">ミラ</span>
+    </span>
+
+</a>
+
+
+<!-- シュニット・シュナイデン -->
+<a href="investigators/character35.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-shuni.png"
+            class="photo-normal"
+            alt="シュニット・シュナイデン">
+
+        <img
+            src="images/kao/k-shuni2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            ʀ.ɪ.ᴘ±³<br>
+            HO2
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">シュニット・シュナイデン</span>
+    </span>
+
+</a>
+
+
+<!-- 四柳 菊丸 -->
+<a href="investigators/character36.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-kikumaru.png"
+            class="photo-normal"
+            alt="四柳 菊丸">
+
+        <img
+            src="images/kao/k-kikumaru2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            はいよか<br>
+            KPC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">四柳 菊丸</span>
+    </span>
+
+</a>
+
+
+<!-- 名称X -->
+<a href="investigators/character37.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-X.png"
+            class="photo-normal"
+            alt="名称X">
+
+        <img
+            src="images/kao/k-X2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            脈動<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">名称X</span>
+    </span>
+
+</a>
+
+
+<!-- クロエ -->
+<a href="investigators/character38.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-kuroe.png"
+            class="photo-normal"
+            alt="クロエ">
+
+        <img
+            src="images/kao/k-kuroe2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            デ死<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">クロエ</span>
+    </span>
+
+</a>
+
+
+<!-- ドルチェ・パネッティ -->
+<a href="investigators/character39.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-doru.png"
+            class="photo-normal"
+            alt="ドルチェ・パネッティ">
+
+        <img
+            src="images/kao/k-doru2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            愛罠蜂<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">ドルチェ・パネッティ</span>
+    </span>
+
+</a>
+
+
+<!-- 三足 九郎 -->
+<a href="investigators/character40.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-miashi.png"
+            class="photo-normal"
+            alt="三足 九郎">
+
+        <img
+            src="images/kao/k-miashi2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            初恋性<br>
+            PC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">三足 九郎</span>
+    </span>
+
+</a>
+
+
+<!-- 産江 義治 -->
+<a href="investigators/character41.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-ubue.png"
+            class="photo-normal"
+            alt="産江 義治">
+
+        <img
+            src="images/kao/k-ubue2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            はいよか<br>
+            KPC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">産江 義治</span>
+    </span>
+
+</a>
+
+
+<!-- 無常 -->
+<a href="investigators/character42.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-mujyo.png"
+            class="photo-normal"
+            alt="無常">
+
+        <img
+            src="images/kao/k-mujyo2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            ʀ.ɪ.ᴘ±³<br>
+            KPC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">無常</span>
+    </span>
+
+</a>
+
+
+<!-- 天笠 美雪 -->
+<a href="investigators/character43.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-miyuki.png"
+            class="photo-normal"
+            alt="天笠 美雪">
+
+        <img
+            src="images/kao/k-miyuki2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            はいよか<br>
+            KPC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">天笠 美雪</span>
+    </span>
+
+</a>
+
+
+<!-- カラクミ -->
+<a href="investigators/character44.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-kara.png"
+            class="photo-normal"
+            alt="カラクミ">
+
+        <img
+            src="images/kao/k-kara2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            くっかい<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">カラクミ</span>
+    </span>
+
+</a>
+
+<!-- フレンド -->
+<a href="investigators/character45.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-friend.png"
+            class="photo-normal"
+            alt="フレンド">
+
+        <img
+            src="images/kao/k-friend2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            花腐りし<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">フレンド</span>
+    </span>
+
+</a>
+
+
+<!-- 日浮刻 深 -->
+<a href="investigators/character46.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-shin.png"
+            class="photo-normal"
+            alt="日浮刻 深">
+
+        <img
+            src="images/kao/k-shin2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            ブルキラ<br>
+            HOマネージャー
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">日浮刻 深</span>
+    </span>
+
+</a>
+
+
+<!-- 海原 鉾 -->
+<a href="investigators/character47.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-kaibara.png"
+            class="photo-normal"
+            alt="海原 鉾">
+
+        <img
+            src="images/kao/k-kaibara2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            はいよか<br>
+            KPC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">海原 鉾</span>
+    </span>
+
+</a>
+
+
+<!-- 六尺 -->
+<a href="investigators/character48.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-rokusyaku.png"
+            class="photo-normal"
+            alt="六尺">
+
+        <img
+            src="images/kao/k-rokusyaku2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            はいよか<br>
+            KPC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">六尺</span>
+    </span>
+
+</a>
+
+
+<!-- 牧峰 らくてぃ -->
+<a href="investigators/character49.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-raku.png"
+            class="photo-normal"
+            alt="牧峰 らくてぃ">
+
+        <img
+            src="images/kao/k-raku2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            miniature<br>
+            HO Milk
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">牧峰 らくてぃ</span>
+    </span>
+
+</a>
+
+
+<!-- 閃堂 電弧 -->
+<a href="investigators/character50.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-denko.png"
+            class="photo-normal"
+            alt="閃堂 電弧">
+
+        <img
+            src="images/kao/k-denko2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            トゴスマ<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">閃堂 電弧</span>
+    </span>
+
+</a>
+
+
+<!-- 筋引 みか -->
+<a href="investigators/character51.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-mika.png"
+            class="photo-normal"
+            alt="筋引 みか">
+
+        <img
+            src="images/kao/k-mika2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            最果てまで。<br>
+            HO2
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">筋引 みか</span>
+    </span>
+
+</a>
+
+
+<!-- サンタ・ムエルテ -->
+<a href="investigators/character52.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-mueru.png"
+            class="photo-normal"
+            alt="サンタ・ムエルテ">
+
+        <img
+            src="images/kao/k-mueru2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            ʀ.ɪ.ᴘ±³<br>
+            KPC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">サンタ・ムエルテ</span>
+    </span>
+
+</a>
+
+
+<!-- 妻紅 みつる -->
+<a href="investigators/character53.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-mituru.png"
+            class="photo-normal"
+            alt="妻紅 みつる">
+
+        <img
+            src="images/kao/k-mituru2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            芋虫<br>
+            PC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">妻紅 みつる</span>
+    </span>
+
+</a>
+
+
+<!-- 夜光 権六 -->
+<a href="investigators/character54.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-gonroku.png"
+            class="photo-normal"
+            alt="夜光 権六">
+
+        <img
+            src="images/kao/k-gonroku2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            累卵<br>
+            HO1
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">夜光 権六</span>
+    </span>
+
+</a>
+
+
+<!-- かがち -->
+<a href="investigators/character55.html"
+   class="investigator-card">
+
+    <div class="photo-area">
+
+        <img
+            src="images/kao/k-kagachi.png"
+            class="photo-normal"
+            alt="かがち">
+
+        <img
+            src="images/kao/k-kagachi2.png"
+            class="photo-hover"
+            alt="">
+
+        <div class="scenario-bubble">
+            はいよか<br>
+            KPC
+        </div>
+
+    </div>
+
+    <span class="name-label">
+        <span class="name-text wiggle-title">かがち</span>
+    </span>
+
+</a>
+
+
+
+</div><!-- investigator-grid -->
+
+</section><!-- investigators-page -->
+
+<!-- =========================
+     WATER LINKS
+========================= -->
+
+<section class="water-links">
+
+    <!-- 水面の波 -->
+    <div class="water-surface water-surface1"></div>
+    <div class="water-surface water-surface2"></div>
+    <div class="water-surface water-surface3"></div>
+
+
+    <!-- =====================
+         GALLERY：水面に浮かぶ
+    ====================== -->
+
+    <a href="gallery.html" class="water-gallery">
+
+        <div class="gallery-card">
+
+            <div class="water-title">
+                GALLERY
+            </div>
+
+            <p>
+                ディスプレイやイラスト、<br>
+                落書きなどをまとめた場所
+            </p>
+
+        </div>
+
+    </a>
+
+
+    <!-- =====================
+         ABOUT：水の中に沈む
+    ====================== -->
+
+    <a href="about.html" class="water-about">
+
+        <div class="about-card">
+
+            <div class="water-title">
+                ABOUT
+            </div>
+
+            <p>
+                短冊についての情報や、<br>
+                通過済みシナリオをまとめた場所
+            </p>
+
+        </div>
+
+    </a>
+
+
+    <!-- 泡 -->
+
+    <span class="bubble bubble1"></span>
+    <span class="bubble bubble2"></span>
+    <span class="bubble bubble3"></span>
+    <span class="bubble bubble4"></span>
+    <span class="bubble bubble5"></span>
+    <span class="bubble bubble6"></span>
+
+</section>
