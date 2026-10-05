@@ -2070,3 +2070,18 @@ p {
     }
 
 }
+/* =========================
+   スマホ：1タップで画像切り替え
+========================= */
+
+@media (max-width: 800px) {
+
+    .investigator-card.mobile-tapped .photo-normal {
+        opacity: 0;
+    }
+
+    .investigator-card.mobile-tapped .photo-hover {
+        opacity: 1;
+    }
+
+}
