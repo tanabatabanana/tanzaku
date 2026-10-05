@@ -1750,3 +1750,323 @@ p {
 
 }
 
+/* =========================================
+   スマホ用レイアウト
+   ========================================= */
+
+@media (max-width: 800px) {
+
+    /* =========================
+       全体
+    ========================= */
+
+    body {
+        overflow-x: hidden;
+    }
+
+
+    /* =========================
+       ヘッダー
+    ========================= */
+
+    .site-header {
+        height: auto;
+        min-height: 60px;
+        padding: 12px 15px;
+
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .header-title {
+        font-size: 18px;
+    }
+
+    .header-menu {
+        gap: 15px;
+        margin-left: auto;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .header-menu a {
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       流れるディスプレイ
+    ========================= */
+
+    .gallery {
+        padding-top: 25px;
+    }
+
+    .gallery-set {
+        gap: 8px;
+        padding-right: 8px;
+    }
+
+    .gallery-set img {
+        width: 145px;
+        border-radius: 10px;
+    }
+
+
+    /* =========================
+       メインタイトル
+    ========================= */
+
+    h1 {
+        font-size: 48px;
+        margin-top: 55px;
+        margin-bottom: 15px;
+        padding: 0 10px;
+    }
+
+    p {
+        font-size: 20px;
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+
+
+    /* =========================
+       上部リンク
+    ========================= */
+
+    .link-menu {
+        width: calc(100% - 30px);
+        margin: 50px auto 0;
+
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 22px 12px;
+
+        box-sizing: border-box;
+    }
+
+    .glitch-link {
+        font-size: 17px;
+        padding: 9px 8px;
+
+        text-align: center;
+
+        box-sizing: border-box;
+        white-space: nowrap;
+    }
+
+    /* PC版の大きなズレを少し小さくする */
+
+    .glitch-link:nth-child(1) {
+        transform: rotate(-3deg) translateY(-4px);
+    }
+
+    .glitch-link:nth-child(2) {
+        transform: rotate(2deg) translateY(4px);
+    }
+
+    .glitch-link:nth-child(3) {
+        transform: rotate(-1deg) translateY(-3px);
+    }
+
+    .glitch-link:nth-child(4) {
+        transform: rotate(3deg) translateY(4px);
+    }
+
+
+    /* =========================
+       INVESTIGATORS 外枠
+    ========================= */
+
+    .investigators-page {
+        width: calc(100% - 20px);
+
+        box-sizing: border-box;
+
+        margin: 150px auto 0;
+
+        padding: 60px 10px 100px;
+
+        border-width: 4px;
+    }
+
+
+    /* =========================
+       INVESTIGATORS タイトル
+    ========================= */
+
+    .page-title {
+        font-size: 40px;
+
+        letter-spacing: 4px;
+
+        margin-bottom: 70px;
+
+        padding: 0;
+    }
+
+
+    /* =========================
+       探索者一覧
+    ========================= */
+
+    .investigator-grid {
+        width: 100%;
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 65px 12px;
+    }
+
+
+    /* =========================
+       探索者カード
+    ========================= */
+
+    .investigator-card {
+        width: 100%;
+        min-width: 0;
+
+        box-sizing: border-box;
+    }
+
+
+    /* =========================
+       写真
+    ========================= */
+
+    .photo-area {
+        width: 100%;
+
+        aspect-ratio: 3 / 4;
+    }
+
+
+    /* =========================
+       シナリオ名
+    ========================= */
+
+    .scenario-bubble {
+        top: -48px;
+        left: -5px;
+
+        max-width: calc(100vw - 35px);
+
+        box-sizing: border-box;
+
+        font-size: 14px;
+
+        line-height: 1.35;
+
+        padding: 7px 10px;
+
+        white-space: normal;
+
+        border-width: 2px;
+    }
+
+
+    /* =========================
+       名前ラベル
+    ========================= */
+
+    .name-label {
+        bottom: -28px;
+
+        max-width: calc(100% - 8px);
+
+        box-sizing: border-box;
+
+        font-size: 15px;
+
+        padding: 7px 12px;
+
+        white-space: nowrap;
+    }
+
+
+    /* =========================
+       名前の文字
+    ========================= */
+
+    .name-text {
+        font-size: inherit;
+    }
+
+
+    /* =========================
+       水エリア
+    ========================= */
+
+    .water-links {
+        height: 800px;
+
+        margin-top: 120px;
+    }
+
+    .gallery-card,
+    .about-card {
+        padding: 20px 25px;
+        width: 230px;
+        box-sizing: border-box;
+    }
+
+    .water-title {
+        font-size: 32px;
+        letter-spacing: 12px;
+    }
+
+    .water-links p {
+        font-size: 13px;
+    }
+
+    .water-about {
+        top: 400px;
+    }
+
+
+    /* =========================
+       スマホではカードを少し小さく
+       ========================= */
+
+    .gallery-card {
+        border-width: 3px;
+        padding: 18px 22px;
+    }
+
+    .about-card {
+        padding: 18px 22px;
+    }
+
+
+    /* =========================
+       スマホで画面外にはみ出しやすい泡を調整
+    ========================= */
+
+    .bubble1 {
+        left: 10%;
+    }
+
+    .bubble2 {
+        left: 25%;
+    }
+
+    .bubble3 {
+        left: 60%;
+    }
+
+    .bubble4 {
+        left: 78%;
+    }
+
+    .bubble5 {
+        left: 40%;
+    }
+
+    .bubble6 {
+        left: 58%;
+    }
+
+}
