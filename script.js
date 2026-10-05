@@ -299,3 +299,55 @@ function scheduleNextStar() {
 
 
 scheduleNextStar();
+/* =========================
+   スマホ：1タップで画像変更
+   2タップでリンク先へ移動
+========================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const cards = document.querySelectorAll(".investigator-card");
+
+    cards.forEach(function (card) {
+
+        let firstTap = false;
+        let tapTimer = null;
+
+        card.addEventListener("click", function (event) {
+
+            /* PCでは今まで通り */
+            if (window.innerWidth > 800) {
+                return;
+            }
+
+            /* 2回目のタップ */
+            if (firstTap) {
+
+                clearTimeout(tapTimer);
+                firstTap = false;
+
+                /* リンク先へ移動 */
+                return;
+            }
+
+            /* 1回目のタップ */
+            event.preventDefault();
+
+            firstTap = true;
+
+            /* 画像を切り替える */
+            card.classList.add("mobile-tapped");
+
+            /* 1秒以内に2回目がなければ元に戻す */
+            tapTimer = setTimeout(function () {
+
+                firstTap = false;
+                card.classList.remove("mobile-tapped");
+
+            }, 1000);
+
+        });
+
+    });
+
+});
