@@ -2487,6 +2487,10 @@ p {
 */
 
 .investigator-card.is-lost .photo-area {
+    background-color: white;
+}
+
+.investigator-card.is-lost:hover .photo-area {
     background-color: red;
 }
 
@@ -2497,12 +2501,21 @@ p {
    背景の赤が見えるように、
    画像そのものを少し透過させる。
 */
-
-.investigator-card.is-lost .photo-normal,
-.investigator-card.is-lost .photo-hover {
-    opacity: 0.82;
+.investigator-card.is-lost .photo-normal {
+    opacity: 1;
 }
 
+.investigator-card.is-lost .photo-hover {
+    opacity: 0;
+}
+
+.investigator-card.is-lost:hover .photo-normal {
+    opacity: 0;
+}
+
+.investigator-card.is-lost:hover .photo-hover {
+    opacity: 1;
+}
 
 /*
    LOST探索者にカーソルを合わせたとき
@@ -2673,11 +2686,21 @@ p {
     /* =========================
        LOST
     ========================= */
+.investigator-card.is-lost .photo-normal {
+    opacity: 1;
+}
 
-    .investigator-card.is-lost .photo-normal,
-    .investigator-card.is-lost .photo-hover {
-        opacity: 0.82;
-    }
+.investigator-card.is-lost .photo-hover {
+    opacity: 0;
+}
+
+.investigator-card.is-lost:hover .photo-normal {
+    opacity: 0;
+}
+
+.investigator-card.is-lost:hover .photo-hover {
+    opacity: 1;
+}
 
 
     .investigator-card .lost-label {
