@@ -7,7 +7,7 @@
       "edition": 6,
       "externalUrl": "https://iachara.com/view/7517553",
       "iconUrl": "https://image.iaproject.app/7b2ef071-5102-4e8c-922d-4ce9fb2e77e1",
-      "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=65 【アイデア】\nCCB<=60 【幸運】\nCCB<=60 【知識】\nCCB<=71 【目星】\nCCB<=67 【聞き耳】\nCCB<=25 【図書館】\nCCB<=67 【回避】\nCCB<=51 【こぶし（パンチ）】\nCCB<=60 【拳銃】\nCCB<=42 【応急手当】\nCCB<=40 【言いくるめ】\nCCB<=55 【信用】\nCCB<=69 【値切り】\nCCB<=60 【心理学】\nCCB<=50 【薬学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+      "commands": "nCCB<=65 【アイデア】\nCCB<=60 【幸運】\nCCB<=60 【知識】\nCCB<=71 【目星】\nCCB<=67 【聞き耳】\nCCB<=25 【図書館】\nCCB<=67 【回避】\nCCB<=51 【こぶし（パンチ）】\nCCB<=60 【拳銃】\nCCB<=42 【応急手当】\nCCB<=40 【言いくるめ】\nCCB<=55 【信用】\nCCB<=69 【値切り】\nCCB<=60 【心理学】\nCCB<=50 【薬学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
       "status": [
         {"label": "HP", "value": 10, "max": 10},
         {"label": "MP", "value": 12, "max": 12},
@@ -1061,13 +1061,13 @@
     "status": [
       {"label": "HP", "value": 19, "max": 19},
       {"label": "MP", "value": 21, "max": 21},
-      {"label": "SAN", "value": 125, "max": 125}
+      {"label": "SAN", "value": 50, "max": 50}
     ],
     "params": [
-      {"label": "STR", "value": "17"},
-      {"label": "CON", "value": "25"},
-      {"label": "POW", "value": "21"},
-      {"label": "DEX", "value": "27"},
+      {"label": "STR", "value": "?"},
+      {"label": "CON", "value": "?"},
+      {"label": "POW", "value": "?"},
+      {"label": "DEX", "value": "?"},
       {"label": "APP", "value": "10"},
       {"label": "SIZ", "value": "13"},
       {"label": "INT", "value": "17"},
