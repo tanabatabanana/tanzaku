@@ -1427,8 +1427,8 @@
       },
       {
         "label": "SAN",
-        "value": 68,
-        "max": 68
+        "value": 0,
+        "max": 0
       }
     ],
     "params": [
