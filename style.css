@@ -2312,7 +2312,6 @@ p {
 }
 /* =========================
    探索者検索・絞り込み
-   見た目を統一
 ========================= */
 
 .investigator-tools {
@@ -2329,7 +2328,9 @@ p {
 }
 
 
-/* 3つの検索ボックス */
+/* =========================
+   3つの検索・絞り込み
+========================= */
 
 .stat-sort,
 .skill-search,
@@ -2340,7 +2341,9 @@ p {
 }
 
 
-/* ラベル */
+/* =========================
+   ラベル
+========================= */
 
 .stat-sort label,
 .skill-search label,
@@ -2355,12 +2358,13 @@ p {
 }
 
 
-/* 入力欄・選択欄 */
+/* =========================
+   入力欄・選択欄
+========================= */
 
 .stat-sort select,
 .skill-search input,
 .edition-filter select {
-
     height: 42px;
 
     box-sizing: border-box;
@@ -2376,11 +2380,12 @@ p {
     padding: 5px 12px;
 
     color: black;
-
 }
 
 
-/* 幅 */
+/* =========================
+   幅
+========================= */
 
 .stat-sort select {
     width: 190px;
@@ -2395,131 +2400,183 @@ p {
 }
 
 
-/* フォーカス */
+/* =========================
+   フォーカス
+========================= */
 
 .stat-sort select:focus,
 .skill-search input:focus,
 .edition-filter select:focus {
-
     outline: none;
 
     box-shadow:
         0 0 12px rgba(0, 71, 255, 0.5);
-
 }
 
 
 /* =========================
-   スマホ
+   選択した能力値・技能値
 ========================= */
 
-@media (max-width: 800px) {
-
-    .investigator-tools {
-
-        width: calc(100% - 20px);
-
-        margin-bottom: 60px;
-
-        gap: 18px;
-
-        flex-direction: column;
-
-        align-items: center;
-
-    }
-
-
-    .stat-sort,
-    .skill-search,
-    .edition-filter {
-
-        width: 100%;
-
-        max-width: 300px;
-
-    }
-
-
-    .stat-sort select,
-    .skill-search input,
-    .edition-filter select {
-
-        width: 100%;
-
-    }
-
-}/* =========================
-   LOST演出
-========================= */
-
-/* LOSTの画像を赤く染める */
-.investigator-card.is-lost .photo-area::before {
-    content: "";
+.investigator-value {
     position: absolute;
-    inset: 0;
-    pointer-events: none;
 
-    background: rgba(255, 0, 0, 0.35);
+    top: -42px;
+    left: 50%;
 
-    opacity: 0;
-    transition: opacity 0.25s ease;
+    transform: translateX(-50%);
 
-    z-index: 4;
-    border-radius: inherit;
+    z-index: 20;
+
+    padding: 6px 12px;
+
+    background: #fff;
+
+    border: 3px solid #0047ff;
+
+    font-family: "AsWinterBegins", sans-serif;
+
+    font-size: 17px;
+
+    white-space: nowrap;
+
+    box-shadow:
+        3px 3px 0 #0047ff;
 }
 
 
-/* 上から黒くなるグラデーション */
+/* =========================
+   6版・7版表示
+========================= */
+
+.investigator-edition {
+    position: absolute;
+
+    top: -42px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 19;
+
+    padding: 5px 10px;
+
+    background: white;
+
+    border: 2px solid #0047ff;
+
+    font-family:
+        "Y1PixelationSerif",
+        sans-serif;
+
+    font-size: 14px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   LOST
+========================= */
+
+/*
+   ロスト探索者は
+   写真エリアそのものの背景を赤にする。
+
+   赤い膜を画像の上に重ねる処理はしない。
+*/
+
+.investigator-card.is-lost .photo-area {
+    background-color: red;
+}
+
+
+/*
+   LOST探索者の通常画像
+
+   背景の赤が見えるように、
+   画像そのものを少し透過させる。
+*/
+
+.investigator-card.is-lost .photo-normal,
+.investigator-card.is-lost .photo-hover {
+    opacity: 0.82;
+}
+
+
+/*
+   LOST探索者にカーソルを合わせたとき
+   上から黒いグラデーションを出す。
+*/
+
 .investigator-card.is-lost .photo-area::after {
     content: "";
+
     position: absolute;
+
     inset: 0;
+
     pointer-events: none;
 
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.9) 0%,
-        rgba(0, 0, 0, 0.6) 30%,
-        rgba(0, 0, 0, 0.2) 60%,
-        rgba(0, 0, 0, 0) 100%
-    );
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0.6) 30%,
+            rgba(0, 0, 0, 0.2) 60%,
+            rgba(0, 0, 0, 0) 100%
+        );
 
     opacity: 0;
-    transition: opacity 0.25s ease;
+
+    transition:
+        opacity 0.25s ease;
 
     z-index: 5;
-    border-radius: inherit;
 }
 
 
-/* カーソルを合わせたとき */
-.investigator-card.is-lost:hover .photo-area::before,
+/*
+   ホバー時だけ黒いグラデーション
+*/
+
 .investigator-card.is-lost:hover .photo-area::after {
     opacity: 1;
 }
 
 
-/* LOST文字 */
+/* =========================
+   LOST文字
+========================= */
+
 .investigator-card .lost-label {
     position: absolute;
+
     right: 10px;
     bottom: 10px;
 
     z-index: 10;
 
     background: none;
+
     border: none;
 
     color: red;
 
-    font-family: "Y1PixelationSerif", sans-serif;
+    font-family:
+        "Y1PixelationSerif",
+        sans-serif;
+
     font-size: 18px;
+
     line-height: 1;
+
     letter-spacing: 2px;
 
     opacity: 0;
-    transform: translateY(5px);
+
+    transform:
+        translateY(5px);
 
     transition:
         opacity 0.25s ease,
@@ -2529,8 +2586,108 @@ p {
 }
 
 
-/* カーソルを合わせたとき LOST を表示 */
+/*
+   ホバー時だけ LOST を表示
+*/
+
 .investigator-card.is-lost:hover .lost-label {
     opacity: 1;
-    transform: translateY(0);
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================
+   スマホ
+========================= */
+
+@media (max-width: 800px) {
+
+    /* =========================
+       検索・絞り込み
+    ========================= */
+
+    .investigator-tools {
+        width: calc(100% - 20px);
+
+        margin-bottom: 60px;
+
+        gap: 18px;
+
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+
+    .stat-sort,
+    .skill-search,
+    .edition-filter {
+        width: 100%;
+
+        max-width: 300px;
+    }
+
+
+    .stat-sort select,
+    .skill-search input,
+    .edition-filter select {
+        width: 100%;
+    }
+
+
+    /* =========================
+       能力値・技能値
+    ========================= */
+
+    .investigator-value {
+        top: -38px;
+
+        font-size: 14px;
+
+        padding: 5px 9px;
+
+        border-width: 2px;
+
+        box-shadow:
+            2px 2px 0 #0047ff;
+    }
+
+
+    /* =========================
+       6版・7版
+    ========================= */
+
+    .investigator-edition {
+        top: -38px;
+
+        font-size: 12px;
+
+        padding: 4px 8px;
+
+        border-width: 2px;
+    }
+
+
+    /* =========================
+       LOST
+    ========================= */
+
+    .investigator-card.is-lost .photo-normal,
+    .investigator-card.is-lost .photo-hover {
+        opacity: 0.82;
+    }
+
+
+    .investigator-card .lost-label {
+        right: 7px;
+
+        bottom: 7px;
+
+        font-size: 15px;
+
+        letter-spacing: 1px;
+    }
+
 }
