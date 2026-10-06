@@ -439,11 +439,10 @@ p {
 /* =========================
    探索者一覧
 ========================= */
-
 .investigator-grid {
     width: 100%;
 
-    max-width: 1500px;
+    max-width: 1400px;
 
     margin: 0 auto;
 
@@ -459,7 +458,6 @@ p {
 
     z-index: 2;
 }
-
 
 /* =========================
    探索者カード
@@ -2710,7 +2708,4 @@ p {
         letter-spacing: 1px;
     }
 
-}
-.photo-area img {
-    transform: scale(1.15);
 }
