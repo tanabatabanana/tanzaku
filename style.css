@@ -16,7 +16,7 @@
     font-family: "BunanMarker";
     src: url("fonts/BunanMarker.otf") format("opentype");
 }
-
+@font-face { font-family: "TsunagiGothic"; src: url("fonts/TsunagiGothic.otf") format("opentype"); }
 
 /* =========================
    全体・背景
