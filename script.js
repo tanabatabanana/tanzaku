@@ -643,7 +643,6 @@ function getValue(data, label) {
 
 }
 
-
 /* =========================
    技能を取得
 ========================= */
@@ -664,17 +663,18 @@ function getSkills(data) {
     const skills = [];
 
     /*
-       いあきゃらのコマンド表記には
-       
-       CCB<=70 【目星】
-       1D100<=70 【目星】
+       いあきゃらのコマンドには、
 
-       など複数の形があるため、
-       両方に対応する。
+       CCB<=65 【目星】
+       CC<=65 【目星】
+       1D100<=65 【目星】
+
+       など複数の形式があるため、
+       すべて対応する。
     */
 
     const regex =
-        /(?:CCB|1D100)\s*<=\s*(\d+)\s*【([^】]+)】/gi;
+        /(?:CCB|CC|1D100)\s*<=\s*(\d+)\s*【([^】]+)】/gi;
 
     let match;
 
@@ -682,13 +682,45 @@ function getSkills(data) {
         (match = regex.exec(commands)) !== null
     ) {
 
+        const skillName =
+            match[2].trim();
+
+        const skillValue =
+            Number(match[1]);
+
+        /*
+           STR × 5 などの能力値判定は
+           技能検索に入れない
+        */
+
+        if (
+            skillName === "STR × 5" ||
+            skillName === "CON × 5" ||
+            skillName === "POW × 5" ||
+            skillName === "DEX × 5" ||
+            skillName === "APP × 5" ||
+            skillName === "SIZ × 5" ||
+            skillName === "INT × 5" ||
+            skillName === "EDU × 5" ||
+            skillName === "STR" ||
+            skillName === "CON" ||
+            skillName === "POW" ||
+            skillName === "DEX" ||
+            skillName === "APP" ||
+            skillName === "SIZ" ||
+            skillName === "INT" ||
+            skillName === "EDU"
+        ) {
+            continue;
+        }
+
         skills.push({
 
             name:
-                match[2].trim(),
+                skillName,
 
             value:
-                Number(match[1])
+                skillValue
 
         });
 
