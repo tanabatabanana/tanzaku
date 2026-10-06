@@ -2368,7 +2368,7 @@ p {
 @media (max-width: 800px) {
 
     .investigator-tools {
-        margin-bottom:180px;
+        margin-bottom:-50px;
     }
 
 }
