@@ -511,17 +511,18 @@ p {
         background-color 0.15s steps(2);
 }
 
-
-/* 人物画像 */
+/* =========================
+   人物アイコンの大きさ
+========================= */
 
 .photo-area img {
     position: absolute;
 
-    top: 0;
-    left: 0;
+    top: -5%;
+    left: -5%;
 
-    width: 100%;
-    height: 100%;
+    width: 110%;
+    height: 110%;
 
     object-fit: contain;
 
