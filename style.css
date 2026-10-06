@@ -442,20 +442,15 @@ p {
 ========================= */
 .investigator-grid {
     width: 100%;
-
-    max-width: 1440px;
-
+    max-width: 1320px;
     margin: 0 auto;
-
     display: grid;
-
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-
-    gap: 70px 20px;
-
+    grid-template-columns: repeat(4, 1fr);
+    gap: 70px 24px;
     align-items: start;
+    position: relative;
+    z-index: 2;
 }
-
 
 /* =========================
    探索者カード
