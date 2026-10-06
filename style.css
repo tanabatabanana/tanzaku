@@ -2421,3 +2421,10 @@ p {
     }
 
 }
+@media (max-width: 800px) {
+
+    .investigator-tools {
+        margin-bottom: 50px;
+    }
+
+}
