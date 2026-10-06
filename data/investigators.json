@@ -98,5 +98,765 @@
         {"label": "EDU", "value": "11"}
       ]
     }
+  },
+  {
+  "kind": "character",
+  "data": {
+    "name": "ケチャップ&マスタード",
+    "initiative": 11,
+    "externalUrl": "https://iachara.com/view/8259967",
+    "iconUrl": "https://image.iaproject.app/0377962a-6ccf-4a1b-b59f-1c61aa8686e9",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=50 【アイデア】\nCCB<=80 【幸運】\nCCB<=75 【知識】\nCCB<=65 【目星】\nCCB<=77 【聞き耳】\nCCB<=65 【図書館】\nCCB<=65 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=65 【キック】\nCCB<=61 【マーシャルアーツ】\nCCB<=60 【応急手当】\nCCB<=50 【精神分析】\nCCB<=60 【オカルト】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 10, "max": 10},
+      {"label": "MP", "value": 16, "max": 16},
+      {"label": "SAN", "value": 37, "max": 37}
+    ],
+    "params": [
+      {"label": "STR", "value": "13"},
+      {"label": "CON", "value": "9"},
+      {"label": "POW", "value": "16"},
+      {"label": "DEX", "value": "11"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "11"},
+      {"label": "INT", "value": "10"},
+      {"label": "EDU", "value": "15"}
+    ]
   }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "工亍 公 (くちょく ただし)",
+    "initiative": 13,
+    "externalUrl": "https://iachara.com/view/8255345",
+    "iconUrl": "https://image.iaproject.app/77411cc5-9e8d-48ae-938d-e914566011b4",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=90 【アイデア】\nCCB<=75 【幸運】\nCCB<=95 【知識】\nCCB<=73 【目星】\nCCB<=80 【聞き耳】\nCCB<=65 【図書館】\nCCB<=65 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=78 【日本刀】\nCCB<=70 【応急手当】\nCCB<=65 【忍び歩き】\nCCB<=67 【精神分析】\nCCB<=71 【言いくるめ】\nCCB<=1 【クトゥルフ神話】\nCCB<=90 【芸術（落語）】\nCCB<=65 【心理学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 15, "max": 15},
+      {"label": "SAN", "value": 54, "max": 54}
+    ],
+    "params": [
+      {"label": "STR", "value": "6"},
+      {"label": "CON", "value": "10"},
+      {"label": "POW", "value": "15"},
+      {"label": "DEX", "value": "13"},
+      {"label": "APP", "value": "17"},
+      {"label": "SIZ", "value": "11"},
+      {"label": "INT", "value": "18"},
+      {"label": "EDU", "value": "19"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "阿吽 (あうん)",
+    "initiative": 14,
+    "externalUrl": "https://iachara.com/view/8607554",
+    "iconUrl": "https://image.iaproject.app/7139232c-cdff-47ec-b721-bc2424b10f92",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=55 【アイデア】\nCCB<=80 【幸運】\nCCB<=75 【知識】\nCCB<=77 【目星】\nCCB<=80 【聞き耳】\nCCB<=65 【図書館】\nCCB<=81 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=80 【鯉のぼり】\nCCB<=55 【ナイフ】\nCCB<=60 【日本刀】\nCCB<=58 【手斧】\nCCB<=10 【戦車砲】\nCCB<=66 【精神分析】\nCCB<=9 【味覚】\nCCB<=45 【信用】\nCCB<=83 【医学】\nCCB<=89 【オカルト】\nCCB<=5 【クトゥルフ神話】\nCCB<=21 【芸術（料理）】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 16, "max": 16},
+      {"label": "SAN", "value": 56, "max": 56}
+    ],
+    "params": [
+      {"label": "STR", "value": "12"},
+      {"label": "CON", "value": "6"},
+      {"label": "POW", "value": "16"},
+      {"label": "DEX", "value": "14"},
+      {"label": "APP", "value": "13"},
+      {"label": "SIZ", "value": "15"},
+      {"label": "INT", "value": "11"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "怪盗ブラック",
+    "initiative": 16,
+    "externalUrl": "https://iachara.com/view/8966309",
+    "iconUrl": "https://image.iaproject.app/fe95fd8c-d283-4313-b513-14cf5755761e",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=40 【アイデア】\nCCB<=90 【幸運】\nCCB<=75 【知識】\nCCB<=91 【目星】\nCCB<=74 【聞き耳】\nCCB<=27 【図書館】\nCCB<=75 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=83 【拳銃】\nCCB<=43 【応急手当】\nCCB<=26 【水泳】\nCCB<=82 【操縦（カラスヘリコプター）】\nCCB<=55 【跳躍】\nCCB<=55 【変装】\nCCB<=55 【説得】\nCCB<=16 【芸術（イカサマ）】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 12, "max": 12},
+      {"label": "MP", "value": 18, "max": 18},
+      {"label": "SAN", "value": 59, "max": 59}
+    ],
+    "params": [
+      {"label": "STR", "value": "7"},
+      {"label": "CON", "value": "12"},
+      {"label": "POW", "value": "18"},
+      {"label": "DEX", "value": "16"},
+      {"label": "APP", "value": "15"},
+      {"label": "SIZ", "value": "11"},
+      {"label": "INT", "value": "8"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "華道家",
+    "initiative": 10,
+    "externalUrl": "https://iachara.com/view/9199005",
+    "iconUrl": "https://image.iaproject.app/784e4ebd-527c-48e8-bbbe-a1b1b7736788",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=80 【アイデア】\nCCB<=60 【幸運】\nCCB<=100 【知識】\nCCB<=75 【目星】\nCCB<=67 【聞き耳】\nCCB<=70 【図書館】\nCCB<=50 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=79 【ナイフ】\nCCB<=45 【応急手当】\nCCB<=30 【写真術】\nCCB<=41 【精神分析】\nCCB<=66 【操縦（絡繰り）】\nCCB<=65 【言いくるめ】\nCCB<=75 【芸術（生花）】\nCCB<=75 【心理学】\nCCB<=40 【博物学】\nCCB<=23 【歴史】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 12, "max": 12},
+      {"label": "SAN", "value": 55, "max": 55}
+    ],
+    "params": [
+      {"label": "STR", "value": "12"},
+      {"label": "CON", "value": "10"},
+      {"label": "POW", "value": "12"},
+      {"label": "DEX", "value": "10"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "15"},
+      {"label": "INT", "value": "16"},
+      {"label": "EDU", "value": "20"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "山田 ミミ花 (やまだ みみか)",
+    "initiative": 12,
+    "externalUrl": "https://iachara.com/view/9268605",
+    "iconUrl": "https://image.iaproject.app/a5abdd9a-0a89-4fdc-823f-5aecabde48d9",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=75 【アイデア】\nCCB<=55 【幸運】\nCCB<=45 【知識】\nCCB<=65 【目星】\nCCB<=65 【聞き耳】\nCCB<=65 【図書館】\nCCB<=64 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=65 【投擲】\nCCB<=50 【応急手当】\nCCB<=51 【精神分析】\nCCB<=65 【水泳】\nCCB<=20 【信用】\nCCB<=15 【芸術（腹話術）】\nCCB<=6 【生物学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 10, "max": 10},
+      {"label": "MP", "value": 11, "max": 11},
+      {"label": "SAN", "value": 55, "max": 55}
+    ],
+    "params": [
+      {"label": "STR", "value": "8"},
+      {"label": "CON", "value": "10"},
+      {"label": "POW", "value": "11"},
+      {"label": "DEX", "value": "12"},
+      {"label": "APP", "value": "13"},
+      {"label": "SIZ", "value": "9"},
+      {"label": "INT", "value": "15"},
+      {"label": "EDU", "value": "9"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "スポット・ワグナー",
+    "initiative": 15,
+    "externalUrl": "https://iachara.com/view/9541809",
+    "iconUrl": "https://image.iaproject.app/ab3c9019-b270-4988-b4b0-63ec9792215f",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=70 【アイデア】\nCCB<=65 【幸運】\nCCB<=70 【知識】\nCCB<=75 【目星】\nCCB<=45 【聞き耳】\nCCB<=75 【図書館】\nCCB<=60 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=53 【キック】\nCCB<=35 【投擲】\nCCB<=68 【応急手当】\nCCB<=32 【鍵開け】\nCCB<=50 【追跡】\nCCB<=98 【味覚】\nCCB<=31 【変装】\nCCB<=45 【信用】\nCCB<=7 【クトゥルフ神話】\nCCB<=78 【心理学】\nCCB<=35 【法律】\nCCB<=21 【歴史】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 8, "max": 8},
+      {"label": "MP", "value": 13, "max": 13},
+      {"label": "SAN", "value": 90, "max": 90}
+    ],
+    "params": [
+      {"label": "STR", "value": "11"},
+      {"label": "CON", "value": "6"},
+      {"label": "POW", "value": "13"},
+      {"label": "DEX", "value": "15"},
+      {"label": "APP", "value": "9"},
+      {"label": "SIZ", "value": "10"},
+      {"label": "INT", "value": "14"},
+      {"label": "EDU", "value": "14"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "望風 小春 (かぜまねき こはる)",
+    "initiative": 10,
+    "externalUrl": "https://iachara.com/view/9677524",
+    "iconUrl": "https://image.iaproject.app/844e2b40-28d2-48b3-9cff-d00d1fd60d4a",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=65 【アイデア】\nCCB<=75 【幸運】\nCCB<=75 【知識】\nCCB<=67 【目星】\nCCB<=75 【聞き耳】\nCCB<=40 【図書館】\nCCB<=68 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=57 【拳銃】\nCCB<=51 【サブマシンガン】\nCCB<=50 【ショットガン】\nCCB<=75 【マシンガン】\nCCB<=50 【ライフル】\nCCB<=76 【応急手当】\nCCB<=42 【写真術】\nCCB<=61 【精神分析】\nCCB<=60 【運転（オートバイ）】\nCCB<=71 【芸術（ハッキング）】\nCCB<=87 【心理学】\nCCB<=61 【薬学】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 17, "max": 17},
+      {"label": "MP", "value": 15, "max": 15},
+      {"label": "SAN", "value": 87, "max": 87}
+    ],
+    "params": [
+      {"label": "STR", "value": "11"},
+      {"label": "CON", "value": "16"},
+      {"label": "POW", "value": "15"},
+      {"label": "DEX", "value": "10"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "18"},
+      {"label": "INT", "value": "13"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "卍 真・頭蓋大明神 卍 (しん ずがいだいみょうじん)",
+    "initiative": 16,
+    "externalUrl": "https://iachara.com/view/9970884",
+    "iconUrl": "https://image.iaproject.app/eaacbfe4-157d-4b95-bea5-585a73fc570e",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=75 【アイデア】\nCCB<=50 【幸運】\nCCB<=60 【知識】\nCCB<=69 【目星】\nCCB<=60 【聞き耳】\nCCB<=35 【図書館】\nCCB<=72 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=85 【投擲】\nCCB<=71 【精神分析】\nCCB<=30 【機械修理】\nCCB<=72 【製作（同情心）】\nCCB<=20 【電気修理】\nCCB<=65 【医学】\nCCB<=75 【コンピューター】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 15, "max": 15},
+      {"label": "MP", "value": 10, "max": 10},
+      {"label": "SAN", "value": 40, "max": 40}
+    ],
+    "params": [
+      {"label": "STR", "value": "11"},
+      {"label": "CON", "value": "14"},
+      {"label": "POW", "value": "10"},
+      {"label": "DEX", "value": "16"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "15"},
+      {"label": "INT", "value": "15"},
+      {"label": "EDU", "value": "12"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "ミクス・パーシャル (ミクス・パーシャル)",
+    "initiative": 70,
+    "externalUrl": "https://iachara.com/view/10055992",
+    "iconUrl": "https://image.iaproject.app/11fed145-6d0a-42cb-9616-ded7dcfc7e94",
+    "commands": "CC<={SAN} 【正気度ロール】\nCC<=55 【アイデア】\nCC<={幸運} 【幸運】\nCC<=80 【知識】\nCC<=65 【目星】\nCC<=70 【聞き耳】\nCC<=20 【図書館】\nCC<=35 【回避】\nCC<=80 【追跡】\nCC<=70 【登攀】\nCC<=80 【跳躍】\nCC<=40 【ナビゲート】\nCC<=70 【サバイバル（山岳）】\nCC<=61 【生物学】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR} 【STR】\nCC<={CON} 【CON】\nCC<={POW} 【POW】\nCC<={DEX} 【DEX】\nCC<={APP} 【APP】\nCC<={SIZ} 【SIZ】\nCC<={INT} 【INT】\nCC<={EDU} 【EDU】\n",
+    "status": [
+      {"label": "HP", "value": 14, "max": 14},
+      {"label": "MP", "value": 10, "max": 10},
+      {"label": "SAN", "value": 50, "max": 50},
+      {"label": "幸運", "value": 60, "max": 60}
+    ],
+    "params": [
+      {"label": "STR", "value": "70"},
+      {"label": "CON", "value": "75"},
+      {"label": "POW", "value": "50"},
+      {"label": "DEX", "value": "70"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "70"},
+      {"label": "INT", "value": "55"},
+      {"label": "EDU", "value": "80"},
+      {"label": "BLD", "value": "+1"},
+      {"label": "MOV", "value": "8"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "隼高 翔太 (はやたか しょうた)",
+    "initiative": 65,
+    "externalUrl": "https://iachara.com/view/11122777",
+    "iconUrl": "https://image.iaproject.app/5f3bb19c-3170-4257-81a9-04a35441d294",
+    "commands": "CC<={SAN} 【正気度ロール】\nCC<=65 【アイデア】\nCC<={幸運} 【幸運】\nCC<=60 【知識】\nCC<=65 【目星】\nCC<=62 【聞き耳】\nCC<=20 【図書館】\nCC<=70 【回避】\nCC<=45 【近接戦闘】\nCC<=80 【射撃（拳銃）】\nCC<=70 【応急手当】\nCC<=50 【隠密】\nCC<=70 【精神分析】\nCC<=20 【信用】\nCC<=49 【言語（ウサギ語）】\nCC<=6 【クトゥルフ神話】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR} 【STR】\nCC<={CON} 【CON】\nCC<={POW} 【POW】\nCC<={DEX} 【DEX】\nCC<={APP} 【APP】\nCC<={SIZ} 【SIZ】\nCC<={INT} 【INT】\nCC<={EDU} 【EDU】\n",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 10, "max": 10},
+      {"label": "SAN", "value": 44, "max": 44},
+      {"label": "幸運", "value": 75, "max": 75}
+    ],
+    "params": [
+      {"label": "STR", "value": "70"},
+      {"label": "CON", "value": "70"},
+      {"label": "POW", "value": "50"},
+      {"label": "DEX", "value": "65"},
+      {"label": "APP", "value": "45"},
+      {"label": "SIZ", "value": "60"},
+      {"label": "INT", "value": "65"},
+      {"label": "EDU", "value": "60"},
+      {"label": "BLD", "value": "+1"},
+      {"label": "MOV", "value": "9"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "陽焔 日向 (ようえん ひなた)",
+    "initiative": 13,
+    "externalUrl": "https://iachara.com/view/11123961",
+    "iconUrl": "https://image.iaproject.app/97185120-3676-422b-9051-e59601568bff",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=55 【アイデア】\nCCB<=90 【幸運】\nCCB<=85 【知識】\nCCB<=65 【目星】\nCCB<=25 【聞き耳】\nCCB<=65 【図書館】\nCCB<=65 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=75 【正義と愛の剣】\nCCB<=75 【応急手当】\nCCB<=51 【精神分析】\nCCB<=65 【製作（ファンレター）】\nCCB<=65 【信用】\nCCB<=64 【コンピューター】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 12, "max": 12},
+      {"label": "MP", "value": 18, "max": 18},
+      {"label": "SAN", "value": 90, "max": 90}
+    ],
+    "params": [
+      {"label": "STR", "value": "15"},
+      {"label": "CON", "value": "13"},
+      {"label": "POW", "value": "18"},
+      {"label": "DEX", "value": "13"},
+      {"label": "APP", "value": "19"},
+      {"label": "SIZ", "value": "11"},
+      {"label": "INT", "value": "11"},
+      {"label": "EDU", "value": "17"}
+    ]
+  }
+},
+,
+{
+  "kind": "character",
+  "data": {
+    "name": "キンセー",
+    "initiative": 12,
+    "externalUrl": "https://iachara.com/view/11733235",
+    "iconUrl": "https://image.iaproject.app/b376cbd8-65b9-45f4-aac4-5406dbd7bba9",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=55 【アイデア】\nCC<=60 【幸運】\nCC<=80 【知識】\nCC<=78 【目星】\nCC<=73 【聞き耳】\nCC<=35 【図書館】\nCC<=61 【回避】\nCC<=58 【こぶし（パンチ）】\nCC<=87 【拳銃】\nCC<=85 【応急手当】\nCC<=65 【隠す】\nCC<=71 【精神分析】\nCC<=35 【機械修理】\nCC<=68 【ナンパ】\nCC<=3 【クトゥルフ神話】\nCC<=82 【芸術（ハッキング）】\nCC<=8 【法律】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 34, "max": 34},
+      {"label": "MP", "value": 12, "max": 12},
+      {"label": "SAN", "value": 15, "max": 15}
+    ],
+    "params": [
+      {"label": "STR", "value": "7"},
+      {"label": "CON", "value": "18"},
+      {"label": "POW", "value": "12"},
+      {"label": "DEX", "value": "12"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "15"},
+      {"label": "INT", "value": "11"},
+      {"label": "EDU", "value": "16"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "泡泡 花子 (あわうた はなこ)",
+    "initiative": 10,
+    "externalUrl": "https://iachara.com/view/11788456",
+    "iconUrl": "https://image.iaproject.app/b8e6bdde-f636-46f2-a984-331711852531",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=50 【アイデア】\nCC<=55 【幸運】\nCC<=70 【知識】\nCC<=79 【目星】\nCC<=71 【聞き耳】\nCC<=35 【図書館】\nCC<=74 【回避】\nCC<=56 【こぶし（パンチ）】\nCC<=77 【キック】\nCC<=35 【投擲】\nCC<=84 【マーシャルアーツ】\nCC<=55 【応急手当】\nCC<=65 【言いくるめ】\nCC<=75 【芸術（？？？）】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 12, "max": 12},
+      {"label": "MP", "value": 11, "max": 11},
+      {"label": "SAN", "value": 46, "max": 46}
+    ],
+    "params": [
+      {"label": "STR", "value": "16"},
+      {"label": "CON", "value": "11"},
+      {"label": "POW", "value": "11"},
+      {"label": "DEX", "value": "10"},
+      {"label": "APP", "value": "14"},
+      {"label": "SIZ", "value": "12"},
+      {"label": "INT", "value": "10"},
+      {"label": "EDU", "value": "14"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "葦原 べこ (あしはら　べこ)",
+    "initiative": 16,
+    "externalUrl": "https://iachara.com/view/12074899",
+    "iconUrl": "https://image.iaproject.app/e03661da-8d9d-4d1c-bc2c-579b02b20a62",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=70 【アイデア】\nCC<=60 【幸運】\nCC<=30 【知識】\nCC<=73 【目星】\nCC<=75 【聞き耳】\nCC<=28 【図書館】\nCC<=52 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=35 【キック】\nCC<=36 【マーシャルアーツ】\nCC<=75 【応急手当】\nCC<=66 【精神分析】\nCC<=60 【医学】\nCC<=45 【芸術（ギター）】\n1d3-1D6 【ダメージ判定】\n1d4-1D6 【ダメージ判定】\n1d6-1D6 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 9, "max": 9},
+      {"label": "MP", "value": 12, "max": 12},
+      {"label": "SAN", "value": 21, "max": 21}
+    ],
+    "params": [
+      {"label": "STR", "value": "4"},
+      {"label": "CON", "value": "11"},
+      {"label": "POW", "value": "12"},
+      {"label": "DEX", "value": "16"},
+      {"label": "APP", "value": "12"},
+      {"label": "SIZ", "value": "6"},
+      {"label": "INT", "value": "14"},
+      {"label": "EDU", "value": "6"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "フレンド",
+    "initiative": 13,
+    "externalUrl": "https://iachara.com/view/12346476",
+    "iconUrl": "https://image.iaproject.app/63e1df85-3393-4a0b-9d80-61eb93e6d08c",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=90 【アイデア】\nCC<=55 【幸運】\nCC<=50 【知識】\nCC<=55 【目星】\nCC<=75 【聞き耳】\nCC<=35 【図書館】\nCC<=66 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=65 【組み付き】\nCC<=80 【傘（仕込み刀）】\nCC<=50 【隠す】\nCC<=60 【忍び歩き】\nCC<=65 【機械修理】\nCC<=30 【説得】\nCC<=60 【医学】\nCC<=50 【生物学】\nCC<=30 【薬学】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 14, "max": 14},
+      {"label": "MP", "value": 11, "max": 11},
+      {"label": "SAN", "value": 55, "max": 55}
+    ],
+    "params": [
+      {"label": "STR", "value": "14"},
+      {"label": "CON", "value": "13"},
+      {"label": "POW", "value": "11"},
+      {"label": "DEX", "value": "13"},
+      {"label": "APP", "value": "8"},
+      {"label": "SIZ", "value": "15"},
+      {"label": "INT", "value": "18"},
+      {"label": "EDU", "value": "10"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "Phalene・Kowalski (ファレン・コヴァルスキ)",
+    "initiative": 14,
+    "externalUrl": "https://iachara.com/view/12524664",
+    "iconUrl": "https://image.iaproject.app/03080bfc-8d67-42e8-8c73-2fe87ca62650",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=65 【アイデア】\nCC<=85 【幸運】\nCC<=90 【知識】\nCC<=65 【目星】\nCC<=75 【聞き耳】\nCC<=70 【図書館】\nCC<=68 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=55 【キック】\nCC<=21 【マーシャルアーツ】\nCC<=65 【応急手当】\nCC<=61 【精神分析】\nCC<=60 【信用】\nCC<=45 【ポーランド語】\nCC<=85 【芸術（ピアノ）】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 12, "max": 12},
+      {"label": "MP", "value": 17, "max": 17},
+      {"label": "SAN", "value": 85, "max": 85}
+    ],
+    "params": [
+      {"label": "STR", "value": "11"},
+      {"label": "CON", "value": "8"},
+      {"label": "POW", "value": "17"},
+      {"label": "DEX", "value": "14"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "16"},
+      {"label": "INT", "value": "13"},
+      {"label": "EDU", "value": "18"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "珠真 あける (だま あける)",
+    "initiative": 13,
+    "externalUrl": "https://iachara.com/view/12525995",
+    "iconUrl": "https://image.iaproject.app/213a7984-e1a8-40e0-be12-36f937764489",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=50 【アイデア】\nCC<=70 【幸運】\nCC<=65 【知識】\nCC<=70 【目星】\nCC<=65 【聞き耳】\nCC<=51 【図書館】\nCC<=60 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=55 【拳銃】\nCC<=70 【応急手当】\nCC<=71 【精神分析】\nCC<=55 【信用】\nCC<=31 【コンピューター】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 14, "max": 14},
+      {"label": "SAN", "value": 70, "max": 70}
+    ],
+    "params": [
+      {"label": "STR", "value": "10"},
+      {"label": "CON", "value": "12"},
+      {"label": "POW", "value": "14"},
+      {"label": "DEX", "value": "13"},
+      {"label": "APP", "value": "14"},
+      {"label": "SIZ", "value": "9"},
+      {"label": "INT", "value": "10"},
+      {"label": "EDU", "value": "13"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "清 蠢 (よどみなし　おろ)",
+    "initiative": 16,
+    "externalUrl": "https://iachara.com/view/12610364",
+    "iconUrl": "https://image.iaproject.app/b589c4c4-49cd-48d7-a42b-76c47b4f9324",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=55 【アイデア】\nCC<=60 【幸運】\nCC<=55 【知識】\nCC<=60 【目星】\nCC<=70 【聞き耳】\nCC<=65 【図書館】\nCC<=32 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=64 【鍵開け】\nCC<=40 【写真術】\nCC<=65 【説得】\nCC<=10 【英語】\nCC<=35 【芸術（演技）】\nCC<=75 【心理学】\nCC<=21 【歴史】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 12, "max": 12},
+      {"label": "SAN", "value": 45, "max": 45}
+    ],
+    "params": [
+      {"label": "STR", "value": "12"},
+      {"label": "CON", "value": "8"},
+      {"label": "POW", "value": "12"},
+      {"label": "DEX", "value": "16"},
+      {"label": "APP", "value": "14"},
+      {"label": "SIZ", "value": "13"},
+      {"label": "INT", "value": "11"},
+      {"label": "EDU", "value": "11"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "ミラ・ヘイルマン",
+    "initiative": 13,
+    "externalUrl": "https://iachara.com/view/12624017",
+    "iconUrl": "https://image.iaproject.app/9095e0c4-d121-468d-815e-382e2bb48a2a",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=70 【アイデア】\nCC<=55 【幸運】\nCC<=75 【知識】\nCC<=65 【目星】\nCC<=67 【聞き耳】\nCC<=65 【図書館】\nCC<=64 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=80 【キック】\nCC<=78 【マーシャルアーツ】\nCC<=61 【精神分析】\nCC<=35 【医学】\nCC<=78 【芸術（創作活動）】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 11, "max": 11},
+      {"label": "SAN", "value": 55, "max": 55}
+    ],
+    "params": [
+      {"label": "STR", "value": "12"},
+      {"label": "CON", "value": "8"},
+      {"label": "POW", "value": "11"},
+      {"label": "DEX", "value": "13"},
+      {"label": "APP", "value": "18"},
+      {"label": "SIZ", "value": "14"},
+      {"label": "INT", "value": "14"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "火魚 モミジ (かながしら モミジ)",
+    "initiative": 11,
+    "externalUrl": "https://iachara.com/view/12688303",
+    "iconUrl": "https://image.iaproject.app/b25b2764-9c0b-4e5c-a023-12595c6613d1",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=70 【アイデア】\nCC<=50 【幸運】\nCC<=75 【知識】\nCC<=70 【目星】\nCC<=65 【聞き耳】\nCC<=65 【図書館】\nCC<=52 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=65 【投擲】\nCC<=65 【応急手当】\nCC<=50 【写真術】\nCC<=65 【水泳】\nCC<=65 【信用】\nCC<=50 【芸術（ギター）】\nCC<=87 【生物学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 10, "max": 10},
+      {"label": "SAN", "value": 54, "max": 54}
+    ],
+    "params": [
+      {"label": "STR", "value": "10"},
+      {"label": "CON", "value": "12"},
+      {"label": "POW", "value": "10"},
+      {"label": "DEX", "value": "11"},
+      {"label": "APP", "value": "15"},
+      {"label": "SIZ", "value": "13"},
+      {"label": "INT", "value": "14"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "カラクミ",
+    "initiative": 18,
+    "externalUrl": "https://iachara.com/view/12788284",
+    "iconUrl": "https://image.iaproject.app/d3ca889f-d1a3-4ee4-aaf8-c48c73c80697",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=50 【アイデア】\nCC<=75 【幸運】\nCC<=100 【知識】\nCC<=65 【目星】\nCC<=55 【聞き耳】\nCC<=75 【図書館】\nCC<=76 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=71 【マーシャルアーツ】\nCC<=80 【日本刀】\nCC<=45 【製作（木工）】\nCC<=35 【値切り】\nCC<=65 【医学】\nCC<=80 【芸術（傀儡）】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 12, "max": 12},
+      {"label": "MP", "value": 15, "max": 15},
+      {"label": "SAN", "value": 75, "max": 75}
+    ],
+    "params": [
+      {"label": "STR", "value": "13"},
+      {"label": "CON", "value": "10"},
+      {"label": "POW", "value": "15"},
+      {"label": "DEX", "value": "18"},
+      {"label": "APP", "value": "9"},
+      {"label": "SIZ", "value": "13"},
+      {"label": "INT", "value": "10"},
+      {"label": "EDU", "value": "20"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "尾瀬 口一 (おせ こういち)",
+    "initiative": 10,
+    "externalUrl": "https://iachara.com/view/12850452",
+    "iconUrl": "https://image.iaproject.app/87e2d221-0060-4114-a043-1853abfe8134",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=50 【アイデア】\nCC<=45 【幸運】\nCC<=70 【知識】\nCC<=65 【目星】\nCC<=65 【聞き耳】\nCC<=72 【図書館】\nCC<=60 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=65 【ライフル】\nCC<=37 【ナイフ】\nCC<=70 【応急手当】\nCC<=71 【精神分析】\nCC<=50 【信用】\nCC<=35 【芸術（手芸）】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 9, "max": 9},
+      {"label": "SAN", "value": 38, "max": 38}
+    ],
+    "params": [
+      {"label": "STR", "value": "15"},
+      {"label": "CON", "value": "14"},
+      {"label": "POW", "value": "9"},
+      {"label": "DEX", "value": "10"},
+      {"label": "APP", "value": "9"},
+      {"label": "SIZ", "value": "12"},
+      {"label": "INT", "value": "10"},
+      {"label": "EDU", "value": "14"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "Slumbers (スランバーズ)",
+    "initiative": 14,
+    "externalUrl": "https://iachara.com/view/12893072",
+    "iconUrl": "https://image.iaproject.app/afb749b5-a598-4827-bc6e-871dd1843acd",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=85 【アイデア】\nCC<=55 【幸運】\nCC<=100 【知識】\nCC<=73 【目星】\nCC<=45 【聞き耳】\nCC<=80 【図書館】\nCC<=63 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=40 【ショットガン】\nCC<=65 【隠れる】\nCC<=50 【忍び歩き】\nCC<=61 【精神分析】\nCC<=20 【追跡】\nCC<=62 【製作（お菓子）】\nCC<=61 【変装】\nCC<=65 【言いくるめ】\nCC<=10 【クトゥルフ神話】\nCC<=88 【芸術（ハッキング）】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 11, "max": 11},
+      {"label": "SAN", "value": 56, "max": 56}
+    ],
+    "params": [
+      {"label": "STR", "value": "6"},
+      {"label": "CON", "value": "10"},
+      {"label": "POW", "value": "11"},
+      {"label": "DEX", "value": "14"},
+      {"label": "APP", "value": "11"},
+      {"label": "SIZ", "value": "12"},
+      {"label": "INT", "value": "17"},
+      {"label": "EDU", "value": "20"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "Schnitt・Schneiden (シュニット・シュナイデン)",
+    "initiative": 12,
+    "externalUrl": "https://iachara.com/view/13018424",
+    "iconUrl": "https://image.iaproject.app/7f4d58ea-a96e-48bb-9268-2880a9779aa3",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=50 【アイデア】\nCC<=85 【幸運】\nCC<=100 【知識】\nCC<=72 【目星】\nCC<=80 【聞き耳】\nCC<=65 【図書館】\nCC<=84 【回避】\nCC<=54 【こぶし（パンチ）】\nCC<=80 【首切り鎌（大鎌）】\nCC<=61 【精神分析】\nCC<=27 【水泳】\nCC<=55 【言いくるめ】\nCC<=70 【医学】\nCC<=75 【芸術（調香）】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 17, "max": 17},
+      {"label": "SAN", "value": 57, "max": 57}
+    ],
+    "params": [
+      {"label": "STR", "value": "10"},
+      {"label": "CON", "value": "7"},
+      {"label": "POW", "value": "17"},
+      {"label": "DEX", "value": "12"},
+      {"label": "APP", "value": "15"},
+      {"label": "SIZ", "value": "14"},
+      {"label": "INT", "value": "10"},
+      {"label": "EDU", "value": "20"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "愛 (あい)",
+    "initiative": 13,
+    "externalUrl": "https://iachara.com/view/13060560",
+    "iconUrl": "https://image.iaproject.app/5d79f737-0a32-4115-87c5-d9991da7a36f",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=45 【アイデア】\nCC<=65 【幸運】\nCC<=70 【知識】\nCC<=73 【目星】\nCC<=65 【聞き耳】\nCC<=30 【図書館】\nCC<=85 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=75 【スコルピオンナイフ】\nCC<=45 【応急手当】\nCC<=50 【忍び歩き】\nCC<=7 【精神分析】\nCC<=56 【言いくるめ】\nCC<=3 【クトゥルフ神話】\nCC<=15 【芸術（料理）】\nCC<=75 【心理学】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 13, "max": 13},
+      {"label": "SAN", "value": 65, "max": 65}
+    ],
+    "params": [
+      {"label": "STR", "value": "15"},
+      {"label": "CON", "value": "11"},
+      {"label": "POW", "value": "13"},
+      {"label": "DEX", "value": "13"},
+      {"label": "APP", "value": "12"},
+      {"label": "SIZ", "value": "14"},
+      {"label": "INT", "value": "9"},
+      {"label": "EDU", "value": "14"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "薄荷 スギナ (うすに すぎな)",
+    "initiative": 21,
+    "externalUrl": "https://iachara.com/view/13165545",
+    "iconUrl": "https://image.iaproject.app/d2f1355e-d323-4283-aa5d-e147f2f8ad0d",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=65 【アイデア】\nCC<=70 【幸運】\nCC<=90 【知識】\nCC<=70 【目星】\nCC<=75 【聞き耳】\nCC<=40 【図書館】\nCC<=72 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=75 【拳銃】\nCC<=71 【精神分析】\nCC<=60 【追跡】\nCC<=28 【運転】\nCC<=75 【言いくるめ】\nCC<=68 【医学】\nCC<=83 【博物学】\nCC<=35 【法律】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 12, "max": 12},
+      {"label": "MP", "value": 14, "max": 14},
+      {"label": "SAN", "value": 70, "max": 70}
+    ],
+    "params": [
+      {"label": "STR", "value": "7"},
+      {"label": "CON", "value": "11"},
+      {"label": "POW", "value": "14"},
+      {"label": "DEX", "value": "21"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "13"},
+      {"label": "INT", "value": "13"},
+      {"label": "EDU", "value": "18"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "Dolce・Panetti (ドルチェ・パネッティ)",
+    "initiative": 11,
+    "externalUrl": "https://iachara.com/view/13167447",
+    "iconUrl": "https://image.iaproject.app/8aa2b10b-bbde-4347-9b42-24ce8b0f1e93",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=80 【アイデア】\nCC<=100 【幸運】\nCC<=110 【知識】\nCC<=80 【目星】\nCC<=65 【聞き耳】\nCC<=65 【図書館】\nCC<=72 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=70 【ムチ】\nCC<=60 【応急手当】\nCC<=71 【精神分析】\nCC<=15 【乗馬】\nCC<=80 【製作（料理）】\nCC<=75 【オカルト】\nCC<=66 【化学】\nCC<=15 【クトゥルフ神話】\nCC<=61 【生物学】\nCC<=30 【博物学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 9, "max": 9},
+      {"label": "MP", "value": 20, "max": 20},
+      {"label": "SAN", "value": 84, "max": 84}
+    ],
+    "params": [
+      {"label": "STR", "value": "11"},
+      {"label": "CON", "value": "9"},
+      {"label": "POW", "value": "20"},
+      {"label": "DEX", "value": "11"},
+      {"label": "APP", "value": "12"},
+      {"label": "SIZ", "value": "9"},
+      {"label": "INT", "value": "16"},
+      {"label": "EDU", "value": "22"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "灰原 龍水 (はいばら りゅうすい)",
+    "initiative": 13,
+    "externalUrl": "https://iachara.com/view/13196169",
+    "iconUrl": "https://image.iaproject.app/6d8ce3f6-f592-45a5-a139-4115e370d143",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=90 【アイデア】\nCC<=90 【幸運】\nCC<=80 【知識】\nCC<=65 【目星】\nCC<=55 【聞き耳】\nCC<=80 【図書館】\nCC<=56 【回避】\nCC<=52 【こぶし（パンチ）】\nCC<=65 【キック】\nCC<=65 【応急手当】\nCC<=75 【言いくるめ】\nCC<=36 【英語】\nCC<=65 【医学】\nCC<=20 【クトゥルフ神話】\nCC<=70 【芸術（トリビア）】\nCC<=70 【心理学】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 12, "max": 12},
+      {"label": "MP", "value": 18, "max": 18},
+      {"label": "SAN", "value": 2, "max": 2}
+    ],
+    "params": [
+      {"label": "STR", "value": "14"},
+      {"label": "CON", "value": "12"},
+      {"label": "POW", "value": "18"},
+      {"label": "DEX", "value": "13"},
+      {"label": "APP", "value": "16"},
+      {"label": "SIZ", "value": "12"},
+      {"label": "INT", "value": "18"},
+      {"label": "EDU", "value": "16"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "クロエ",
+    "initiative": 9,
+    "externalUrl": "https://iachara.com/view/13259430",
+    "iconUrl": "https://image.iaproject.app/dc9c93e4-d83b-4c67-a7eb-0a0334640f80",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCC<=75 【アイデア】\nCC<=70 【幸運】\nCC<=60 【知識】\nCC<=78 【目星】\nCC<=76 【聞き耳】\nCC<=65 【図書館】\nCC<=18 【回避】\nCC<=50 【こぶし（パンチ）】\nCC<=26 【精神分析】\nCC<=29 【機械修理】\nCC<=75 【説得】\nCC<=65 【医学】\nCC<=10 【オカルト】\nCC<=6 【化学】\nCC<=5 【クトゥルフ神話】\nCC<=70 【芸術（ハーモニカ）】\nCC<=15 【経理】\nCC<=6 【考古学】\nCC<=6 【コンピューター】\nCC<=80 【心理学】\nCC<=6 【人類学】\nCC<=6 【生物学】\nCC<=6 【地質学】\nCC<=6 【電子工学】\nCC<=6 【天文学】\nCC<=15 【博物学】\nCC<=6 【物理学】\nCC<=10 【法律】\nCC<=6 【薬学】\nCC<=30 【歴史】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCC<={STR}*5 【STR × 5】\nCC<={CON}*5 【CON × 5】\nCC<={POW}*5 【POW × 5】\nCC<={DEX}*5 【DEX × 5】\nCC<={APP}*5 【APP × 5】\nCC<={SIZ}*5 【SIZ × 5】\nCC<={INT}*5 【INT × 5】\nCC<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {"label": "HP", "value": 9, "max": 9},
+      {"label": "MP", "value": 14, "max": 14},
+      {"label": "SAN", "value": 82, "max": 82}
+    ],
+    "params": [
+      {"label": "STR", "value": "13"},
+      {"label": "CON", "value": "10"},
+      {"label": "POW", "value": "14"},
+      {"label": "DEX", "value": "9"},
+      {"label": "APP", "value": "14"},
+      {"label": "SIZ", "value": "8"},
+      {"label": "INT", "value": "15"},
+      {"label": "EDU", "value": "12"}
+    ]
+  }
+}
+ 
+ 
+ 
 ]
