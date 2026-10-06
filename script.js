@@ -351,3 +351,33 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
+/* =========================
+   いあきゃら探索者データ読み込み
+========================= */
+
+let iacharaInvestigators = [];
+
+fetch("data/investigators.json")
+    .then(function (response) {
+
+        if (!response.ok) {
+            throw new Error("investigators.json を読み込めませんでした");
+        }
+
+        return response.json();
+
+    })
+    .then(function (data) {
+
+        iacharaInvestigators = data;
+
+        console.log("いあきゃら探索者データを読み込みました");
+        console.log(iacharaInvestigators);
+
+    })
+    .catch(function (error) {
+
+        console.error("探索者データの読み込みに失敗しました:", error);
+
+    });

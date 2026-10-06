@@ -1,0 +1,63 @@
+[
+  {
+    "kind": "character",
+    "data": {
+      "name": "小猫 (xiǎomāo)",
+      "initiative": 14,
+      "externalUrl": "https://iachara.com/view/7517553",
+      "iconUrl": "https://image.iaproject.app/7b2ef071-5102-4e8c-922d-4ce9fb2e77e1",
+      "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=65 【アイデア】\nCCB<=60 【幸運】\nCCB<=60 【知識】\nCCB<=71 【目星】\nCCB<=67 【聞き耳】\nCCB<=25 【図書館】\nCCB<=67 【回避】\nCCB<=51 【こぶし（パンチ）】\nCCB<=60 【拳銃】\nCCB<=42 【応急手当】\nCCB<=40 【言いくるめ】\nCCB<=55 【信用】\nCCB<=69 【値切り】\nCCB<=60 【心理学】\nCCB<=50 【薬学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+      "status": [
+        {
+          "label": "HP",
+          "value": 10,
+          "max": 10
+        },
+        {
+          "label": "MP",
+          "value": 12,
+          "max": 12
+        },
+        {
+          "label": "SAN",
+          "value": 79,
+          "max": 79
+        }
+      ],
+      "params": [
+        {
+          "label": "STR",
+          "value": "8"
+        },
+        {
+          "label": "CON",
+          "value": "11"
+        },
+        {
+          "label": "POW",
+          "value": "12"
+        },
+        {
+          "label": "DEX",
+          "value": "14"
+        },
+        {
+          "label": "APP",
+          "value": "15"
+        },
+        {
+          "label": "SIZ",
+          "value": "9"
+        },
+        {
+          "label": "INT",
+          "value": "13"
+        },
+        {
+          "label": "EDU",
+          "value": "12"
+        }
+      ]
+    }
+  }
+]
