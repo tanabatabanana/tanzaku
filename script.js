@@ -958,7 +958,7 @@ function updateValueDisplay(
     card.appendChild(
         display
     );
-
+}
 /* =========================
    探索者検索・並べ替え
 ========================= */
@@ -1479,10 +1479,3 @@ function sortInvestigators(
 
 }
 
-
-
-/* =========================
-   探索者検索を起動
-========================= */
-
-setupInvestigatorSearch();
