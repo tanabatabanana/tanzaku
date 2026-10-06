@@ -1405,6 +1405,67 @@
   }
 }
  
- 
+,
+{
+  "kind": "character",
+  "data": {
+    "name": "かがち (かがち)",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/15011719",
+    "iconUrl": "https://image.iaproject.app/369af53a-3732-4b4a-a8a0-e58be00723b0",
+    "commands": "CCB<=85 【アイデア】\nCCB<=90 【幸運】\nCCB<=60 【知識】\nCCB<=65 【目星】\nCCB<=45 【聞き耳】\nCCB<=65 【図書館】\nCCB<=28 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=50 【応急手当】\nCCB<=75 【製作（漫画）】\nCCB<=55 【言いくるめ】\nCCB<=71 【コンピューター】\nCCB<=75 【心理学】\nCCB<=21 【生物学】\nCCB<=20 【博物学】",
+    "status": [
+      {
+        "label": "HP",
+        "value": 11,
+        "max": 11
+      },
+      {
+        "label": "MP",
+        "value": 18,
+        "max": 18
+      },
+      {
+        "label": "SAN",
+        "value": 8,
+        "max": 8
+      }
+    ],
+    "params": [
+      {
+        "label": "STR",
+        "value": "9"
+      },
+      {
+        "label": "CON",
+        "value": "10"
+      },
+      {
+        "label": "POW",
+        "value": "18"
+      },
+      {
+        "label": "DEX",
+        "value": "14"
+      },
+      {
+        "label": "APP",
+        "value": "15"
+      },
+      {
+        "label": "SIZ",
+        "value": "11"
+      },
+      {
+        "label": "INT",
+        "value": "17"
+      },
+      {
+        "label": "EDU",
+        "value": "12"
+      }
+    ]
+  }
+}
  
 ]
