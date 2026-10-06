@@ -583,7 +583,7 @@
 {
   "kind": "character",
   "data": {
-    "name": "ミラ・ヘイルマン",
+    "name": "ミラ",
     "edition": 6,
     "initiative": 13,
     "externalUrl": "https://iachara.com/view/12624017",
@@ -1150,6 +1150,257 @@
       {"label": "SIZ", "value": "13"},
       {"label": "INT", "value": "13"},
       {"label": "EDU", "value": "20"}
+    ]
+  }
+}
+,
+{
+  "kind": "character",
+  "data": {
+    "name": "産江 義治 (うぶえ よしはる)",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/13807501",
+    "iconUrl": "https://image.iaproject.app/5f59b0e4-6c20-4457-a32f-8fcdda003b34",
+    "commands": "CCB<=70 【アイデア】\nCCB<=90 【幸運】\nCCB<=75 【知識】\nCCB<=70 【目星】\nCCB<=65 【聞き耳】\nCCB<=70 【図書館】\nCCB<=60 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=45 【キック】\nCCB<=60 【応急手当】\nCCB<=60 【隠す】\nCCB<=80 【製作（お人形）】\nCCB<=65 【言いくるめ】\nCCB<=35 【オカルト】",
+    "status": [
+      {"label": "HP", "value": 10, "max": 10},
+      {"label": "MP", "value": 18, "max": 18},
+      {"label": "SAN", "value": 5, "max": 5}
+    ],
+    "params": [
+      {"label": "STR", "value": "11"},
+      {"label": "CON", "value": "10"},
+      {"label": "POW", "value": "18"},
+      {"label": "DEX", "value": "5"},
+      {"label": "APP", "value": "12"},
+      {"label": "SIZ", "value": "9"},
+      {"label": "INT", "value": "14"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "日浮刻 深 (ひふのとき しん)",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/13923762",
+    "iconUrl": "https://image.iaproject.app/f0a0a24d-2401-44e4-b594-f2e1f04962f3",
+    "commands": "CCB<=90 【アイデア】\nCCB<=45 【幸運】\nCCB<=90 【知識】\nCCB<=85 【目星】\nCCB<=25 【聞き耳】\nCCB<=83 【図書館】\nCCB<=64 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=75 【キック】\nCCB<=55 【組み付き】\nCCB<=71 【マーシャルアーツ】\nCCB<=35 【隠す】\nCCB<=65 【説得】\nCCB<=77 【医学】\nCCB<=5 【クトゥルフ神話】\nCCB<=21 【コンピューター】\nCCB<=85 【心理学】\nCCB<=31 【演技】",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 9, "max": 9},
+      {"label": "SAN", "value": 33, "max": 33}
+    ],
+    "params": [
+      {"label": "STR", "value": "16"},
+      {"label": "CON", "value": "14"},
+      {"label": "POW", "value": "9"},
+      {"label": "DEX", "value": "12"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "12"},
+      {"label": "INT", "value": "18"},
+      {"label": "EDU", "value": "18"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "六尺",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/14252129",
+    "iconUrl": "https://image.iaproject.app/a67b29ac-7881-448a-9b26-cc0ef6ba1b46",
+    "commands": "CCB<=30 【アイデア】\nCCB<=90 【幸運】\nCCB<=90 【知識】\nCCB<=65 【目星】\nCCB<=45 【聞き耳】\nCCB<=65 【図書館】\nCCB<=12 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=70 【応急手当】\nCCB<=50 【説得】\nCCB<=55 【オカルト】\nCCB<=50 【クトゥルフ神話】\nCCB<=80 【芸術（裁縫）】\nCCB<=51 【コンピューター】\nCCB<=75 【心理学】",
+    "status": [
+      {"label": "HP", "value": 12, "max": 12},
+      {"label": "MP", "value": 18, "max": 18},
+      {"label": "SAN", "value": 8, "max": 8}
+    ],
+    "params": [
+      {"label": "STR", "value": "12"},
+      {"label": "CON", "value": "10"},
+      {"label": "POW", "value": "18"},
+      {"label": "DEX", "value": "6"},
+      {"label": "APP", "value": "15"},
+      {"label": "SIZ", "value": "14"},
+      {"label": "INT", "value": "6"},
+      {"label": "EDU", "value": "18"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "サンタ・ムエルテ",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/14292983",
+    "iconUrl": "https://image.iaproject.app/50078674-e797-4ab5-80e8-063e4d6ee289",
+    "commands": "CCB<=65 【アイデア】\nCCB<=70 【幸運】\nCCB<=95 【知識】\nCCB<=56 【目星】\nCCB<=65 【聞き耳】\nCCB<=55 【図書館】\nCCB<=70 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=70 【拳銃】\nCCB<=71 【精神分析】\nCCB<=55 【信用】\nCCB<=80 【医学】\nCCB<=75 【心理学】\nCCB<=61 【薬学】",
+    "status": [
+      {"label": "HP", "value": 14, "max": 14},
+      {"label": "MP", "value": 14, "max": 14},
+      {"label": "SAN", "value": 65, "max": 65}
+    ],
+    "params": [
+      {"label": "STR", "value": "12"},
+      {"label": "CON", "value": "11"},
+      {"label": "POW", "value": "14"},
+      {"label": "DEX", "value": "13"},
+      {"label": "APP", "value": "9"},
+      {"label": "SIZ", "value": "16"},
+      {"label": "INT", "value": "13"},
+      {"label": "EDU", "value": "19"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "閃堂 電弧 (せんどう でんこ)",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/14461369",
+    "iconUrl": "https://image.iaproject.app/f8b87d37-708c-4c6c-8afb-8c9233a2b7b0",
+    "commands": "CCB<=30 【アイデア】\nCCB<=105 【幸運】\nCCB<=115 【知識】\nCCB<=88 【目星】\nCCB<=75 【聞き耳】\nCCB<=25 【図書館】\nCCB<=74 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=80 【長槍】\nCCB<=85 【電撃】\nCCB<=75 【放電】\nCCB<=56 【応急手当】\nCCB<=81 【精神分析】\nCCB<=70 【追跡】\nCCB<=70 【言いくるめ】\nCCB<=4 【クトゥルフ神話】",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 21, "max": 21},
+      {"label": "SAN", "value": 59, "max": 59}
+    ],
+    "params": [
+      {"label": "STR", "value": "19"},
+      {"label": "CON", "value": "12"},
+      {"label": "POW", "value": "21"},
+      {"label": "DEX", "value": "12"},
+      {"label": "APP", "value": "14"},
+      {"label": "SIZ", "value": "13"},
+      {"label": "INT", "value": "6"},
+      {"label": "EDU", "value": "23"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "牧峰 らくてぃ (まきみね)",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/14461535",
+    "iconUrl": "https://image.iaproject.app/3ce3bd45-1fe6-480a-82e0-f575ffb02ff8",
+    "commands": "CCB<=70 【アイデア】\nCCB<=75 【幸運】\nCCB<=75 【知識】\nCCB<=70 【目星】\nCCB<=65 【聞き耳】\nCCB<=25 【図書館】\nCCB<=72 【回避】\nCCB<=55 【こぶし（パンチ）】\nCCB<=75 【キック】\nCCB<=71 【マーシャルアーツ】\nCCB<=45 【精神分析】\nCCB<=6 【言いくるめ】\nCCB<=65 【医学】\nCCB<=80 【心理学】",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 15, "max": 15},
+      {"label": "SAN", "value": 75, "max": 75}
+    ],
+    "params": [
+      {"label": "STR", "value": "10"},
+      {"label": "CON", "value": "12"},
+      {"label": "POW", "value": "15"},
+      {"label": "DEX", "value": "11"},
+      {"label": "APP", "value": "18"},
+      {"label": "SIZ", "value": "14"},
+      {"label": "INT", "value": "14"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "妻紅 みつる (つまべに みつる)",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/14924308",
+    "iconUrl": "https://image.iaproject.app/28655aea-7963-483e-a30a-461f7759fcff",
+    "commands": "CCB<=70 【アイデア】\nCCB<=40 【幸運】\nCCB<=100 【知識】\nCCB<=70 【目星】\nCCB<=65 【聞き耳】\nCCB<=70 【図書館】\nCCB<=64 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=45 【キック】\nCCB<=50 【機械修理】\nCCB<=70 【信用】\nCCB<=75 【英語】\nCCB<=75 【心理学】\nCCB<=71 【生物学】\nCCB<=80 【博物学】",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 8, "max": 8},
+      {"label": "SAN", "value": 40, "max": 40}
+    ],
+    "params": [
+      {"label": "STR", "value": "9"},
+      {"label": "CON", "value": "12"},
+      {"label": "POW", "value": "8"},
+      {"label": "DEX", "value": "12"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "13"},
+      {"label": "INT", "value": "14"},
+      {"label": "EDU", "value": "20"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "夜光 権六 (よびかり ごんろく)",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/14956576",
+    "iconUrl": "https://image.iaproject.app/df183997-9b21-42fd-b734-5a8260fdd85f",
+    "commands": "CCB<=50 【アイデア】\nCCB<=75 【幸運】\nCCB<=55 【知識】\nCCB<=65 【目星】\nCCB<=75 【聞き耳】\nCCB<=55 【図書館】\nCCB<=63 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=80 【日本刀】\nCCB<=60 【応急手当】\nCCB<=50 【隠れる】\nCCB<=45 【信用】",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 15, "max": 15},
+      {"label": "SAN", "value": 75, "max": 75}
+    ],
+    "params": [
+      {"label": "STR", "value": "11"},
+      {"label": "CON", "value": "12"},
+      {"label": "POW", "value": "15"},
+      {"label": "DEX", "value": "14"},
+      {"label": "APP", "value": "11"},
+      {"label": "SIZ", "value": "10"},
+      {"label": "INT", "value": "10"},
+      {"label": "EDU", "value": "11"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "筋引 みか (すじひき)",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/14483663",
+    "iconUrl": "https://image.iaproject.app/b91b2ad3-cb89-4acd-b44e-ad4fddf455ea",
+    "commands": "CCB<=100 【アイデア】\nCCB<=45 【幸運】\nCCB<=55 【知識】\nCCB<=70 【目星】\nCCB<=25 【聞き耳】\nCCB<=75 【図書館】\nCCB<=50 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=27 【投擲】\nCCB<=70 【バット（クリケットのバット）】\nCCB<=43 【応急手当】\nCCB<=60 【隠す】\nCCB<=36 【精神分析】\nCCB<=55 【言いくるめ】\nCCB<=50 【芸術（イカサマ）】\nCCB<=80 【心理学】",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 9, "max": 9},
+      {"label": "SAN", "value": 45, "max": 45}
+    ],
+    "params": [
+      {"label": "STR", "value": "15"},
+      {"label": "CON", "value": "11"},
+      {"label": "POW", "value": "9"},
+      {"label": "DEX", "value": "10"},
+      {"label": "APP", "value": "12"},
+      {"label": "SIZ", "value": "14"},
+      {"label": "INT", "value": "20"},
+      {"label": "EDU", "value": "11"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "海原 鉾 (かいばら ぼう)",
+    "edition": 6,
+    "externalUrl": "https://iachara.com/view/14102590",
+    "iconUrl": "https://image.iaproject.app/de11d594-7884-4751-b1ee-cdcfe4811bad",
+    "commands": "CCB<=85 【アイデア】\nCCB<=90 【幸運】\nCCB<=85 【知識】\nCCB<=65 【目星】\nCCB<=65 【聞き耳】\nCCB<=75 【図書館】\nCCB<=52 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=54 【キック】\nCCB<=70 【信用】\nCCB<=16 【説得】\nCCB<=79 【英語】\nCCB<=75 【医学】\nCCB<=85 【心理学】\nCCB<=80 【博物学】",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 18, "max": 18},
+      {"label": "SAN", "value": 8, "max": 8}
+    ],
+    "params": [
+      {"label": "STR", "value": "8"},
+      {"label": "CON", "value": "9"},
+      {"label": "POW", "value": "18"},
+      {"label": "DEX", "value": "11"},
+      {"label": "APP", "value": "12"},
+      {"label": "SIZ", "value": "12"},
+      {"label": "INT", "value": "17"},
+      {"label": "EDU", "value": "17"}
     ]
   }
 }
