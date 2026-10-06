@@ -2336,7 +2336,7 @@ p {
     ========================= */
 
     .investigator-value {
-        top: -38px;
+        top: -30px;
 
         font-size: 14px;
 
@@ -2348,20 +2348,6 @@ p {
             2px 2px 0 #0047ff;
     }
 
-
-    /* =========================
-       6版・7版
-    ========================= */
-
-    .investigator-edition {
-        top: -38px;
-
-        font-size: 12px;
-
-        padding: 4px 8px;
-
-        border-width: 2px;
-    }
 
 
     /* =========================
