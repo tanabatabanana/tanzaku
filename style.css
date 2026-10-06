@@ -2441,12 +2441,13 @@ p {
 /* =========================
    PC：探索者アイコンのサイズ調整
 ========================= */
+/* =========================
+   PC：探索者アイコンのサイズ調整
+========================= */
 
 @media (min-width: 801px) {
 
-    /*
-       INVESTIGATORSの外枠を少し細くする
-    */
+    /* INVESTIGATORSの外枠 */
 
     .investigators-page {
         max-width: 1400px;
@@ -2458,36 +2459,24 @@ p {
     }
 
 
-    /*
-       探索者カードを並べる範囲
-    */
+    /* 探索者一覧 */
 
-   .investigator-grid {
-    width: 100%;
-    max-width: 1250px;
+    .investigator-grid {
+        width: 100%;
+        max-width: 1250px;
 
-    grid-template-columns:
-        repeat(4, minmax(0, 1fr));
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
 
-    column-gap: 80px;
-    row-gap: 110px;
-}
+        column-gap: 80px;
+        row-gap: 110px;
+    }
 
 
-    /*
-       探索者アイコン全体を少し大きくする
-
-       白いカード
-       ＋
-       水色の写真エリア
-       ＋
-       キャラクター画像
-
-       をまとめて大きくする。
-    */
+    /* 探索者カード */
 
     .investigator-card {
-        width: 130%;
+        width: 115%;
 
         justify-self: center;
     }
