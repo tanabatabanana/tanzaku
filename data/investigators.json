@@ -505,7 +505,7 @@
 {
   "kind": "character",
   "data": {
-    "name": "Phalene・Kowalski (ファレン・コヴァルスキ)",
+    "name": "Phalene・Kowalski (ファレン・コワルスキー)",
     "edition": 6,
     "initiative": 14,
     "externalUrl": "https://iachara.com/view/12524664",
@@ -863,6 +863,293 @@
       {"label": "SIZ", "value": "8"},
       {"label": "INT", "value": "15"},
       {"label": "EDU", "value": "12"}
+    ]
+  }
+},
+
+{
+  "kind": "character",
+  "data": {
+    "name": "朝喰　ふたね",
+    "edition": 6,
+    "initiative": 11,
+    "externalUrl": "https://iachara.com/view/7106867",
+    "iconUrl": "https://image.iaproject.app/c9b0fb67-026a-4339-b667-d10f6f485b03",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=55 【アイデア】\nCCB<=50 【幸運】\nCCB<=70 【知識】\nCCB<=70 【目星】\nCCB<=45 【聞き耳】\nCCB<=76 【図書館】\nCCB<=60 【回避】\nCCB<=61 【こぶし（パンチ）】\nCCB<=76 【拳銃】\nCCB<=65 【応急手当】\nCCB<=45 【説得】\nCCB<=5 【クトゥルフ神話】\nCCB<=71 【人類学】\nCCB<=53 【天文学】",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 10, "max": 10},
+      {"label": "SAN", "value": 50, "max": 50}
+    ],
+    "params": [
+      {"label": "STR", "value": "12"},
+      {"label": "CON", "value": "17"},
+      {"label": "POW", "value": "10"},
+      {"label": "DEX", "value": "11"},
+      {"label": "APP", "value": "8"},
+      {"label": "SIZ", "value": "9"},
+      {"label": "INT", "value": "11"},
+      {"label": "EDU", "value": "14"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "センバ",
+    "edition": 6,
+    "initiative": 16,
+    "externalUrl": "https://iachara.com/view/8184629",
+    "iconUrl": "https://image.iaproject.app/66a371db-9a4a-4892-9eba-939126b0dd97",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=60 【アイデア】\nCCB<=70 【幸運】\nCCB<=75 【知識】\nCCB<=45 【目星】\nCCB<=69 【聞き耳】\nCCB<=69 【図書館】\nCCB<=62 【回避】\nCCB<=58 【こぶし（パンチ）】\nCCB<=79 【ライフル】\nCCB<=78 【応急手当】\nCCB<=70 【精神分析】\nCCB<=50 【運転】\nCCB<=50 【信用】\nCCB<=45 【英語】\nCCB<=65 【医学】\nCCB<=4 【クトゥルフ神話】\nCCB<=6 【心理学】",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 14, "max": 14},
+      {"label": "SAN", "value": 84, "max": 84}
+    ],
+    "params": [
+      {"label": "STR", "value": "8"},
+      {"label": "CON", "value": "12"},
+      {"label": "POW", "value": "14"},
+      {"label": "DEX", "value": "16"},
+      {"label": "APP", "value": "9"},
+      {"label": "SIZ", "value": "10"},
+      {"label": "INT", "value": "12"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "子 鼠陽 (えとはじめ　しょうよう)",
+    "edition": 6,
+    "initiative": 15,
+    "externalUrl": "https://iachara.com/view/9341397",
+    "iconUrl": "https://image.iaproject.app/ac035c7f-d84a-4685-82d2-cb4b91206cf8",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=50 【アイデア】\nCCB<=60 【幸運】\nCCB<=75 【知識】\nCCB<=65 【目星】\nCCB<=65 【聞き耳】\nCCB<=65 【図書館】\nCCB<=70 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=67 【バット】\nCCB<=41 【精神分析】\nCCB<=60 【説得】\nCCB<=75 【医学】\nCCB<=10 【クトゥルフ神話】\nCCB<=6 【薬学】\nCCB<=68 【歴史】",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 12, "max": 12},
+      {"label": "SAN", "value": 60, "max": 60}
+    ],
+    "params": [
+      {"label": "STR", "value": "13"},
+      {"label": "CON", "value": "11"},
+      {"label": "POW", "value": "12"},
+      {"label": "DEX", "value": "15"},
+      {"label": "APP", "value": "8"},
+      {"label": "SIZ", "value": "14"},
+      {"label": "INT", "value": "10"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "谷地 心 (やち こころ)",
+    "edition": 6,
+    "initiative": 9,
+    "externalUrl": "https://iachara.com/view/9505889",
+    "iconUrl": "https://image.iaproject.app/22ff6077-3c44-42eb-a675-213ad124d522",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=65 【アイデア】\nCCB<=70 【幸運】\nCCB<=85 【知識】\nCCB<=74 【目星】\nCCB<=65 【聞き耳】\nCCB<=82 【図書館】\nCCB<=60 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=64 【ナイフ】\nCCB<=40 【応急手当】\nCCB<=48 【忍び歩き】\nCCB<=11 【精神分析】\nCCB<=55 【説得】\nCCB<=71 【古文】\nCCB<=35 【オカルト】\nCCB<=61 【考古学】\nCCB<=11 【コンピューター】\nCCB<=30 【歴史】",
+    "status": [
+      {"label": "HP", "value": 12, "max": 12},
+      {"label": "MP", "value": 14, "max": 14},
+      {"label": "SAN", "value": 75, "max": 75}
+    ],
+    "params": [
+      {"label": "STR", "value": "11"},
+      {"label": "CON", "value": "13"},
+      {"label": "POW", "value": "14"},
+      {"label": "DEX", "value": "9"},
+      {"label": "APP", "value": "11"},
+      {"label": "SIZ", "value": "11"},
+      {"label": "INT", "value": "13"},
+      {"label": "EDU", "value": "17"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "銈膝寺 炎 (けいしつじ えんら)",
+    "edition": 6,
+    "initiative": 10,
+    "externalUrl": "https://iachara.com/view/12934819",
+    "iconUrl": "https://image.iaproject.app/3cd1634a-2aed-46c3-b046-68ae5a916970",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=70 【アイデア】\nCCB<=75 【幸運】\nCCB<=70 【知識】\nCCB<=88 【目星】\nCCB<=71 【聞き耳】\nCCB<=85 【図書館】\nCCB<=65 【回避】\nCCB<=80 【こぶし（パンチ）】\nCCB<=61 【精神分析】\nCCB<=65 【信用】\nCCB<=53 【オカルト】\nCCB<=75 【芸術（五体投地）】",
+    "status": [
+      {"label": "HP", "value": 10, "max": 10},
+      {"label": "MP", "value": 15, "max": 15},
+      {"label": "SAN", "value": 0, "max": 0}
+    ],
+    "params": [
+      {"label": "STR", "value": "18"},
+      {"label": "CON", "value": "8"},
+      {"label": "POW", "value": "15"},
+      {"label": "DEX", "value": "10"},
+      {"label": "APP", "value": "11"},
+      {"label": "SIZ", "value": "12"},
+      {"label": "INT", "value": "14"},
+      {"label": "EDU", "value": "14"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "TEDDY ver 5.2",
+    "edition": 6,
+    "initiative": 11,
+    "externalUrl": "https://iachara.com/view/10351733",
+    "iconUrl": "https://image.iaproject.app/8ef5c3de-bdc5-44e4-99a3-3a4f4eb74995",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=75 【アイデア】\nCCB<=50 【幸運】\nCCB<=75 【知識】\nCCB<=65 【目星】\nCCB<=25 【聞き耳】\nCCB<=75 【図書館】\nCCB<=60 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=72 【投擲】\nCCB<=51 【精神分析】\nCCB<=80 【製作（へいき！）】\nCCB<=80 【医学】\nCCB<=51 【化学】\nCCB<=1 【クトゥルフ神話】\nCCB<=26 【電子工学】",
+    "status": [
+      {"label": "HP", "value": 12, "max": 12},
+      {"label": "MP", "value": 10, "max": 10},
+      {"label": "SAN", "value": 50, "max": 50}
+    ],
+    "params": [
+      {"label": "STR", "value": "9"},
+      {"label": "CON", "value": "12"},
+      {"label": "POW", "value": "10"},
+      {"label": "DEX", "value": "11"},
+      {"label": "APP", "value": "6"},
+      {"label": "SIZ", "value": "12"},
+      {"label": "INT", "value": "15"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "四柳 菊丸 (よつやなぎ きくまる)",
+    "edition": 6,
+    "initiative": 14,
+    "externalUrl": "https://iachara.com/view/13570623",
+    "iconUrl": "https://image.iaproject.app/f5ac9eef-6382-4e8d-9cc1-cbb91cef7978",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=80 【アイデア】\nCCB<=90 【幸運】\nCCB<=65 【知識】\nCCB<=55 【目星】\nCCB<=65 【聞き耳】\nCCB<=85 【図書館】\nCCB<=78 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=45 【キック】\nCCB<=70 【応急手当】\nCCB<=45 【説得】\nCCB<=75 【オカルト】\nCCB<=85 【心理学】",
+    "status": [
+      {"label": "HP", "value": 11, "max": 11},
+      {"label": "MP", "value": 18, "max": 18},
+      {"label": "SAN", "value": 0, "max": 0}
+    ],
+    "params": [
+      {"label": "STR", "value": "11"},
+      {"label": "CON", "value": "11"},
+      {"label": "POW", "value": "18"},
+      {"label": "DEX", "value": "14"},
+      {"label": "APP", "value": "15"},
+      {"label": "SIZ", "value": "11"},
+      {"label": "INT", "value": "16"},
+      {"label": "EDU", "value": "13"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "名称X",
+    "edition": 6,
+    "initiative": 27,
+    "externalUrl": "https://iachara.com/view/13642940",
+    "iconUrl": "https://image.iaproject.app/ddcd2bce-1228-4e80-9d8e-ab24fbd077dc",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=85 【アイデア】\nCCB<=105 【幸運】\nCCB<=75 【知識】\nCCB<=75 【目星】\nCCB<=25 【聞き耳】\nCCB<=55 【図書館】\nCCB<=79 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=70 【触肢】\nCCB<=50 【キス】\nCCB<=70 【応急手当】\nCCB<=70 【隠れる】\nCCB<=80 【忍び歩き】\nCCB<=71 【精神分析】\nCCB<=55 【製作（すまいる）】\nCCB<=75 【高速移動】\nCCB<=65 【芸術（モノマネ）】",
+    "status": [
+      {"label": "HP", "value": 19, "max": 19},
+      {"label": "MP", "value": 21, "max": 21},
+      {"label": "SAN", "value": 125, "max": 125}
+    ],
+    "params": [
+      {"label": "STR", "value": "17"},
+      {"label": "CON", "value": "25"},
+      {"label": "POW", "value": "21"},
+      {"label": "DEX", "value": "27"},
+      {"label": "APP", "value": "10"},
+      {"label": "SIZ", "value": "13"},
+      {"label": "INT", "value": "17"},
+      {"label": "EDU", "value": "15"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "天笠 美雪 (あまがさ みゆき)",
+    "edition": 6,
+    "initiative": 12,
+    "externalUrl": "https://iachara.com/view/13673044",
+    "iconUrl": "https://image.iaproject.app/1c720104-a84a-4bce-bda5-ce1cde33fb13",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=80 【アイデア】\nCCB<=90 【幸運】\nCCB<=65 【知識】\nCCB<=65 【目星】\nCCB<=75 【聞き耳】\nCCB<=60 【図書館】\nCCB<=24 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=80 【包丁】\nCCB<=60 【応急手当】\nCCB<=51 【精神分析】\nCCB<=80 【製作（料理）】\nCCB<=65 【信用】\nCCB<=51 【クトゥルフ神話】\nCCB<=36 【薬学】",
+    "status": [
+      {"label": "HP", "value": 13, "max": 13},
+      {"label": "MP", "value": 18, "max": 18},
+      {"label": "SAN", "value": 8, "max": 8}
+    ],
+    "params": [
+      {"label": "STR", "value": "11"},
+      {"label": "CON", "value": "11"},
+      {"label": "POW", "value": "18"},
+      {"label": "DEX", "value": "12"},
+      {"label": "APP", "value": "14"},
+      {"label": "SIZ", "value": "14"},
+      {"label": "INT", "value": "16"},
+      {"label": "EDU", "value": "13"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "三足 九朗 (みあし くろう)",
+    "edition": 6,
+    "initiative": 12,
+    "externalUrl": "https://iachara.com/view/13794111",
+    "iconUrl": "https://image.iaproject.app/8df8f4d1-197e-4e33-a64a-4bfe7c3aba00",
+    "commands": "1d100<={SAN} 【アイデア】\nCCB<=65 【アイデア】\nCCB<=80 【幸運】\nCCB<=60 【知識】\nCCB<=75 【目星】\nCCB<=75 【聞き耳】\nCCB<=60 【図書館】\nCCB<=24 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=20 【隠す】\nCCB<=65 【運転（自動車）】\nCCB<=65 【言いくるめ】\nCCB<=40 【医学】\nCCB<=20 【経理】\nCCB<=85 【心理学】",
+    "status": [
+      {"label": "HP", "value": 10, "max": 10},
+      {"label": "MP", "value": 16, "max": 16},
+      {"label": "SAN", "value": 80, "max": 80}
+    ],
+    "params": [
+      {"label": "STR", "value": "7"},
+      {"label": "CON", "value": "7"},
+      {"label": "POW", "value": "16"},
+      {"label": "DEX", "value": "12"},
+      {"label": "APP", "value": "12"},
+      {"label": "SIZ", "value": "13"},
+      {"label": "INT", "value": "13"},
+      {"label": "EDU", "value": "12"}
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "無常 (むじょう)",
+    "edition": 6,
+    "initiative": 12,
+    "externalUrl": "https://iachara.com/view/13804687",
+    "iconUrl": "https://image.iaproject.app/8bb9ef1b-4cb0-4821-aed6-3bd17889232c",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=65 【アイデア】\nCCB<=55 【幸運】\nCCB<=100 【知識】\nCCB<=75 【目星】\nCCB<=65 【聞き耳】\nCCB<=65 【図書館】\nCCB<=64 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=61 【マーシャルアーツ】\nCCB<=45 【拳銃】\nCCB<=70 【応急手当】\nCCB<=71 【精神分析】\nCCB<=80 【操縦（絡繰）】\nCCB<=70 【信用】\nCCB<=32 【化学】",
+    "status": [
+      {"label": "HP", "value": 14, "max": 14},
+      {"label": "MP", "value": 11, "max": 11},
+      {"label": "SAN", "value": 55, "max": 55}
+    ],
+    "params": [
+      {"label": "STR", "value": "15"},
+      {"label": "CON", "value": "14"},
+      {"label": "POW", "value": "11"},
+      {"label": "DEX", "value": "12"},
+      {"label": "APP", "value": "11"},
+      {"label": "SIZ", "value": "13"},
+      {"label": "INT", "value": "13"},
+      {"label": "EDU", "value": "20"}
     ]
   }
 }

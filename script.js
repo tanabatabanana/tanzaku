@@ -644,7 +644,6 @@ function getValue(data, label) {
 }
 
 
-
 /* =========================
    技能を取得
 ========================= */
@@ -656,46 +655,48 @@ function getSkills(data) {
         !data.data ||
         !data.data.commands
     ) {
-
         return [];
-
     }
 
-
     const commands =
-        data.data.commands;
-
+        String(data.data.commands);
 
     const skills = [];
 
+    /*
+       いあきゃらのコマンド表記には
+       
+       CCB<=70 【目星】
+       1D100<=70 【目星】
+
+       など複数の形があるため、
+       両方に対応する。
+    */
 
     const regex =
-        /CCB<=([0-9]+)\s+【([^】]+)】/g;
-
+        /(?:CCB|1D100)\s*<=\s*(\d+)\s*【([^】]+)】/gi;
 
     let match;
 
-
     while (
-        (match = regex.exec(commands))
-        !== null
+        (match = regex.exec(commands)) !== null
     ) {
 
         skills.push({
 
-            name: match[2],
+            name:
+                match[2].trim(),
 
-            value: Number(match[1])
+            value:
+                Number(match[1])
 
         });
 
     }
 
-
     return skills;
 
 }
-
 
 
 /* =========================
