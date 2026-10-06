@@ -2711,12 +2711,6 @@ p {
     }
 
 }
-/* 探索者画像サイズを強制的に元の表示へ */
-.investigator-card .photo-area img {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    max-height: none;
-    transform: none;
-    object-fit: contain;
+.photo-area img {
+    transform: scale(1.15);
 }
