@@ -11,10 +11,12 @@
     font-family: "Y1PixelationSerif";
     src: url("fonts/Y1PixelationSerif.otf") format("opentype");
 }
+
 @font-face {
     font-family: "BunanMarker";
     src: url("fonts/BunanMarker.otf") format("opentype");
 }
+
 
 /* =========================
    全体・背景
@@ -119,6 +121,7 @@ body {
         0 0 10px white;
 }
 
+
 /* =========================
    横に流れるディスプレイ
 ========================= */
@@ -185,6 +188,7 @@ body {
 
 }
 
+
 /* =========================
    メインタイトル
 ========================= */
@@ -218,7 +222,6 @@ h1 {
     height: 0;
 
     overflow: hidden;
-    
 }
 
 
@@ -232,10 +235,10 @@ p {
     text-align: center;
 
     font-size: 28px;
-    font-family: "AsWinterBegins", serif;
-    font-weight: bold;
-    
 
+    font-family: "AsWinterBegins", serif;
+
+    font-weight: bold;
 }
 
 
@@ -326,7 +329,9 @@ p {
 }
 
 
-/* テプラがはがれる動き */
+/* =========================
+   テプラがはがれる動き
+========================= */
 
 @keyframes peel1 {
 
@@ -399,6 +404,7 @@ p {
 /* =========================
    INVESTIGATORS エリア
 ========================= */
+
 .investigators-page {
     max-width: 1600px;
 
@@ -438,10 +444,12 @@ p {
 /* =========================
    探索者一覧
 ========================= */
+
 .investigator-grid {
     width: 100%;
 
     max-width: 1500px;
+
     margin: 0 auto;
 
     display: grid;
@@ -456,6 +464,7 @@ p {
 
     z-index: 2;
 }
+
 
 /* =========================
    探索者カード
@@ -501,39 +510,41 @@ p {
 
     aspect-ratio: 3 / 4;
 
-    /* ★通常時の背景色 */
     background-color: #61b3ff;
 
-    /* ラベルを写真の外へ飛び出させる */
+    /*
+       シナリオラベルが外へ出られるようにする。
+       ここは overflow: hidden にしない。
+    */
     overflow: visible;
 
     transition:
         background-color 0.15s steps(2);
 }
 
+
 /* =========================
-   人物アイコンの大きさ
+   人物アイコン
 ========================= */
 
 .photo-area img {
     position: absolute;
 
-    top: -5%;
-    left: -5%;
+    top: 0;
+    left: 0;
 
-    width: 110%;
-    height: 110%;
+    width: 100%;
+    height: 100%;
 
     object-fit: contain;
 
     display: block;
 }
 
+
 /* =========================
    写真の切り替え
 ========================= */
-
-/* 通常画像 */
 
 .photo-normal {
     opacity: 1;
@@ -542,22 +553,6 @@ p {
         opacity 0.3s ease;
 }
 
-
-/* ホバー画像 */
-
-.photo-hover {
-    opacity: 0;
-
-    transition:
-        opacity 0.3s ease;
-
-    transition-delay: 0.15s;
-}
-
-
-/* =========================
-   ホバー画像
-========================= */
 
 .photo-hover {
     position: absolute;
@@ -571,11 +566,12 @@ p {
 
     opacity: 0;
 
-    /* 最初から通常画像より上 */
     z-index: 2;
 
     transition:
         opacity 0.2s ease;
+
+    transition-delay: 0.15s;
 }
 
 
@@ -583,14 +579,10 @@ p {
    ホバーしたとき
 ========================= */
 
-/* 背景を青くする */
-
 .investigator-card:hover .photo-area {
     background-color: #0066ff;
 }
 
-
-/* ホバー画像を最前面にすぐ表示 */
 
 .investigator-card:hover .photo-hover {
     opacity: 1;
@@ -598,8 +590,6 @@ p {
     z-index: 3;
 }
 
-
-/* 通常画像は少し遅れて消える */
 
 .investigator-card:hover .photo-normal {
     opacity: 0;
@@ -619,7 +609,11 @@ p {
 .investigator-card:not(:hover) .photo-hover {
     transition-delay: 0.15s;
 }
-/* ホバー画像なし */
+
+
+/* =========================
+   ホバー画像なし
+========================= */
 
 .investigator-card.no-hover:hover .photo-normal {
     opacity: 1;
@@ -633,7 +627,6 @@ p {
 .scenario-bubble {
     position: absolute;
 
-    /* 写真の左上から飛び出す */
     top: -65px;
     left: -20px;
 
@@ -663,10 +656,10 @@ p {
 
     border: 3px solid black;
 
-    /* 少しなみなみ */
     border-radius:
         12px 20px 14px 18px
-        / 18px 12px 20px 14px;
+        /
+        18px 12px 20px 14px;
 
     opacity: 0;
 
@@ -686,8 +679,6 @@ p {
 }
 
 
-/* ホバーしたらポップ */
-
 .photo-area:hover .scenario-bubble {
     opacity: 1;
 
@@ -702,16 +693,20 @@ p {
 .scenario-bubble::before,
 .scenario-bubble::after {
     content: none;
+
     display: none;
 }
-/* ========================= 
-   名前ラベル 
+
+
+/* =========================
+   名前ラベル
 ========================= */
 
 .name-label {
     position: absolute;
 
     left: 50%;
+
     bottom: -35px;
 
     background: white;
@@ -719,7 +714,9 @@ p {
     color: black;
 
     font-family: "AsWinterBegins", serif;
+
     font-size: 20px;
+
     font-weight: normal;
 
     padding: 10px 25px;
@@ -741,6 +738,7 @@ p {
     display: inline-block;
 
     font-family: "AsWinterBegins", serif;
+
     font-weight: normal;
 
     text-shadow:
@@ -751,98 +749,44 @@ p {
 }
 
 
-/* ========================= 
-   探索者カード
-========================= */
-
-.investigator-card {
-    opacity: 1;
-}
-/* ========================= 
+/* =========================
    カードのふわふわ
-   縦列が同じ動きにならないようにする
 ========================= */
 
-/* 1人目 */
 .investigator-card:nth-child(8n + 1) {
     animation: float1 4.7s ease-in-out infinite;
 }
 
-/* 2人目 */
 .investigator-card:nth-child(8n + 2) {
     animation: float2 5.3s ease-in-out infinite;
 }
 
-/* 3人目 */
 .investigator-card:nth-child(8n + 3) {
     animation: float3 4.1s ease-in-out infinite;
 }
 
-/* 4人目 */
 .investigator-card:nth-child(8n + 4) {
     animation: float4 5.8s ease-in-out infinite;
 }
-
-
-/* 5人目 → 1人目と違う動き */
 
 .investigator-card:nth-child(8n + 5) {
     animation: float3 5.1s ease-in-out infinite;
 }
 
-
-/* 6人目 */
-
 .investigator-card:nth-child(8n + 6) {
     animation: float4 4.4s ease-in-out infinite;
 }
-
-
-/* 7人目 */
 
 .investigator-card:nth-child(8n + 7) {
     animation: float1 5.6s ease-in-out infinite;
 }
 
-
-/* 8人目 */
-
 .investigator-card:nth-child(8n) {
     animation: float2 4.3s ease-in-out infinite;
 }
+
+
 /* =========================
-   スクロール登場アニメーション
-========================= */
-/* =========================
-   探索者カード
-   ========================= */
-
-.investigator-card {
-    position: relative;
-
-    display: block;
-
-    background: white;
-
-    padding: 5px;
-
-    color: black;
-
-    text-decoration: none;
-
-    cursor: pointer;
-
-    box-shadow:
-        4px 5px 3px rgba(0, 0, 0, 0.28);
-
-    transition:
-        box-shadow 0.3s ease;
-
-
-
-
-}
-/* ========================= 
    ふわふわアニメーション
 ========================= */
 
@@ -914,7 +858,7 @@ p {
 }
 
 
-/* ========================= 
+/* =========================
    名前ラベルを別々にふわふわ
 ========================= */
 
@@ -1010,6 +954,7 @@ p {
 
 }
 
+
 /* =========================
    クリック：星が弾ける
 ========================= */
@@ -1051,10 +996,7 @@ p {
 
         opacity: 0;
     }
-
 }
-
-
 /* =========================
    浮かぶネオン星
 ========================= */
@@ -1100,7 +1042,9 @@ p {
 }
 
 
-/* 上昇 */
+/* =========================
+   星が上昇する
+========================= */
 
 @keyframes floatingUp {
 
@@ -1131,7 +1075,9 @@ p {
 }
 
 
-/* 横揺れ */
+/* =========================
+   星が横に揺れる
+========================= */
 
 @keyframes underwaterSway {
 
@@ -1159,6 +1105,7 @@ p {
 /* =========================
    星の種類
 ========================= */
+
 
 /* 十字 */
 
@@ -1257,6 +1204,7 @@ p {
     );
 }
 
+
 /* =========================
    WATER LINKS
 ========================= */
@@ -1300,7 +1248,8 @@ p {
 
     border-radius:
         50% 50% 45% 55%
-        / 40% 35% 65% 60%;
+        /
+        40% 35% 65% 60%;
 }
 
 
@@ -1349,6 +1298,10 @@ p {
         wave3 3.5s ease-in-out infinite alternate;
 }
 
+
+/* =========================
+   波のアニメーション
+========================= */
 
 @keyframes wave1 {
 
@@ -1413,7 +1366,6 @@ p {
     position: absolute;
 
     top: 2%;
-
     left: 50%;
 
     display: block;
@@ -1535,6 +1487,8 @@ p {
 }
 
 
+/* ABOUTが沈む */
+
 @keyframes aboutSink {
 
     0%,
@@ -1556,7 +1510,7 @@ p {
 
 
 /* =========================
-   タイトル
+   水エリアのタイトル
 ========================= */
 
 .water-title {
@@ -1678,6 +1632,10 @@ p {
 }
 
 
+/* =========================
+   泡が上昇する
+========================= */
+
 @keyframes bubbleUp {
 
     0% {
@@ -1706,50 +1664,9 @@ p {
     }
 
 }
-
-
 /* =========================
    スマホ対応
 ========================= */
-
-@media (max-width: 800px) {
-
-    .water-links {
-        height: 800px;
-
-        margin-top: 120px;
-    }
-
-
-    .gallery-card,
-    .about-card {
-        padding:
-            20px
-            25px;
-
-        width: 230px;
-    }
-
-
-    .water-title {
-        font-size: 32px;
-    }
-
-
-    .water-links p {
-        font-size: 13px;
-    }
-
-
-    .water-about {
-        top: 400px;
-    }
-
-}
-
-/* =========================================
-   スマホ用レイアウト
-   ========================================= */
 
 @media (max-width: 800px) {
 
@@ -1768,23 +1685,32 @@ p {
 
     .site-header {
         height: auto;
+
         min-height: 60px;
+
         padding: 12px 15px;
 
         flex-wrap: wrap;
+
         gap: 10px;
     }
+
 
     .header-title {
         font-size: 18px;
     }
 
+
     .header-menu {
         gap: 15px;
+
         margin-left: auto;
+
         flex-wrap: wrap;
+
         justify-content: flex-end;
     }
+
 
     .header-menu a {
         font-size: 14px;
@@ -1799,13 +1725,17 @@ p {
         padding-top: 25px;
     }
 
+
     .gallery-set {
         gap: 8px;
+
         padding-right: 8px;
     }
 
+
     .gallery-set img {
         width: 145px;
+
         border-radius: 10px;
     }
 
@@ -1816,14 +1746,20 @@ p {
 
     h1 {
         font-size: 48px;
+
         margin-top: 55px;
+
         margin-bottom: 15px;
+
         padding: 0 10px;
     }
 
+
     p {
         font-size: 20px;
+
         padding: 0 15px;
+
         box-sizing: border-box;
     }
 
@@ -1834,42 +1770,58 @@ p {
 
     .link-menu {
         width: calc(100% - 30px);
+
         margin: 50px auto 0;
 
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+            repeat(2, 1fr);
 
         gap: 22px 12px;
 
         box-sizing: border-box;
     }
 
+
     .glitch-link {
         font-size: 17px;
+
         padding: 9px 8px;
 
         text-align: center;
 
         box-sizing: border-box;
+
         white-space: nowrap;
     }
 
-    /* PC版の大きなズレを少し小さくする */
 
     .glitch-link:nth-child(1) {
-        transform: rotate(-3deg) translateY(-4px);
+        transform:
+            rotate(-3deg)
+            translateY(-4px);
     }
+
 
     .glitch-link:nth-child(2) {
-        transform: rotate(2deg) translateY(4px);
+        transform:
+            rotate(2deg)
+            translateY(4px);
     }
+
 
     .glitch-link:nth-child(3) {
-        transform: rotate(-1deg) translateY(-3px);
+        transform:
+            rotate(-1deg)
+            translateY(-3px);
     }
 
+
     .glitch-link:nth-child(4) {
-        transform: rotate(3deg) translateY(4px);
+        transform:
+            rotate(3deg)
+            translateY(4px);
     }
 
 
@@ -1912,7 +1864,8 @@ p {
     .investigator-grid {
         width: 100%;
 
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
 
         gap: 65px 12px;
     }
@@ -1924,6 +1877,7 @@ p {
 
     .investigator-card {
         width: 100%;
+
         min-width: 0;
 
         box-sizing: border-box;
@@ -1947,9 +1901,11 @@ p {
 
     .scenario-bubble {
         top: -48px;
+
         left: -5px;
 
-        max-width: calc(100vw - 35px);
+        max-width:
+            calc(100vw - 35px);
 
         box-sizing: border-box;
 
@@ -1972,7 +1928,8 @@ p {
     .name-label {
         bottom: -28px;
 
-        max-width: calc(100% - 8px);
+        max-width:
+            calc(100% - 8px);
 
         box-sizing: border-box;
 
@@ -1983,10 +1940,6 @@ p {
         white-space: nowrap;
     }
 
-
-    /* =========================
-       名前の文字
-    ========================= */
 
     .name-text {
         font-size: inherit;
@@ -2003,35 +1956,40 @@ p {
         margin-top: 120px;
     }
 
+
     .gallery-card,
     .about-card {
         padding: 20px 25px;
+
         width: 230px;
+
         box-sizing: border-box;
     }
 
+
     .water-title {
         font-size: 32px;
+
         letter-spacing: 12px;
     }
+
 
     .water-links p {
         font-size: 13px;
     }
+
 
     .water-about {
         top: 400px;
     }
 
 
-    /* =========================
-       スマホではカードを少し小さく
-       ========================= */
-
     .gallery-card {
         border-width: 3px;
+
         padding: 18px 22px;
     }
+
 
     .about-card {
         padding: 18px 22px;
@@ -2039,288 +1997,60 @@ p {
 
 
     /* =========================
-       スマホで画面外にはみ出しやすい泡を調整
+       泡の位置
     ========================= */
 
     .bubble1 {
         left: 10%;
     }
 
+
     .bubble2 {
         left: 25%;
     }
+
 
     .bubble3 {
         left: 60%;
     }
 
+
     .bubble4 {
         left: 78%;
     }
 
+
     .bubble5 {
         left: 40%;
     }
+
 
     .bubble6 {
         left: 58%;
     }
 
 }
-/* =========================
-   スマホ：1タップで画像切り替え
-========================= */
 
-@media (max-width: 800px) {
 
-    .investigator-card.mobile-tapped .photo-normal {
-        opacity: 0;
-    }
-
-    .investigator-card.mobile-tapped .photo-hover {
-        opacity: 1;
-    }
-
-}
-/* =========================
-   探索者：検索・ソート
-========================= */
-
-.investigator-tools {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto 70px;
-
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 30px;
-
-    flex-wrap: wrap;
-}
-
-.stat-sort,
-.skill-search {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.stat-sort label,
-.skill-search label {
-    font-family: "Y1PixelationSerif", sans-serif;
-    font-size: 16px;
-    color: #0047ff;
-}
-
-.stat-sort select,
-.skill-search input {
-    height: 42px;
-    box-sizing: border-box;
-
-    border: 3px solid #0047ff;
-    background: rgba(255,255,255,0.9);
-
-    font-family: "Y1PixelationSerif", sans-serif;
-    font-size: 16px;
-
-    padding: 5px 12px;
-}
-
-.stat-sort select {
-    width: 190px;
-}
-
-.skill-search input {
-    width: 240px;
-}
-
-.stat-sort select:focus,
-.skill-search input:focus {
-    outline: none;
-    box-shadow: 0 0 12px rgba(0,71,255,0.5);
-}
-/* =========================
-   探索者：版フィルター
-========================= */
-
-.edition-filter {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.edition-filter label {
-    font-family: "Y1PixelationSerif", sans-serif;
-    font-size: 16px;
-    color: #0047ff;
-}
-
-.edition-filter select {
-    width: 150px;
-    height: 42px;
-
-    box-sizing: border-box;
-
-    border: 3px solid #0047ff;
-
-    background: rgba(255,255,255,0.9);
-
-    font-family: "Y1PixelationSerif", sans-serif;
-    font-size: 16px;
-
-    padding: 5px 12px;
-}
-
-.edition-filter select:focus {
-    outline: none;
-
-    box-shadow:
-        0 0 12px rgba(0,71,255,0.5);
-}
-
-
-/* =========================
-   7版 / 6版 表示
-========================= */
-
-.investigator-edition {
-    position: absolute;
-
-    top: -42px;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    z-index: 19;
-
-    padding: 5px 10px;
-
-    background: white;
-
-    border: 2px solid #0047ff;
-
-    font-family:
-        "Y1PixelationSerif",
-        sans-serif;
-
-    font-size: 14px;
-
-    white-space: nowrap;
-}
-
-
-/* =========================
-   スマホ
-========================= */
-
-@media (max-width: 800px) {
-
-    .edition-filter {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .edition-filter select {
-        width: 100%;
-    }
-
-    .investigator-edition {
-        top: -38px;
-
-        font-size: 12px;
-
-        padding: 4px 8px;
-
-        border-width: 2px;
-    }
-
-}
-
-
-/* =========================
-   選択した能力値・技能値
-========================= */
-
-.investigator-value {
-    position: absolute;
-
-    top: -42px;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    z-index: 20;
-
-    padding: 6px 12px;
-
-    background: #fff;
-
-    border: 3px solid #0047ff;
-
-    font-family: "AsWinterBegins", sans-serif;
-    font-size: 17px;
-
-    white-space: nowrap;
-
-    box-shadow: 3px 3px 0 #0047ff;
-}
-
-.investigator-card {
-    position: relative;
-}
-
-
-/* =========================
-   スマホ
-========================= */
-
-@media (max-width: 800px) {
-
-    .investigator-tools {
-        width: calc(100% - 20px);
-        margin-bottom: 60px;
-
-        gap: 18px;
-
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .stat-sort,
-    .skill-search {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .stat-sort select,
-    .skill-search input {
-        width: 100%;
-    }
-
-    .investigator-value {
-        top: -38px;
-        font-size: 14px;
-        padding: 5px 9px;
-        border-width: 2px;
-        box-shadow: 2px 2px 0 #0047ff;
-    }
-
-}
 /* =========================
    探索者検索・絞り込み
 ========================= */
 
 .investigator-tools {
     width: 100%;
+
     max-width: 900px;
+
     margin: 0 auto 70px;
 
     display: flex;
+
     justify-content: center;
+
     align-items: flex-end;
 
     gap: 30px;
+
     flex-wrap: wrap;
 }
 
@@ -2333,7 +2063,9 @@ p {
 .skill-search,
 .edition-filter {
     display: flex;
+
     flex-direction: column;
+
     gap: 8px;
 }
 
@@ -2345,7 +2077,9 @@ p {
 .stat-sort label,
 .skill-search label,
 .edition-filter label {
-    font-family: "Y1PixelationSerif", sans-serif;
+    font-family:
+        "Y1PixelationSerif",
+        sans-serif;
 
     font-size: 16px;
 
@@ -2368,9 +2102,12 @@ p {
 
     border: 3px solid #0047ff;
 
-    background: rgba(255, 255, 255, 0.9);
+    background:
+        rgba(255, 255, 255, 0.9);
 
-    font-family: "Y1PixelationSerif", sans-serif;
+    font-family:
+        "Y1PixelationSerif",
+        sans-serif;
 
     font-size: 16px;
 
@@ -2388,9 +2125,11 @@ p {
     width: 190px;
 }
 
+
 .skill-search input {
     width: 240px;
 }
+
 
 .edition-filter select {
     width: 150px;
@@ -2407,7 +2146,8 @@ p {
     outline: none;
 
     box-shadow:
-        0 0 12px rgba(0, 71, 255, 0.5);
+        0 0 12px
+        rgba(0, 71, 255, 0.5);
 }
 
 
@@ -2419,19 +2159,23 @@ p {
     position: absolute;
 
     top: -42px;
+
     left: 50%;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
     z-index: 20;
 
     padding: 6px 12px;
 
-    background: #fff;
+    background: white;
 
     border: 3px solid #0047ff;
 
-    font-family: "AsWinterBegins", sans-serif;
+    font-family:
+        "AsWinterBegins",
+        sans-serif;
 
     font-size: 17px;
 
@@ -2450,9 +2194,11 @@ p {
     position: absolute;
 
     top: -42px;
+
     left: 50%;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
     z-index: 19;
 
@@ -2476,40 +2222,45 @@ p {
    LOST
 ========================= */
 
+
 /*
    ロスト探索者は
    写真エリアそのものの背景を赤にする。
-
 */
+
 .investigator-card.is-lost .photo-area {
     background-color: #61b3ff;
 }
+
 
 .investigator-card.is-lost:hover .photo-area {
     background-color: red;
 }
 
+
 /*
    LOST探索者の通常画像
-
-   背景の赤が見えるように、
-   画像そのものを少し透過させる。
 */
+
 .investigator-card.is-lost .photo-normal {
     opacity: 1;
 }
+
 
 .investigator-card.is-lost .photo-hover {
     opacity: 0;
 }
 
+
 .investigator-card.is-lost:hover .photo-normal {
     opacity: 0;
 }
 
+
 .investigator-card.is-lost:hover .photo-hover {
     opacity: 1;
 }
+
 
 /*
    LOST探索者にカーソルを合わせたとき
@@ -2543,11 +2294,10 @@ p {
 }
 
 
-/*
-   ホバー時だけ黒いグラデーション
-*/
+/* ホバー時だけ黒いグラデーション */
 
-.investigator-card.is-lost:hover .photo-area::after {
+.investigator-card.is-lost:hover
+.photo-area::after {
     opacity: 1;
 }
 
@@ -2560,6 +2310,7 @@ p {
     position: absolute;
 
     right: 10px;
+
     bottom: 10px;
 
     z-index: 10;
@@ -2593,11 +2344,8 @@ p {
 }
 
 
-/*
-   ホバー時だけ LOST を表示
-*/
-
-.investigator-card.is-lost:hover .lost-label {
+.investigator-card.is-lost:hover
+.lost-label {
     opacity: 1;
 
     transform:
@@ -2606,14 +2354,10 @@ p {
 
 
 /* =========================
-   スマホ
+   検索・絞り込み スマホ
 ========================= */
 
 @media (max-width: 800px) {
-
-    /* =========================
-       検索・絞り込み
-    ========================= */
 
     .investigator-tools {
         width: calc(100% - 20px);
@@ -2680,22 +2424,6 @@ p {
     /* =========================
        LOST
     ========================= */
-.investigator-card.is-lost .photo-normal {
-    opacity: 1;
-}
-
-.investigator-card.is-lost .photo-hover {
-    opacity: 0;
-}
-
-.investigator-card.is-lost:hover .photo-normal {
-    opacity: 0;
-}
-
-.investigator-card.is-lost:hover .photo-hover {
-    opacity: 1;
-}
-
 
     .investigator-card .lost-label {
         right: 7px;
@@ -2709,24 +2437,59 @@ p {
 
 }
 
+
 /* =========================
-   探索者アイコン
+   PC：探索者アイコンのサイズ調整
 ========================= */
 
 @media (min-width: 801px) {
 
-    .investigator-grid {
-        width: 100%;
-        max-width: 1500px;
+    /*
+       INVESTIGATORSの外枠を少し細くする
+    */
 
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+    .investigators-page {
+        max-width: 1400px;
 
-        column-gap: 45px;
-        row-gap: 90px;
+        box-sizing: border-box;
+
+        padding-left: 30px;
+        padding-right: 30px;
     }
 
+
+    /*
+       探索者カードを並べる範囲
+    */
+
+   .investigator-grid {
+    width: 100%;
+    max-width: 1250px;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    column-gap: 80px;
+    row-gap: 110px;
+}
+
+
+    /*
+       探索者アイコン全体を少し大きくする
+
+       白いカード
+       ＋
+       水色の写真エリア
+       ＋
+       キャラクター画像
+
+       をまとめて大きくする。
+    */
+
     .investigator-card {
-        width: 100%;
+        width: 130%;
+
+        justify-self: center;
     }
 
 }

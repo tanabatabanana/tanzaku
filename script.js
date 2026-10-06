@@ -1301,10 +1301,148 @@ function setupInvestigatorSearch() {
     );
 
 }
+/* =========================
+   探索者検索・並べ替え
+========================= */
+
+function setupInvestigatorSearch() {
+
+    const grid =
+        document.querySelector(".investigator-grid");
+
+    const statSelect =
+        document.querySelector("#stat-select");
+
+    const skillInput =
+        document.querySelector("#skill-search-input");
+
+    const editionSelect =
+        document.querySelector("#edition-select");
+
+
+    /* =========================
+       HTML確認
+    ========================= */
+
+    if (
+        !grid ||
+        !statSelect ||
+        !skillInput ||
+        !editionSelect
+    ) {
+
+        console.error(
+            "探索者検索用のHTMLが見つかりません"
+        );
+
+        return;
+    }
+
+
+    /* =========================
+       探索者カード取得
+    ========================= */
+
+    const cards =
+        Array.from(
+            grid.querySelectorAll(
+                ".investigator-card"
+            )
+        );
+
+
+    /* =========================
+       元の並び順を保存
+    ========================= */
+
+    cards.forEach(
+        function (card, index) {
+
+            card.dataset.originalOrder =
+                index;
+
+        }
+    );
+
+
+    /* =========================
+       能力値並び替え
+    ========================= */
+
+    statSelect.addEventListener(
+        "change",
+        function () {
+
+            sortInvestigators(
+                grid,
+                cards,
+                statSelect.value,
+                skillInput.value,
+                editionSelect.value
+            );
+
+        }
+    );
+
+
+    /* =========================
+       技能検索
+    ========================= */
+
+    skillInput.addEventListener(
+        "input",
+        function () {
+
+            sortInvestigators(
+                grid,
+                cards,
+                statSelect.value,
+                skillInput.value,
+                editionSelect.value
+            );
+
+        }
+    );
+
+
+    /* =========================
+       版・状態フィルター
+    ========================= */
+
+    editionSelect.addEventListener(
+        "change",
+        function () {
+
+            sortInvestigators(
+                grid,
+                cards,
+                statSelect.value,
+                skillInput.value,
+                editionSelect.value
+            );
+
+        }
+    );
+
+
+    /* =========================
+       最初の表示
+    ========================= */
+
+    sortInvestigators(
+        grid,
+        cards,
+        "",
+        "",
+        ""
+    );
+
+}
+
 
 
 /* =========================
-   並べ替え・検索・絞り込み
+   探索者を検索・並べ替え
 ========================= */
 
 function sortInvestigators(
@@ -1323,6 +1461,10 @@ function sortInvestigators(
 
     const results = [];
 
+
+    /* =========================
+       全カードを確認
+    ========================= */
 
     cards.forEach(
         function (card) {
@@ -1411,7 +1553,7 @@ function sortInvestigators(
 
 
             /* =========================
-               6版
+               6版フィルター
             ========================= */
 
             if (
@@ -1427,14 +1569,13 @@ function sortInvestigators(
                         "none";
 
                     return;
-
                 }
 
             }
 
 
             /* =========================
-               7版
+               7版フィルター
             ========================= */
 
             if (
@@ -1450,14 +1591,13 @@ function sortInvestigators(
                         "none";
 
                     return;
-
                 }
 
             }
 
 
             /* =========================
-               生存
+               生存フィルター
             ========================= */
 
             if (
@@ -1470,14 +1610,13 @@ function sortInvestigators(
                         "none";
 
                     return;
-
                 }
 
             }
 
 
             /* =========================
-               ロスト
+               ロストフィルター
             ========================= */
 
             if (
@@ -1490,7 +1629,6 @@ function sortInvestigators(
                         "none";
 
                     return;
-
                 }
 
             }
@@ -1510,7 +1648,6 @@ function sortInvestigators(
                         "none";
 
                     return;
-
                 }
 
 
@@ -1532,15 +1669,18 @@ function sortInvestigators(
                     );
 
 
+                /* 技能がなければ非表示 */
+
                 if (!matchedSkill) {
 
                     card.style.display =
                         "none";
 
                     return;
-
                 }
 
+
+                /* 技能があれば表示 */
 
                 card.style.display =
                     "";
@@ -1606,7 +1746,7 @@ function sortInvestigators(
 
 
     /* =========================
-       数値の大きい順
+       数値の大きい順に並べる
     ========================= */
 
     results.sort(
@@ -1624,6 +1764,8 @@ function sortInvestigators(
                     : b.value;
 
 
+            /* 数値が違えば大きい順 */
+
             if (
                 bValue !== aValue
             ) {
@@ -1635,6 +1777,11 @@ function sortInvestigators(
 
             }
 
+
+            /* =========================
+               同じ数値なら
+               元の並び順
+            ========================= */
 
             return (
                 Number(
@@ -1652,7 +1799,7 @@ function sortInvestigators(
 
 
     /* =========================
-       カードを並べ直す
+       カードを実際に並べ直す
     ========================= */
 
     results.forEach(
@@ -1675,8 +1822,9 @@ function sortInvestigators(
 }
 
 
+
 /* =========================
-   読み込み完了後に起動
+   探索者検索を起動
 ========================= */
 
 setupInvestigatorSearch();
