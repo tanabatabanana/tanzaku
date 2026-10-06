@@ -2708,26 +2708,25 @@ p {
     }
 
 }
+
 /* =========================
-   探索者アイコンを大きくする
-   ========================= */
-
-@media (min-width: 801px) {
-
-    .investigator-card {
-        transform: scale(1.15);
-    }
-
-}
-/* =========================
-   探索者アイコン自体を大きくする
+   探索者アイコン
 ========================= */
 
 @media (min-width: 801px) {
 
+    .investigator-grid {
+        width: 100%;
+        max-width: 1500px;
+
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+
+        column-gap: 45px;
+        row-gap: 90px;
+    }
+
     .investigator-card {
-        width: 110%;
-        justify-self: center;
+        width: 100%;
     }
 
 }
