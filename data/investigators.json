@@ -826,7 +826,7 @@
     "status": [
       {"label": "HP", "value": 12, "max": 12},
       {"label": "MP", "value": 18, "max": 18},
-      {"label": "SAN", "value": 2, "max": 2}
+      {"label": "SAN", "value": 62, "max": 62}
     ],
     "params": [
       {"label": "STR", "value": "14"},

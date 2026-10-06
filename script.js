@@ -1,10 +1,345 @@
 /* =========================
+   赤い8bit風 十字カーソル
+========================= */
+
+const canvas = document.createElement("canvas");
+
+canvas.width = 32;
+canvas.height = 32;
+
+const ctx = canvas.getContext("2d");
+
+ctx.fillStyle = "#ff0000";
+
+/* 上 */
+ctx.fillRect(14, 2, 4, 10);
+
+/* 下 */
+ctx.fillRect(14, 20, 4, 10);
+
+/* 左 */
+ctx.fillRect(2, 14, 10, 4);
+
+/* 右 */
+ctx.fillRect(20, 14, 10, 4);
+
+/* 真ん中 */
+ctx.fillRect(10, 10, 12, 12);
+
+
+/* カーソルに設定 */
+
+const cursorImage = canvas.toDataURL();
+
+document.body.style.cursor =
+    `url(${cursorImage}) 16 16, crosshair`;
+
+
+/* =========================
+   クリックすると星が弾ける
+========================= */
+
+document.addEventListener("click", function (event) {
+
+    for (let i = 0; i < 8; i++) {
+
+        const star = document.createElement("div");
+
+        star.classList.add("click-star");
+
+        star.style.left = event.clientX + "px";
+        star.style.top = event.clientY + "px";
+
+        const angle = (Math.PI * 2 / 8) * i;
+
+        const distance = 40 + Math.random() * 75;
+
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+
+        star.style.setProperty("--x", x + "px");
+        star.style.setProperty("--y", y + "px");
+
+        document.body.appendChild(star);
+
+        setTimeout(function () {
+            star.remove();
+        }, 500);
+
+    }
+
+});
+
+
+/* =========================
+   両端に浮かぶネオン星
+========================= */
+
+function createFloatingStar() {
+
+    const star = document.createElement("div");
+
+    star.classList.add("floating-star");
+
+
+    const starShape = document.createElement("div");
+
+
+    const types = [
+        "star-cross",
+        "star-sparkle",
+        "star-diamond",
+        "star-small",
+        "star-plus"
+    ];
+
+    const type =
+        types[Math.floor(Math.random() * types.length)];
+
+
+    starShape.classList.add(
+        "star-shape",
+        type
+    );
+
+
+    const side =
+        Math.random() < 0.5
+            ? "left"
+            : "right";
+
+
+    let x;
+
+    if (side === "left") {
+
+        x = 2 + Math.random() * 15;
+
+    } else {
+
+        x = 83 + Math.random() * 15;
+
+    }
+
+
+    const y =
+        Math.random() * window.innerHeight;
+
+
+    star.style.left = x + "vw";
+    star.style.top = y + "px";
+
+
+    const size =
+        30 + Math.random() * 32;
+
+
+    star.style.setProperty(
+        "--star-size",
+        size + "px"
+    );
+
+
+    const colors = [
+
+        "#fff799",
+        "#fff3a3",
+        "#ffeaa0",
+        "#fff6c7",
+
+        "#8fffe8",
+        "#a8fff0",
+        "#9eefff",
+        "#b8f4ff",
+
+        "#ff9eeb",
+        "#ffb3ef",
+        "#ffc0f2",
+        "#ffa8d8",
+
+        "#d5ff8a",
+        "#caff9e",
+        "#e2ffb8",
+
+        "#d6a8ff",
+        "#e2b8ff",
+        "#c9b6ff",
+
+        "#ffc38a",
+        "#ffd0a8",
+
+        "#fffde8",
+        "#f5ffff",
+        "#fff0fa"
+
+    ];
+
+
+    const color =
+        colors[
+            Math.floor(
+                Math.random() * colors.length
+            )
+        ];
+
+
+    star.style.setProperty(
+        "--star-color",
+        color
+    );
+
+
+    const duration =
+        4 + Math.random() * 4;
+
+
+    star.style.setProperty(
+        "--duration",
+        duration + "s"
+    );
+
+
+    const sway =
+        15 + Math.random() * 20;
+
+
+    star.style.setProperty(
+        "--sway",
+        sway + "px"
+    );
+
+
+    star.appendChild(starShape);
+
+    document.body.appendChild(star);
+
+
+    setTimeout(() => {
+
+        star.remove();
+
+    }, duration * 1000);
+
+}
+
+
+/* 最初は少しだけ出す */
+
+setTimeout(createFloatingStar, 1000);
+setTimeout(createFloatingStar, 3500);
+setTimeout(createFloatingStar, 7000);
+
+
+/* ランダムな間隔で出現 */
+
+function scheduleNextStar() {
+
+    const delay =
+        300 + Math.random() * 500;
+
+
+    setTimeout(() => {
+
+        createFloatingStar();
+
+        scheduleNextStar();
+
+    }, delay);
+
+}
+
+
+scheduleNextStar();
+
+
+
+/* =========================
+   スマホ：
+   1タップで画像変更
+   2タップでリンク先へ移動
+========================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const cards =
+        document.querySelectorAll(
+            ".investigator-card"
+        );
+
+
+    cards.forEach(function (card) {
+
+        let firstTap = false;
+
+        let tapTimer = null;
+
+
+        card.addEventListener(
+            "click",
+            function (event) {
+
+                /* PCでは今まで通り */
+
+                if (window.innerWidth > 800) {
+                    return;
+                }
+
+
+                /* 2回目のタップ */
+
+                if (firstTap) {
+
+                    clearTimeout(tapTimer);
+
+                    firstTap = false;
+
+                    return;
+
+                }
+
+
+                /* 1回目のタップ */
+
+                event.preventDefault();
+
+                firstTap = true;
+
+
+                /* 画像を切り替える */
+
+                card.classList.add(
+                    "mobile-tapped"
+                );
+
+
+                /* 1秒以内に2回目がなければ元に戻す */
+
+                tapTimer =
+                    setTimeout(function () {
+
+                        firstTap = false;
+
+                        card.classList.remove(
+                            "mobile-tapped"
+                        );
+
+                    }, 1000);
+
+            }
+        );
+
+    });
+
+});
+
+
+
+/* =========================
    いあきゃら探索者データ
-   読み込み・検索・ソート
-   6版 / 7版対応
 ========================= */
 
 let iacharaInvestigators = [];
+
 
 
 /* =========================
@@ -12,17 +347,21 @@ let iacharaInvestigators = [];
 ========================= */
 
 fetch("data/investigators.json")
+
     .then(function (response) {
 
         if (!response.ok) {
+
             throw new Error(
                 "investigators.json を読み込めませんでした"
             );
+
         }
 
         return response.json();
 
     })
+
     .then(function (data) {
 
         iacharaInvestigators = data;
@@ -31,9 +370,14 @@ fetch("data/investigators.json")
             "いあきゃら探索者データを読み込みました"
         );
 
+        console.log(
+            iacharaInvestigators
+        );
+
         setupInvestigatorSearch();
 
     })
+
     .catch(function (error) {
 
         console.error(
@@ -42,6 +386,7 @@ fetch("data/investigators.json")
         );
 
     });
+
 
 
 /* =========================
@@ -55,16 +400,21 @@ function normalizeName(name) {
     }
 
     return String(name)
+
         .replace(/\s+/g, "")
+
         .replace(/[（(].*?[）)]/g, "")
+
         .trim()
+
         .toLowerCase();
 
 }
 
 
+
 /* =========================
-   いあきゃらデータを探す
+   名前から探索者データを探す
 ========================= */
 
 function findInvestigatorData(card) {
@@ -72,37 +422,86 @@ function findInvestigatorData(card) {
     const nameElement =
         card.querySelector(".name-text");
 
+
     if (!nameElement) {
         return null;
     }
 
+
     const cardName =
-        normalizeName(nameElement.textContent);
+        normalizeName(
+            nameElement.textContent
+        );
 
-    return iacharaInvestigators.find(function (investigator) {
 
-        if (
-            !investigator.data ||
-            !investigator.data.name
-        ) {
-            return false;
-        }
+    /* 完全一致 */
 
-        const dataName =
-            normalizeName(
-                investigator.data.name
-            );
+    let result =
+        iacharaInvestigators.find(
+            function (investigator) {
 
-        return dataName === cardName;
+                if (
+                    !investigator.data ||
+                    !investigator.data.name
+                ) {
+                    return false;
+                }
 
-    }) || null;
+                const dataName =
+                    normalizeName(
+                        investigator.data.name
+                    );
+
+                return dataName === cardName;
+
+            }
+        );
+
+
+    if (result) {
+        return result;
+    }
+
+
+    /*
+       完全一致しなかった場合、
+       JSON側の名前にHTML側の名前が
+       含まれているかも調べる
+    */
+
+    result =
+        iacharaInvestigators.find(
+            function (investigator) {
+
+                if (
+                    !investigator.data ||
+                    !investigator.data.name
+                ) {
+                    return false;
+                }
+
+                const dataName =
+                    normalizeName(
+                        investigator.data.name
+                    );
+
+                return (
+                    dataName.includes(cardName) ||
+                    cardName.includes(dataName)
+                );
+
+            }
+        );
+
+
+    return result || null;
 
 }
 
 
+
 /* =========================
    版を取得
-   JSONのeditionをそのまま使用
 ========================= */
 
 function getEdition(data) {
@@ -115,9 +514,12 @@ function getEdition(data) {
         return null;
     }
 
-    return Number(data.data.edition);
+    return Number(
+        data.data.edition
+    );
 
 }
+
 
 
 /* =========================
@@ -126,112 +528,121 @@ function getEdition(data) {
 
 function getValue(data, label) {
 
-    if (!data || !data.data) {
+    if (
+        !data ||
+        !data.data
+    ) {
         return null;
     }
 
-    let value = null;
 
-
-    /* =========================
+    /*
        STR / CON / POW / DEX
        APP / SIZ / INT / EDU
-    ========================= */
+    */
 
     if (data.data.params) {
 
         const param =
-            data.data.params.find(function (item) {
+            data.data.params.find(
+                function (item) {
 
-                return item.label === label;
+                    return (
+                        item.label === label
+                    );
 
-            });
+                }
+            );
+
 
         if (param) {
 
-            value = Number(param.value);
+            let value =
+                Number(param.value);
+
+
+            /*
+               7版の場合
+
+               基本能力値を
+               5で割って切り捨てる
+            */
+
+            if (
+                getEdition(data) === 7 &&
+                [
+                    "STR",
+                    "CON",
+                    "POW",
+                    "DEX",
+                    "APP",
+                    "SIZ",
+                    "INT",
+                    "EDU"
+                ].includes(label)
+            ) {
+
+                value =
+                    Math.floor(
+                        value / 5
+                    );
+
+            }
+
+
+            return value;
 
         }
 
     }
 
 
-    /* =========================
+    /*
        HP / MP / SAN
-    ========================= */
+    */
 
-    if (value === null && data.data.status) {
+    if (data.data.status) {
 
         const status =
-            data.data.status.find(function (item) {
+            data.data.status.find(
+                function (item) {
 
-                return item.label === label;
+                    return (
+                        item.label === label
+                    );
 
-            });
+                }
+            );
+
 
         if (status) {
 
-            value = Number(status.value);
+            return Number(
+                status.value
+            );
 
         }
 
     }
 
 
-    /* =========================
+    /*
        イニシアチブ
-    ========================= */
+    */
 
-    if (
-        value === null &&
-        label === "initiative"
-    ) {
+    if (label === "initiative") {
 
-        value = Number(
+        return Number(
             data.data.initiative
         );
 
     }
 
 
-    if (
-        value === null ||
-        Number.isNaN(value)
-    ) {
-
-        return null;
-
-    }
-
-
-    /* =========================
-       7版の基本能力値だけ1/5
-    ========================= */
-
-    const basicStats = [
-        "STR",
-        "CON",
-        "POW",
-        "DEX",
-        "APP",
-        "SIZ",
-        "INT",
-        "EDU"
-    ];
-
-    if (
-        getEdition(data) === 7 &&
-        basicStats.includes(label)
-    ) {
-
-        value = Math.floor(value / 5);
-
-    }
-
-
-    return value;
+    return null;
 
 }
+
 
 
 /* =========================
@@ -250,19 +661,24 @@ function getSkills(data) {
 
     }
 
+
     const commands =
         data.data.commands;
 
+
     const skills = [];
+
 
     const regex =
         /CCB<=([0-9]+)\s+【([^】]+)】/g;
+
 
     let match;
 
 
     while (
-        (match = regex.exec(commands)) !== null
+        (match = regex.exec(commands))
+        !== null
     ) {
 
         skills.push({
@@ -281,86 +697,9 @@ function getSkills(data) {
 }
 
 
-/* =========================
-   版フィルターを作る
-========================= */
-
-function createEditionFilter() {
-
-    const tools =
-        document.querySelector(
-            ".investigator-tools"
-        );
-
-    if (!tools) {
-        return null;
-    }
-
-
-    /* すでに存在する場合 */
-
-    let editionBox =
-        document.querySelector(
-            ".edition-filter"
-        );
-
-    if (editionBox) {
-
-        return editionBox.querySelector(
-            "#edition-select"
-        );
-
-    }
-
-
-    /* 新しく作る */
-
-    editionBox =
-        document.createElement("div");
-
-    editionBox.className =
-        "edition-filter";
-
-    editionBox.innerHTML = `
-
-        <label for="edition-select">
-            版で絞り込み
-        </label>
-
-        <select id="edition-select">
-
-            <option value="">
-                すべて
-            </option>
-
-            <option value="6">
-                6版
-            </option>
-
-            <option value="7">
-                7版
-            </option>
-
-        </select>
-
-    `;
-
-
-    tools.insertBefore(
-        editionBox,
-        tools.firstChild
-    );
-
-
-    return editionBox.querySelector(
-        "#edition-select"
-    );
-
-}
-
 
 /* =========================
-   検索・ソートの準備
+   探索者検索UIの準備
 ========================= */
 
 function setupInvestigatorSearch() {
@@ -370,25 +709,23 @@ function setupInvestigatorSearch() {
             ".investigator-grid"
         );
 
+
     const statSelect =
         document.querySelector(
             "#stat-select"
         );
+
 
     const skillInput =
         document.querySelector(
             "#skill-search-input"
         );
 
-    const editionSelect =
-        createEditionFilter();
-
 
     if (
         !grid ||
         !statSelect ||
-        !skillInput ||
-        !editionSelect
+        !skillInput
     ) {
 
         console.error(
@@ -408,17 +745,36 @@ function setupInvestigatorSearch() {
         );
 
 
-    /* 元の順番を保存 */
+    /*
+       元の順番を保存
+    */
 
-    cards.forEach(function (card, index) {
+    cards.forEach(
+        function (card, index) {
 
-        card.dataset.originalOrder =
-            index;
+            card.dataset.originalOrder =
+                index;
 
-    });
+        }
+    );
 
 
-    /* 能力値変更 */
+    /*
+       版の絞り込みを作る
+    */
+
+    createEditionFilter();
+
+
+    const editionSelect =
+        document.querySelector(
+            "#edition-select"
+        );
+
+
+    /*
+       能力値変更
+    */
 
     statSelect.addEventListener(
         "change",
@@ -429,14 +785,18 @@ function setupInvestigatorSearch() {
                 cards,
                 statSelect.value,
                 skillInput.value,
-                editionSelect.value
+                editionSelect
+                    ? editionSelect.value
+                    : ""
             );
 
         }
     );
 
 
-    /* 技能検索 */
+    /*
+       技能検索
+    */
 
     skillInput.addEventListener(
         "input",
@@ -447,32 +807,42 @@ function setupInvestigatorSearch() {
                 cards,
                 statSelect.value,
                 skillInput.value,
-                editionSelect.value
+                editionSelect
+                    ? editionSelect.value
+                    : ""
             );
 
         }
     );
 
 
-    /* 6版 / 7版 */
+    /*
+       版変更
+    */
 
-    editionSelect.addEventListener(
-        "change",
-        function () {
+    if (editionSelect) {
 
-            sortInvestigators(
-                grid,
-                cards,
-                statSelect.value,
-                skillInput.value,
-                editionSelect.value
-            );
+        editionSelect.addEventListener(
+            "change",
+            function () {
 
-        }
-    );
+                sortInvestigators(
+                    grid,
+                    cards,
+                    statSelect.value,
+                    skillInput.value,
+                    editionSelect.value
+                );
+
+            }
+        );
+
+    }
 
 
-    /* 最初の表示 */
+    /*
+       最初の表示
+    */
 
     sortInvestigators(
         grid,
@@ -485,20 +855,110 @@ function setupInvestigatorSearch() {
 }
 
 
+
 /* =========================
-   並べ替え・絞り込み
+   6版 / 7版フィルター作成
+========================= */
+
+function createEditionFilter() {
+
+    /*
+       すでにHTMLにある場合は何もしない
+    */
+
+    if (
+        document.querySelector(
+            "#edition-select"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const tools =
+        document.querySelector(
+            ".investigator-tools"
+        );
+
+
+    if (!tools) {
+        return;
+    }
+
+
+    const wrapper =
+        document.createElement("div");
+
+
+    wrapper.className =
+        "edition-filter";
+
+
+    const label =
+        document.createElement("label");
+
+
+    label.setAttribute(
+        "for",
+        "edition-select"
+    );
+
+
+    label.textContent =
+        "版で絞り込み";
+
+
+    const select =
+        document.createElement("select");
+
+
+    select.id =
+        "edition-select";
+
+
+    select.innerHTML = `
+
+        <option value="">
+            すべて
+        </option>
+
+        <option value="6">
+            6版
+        </option>
+
+        <option value="7">
+            7版
+        </option>
+
+    `;
+
+
+    wrapper.appendChild(label);
+
+    wrapper.appendChild(select);
+
+    tools.appendChild(wrapper);
+
+}
+
+
+
+/* =========================
+   並べ替え・検索・絞り込み
 ========================= */
 
 function sortInvestigators(
     grid,
     cards,
     selectedStat,
-    skillKeyword,
+    skillText,
     selectedEdition
 ) {
 
-    const keyword =
-        skillKeyword
+    const searchText =
+        skillText
             .trim()
             .toLowerCase();
 
@@ -506,70 +966,29 @@ function sortInvestigators(
     const results = [];
 
 
-    cards.forEach(function (card) {
+    cards.forEach(
+        function (card) {
 
-        const data =
-            findInvestigatorData(card);
-
-
-        /* データがないカード */
-
-        if (!data) {
-
-            card.style.display =
-                "none";
-
-            return;
-
-        }
+            const data =
+                findInvestigatorData(
+                    card
+                );
 
 
-        /* =========================
-           版で絞り込み
-        ========================= */
+            /*
+               まず版で絞り込む
+            */
 
-        const edition =
-            getEdition(data);
-
-
-        if (
-            selectedEdition &&
-            String(edition) !==
-            String(selectedEdition)
-        ) {
-
-            card.style.display =
-                "none";
-
-            return;
-
-        }
-
-
-        /* =========================
-           技能検索
-        ========================= */
-
-        let skillValue = null;
-
-
-        if (keyword) {
-
-            const skills =
-                getSkills(data);
-
-
-            const matchedSkill =
-                skills.find(function (skill) {
-
-                    return skill.name
-                        .toLowerCase()
-                        .includes(keyword);
-
-                });
-
-
-            if (!matchedSkill) {
+            if (
+                selectedEdition !== "" &&
+                (
+                    !data ||
+                    String(
+                        getEdition(data)
+                    ) !==
+                    String(selectedEdition)
+                )
+            ) {
 
                 card.style.display =
                     "none";
@@ -579,222 +998,266 @@ function sortInvestigators(
             }
 
 
-            skillValue =
-                matchedSkill.value;
+            /*
+               技能検索
+            */
 
-        }
+            if (searchText !== "") {
+
+                if (!data) {
+
+                    card.style.display =
+                        "none";
+
+                    return;
+
+                }
 
 
-        card.style.display =
-            "";
+                const skills =
+                    getSkills(data);
 
 
-        results.push({
+                const matchedSkill =
+                    skills.find(
+                        function (skill) {
 
-            card: card,
+                            return skill.name
+                                .toLowerCase()
+                                .includes(
+                                    searchText
+                                );
 
-            data: data,
+                        }
+                    );
 
-            edition: edition,
 
-            statValue:
-                selectedStat
-                    ? getValue(
+                if (!matchedSkill) {
+
+                    card.style.display =
+                        "none";
+
+                    return;
+
+                }
+
+
+                card.style.display =
+                    "";
+
+
+                results.push({
+
+                    card: card,
+
+                    data: data,
+
+                    value:
+                        matchedSkill.value,
+
+                    label:
+                        matchedSkill.name
+
+                });
+
+
+                return;
+
+            }
+
+
+            /*
+               通常表示
+
+               ★ここが今回の重要ポイント
+
+               JSONにデータがない人も
+               display:none にしない
+            */
+
+            card.style.display = "";
+
+
+            let value = null;
+
+
+            if (selectedStat) {
+
+                value =
+                    getValue(
                         data,
                         selectedStat
-                    )
-                    : null,
+                    );
 
-            skillValue:
-                skillValue,
-
-            originalOrder:
-                Number(
-                    card.dataset.originalOrder
-                )
-
-        });
-
-    });
+            }
 
 
-    /* =========================
+            results.push({
+
+                card: card,
+
+                data: data,
+
+                value: value,
+
+                label: selectedStat
+
+            });
+
+        }
+    );
+
+
+
+    /*
        並べ替え
-    ========================= */
+    */
 
-    results.sort(function (a, b) {
+    if (
+        selectedStat ||
+        searchText !== ""
+    ) {
+
+        results.sort(
+            function (a, b) {
+
+                /*
+                   データがある人を上にする
+                */
+
+                const valueA =
+                    a.value === null
+                        ? -1
+                        : a.value;
 
 
-        /* 技能検索中 */
+                const valueB =
+                    b.value === null
+                        ? -1
+                        : b.value;
 
-        if (keyword) {
 
-            const aValue =
-                a.skillValue ?? -Infinity;
+                if (
+                    valueA !== valueB
+                ) {
 
-            const bValue =
-                b.skillValue ?? -Infinity;
+                    return (
+                        valueB -
+                        valueA
+                    );
 
-            if (aValue !== bValue) {
+                }
 
-                return bValue - aValue;
+
+                /*
+                   同じ値なら
+                   元の順番
+                */
+
+                return (
+                    Number(
+                        a.card.dataset
+                            .originalOrder
+                    ) -
+                    Number(
+                        b.card.dataset
+                            .originalOrder
+                    )
+                );
 
             }
-
-        }
-
-
-        /* 能力値ソート */
-
-        if (selectedStat) {
-
-            const aValue =
-                a.statValue ?? -Infinity;
-
-            const bValue =
-                b.statValue ?? -Infinity;
-
-            if (aValue !== bValue) {
-
-                return bValue - aValue;
-
-            }
-
-        }
-
-
-        /* 元の順番 */
-
-        return (
-            a.originalOrder -
-            b.originalOrder
         );
 
-    });
+    }
 
 
-    /* =========================
-       グリッドへ戻す
-    ========================= */
 
-    results.forEach(function (item) {
+    /*
+       カードを並べ直す
+    */
 
-        grid.appendChild(
-            item.card
-        );
+    results.forEach(
+        function (item) {
 
-    });
+            grid.appendChild(
+                item.card
+            );
 
 
-    /* =========================
-       数値表示
-    ========================= */
+            updateValueDisplay(
+                item.card,
+                item.label,
+                item.value
+            );
 
-    updateValueDisplay(
-        results,
-        selectedStat,
-        keyword
+        }
     );
 
 }
 
 
+
 /* =========================
-   数値表示
+   カード上の数値表示
 ========================= */
 
 function updateValueDisplay(
-    results,
-    selectedStat,
-    keyword
+    card,
+    label,
+    value
 ) {
 
-    results.forEach(function (item) {
-
-        const card =
-            item.card;
-
-
-        /* 古い表示を削除 */
-
-        const old =
-            card.querySelector(
-                ".investigator-value"
-            );
-
-        if (old) {
-
-            old.remove();
-
-        }
-
-
-        let text = "";
-
-
-        /* 技能検索 */
-
-        if (keyword) {
-
-            text =
-                "技能値："
-                + item.skillValue;
-
-        }
-
-
-        /* 能力値ソート */
-
-        else if (selectedStat) {
-
-            let label =
-                selectedStat;
-
-
-            if (
-                selectedStat ===
-                "initiative"
-            ) {
-
-                label =
-                    "イニシアチブ";
-
-            }
-
-
-            text =
-                label
-                + "："
-                + item.statValue;
-
-        }
-
-
-        if (!text) {
-
-            return;
-
-        }
-
-
-        const value =
-            document.createElement(
-                "div"
-            );
-
-
-        value.className =
-            "investigator-value";
-
-
-        value.textContent =
-            text;
-
-
-        card.appendChild(
-            value
+    const old =
+        card.querySelector(
+            ".investigator-value"
         );
 
-    });
+
+    if (old) {
+        old.remove();
+    }
+
+
+    if (
+        !label ||
+        value === null
+    ) {
+
+        return;
+
+    }
+
+
+    const display =
+        document.createElement("div");
+
+
+    display.className =
+        "investigator-value";
+
+
+    let displayLabel =
+        label;
+
+
+    if (
+        label === "initiative"
+    ) {
+
+        displayLabel =
+            "INIT";
+
+    }
+
+
+    display.textContent =
+        displayLabel +
+        " : " +
+        value;
+
+
+    card.appendChild(
+        display
+    );
 
 }
