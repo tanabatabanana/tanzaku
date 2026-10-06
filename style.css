@@ -519,19 +519,13 @@ p {
 ========================= */
 
 .photo-area img {
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
+    width: 110%;
+    height: 110%;
     object-fit: contain;
-
-    display: block;
+    position: relative;
+    left: -5%;
+    top: -5%;
 }
-
 
 /* =========================
    写真の切り替え
