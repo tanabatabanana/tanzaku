@@ -404,23 +404,19 @@ p {
 /* =========================
    INVESTIGATORS エリア
 ========================= */
-
 .investigators-page {
-    max-width: 1600px;
+    width: 100%;
+    max-width: 1500px;
+    box-sizing: border-box;
 
     margin: 230px auto 0;
+    padding: 100px 20px 150px;
 
-    padding: 100px 40px 150px;
-
-    border: 6px solid #0047ff;
-
-    background-color: rgba(255, 255, 255, 0.75);
+    border: 4px solid #0047ff;
+    background-color: rgba(255,255,255,0.75);
 
     position: relative;
-
-    z-index: 2;
 }
-
 
 /* =========================
    INVESTIGATORS タイトル
@@ -444,25 +440,20 @@ p {
 /* =========================
    探索者一覧
 ========================= */
-
 .investigator-grid {
     width: 100%;
 
-    max-width: 1500px;
+    max-width: 1440px;
 
     margin: 0 auto;
 
     display: grid;
 
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 
-    gap: 70px 30px;
+    gap: 70px 20px;
 
     align-items: start;
-
-    position: relative;
-
-    z-index: 2;
 }
 
 
