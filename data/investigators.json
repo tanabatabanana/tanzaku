@@ -1087,7 +1087,7 @@
     "status": [
       {"label": "HP", "value": 13, "max": 13},
       {"label": "MP", "value": 18, "max": 18},
-      {"label": "SAN", "value": 8, "max": 8}
+      {"label": "SAN", "value": 58, "max": 58}
     ],
     "params": [
       {"label": "STR", "value": "11"},
