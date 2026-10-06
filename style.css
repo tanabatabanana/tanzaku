@@ -2161,39 +2161,6 @@ p {
         3px 3px 0 #0047ff;
 }
 
-
-/* =========================
-   6版・7版表示
-========================= */
-
-.investigator-edition {
-    position: absolute;
-
-    top: -42px;
-
-    left: 50%;
-
-    transform:
-        translateX(-50%);
-
-    z-index: 19;
-
-    padding: 5px 10px;
-
-    background: white;
-
-    border: 2px solid #0047ff;
-
-    font-family:
-        "TsunagiGothic",
-        sans-serif;
-
-    font-size: 14px;
-
-    white-space: nowrap;
-}
-
-
 /* =========================
    LOST
 ========================= */
