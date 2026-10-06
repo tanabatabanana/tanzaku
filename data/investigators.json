@@ -505,7 +505,7 @@
 {
   "kind": "character",
   "data": {
-    "name": "Phalene・Kowalski (ファレン・コワルスキー)",
+    "name": "ファレン・コワルスキー",
     "edition": 6,
     "initiative": 14,
     "externalUrl": "https://iachara.com/view/12524664",
@@ -687,7 +687,7 @@
 {
   "kind": "character",
   "data": {
-    "name": "Slumbers (スランバーズ)",
+    "name": "スランバーズ",
     "edition": 6,
     "initiative": 14,
     "externalUrl": "https://iachara.com/view/12893072",
@@ -713,7 +713,7 @@
 {
   "kind": "character",
   "data": {
-    "name": "Schnitt・Schneiden (シュニット・シュナイデン)",
+    "name": "シュニット・シュナイデン",
     "edition": 6,
     "initiative": 12,
     "externalUrl": "https://iachara.com/view/13018424",
@@ -791,7 +791,7 @@
 {
   "kind": "character",
   "data": {
-    "name": "Dolce・Panetti (ドルチェ・パネッティ)",
+    "name": "ドルチェ・パネッティ",
     "edition": 6,
     "initiative": 11,
     "externalUrl": "https://iachara.com/view/13167447",
@@ -1107,7 +1107,7 @@
 {
   "kind": "character",
   "data": {
-    "name": "三足 九朗 (みあし くろう)",
+    "name": "三足 九郎",
     "edition": 6,
     "lost": true,
     "initiative": 12,
