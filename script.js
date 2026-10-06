@@ -351,12 +351,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
-
 /* =========================
-   いあきゃら探索者データ読み込み
+   いあきゃら探索者データ
+   読み込み・検索・ソート
 ========================= */
 
 let iacharaInvestigators = [];
+
+
+/* =========================
+   データ読み込み
+========================= */
 
 fetch("data/investigators.json")
     .then(function (response) {
@@ -375,9 +380,476 @@ fetch("data/investigators.json")
         console.log("いあきゃら探索者データを読み込みました");
         console.log(iacharaInvestigators);
 
+        setupInvestigatorSearch();
+
     })
     .catch(function (error) {
 
-        console.error("探索者データの読み込みに失敗しました:", error);
+        console.error(
+            "探索者データの読み込みに失敗しました:",
+            error
+        );
 
     });
+
+
+/* =========================
+   名前を整える
+========================= */
+
+function normalizeName(name) {
+
+    return name
+        .replace(/\s+/g, "")
+        .replace(/\(.+?\)/g, "")
+        .trim();
+
+}
+
+
+/* =========================
+   いあきゃらデータを探す
+========================= */
+
+function findInvestigatorData(card) {
+
+    const nameElement =
+        card.querySelector(".name-text");
+
+    if (!nameElement) {
+        return null;
+    }
+
+    const cardName =
+        normalizeName(nameElement.textContent);
+
+    return iacharaInvestigators.find(function (investigator) {
+
+        if (
+            !investigator.data ||
+            !investigator.data.name
+        ) {
+            return false;
+        }
+
+        const dataName =
+            normalizeName(investigator.data.name);
+
+        return dataName === cardName;
+
+    }) || null;
+
+}
+
+
+/* =========================
+   能力値を取得
+========================= */
+
+function getValue(data, label) {
+
+    if (!data || !data.data) {
+        return null;
+    }
+
+
+    /* STR / CON / POWなど */
+
+    if (data.data.params) {
+
+        const param =
+            data.data.params.find(function (item) {
+
+                return item.label === label;
+
+            });
+
+        if (param) {
+            return Number(param.value);
+        }
+
+    }
+
+
+    /* HP / MP / SAN */
+
+    if (data.data.status) {
+
+        const status =
+            data.data.status.find(function (item) {
+
+                return item.label === label;
+
+            });
+
+        if (status) {
+            return Number(status.value);
+        }
+
+    }
+
+
+    /* イニシアチブ */
+
+    if (label === "initiative") {
+
+        return Number(data.data.initiative);
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================
+   技能を取得
+========================= */
+
+function getSkills(data) {
+
+    if (
+        !data ||
+        !data.data ||
+        !data.data.commands
+    ) {
+        return [];
+    }
+
+    const commands =
+        data.data.commands;
+
+    const skills = [];
+
+    const regex =
+        /CCB<=([0-9]+)\s+【([^】]+)】/g;
+
+    let match;
+
+
+    while (
+        (match = regex.exec(commands)) !== null
+    ) {
+
+        skills.push({
+
+            name: match[2],
+
+            value: Number(match[1])
+
+        });
+
+    }
+
+
+    return skills;
+
+}
+
+
+/* =========================
+   検索・ソートの準備
+========================= */
+
+function setupInvestigatorSearch() {
+
+    const grid =
+        document.querySelector(".investigator-grid");
+
+    const statSelect =
+        document.querySelector("#stat-select");
+
+    const skillInput =
+        document.querySelector("#skill-search-input");
+
+
+    if (!grid || !statSelect || !skillInput) {
+
+        console.error(
+            "探索者検索用のHTMLが見つかりません"
+        );
+
+        return;
+
+    }
+
+
+    const cards =
+        Array.from(
+            grid.querySelectorAll(".investigator-card")
+        );
+
+
+    /* 元の順番を保存 */
+
+    cards.forEach(function (card, index) {
+
+        card.dataset.originalOrder = index;
+
+    });
+
+
+    /* 能力値変更 */
+
+    statSelect.addEventListener(
+        "change",
+        function () {
+
+            sortInvestigators(
+                grid,
+                cards,
+                statSelect.value,
+                skillInput.value
+            );
+
+        }
+    );
+
+
+    /* 技能検索 */
+
+    skillInput.addEventListener(
+        "input",
+        function () {
+
+            sortInvestigators(
+                grid,
+                cards,
+                statSelect.value,
+                skillInput.value
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   並べ替え・検索
+========================= */
+
+function sortInvestigators(
+    grid,
+    cards,
+    selectedStat,
+    skillText
+) {
+
+    const searchText =
+        skillText.trim().toLowerCase();
+
+
+    const results = [];
+
+
+    cards.forEach(function (card) {
+
+        const data =
+            findInvestigatorData(card);
+
+
+        /* -------------------------
+           技能検索
+        ------------------------- */
+
+        if (searchText !== "") {
+
+            if (!data) {
+
+                card.style.display = "none";
+
+                return;
+
+            }
+
+
+            const skills =
+                getSkills(data);
+
+
+            const matchedSkill =
+                skills.find(function (skill) {
+
+                    return skill.name
+                        .toLowerCase()
+                        .includes(searchText);
+
+                });
+
+
+            if (!matchedSkill) {
+
+                card.style.display = "none";
+
+                return;
+
+            }
+
+
+            card.style.display = "";
+
+            results.push({
+
+                card: card,
+
+                data: data,
+
+                value: matchedSkill.value,
+
+                label: matchedSkill.name
+
+            });
+
+
+            return;
+
+        }
+
+
+        /* -------------------------
+           通常表示
+        ------------------------- */
+
+        card.style.display = "";
+
+        let value = null;
+
+
+        if (selectedStat) {
+
+            value =
+                getValue(
+                    data,
+                    selectedStat
+                );
+
+        }
+
+
+        results.push({
+
+            card: card,
+
+            data: data,
+
+            value: value,
+
+            label: selectedStat
+
+        });
+
+    });
+
+
+    /* -------------------------
+       並べ替え
+    ------------------------- */
+
+    if (
+        selectedStat ||
+        searchText !== ""
+    ) {
+
+        results.sort(function (a, b) {
+
+            const valueA =
+                a.value === null
+                    ? -1
+                    : a.value;
+
+            const valueB =
+                b.value === null
+                    ? -1
+                    : b.value;
+
+
+            if (valueA !== valueB) {
+
+                return valueB - valueA;
+
+            }
+
+
+            return (
+                Number(a.card.dataset.originalOrder) -
+                Number(b.card.dataset.originalOrder)
+            );
+
+        });
+
+    }
+
+
+    /* -------------------------
+       カードを並べ直す
+    ------------------------- */
+
+    results.forEach(function (item) {
+
+        grid.appendChild(item.card);
+
+        updateValueDisplay(
+            item.card,
+            item.label,
+            item.value
+        );
+
+    });
+
+}
+
+
+/* =========================
+   カード上の数値表示
+========================= */
+
+function updateValueDisplay(
+    card,
+    label,
+    value
+) {
+
+    const old =
+        card.querySelector(
+            ".investigator-value"
+        );
+
+
+    if (old) {
+        old.remove();
+    }
+
+
+    if (!label || value === null) {
+        return;
+    }
+
+
+    const display =
+        document.createElement("div");
+
+    display.className =
+        "investigator-value";
+
+
+    let displayLabel =
+        label;
+
+
+    if (label === "initiative") {
+
+        displayLabel =
+            "INIT";
+
+    }
+
+
+    display.textContent =
+        displayLabel + " : " + value;
+
+
+    card.appendChild(display);
+
+}

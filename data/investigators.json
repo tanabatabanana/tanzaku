@@ -8,55 +8,94 @@
       "iconUrl": "https://image.iaproject.app/7b2ef071-5102-4e8c-922d-4ce9fb2e77e1",
       "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=65 【アイデア】\nCCB<=60 【幸運】\nCCB<=60 【知識】\nCCB<=71 【目星】\nCCB<=67 【聞き耳】\nCCB<=25 【図書館】\nCCB<=67 【回避】\nCCB<=51 【こぶし（パンチ）】\nCCB<=60 【拳銃】\nCCB<=42 【応急手当】\nCCB<=40 【言いくるめ】\nCCB<=55 【信用】\nCCB<=69 【値切り】\nCCB<=60 【心理学】\nCCB<=50 【薬学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
       "status": [
-        {
-          "label": "HP",
-          "value": 10,
-          "max": 10
-        },
-        {
-          "label": "MP",
-          "value": 12,
-          "max": 12
-        },
-        {
-          "label": "SAN",
-          "value": 79,
-          "max": 79
-        }
+        {"label": "HP", "value": 10, "max": 10},
+        {"label": "MP", "value": 12, "max": 12},
+        {"label": "SAN", "value": 79, "max": 79}
       ],
       "params": [
-        {
-          "label": "STR",
-          "value": "8"
-        },
-        {
-          "label": "CON",
-          "value": "11"
-        },
-        {
-          "label": "POW",
-          "value": "12"
-        },
-        {
-          "label": "DEX",
-          "value": "14"
-        },
-        {
-          "label": "APP",
-          "value": "15"
-        },
-        {
-          "label": "SIZ",
-          "value": "9"
-        },
-        {
-          "label": "INT",
-          "value": "13"
-        },
-        {
-          "label": "EDU",
-          "value": "12"
-        }
+        {"label": "STR", "value": "8"},
+        {"label": "CON", "value": "11"},
+        {"label": "POW", "value": "12"},
+        {"label": "DEX", "value": "14"},
+        {"label": "APP", "value": "15"},
+        {"label": "SIZ", "value": "9"},
+        {"label": "INT", "value": "13"},
+        {"label": "EDU", "value": "12"}
+      ]
+    }
+  },
+  {
+    "kind": "character",
+    "data": {
+      "name": "オールノウ",
+      "initiative": 17,
+      "externalUrl": "https://iachara.com/view/7783644",
+      "iconUrl": "https://image.iaproject.app/bdf79cb1-e142-4b1a-9e2c-42118ca49da7",
+      "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=90 【アイデア】\nCCB<=85 【幸運】\nCCB<=95 【知識】\nCCB<=80 【目星】\nCCB<=75 【聞き耳】\nCCB<=44 【図書館】\nCCB<=60 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=75 【ライフル】\nCCB<=80 【応急手当】\nCCB<=65 【追跡】\nCCB<=69 【跳躍】\nCCB<=70 【言いくるめ】\nCCB<=85 【ラテン語】\nCCB<=15 【医学】\nCCB<=15 【オカルト】\nCCB<=11 【化学】\nCCB<=17 【クトゥルフ神話】\nCCB<=94 【芸術（エレキギター）】\nCCB<=20 【経理】\nCCB<=11 【考古学】\nCCB<=11 【コンピューター】\nCCB<=65 【心理学】\nCCB<=21 【人類学】\nCCB<=11 【生物学】\nCCB<=11 【地質学】\nCCB<=11 【電子工学】\nCCB<=61 【天文学】\nCCB<=20 【博物学】\nCCB<=11 【物理学】\nCCB<=15 【法律】\nCCB<=17 【薬学】\nCCB<=30 【歴史】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+      "status": [
+        {"label": "HP", "value": 14, "max": 14},
+        {"label": "MP", "value": 17, "max": 17},
+        {"label": "SAN", "value": 82, "max": 82}
+      ],
+      "params": [
+        {"label": "STR", "value": "16"},
+        {"label": "CON", "value": "14"},
+        {"label": "POW", "value": "17"},
+        {"label": "DEX", "value": "17"},
+        {"label": "APP", "value": "15"},
+        {"label": "SIZ", "value": "13"},
+        {"label": "INT", "value": "18"},
+        {"label": "EDU", "value": "19"}
+      ]
+    }
+  },
+  {
+    "kind": "character",
+    "data": {
+      "name": "蛾場 マダラ (かば  まだら)",
+      "initiative": 16,
+      "externalUrl": "https://iachara.com/view/7870581",
+      "iconUrl": "https://image.iaproject.app/d0f878d8-7cd3-4fad-a2bf-1c78383a72b5",
+      "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=50 【アイデア】\nCCB<=15 【幸運】\nCCB<=75 【知識】\nCCB<=71 【目星】\nCCB<=60 【聞き耳】\nCCB<=62 【図書館】\nCCB<=82 【回避】\nCCB<=53 【こぶし（パンチ）】\nCCB<=79 【投擲】\nCCB<=90 【傘】\nCCB<=60 【鱗粉】\nCCB<=78 【応急手当】\nCCB<=19 【隠れる】\nCCB<=68 【精神分析】\nCCB<=30 【機械修理】\nCCB<=70 【製作（爆弾）】\nCCB<=71 【跳躍】\nCCB<=20 【電気修理】\nCCB<=0 【言いくるめ】\nCCB<=0 【信用】\nCCB<=0 【説得】\nCCB<=0 【値切り】\nCCB<=50 【英語】\nCCB<=6 【オカルト】\nCCB<=8 【クトゥルフ神話】\n1d3+1D6 【ダメージ判定】\n1d4+1D6 【ダメージ判定】\n1d6+1D6 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+      "status": [
+        {"label": "HP", "value": 15, "max": 15},
+        {"label": "MP", "value": 3, "max": 3},
+        {"label": "SAN", "value": 49, "max": 49}
+      ],
+      "params": [
+        {"label": "STR", "value": "18"},
+        {"label": "CON", "value": "13"},
+        {"label": "POW", "value": "3"},
+        {"label": "DEX", "value": "16"},
+        {"label": "APP", "value": "18"},
+        {"label": "SIZ", "value": "16"},
+        {"label": "INT", "value": "10"},
+        {"label": "EDU", "value": "15"}
+      ]
+    }
+  },
+  {
+    "kind": "character",
+    "data": {
+      "name": "日皿魚 根黒 (ひさらな ねくろ)",
+      "initiative": 15,
+      "externalUrl": "https://iachara.com/view/7931003",
+      "iconUrl": "https://image.iaproject.app/2b55d619-faa0-4b59-955b-b024c0cf0dd6",
+      "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=90 【アイデア】\nCCB<=80 【幸運】\nCCB<=55 【知識】\nCCB<=98 【目星】\nCCB<=94 【聞き耳】\nCCB<=86 【図書館】\nCCB<=77 【回避】\nCCB<=58 【こぶし（パンチ）】\nCCB<=38 【キック】\nCCB<=43 【チェンソー】\nCCB<=35 【ナイフ】\nCCB<=65 【応急手当】\nCCB<=51 【隠れる】\nCCB<=63 【精神分析】\nCCB<=47 【登攀】\nCCB<=1 【味覚】\nCCB<=35 【機械修理】\nCCB<=16 【電気修理】\nCCB<=81 【信用】\nCCB<=14 【医学】\nCCB<=14 【クトゥルフ神話】\nCCB<=50 【心理学】\nCCB<=14 【博物学】\nCCB<=79 【ヘアメイク】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+      "status": [
+        {"label": "HP", "value": 12, "max": 12},
+        {"label": "MP", "value": 16, "max": 16},
+        {"label": "SAN", "value": 77, "max": 77}
+      ],
+      "params": [
+        {"label": "STR", "value": "9"},
+        {"label": "CON", "value": "8"},
+        {"label": "POW", "value": "16"},
+        {"label": "DEX", "value": "15"},
+        {"label": "APP", "value": "14"},
+        {"label": "SIZ", "value": "15"},
+        {"label": "INT", "value": "18"},
+        {"label": "EDU", "value": "11"}
       ]
     }
   }
