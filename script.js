@@ -1113,148 +1113,54 @@ function getSkills(data) {
 /* =========================
    探索者検索UIの準備
 ========================= */
-
 function setupInvestigatorSearch() {
+    const grid = document.querySelector(".investigator-grid");
+    const statSelect = document.querySelector("#stat-select");
+    const skillInput = document.querySelector("#skill-search-input");
+    const editionSelect = document.querySelector("#edition-select");
 
-    const grid =
-        document.querySelector(
-            ".investigator-grid"
-        );
-
-
-    const statSelect =
-        document.querySelector(
-            "#stat-select"
-        );
-
-
-    const skillInput =
-        document.querySelector(
-            "#skill-search-input"
-        );
-
-
-    if (
-        !grid ||
-        !statSelect ||
-        !skillInput
-    ) {
-
-        console.error(
-            "探索者検索用のHTMLが見つかりません"
-        );
-
+    if (!grid || !statSelect || !skillInput || !editionSelect) {
+        console.error("探索者検索用のHTMLが見つかりません");
         return;
-
     }
 
-
-    const cards =
-        Array.from(
-            grid.querySelectorAll(
-                ".investigator-card"
-            )
-        );
-
-
-    /*
-       元の順番を保存
-    */
-
-    cards.forEach(
-        function (card, index) {
-
-            card.dataset.originalOrder =
-                index;
-
-        }
+    const cards = Array.from(
+        grid.querySelectorAll(".investigator-card")
     );
 
+    cards.forEach(function (card, index) {
+        card.dataset.originalOrder = index;
+    });
 
-    /*
-       版の絞り込みを作る
-    */
-
-    createEditionFilter();
-
-
-    const editionSelect =
-        document.querySelector(
-            "#edition-select"
+    statSelect.addEventListener("change", function () {
+        sortInvestigators(
+            grid,
+            cards,
+            statSelect.value,
+            skillInput.value,
+            editionSelect.value
         );
+    });
 
-
-    /*
-       能力値変更
-    */
-
-    statSelect.addEventListener(
-        "change",
-        function () {
-
-            sortInvestigators(
-                grid,
-                cards,
-                statSelect.value,
-                skillInput.value,
-                editionSelect
-                    ? editionSelect.value
-                    : ""
-            );
-
-        }
-    );
-
-
-    /*
-       技能検索
-    */
-
-    skillInput.addEventListener(
-        "input",
-        function () {
-
-            sortInvestigators(
-                grid,
-                cards,
-                statSelect.value,
-                skillInput.value,
-                editionSelect
-                    ? editionSelect.value
-                    : ""
-            );
-
-        }
-    );
-
-
-    /*
-       版変更
-    */
-
-    if (editionSelect) {
-
-        editionSelect.addEventListener(
-            "change",
-            function () {
-
-                sortInvestigators(
-                    grid,
-                    cards,
-                    statSelect.value,
-                    skillInput.value,
-                    editionSelect.value
-                );
-
-            }
+    skillInput.addEventListener("input", function () {
+        sortInvestigators(
+            grid,
+            cards,
+            statSelect.value,
+            skillInput.value,
+            editionSelect.value
         );
+    });
 
-    }
-
-
-    /*
-       最初の表示
-    */
+    editionSelect.addEventListener("change", function () {
+        sortInvestigators(
+            grid,
+            cards,
+            statSelect.value,
+            skillInput.value,
+            editionSelect.value
+        );
+    });
 
     sortInvestigators(
         grid,
@@ -1263,7 +1169,6 @@ function setupInvestigatorSearch() {
         "",
         ""
     );
-
 }
 
 /* =========================
