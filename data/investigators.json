@@ -4,6 +4,7 @@
     "data": {
       "name": "小猫 (xiǎomāo)",
       "initiative": 14,
+      "edition": 6,
       "externalUrl": "https://iachara.com/view/7517553",
       "iconUrl": "https://image.iaproject.app/7b2ef071-5102-4e8c-922d-4ce9fb2e77e1",
       "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=65 【アイデア】\nCCB<=60 【幸運】\nCCB<=60 【知識】\nCCB<=71 【目星】\nCCB<=67 【聞き耳】\nCCB<=25 【図書館】\nCCB<=67 【回避】\nCCB<=51 【こぶし（パンチ）】\nCCB<=60 【拳銃】\nCCB<=42 【応急手当】\nCCB<=40 【言いくるめ】\nCCB<=55 【信用】\nCCB<=69 【値切り】\nCCB<=60 【心理学】\nCCB<=50 【薬学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
@@ -21,13 +22,16 @@
         {"label": "SIZ", "value": "9"},
         {"label": "INT", "value": "13"},
         {"label": "EDU", "value": "12"}
+        
       ]
+      
     }
   },
   {
     "kind": "character",
     "data": {
       "name": "オールノウ",
+      "edition": 6,
       "initiative": 17,
       "externalUrl": "https://iachara.com/view/7783644",
       "iconUrl": "https://image.iaproject.app/bdf79cb1-e142-4b1a-9e2c-42118ca49da7",
@@ -53,6 +57,7 @@
     "kind": "character",
     "data": {
       "name": "蛾場 マダラ (かば  まだら)",
+      "edition": 6,
       "initiative": 16,
       "externalUrl": "https://iachara.com/view/7870581",
       "iconUrl": "https://image.iaproject.app/d0f878d8-7cd3-4fad-a2bf-1c78383a72b5",
@@ -78,6 +83,7 @@
     "kind": "character",
     "data": {
       "name": "日皿魚 根黒 (ひさらな ねくろ)",
+      "edition": 6,
       "initiative": 15,
       "externalUrl": "https://iachara.com/view/7931003",
       "iconUrl": "https://image.iaproject.app/2b55d619-faa0-4b59-955b-b024c0cf0dd6",
@@ -103,6 +109,7 @@
   "kind": "character",
   "data": {
     "name": "ケチャップ&マスタード",
+    "edition": 6,
     "initiative": 11,
     "externalUrl": "https://iachara.com/view/8259967",
     "iconUrl": "https://image.iaproject.app/0377962a-6ccf-4a1b-b59f-1c61aa8686e9",
@@ -128,6 +135,7 @@
   "kind": "character",
   "data": {
     "name": "工亍 公 (くちょく ただし)",
+    "edition": 6,
     "initiative": 13,
     "externalUrl": "https://iachara.com/view/8255345",
     "iconUrl": "https://image.iaproject.app/77411cc5-9e8d-48ae-938d-e914566011b4",
@@ -153,6 +161,7 @@
   "kind": "character",
   "data": {
     "name": "阿吽 (あうん)",
+    "edition": 6,
     "initiative": 14,
     "externalUrl": "https://iachara.com/view/8607554",
     "iconUrl": "https://image.iaproject.app/7139232c-cdff-47ec-b721-bc2424b10f92",
@@ -178,6 +187,7 @@
   "kind": "character",
   "data": {
     "name": "怪盗ブラック",
+    "edition": 6,
     "initiative": 16,
     "externalUrl": "https://iachara.com/view/8966309",
     "iconUrl": "https://image.iaproject.app/fe95fd8c-d283-4313-b513-14cf5755761e",
@@ -203,6 +213,7 @@
   "kind": "character",
   "data": {
     "name": "華道家",
+    "edition": 6,
     "initiative": 10,
     "externalUrl": "https://iachara.com/view/9199005",
     "iconUrl": "https://image.iaproject.app/784e4ebd-527c-48e8-bbbe-a1b1b7736788",
@@ -228,6 +239,7 @@
   "kind": "character",
   "data": {
     "name": "山田 ミミ花 (やまだ みみか)",
+    "edition": 6,
     "initiative": 12,
     "externalUrl": "https://iachara.com/view/9268605",
     "iconUrl": "https://image.iaproject.app/a5abdd9a-0a89-4fdc-823f-5aecabde48d9",
@@ -253,6 +265,7 @@
   "kind": "character",
   "data": {
     "name": "スポット・ワグナー",
+    "edition": 6,
     "initiative": 15,
     "externalUrl": "https://iachara.com/view/9541809",
     "iconUrl": "https://image.iaproject.app/ab3c9019-b270-4988-b4b0-63ec9792215f",
@@ -278,6 +291,7 @@
   "kind": "character",
   "data": {
     "name": "望風 小春 (かぜまねき こはる)",
+    "edition": 6,
     "initiative": 10,
     "externalUrl": "https://iachara.com/view/9677524",
     "iconUrl": "https://image.iaproject.app/844e2b40-28d2-48b3-9cff-d00d1fd60d4a",
@@ -303,6 +317,7 @@
   "kind": "character",
   "data": {
     "name": "卍 真・頭蓋大明神 卍 (しん ずがいだいみょうじん)",
+    "edition": 6,
     "initiative": 16,
     "externalUrl": "https://iachara.com/view/9970884",
     "iconUrl": "https://image.iaproject.app/eaacbfe4-157d-4b95-bea5-585a73fc570e",
@@ -328,6 +343,7 @@
   "kind": "character",
   "data": {
     "name": "ミクス・パーシャル (ミクス・パーシャル)",
+    "edition": 7,
     "initiative": 70,
     "externalUrl": "https://iachara.com/view/10055992",
     "iconUrl": "https://image.iaproject.app/11fed145-6d0a-42cb-9616-ded7dcfc7e94",
@@ -356,6 +372,7 @@
   "kind": "character",
   "data": {
     "name": "隼高 翔太 (はやたか しょうた)",
+    "edition": 7,
     "initiative": 65,
     "externalUrl": "https://iachara.com/view/11122777",
     "iconUrl": "https://image.iaproject.app/5f3bb19c-3170-4257-81a9-04a35441d294",
@@ -380,36 +397,12 @@
     ]
   }
 },
-{
-  "kind": "character",
-  "data": {
-    "name": "陽焔 日向 (ようえん ひなた)",
-    "initiative": 13,
-    "externalUrl": "https://iachara.com/view/11123961",
-    "iconUrl": "https://image.iaproject.app/97185120-3676-422b-9051-e59601568bff",
-    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=55 【アイデア】\nCCB<=90 【幸運】\nCCB<=85 【知識】\nCCB<=65 【目星】\nCCB<=25 【聞き耳】\nCCB<=65 【図書館】\nCCB<=65 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=75 【正義と愛の剣】\nCCB<=75 【応急手当】\nCCB<=51 【精神分析】\nCCB<=65 【製作（ファンレター）】\nCCB<=65 【信用】\nCCB<=64 【コンピューター】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
-    "status": [
-      {"label": "HP", "value": 12, "max": 12},
-      {"label": "MP", "value": 18, "max": 18},
-      {"label": "SAN", "value": 90, "max": 90}
-    ],
-    "params": [
-      {"label": "STR", "value": "15"},
-      {"label": "CON", "value": "13"},
-      {"label": "POW", "value": "18"},
-      {"label": "DEX", "value": "13"},
-      {"label": "APP", "value": "19"},
-      {"label": "SIZ", "value": "11"},
-      {"label": "INT", "value": "11"},
-      {"label": "EDU", "value": "17"}
-    ]
-  }
-},
 
 {
   "kind": "character",
   "data": {
     "name": "キンセー",
+    "edition": 6,
     "initiative": 12,
     "externalUrl": "https://iachara.com/view/11733235",
     "iconUrl": "https://image.iaproject.app/b376cbd8-65b9-45f4-aac4-5406dbd7bba9",
@@ -435,6 +428,7 @@
   "kind": "character",
   "data": {
     "name": "泡泡 花子 (あわうた はなこ)",
+    "edition": 6,
     "initiative": 10,
     "externalUrl": "https://iachara.com/view/11788456",
     "iconUrl": "https://image.iaproject.app/b8e6bdde-f636-46f2-a984-331711852531",
@@ -460,6 +454,7 @@
   "kind": "character",
   "data": {
     "name": "葦原 べこ (あしはら　べこ)",
+    "edition": 6,
     "initiative": 16,
     "externalUrl": "https://iachara.com/view/12074899",
     "iconUrl": "https://image.iaproject.app/e03661da-8d9d-4d1c-bc2c-579b02b20a62",
@@ -485,6 +480,7 @@
   "kind": "character",
   "data": {
     "name": "フレンド",
+    "edition": 6,
     "initiative": 13,
     "externalUrl": "https://iachara.com/view/12346476",
     "iconUrl": "https://image.iaproject.app/63e1df85-3393-4a0b-9d80-61eb93e6d08c",
@@ -510,6 +506,7 @@
   "kind": "character",
   "data": {
     "name": "Phalene・Kowalski (ファレン・コヴァルスキ)",
+    "edition": 6,
     "initiative": 14,
     "externalUrl": "https://iachara.com/view/12524664",
     "iconUrl": "https://image.iaproject.app/03080bfc-8d67-42e8-8c73-2fe87ca62650",
@@ -535,6 +532,7 @@
   "kind": "character",
   "data": {
     "name": "珠真 あける (だま あける)",
+    "edition": 6,
     "initiative": 13,
     "externalUrl": "https://iachara.com/view/12525995",
     "iconUrl": "https://image.iaproject.app/213a7984-e1a8-40e0-be12-36f937764489",
@@ -560,6 +558,7 @@
   "kind": "character",
   "data": {
     "name": "清 蠢 (よどみなし　おろ)",
+    "edition": 6,
     "initiative": 16,
     "externalUrl": "https://iachara.com/view/12610364",
     "iconUrl": "https://image.iaproject.app/b589c4c4-49cd-48d7-a42b-76c47b4f9324",
@@ -585,6 +584,7 @@
   "kind": "character",
   "data": {
     "name": "ミラ・ヘイルマン",
+    "edition": 6,
     "initiative": 13,
     "externalUrl": "https://iachara.com/view/12624017",
     "iconUrl": "https://image.iaproject.app/9095e0c4-d121-468d-815e-382e2bb48a2a",
@@ -610,6 +610,7 @@
   "kind": "character",
   "data": {
     "name": "火魚 モミジ (かながしら モミジ)",
+    "edition": 6,
     "initiative": 11,
     "externalUrl": "https://iachara.com/view/12688303",
     "iconUrl": "https://image.iaproject.app/b25b2764-9c0b-4e5c-a023-12595c6613d1",
@@ -635,6 +636,7 @@
   "kind": "character",
   "data": {
     "name": "カラクミ",
+    "edition": 6,
     "initiative": 18,
     "externalUrl": "https://iachara.com/view/12788284",
     "iconUrl": "https://image.iaproject.app/d3ca889f-d1a3-4ee4-aaf8-c48c73c80697",
@@ -660,6 +662,7 @@
   "kind": "character",
   "data": {
     "name": "尾瀬 口一 (おせ こういち)",
+    "edition": 6,
     "initiative": 10,
     "externalUrl": "https://iachara.com/view/12850452",
     "iconUrl": "https://image.iaproject.app/87e2d221-0060-4114-a043-1853abfe8134",
@@ -685,6 +688,7 @@
   "kind": "character",
   "data": {
     "name": "Slumbers (スランバーズ)",
+    "edition": 6,
     "initiative": 14,
     "externalUrl": "https://iachara.com/view/12893072",
     "iconUrl": "https://image.iaproject.app/afb749b5-a598-4827-bc6e-871dd1843acd",
@@ -710,6 +714,7 @@
   "kind": "character",
   "data": {
     "name": "Schnitt・Schneiden (シュニット・シュナイデン)",
+    "edition": 6,
     "initiative": 12,
     "externalUrl": "https://iachara.com/view/13018424",
     "iconUrl": "https://image.iaproject.app/7f4d58ea-a96e-48bb-9268-2880a9779aa3",
@@ -735,6 +740,7 @@
   "kind": "character",
   "data": {
     "name": "愛 (あい)",
+    "edition": 6,
     "initiative": 13,
     "externalUrl": "https://iachara.com/view/13060560",
     "iconUrl": "https://image.iaproject.app/5d79f737-0a32-4115-87c5-d9991da7a36f",
@@ -760,6 +766,7 @@
   "kind": "character",
   "data": {
     "name": "薄荷 スギナ (うすに すぎな)",
+    "edition": 6,
     "initiative": 21,
     "externalUrl": "https://iachara.com/view/13165545",
     "iconUrl": "https://image.iaproject.app/d2f1355e-d323-4283-aa5d-e147f2f8ad0d",
@@ -785,6 +792,7 @@
   "kind": "character",
   "data": {
     "name": "Dolce・Panetti (ドルチェ・パネッティ)",
+    "edition": 6,
     "initiative": 11,
     "externalUrl": "https://iachara.com/view/13167447",
     "iconUrl": "https://image.iaproject.app/8aa2b10b-bbde-4347-9b42-24ce8b0f1e93",
@@ -810,6 +818,7 @@
   "kind": "character",
   "data": {
     "name": "灰原 龍水 (はいばら りゅうすい)",
+    "edition": 6,
     "initiative": 13,
     "externalUrl": "https://iachara.com/view/13196169",
     "iconUrl": "https://image.iaproject.app/6d8ce3f6-f592-45a5-a139-4115e370d143",
@@ -835,6 +844,7 @@
   "kind": "character",
   "data": {
     "name": "クロエ",
+    "edition": 6,
     "initiative": 9,
     "externalUrl": "https://iachara.com/view/13259430",
     "iconUrl": "https://image.iaproject.app/dc9c93e4-d83b-4c67-a7eb-0a0334640f80",

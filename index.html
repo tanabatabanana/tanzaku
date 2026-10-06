@@ -186,11 +186,37 @@
 
 <div class="investigator-tools">
 
+    <!-- 版で絞り込み -->
+    <div class="edition-filter">
+
+        <label for="edition-select">
+            版で絞り込み
+        </label>
+
+        <select id="edition-select">
+
+            <option value="">すべて</option>
+            <option value="6">6版</option>
+            <option value="7">7版</option>
+
+        </select>
+
+    </div>
+
+
+    <!-- 能力値で並べ替え -->
     <div class="stat-sort">
-        <label for="stat-select">能力値で並べ替え</label>
+
+        <label for="stat-select">
+            能力値で並べ替え
+        </label>
 
         <select id="stat-select">
-            <option value="">選択してください</option>
+
+            <option value="">
+                選択してください
+            </option>
+
             <option value="STR">STR</option>
             <option value="CON">CON</option>
             <option value="POW">POW</option>
@@ -199,22 +225,33 @@
             <option value="SIZ">SIZ</option>
             <option value="INT">INT</option>
             <option value="EDU">EDU</option>
+
             <option value="HP">HP</option>
             <option value="MP">MP</option>
             <option value="SAN">SAN</option>
-            <option value="initiative">イニシアチブ</option>
+
+            <option value="initiative">
+                イニシアチブ
+            </option>
+
         </select>
+
     </div>
 
 
+    <!-- 技能検索 -->
     <div class="skill-search">
-        <label for="skill-search-input">技能を検索</label>
+
+        <label for="skill-search-input">
+            技能を検索
+        </label>
 
         <input
             type="text"
             id="skill-search-input"
             placeholder="例：目星"
         >
+
     </div>
 
 </div>
