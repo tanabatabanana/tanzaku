@@ -2483,17 +2483,14 @@ p {
    ロスト探索者は
    写真エリアそのものの背景を赤にする。
 
-   赤い膜を画像の上に重ねる処理はしない。
 */
-
 .investigator-card.is-lost .photo-area {
-    background-color: white;
+    background-color: #61b3ff;
 }
 
 .investigator-card.is-lost:hover .photo-area {
     background-color: red;
 }
-
 
 /*
    LOST探索者の通常画像
