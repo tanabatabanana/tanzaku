@@ -2437,7 +2437,7 @@ p {
 
 }
 /* =========================
-   PC：探索者アイコンのサイズ調整
+   PC：探索者アイコンを大きくする
 ========================= */
 
 @media (min-width: 801px) {
@@ -2470,10 +2470,11 @@ p {
     }
 
 
+    /* カードの幅は元に戻す */
     .investigator-card {
-        width: 135%;
+        width: 100%;
 
-        justify-self: center;
+        justify-self: stretch;
 
         box-sizing: border-box;
     }
@@ -2483,6 +2484,30 @@ p {
         width: 100%;
 
         aspect-ratio: 3 / 4;
+    }
+
+
+    /* =========================
+       アイコンだけ拡大
+    ========================= */
+
+    .investigator-card .photo-area img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+
+        transform: scale(1.25);
+
+        transform-origin: center center;
+    }
+
+
+    /* ホバー画像も同じ大きさ */
+    .investigator-card .photo-hover {
+        transform: scale(1.25);
+
+        transform-origin: center center;
     }
 
 }
