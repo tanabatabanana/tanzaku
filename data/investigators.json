@@ -1165,7 +1165,7 @@
     "status": [
       {"label": "HP", "value": 10, "max": 10},
       {"label": "MP", "value": 18, "max": 18},
-      {"label": "SAN", "value": 5, "max": 5}
+      {"label": "SAN", "value": 65, "max": 65}
     ],
     "params": [
       {"label": "STR", "value": "11"},
@@ -1215,7 +1215,7 @@
     "status": [
       {"label": "HP", "value": 12, "max": 12},
       {"label": "MP", "value": 18, "max": 18},
-      {"label": "SAN", "value": 8, "max": 8}
+      {"label": "SAN", "value": 68, "max": 68}
     ],
     "params": [
       {"label": "STR", "value": "12"},
