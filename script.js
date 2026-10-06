@@ -1113,54 +1113,121 @@ function getSkills(data) {
 /* =========================
    探索者検索UIの準備
 ========================= */
-function setupInvestigatorSearch() {
-    const grid = document.querySelector(".investigator-grid");
-    const statSelect = document.querySelector("#stat-select");
-    const skillInput = document.querySelector("#skill-search-input");
-    const editionSelect = document.querySelector("#edition-select");
 
-    if (!grid || !statSelect || !skillInput || !editionSelect) {
-        console.error("探索者検索用のHTMLが見つかりません");
+function setupInvestigatorSearch() {
+
+    const grid =
+        document.querySelector(
+            ".investigator-grid"
+        );
+
+    const statSelect =
+        document.querySelector(
+            "#stat-select"
+        );
+
+    const skillInput =
+        document.querySelector(
+            "#skill-search-input"
+        );
+
+    const editionSelect =
+        document.querySelector(
+            "#edition-select"
+        );
+
+
+    if (
+        !grid ||
+        !statSelect ||
+        !skillInput ||
+        !editionSelect
+    ) {
+
+        console.error(
+            "探索者検索用のHTMLが見つかりません"
+        );
+
         return;
+
     }
 
-    const cards = Array.from(
-        grid.querySelectorAll(".investigator-card")
+
+    const cards =
+        Array.from(
+            grid.querySelectorAll(
+                ".investigator-card"
+            )
+        );
+
+
+    /* 元の順番を保存 */
+
+    cards.forEach(
+        function (card, index) {
+
+            card.dataset.originalOrder =
+                index;
+
+        }
     );
 
-    cards.forEach(function (card, index) {
-        card.dataset.originalOrder = index;
-    });
 
-    statSelect.addEventListener("change", function () {
-        sortInvestigators(
-            grid,
-            cards,
-            statSelect.value,
-            skillInput.value,
-            editionSelect.value
-        );
-    });
+    /* 能力値変更 */
 
-    skillInput.addEventListener("input", function () {
-        sortInvestigators(
-            grid,
-            cards,
-            statSelect.value,
-            skillInput.value,
-            editionSelect.value
-        );
-    });
+    statSelect.addEventListener(
+        "change",
+        function () {
 
-    editionSelect.addEventListener("change", function () {
-        sortInvestigators(
-            grid,
-            cards,
-            statSelect.value,
-            skillInput.value,
-            editionSelect.value
-        );
-    });
+            sortInvestigators(
+                grid,
+                cards,
+                statSelect.value,
+                skillInput.value,
+                editionSelect.value
+            );
+
+        }
+    );
+
+
+    /* 技能検索 */
+
+    skillInput.addEventListener(
+        "input",
+        function () {
+
+            sortInvestigators(
+                grid,
+                cards,
+                statSelect.value,
+                skillInput.value,
+                editionSelect.value
+            );
+
+        }
+    );
+
+
+    /* 版・状態変更 */
+
+    editionSelect.addEventListener(
+        "change",
+        function () {
+
+            sortInvestigators(
+                grid,
+                cards,
+                statSelect.value,
+                skillInput.value,
+                editionSelect.value
+            );
+
+        }
+    );
+
+
+    /* 最初の表示 */
 
     sortInvestigators(
         grid,
@@ -1169,7 +1236,9 @@ function setupInvestigatorSearch() {
         "",
         ""
     );
+
 }
+
 
 /* =========================
    6版 / 7版フィルター作成
@@ -1178,7 +1247,8 @@ function setupInvestigatorSearch() {
 function createEditionFilter() {
 
     /*
-       すでにHTMLにある場合は何もしない
+       すでにHTMLにある場合は
+       何もしない
     */
 
     if (
@@ -1222,7 +1292,7 @@ function createEditionFilter() {
 
 
     label.textContent =
-        "版で絞り込み";
+        "版・状態で絞り込み";
 
 
     const select =
@@ -1234,19 +1304,11 @@ function createEditionFilter() {
 
 
     select.innerHTML = `
-
-        <option value="">
-            すべて
-        </option>
-
-        <option value="6">
-            6版
-        </option>
-
-        <option value="7">
-            7版
-        </option>
-
+        <option value="">すべて</option>
+        <option value="6">6版</option>
+        <option value="7">7版</option>
+        <option value="alive">生存</option>
+        <option value="lost">ロスト</option>
     `;
 
 
@@ -1259,8 +1321,7 @@ function createEditionFilter() {
 }
 
 
-
-/* ============/* =========================
+/* =========================
    並べ替え・検索・絞り込み
 ========================= */
 
@@ -1269,8 +1330,7 @@ function sortInvestigators(
     cards,
     selectedStat,
     skillText,
-    selectedEdition,
-    selectedLife
+    selectedEdition
 ) {
 
     const searchText =
@@ -1291,9 +1351,9 @@ function sortInvestigators(
                 );
 
 
-            /*
-               ロスト状態を取得
-            */
+            /* =========================
+               LOST判定
+            ========================= */
 
             const isLost =
                 !!(
@@ -1302,10 +1362,6 @@ function sortInvestigators(
                     data.data.lost === true
                 );
 
-
-            /*
-               ロスト用クラスを付ける
-            */
 
             if (isLost) {
 
@@ -1322,9 +1378,9 @@ function sortInvestigators(
             }
 
 
-            /*
-               LOST表示を作る
-            */
+            /* =========================
+               LOST文字
+            ========================= */
 
             const photoArea =
                 card.querySelector(
@@ -1332,112 +1388,134 @@ function sortInvestigators(
                 );
 
 
-            if (
-                photoArea &&
-                isLost &&
-                !photoArea.querySelector(
-                    ".lost-label"
-                )
-            ) {
-
-                const lostLabel =
-                    document.createElement(
-                        "span"
-                    );
-
-                lostLabel.className =
-                    "lost-label";
-
-                lostLabel.textContent =
-                    "LOST";
-
-                photoArea.appendChild(
-                    lostLabel
-                );
-
-            }
-
-
-            /*
-               ロストでない場合、
-               念のため表示を削除
-            */
-
-            if (
-                photoArea &&
-                !isLost
-            ) {
+            if (photoArea) {
 
                 const oldLabel =
                     photoArea.querySelector(
                         ".lost-label"
                     );
 
+
                 if (oldLabel) {
                     oldLabel.remove();
+                }
+
+
+                if (isLost) {
+
+                    const lostLabel =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    lostLabel.className =
+                        "lost-label";
+
+
+                    lostLabel.textContent =
+                        "LOST";
+
+
+                    photoArea.appendChild(
+                        lostLabel
+                    );
+
                 }
 
             }
 
 
-            /*
-               状態で絞り込み
-            */
+            /* =========================
+               版・状態で絞り込み
+            ========================= */
+
+
+            /* 6版 */
 
             if (
-                selectedLife === "lost" &&
-                !isLost
+                selectedEdition === "6"
             ) {
 
-                card.style.display =
-                    "none";
-
-                return;
-
-            }
-
-
-            if (
-                selectedLife === "alive" &&
-                isLost
-            ) {
-
-                card.style.display =
-                    "none";
-
-                return;
-
-            }
-
-
-            /*
-               版で絞り込み
-            */
-
-            if (
-                selectedEdition !== "" &&
-                (
+                if (
                     !data ||
-                    String(
-                        getEdition(data)
-                    ) !==
-                    String(selectedEdition)
-                )
-            ) {
+                    getEdition(data) !== 6
+                ) {
 
-                card.style.display =
-                    "none";
+                    card.style.display =
+                        "none";
 
-                return;
+                    return;
+
+                }
 
             }
 
 
-            /*
-               技能検索
-            */
+            /* 7版 */
 
-            if (searchText !== "") {
+            if (
+                selectedEdition === "7"
+            ) {
+
+                if (
+                    !data ||
+                    getEdition(data) !== 7
+                ) {
+
+                    card.style.display =
+                        "none";
+
+                    return;
+
+                }
+
+            }
+
+
+            /* 生存 */
+
+            if (
+                selectedEdition === "alive"
+            ) {
+
+                if (isLost) {
+
+                    card.style.display =
+                        "none";
+
+                    return;
+
+                }
+
+            }
+
+
+            /* ロスト */
+
+            if (
+                selectedEdition === "lost"
+            ) {
+
+                if (!isLost) {
+
+                    card.style.display =
+                        "none";
+
+                    return;
+
+                }
+
+            }
+
+
+            /* =========================
+               技能検索
+            ========================= */
+
+            if (
+                searchText !== ""
+            ) {
 
                 if (!data) {
 
@@ -1501,9 +1579,9 @@ function sortInvestigators(
             }
 
 
-            /*
+            /* =========================
                通常表示
-            */
+            ========================= */
 
             card.style.display =
                 "";
@@ -1532,8 +1610,7 @@ function sortInvestigators(
 
                 value: value,
 
-                label:
-                    selectedStat
+                label: selectedStat
 
             });
 
@@ -1541,16 +1618,12 @@ function sortInvestigators(
     );
 
 
-    /*
+    /* =========================
        並べ替え
-    */
+    ========================= */
 
     results.sort(
         function (a, b) {
-
-            /*
-               数値がある人を優先
-            */
 
             const aValue =
                 a.value === null
@@ -1564,10 +1637,6 @@ function sortInvestigators(
                     : b.value;
 
 
-            /*
-               大きい順
-            */
-
             if (
                 bValue !== aValue
             ) {
@@ -1579,11 +1648,6 @@ function sortInvestigators(
 
             }
 
-
-            /*
-               同じ値なら
-               元の順番
-            */
 
             return (
                 Number(
@@ -1600,9 +1664,9 @@ function sortInvestigators(
     );
 
 
-    /*
+    /* =========================
        カードを並べ直す
-    */
+    ========================= */
 
     results.forEach(
         function (item) {
@@ -1622,8 +1686,6 @@ function sortInvestigators(
     );
 
 }
-
-
 /* =========================
    カード上の数値表示
 ========================= */
