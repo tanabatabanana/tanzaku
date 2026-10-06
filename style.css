@@ -2494,3 +2494,20 @@ p {
     }
 
 }
+/* =========================
+   探索者カードを直接大きくする
+========================= */
+
+@media (min-width: 801px) {
+
+    .investigator-grid {
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 70px;
+    }
+
+    .investigator-card {
+        width: 125%;
+        justify-self: center;
+    }
+
+}
