@@ -2460,15 +2460,15 @@ p {
     /* 探索者一覧 */
 
     .investigator-grid {
-        width: 100%;
-        max-width: 1250px;
+    width: 100%;
+    max-width: 1400px;
 
-        grid-template-columns:
-            repeat(4, minmax(0, 1fr));
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
 
-        column-gap: 80px;
-        row-gap: 110px;
-    }
+    column-gap: 120px;
+    row-gap: 110px;
+}
 
 
     /* 探索者カード */
