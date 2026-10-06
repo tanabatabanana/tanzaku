@@ -2450,3 +2450,215 @@ p {
     }
 
 }
+/* =========================
+   ロスト表示
+========================= */
+
+/* 画像部分を基準にする */
+.investigator-card .photo-area {
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* -------------------------
+   ロスト用の黒グラデーション
+------------------------- */
+
+.investigator-card.is-lost .photo-area::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.88) 0%,
+            rgba(0, 0, 0, 0.55) 35%,
+            rgba(0, 0, 0, 0.18) 65%,
+            rgba(0, 0, 0, 0) 100%
+        );
+
+    opacity: 0;
+
+    transition:
+        opacity 0.25s ease;
+
+    z-index: 5;
+}
+
+
+/* カーソルを合わせたときだけ黒くする */
+
+.investigator-card.is-lost:hover .photo-area::after {
+
+    opacity: 1;
+
+}
+
+
+/* -------------------------
+   LOST文字
+------------------------- */
+
+.investigator-card .lost-label {
+
+    position: absolute;
+
+    right: 10px;
+    bottom: 10px;
+
+    z-index: 10;
+
+    display: block;
+
+    padding: 5px 9px;
+
+    background: #000;
+
+    color: #fff;
+
+    font-family:
+        "Y1PixelationSerif",
+        sans-serif;
+
+    font-size: 15px;
+
+    line-height: 1;
+
+    letter-spacing: 2px;
+
+    border: 2px solid #fff;
+
+    opacity: 0;
+
+    transform:
+        translateY(5px);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+
+    pointer-events: none;
+
+}
+
+
+/* カーソルを合わせたら表示 */
+
+.investigator-card.is-lost:hover .lost-label {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================
+   状態フィルター
+========================= */
+
+.life-filter {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+
+.life-filter label {
+
+    font-family:
+        "Y1PixelationSerif",
+        sans-serif;
+
+    font-size: 16px;
+
+    color: #0047ff;
+
+    line-height: 1.2;
+
+}
+
+
+.life-filter select {
+
+    width: 150px;
+
+    height: 42px;
+
+    box-sizing: border-box;
+
+    border: 3px solid #0047ff;
+
+    background:
+        rgba(255, 255, 255, 0.9);
+
+    font-family:
+        "Y1PixelationSerif",
+        sans-serif;
+
+    font-size: 16px;
+
+    padding:
+        5px 12px;
+
+    color: #000;
+
+}
+
+
+/* =========================
+   スマホ
+========================= */
+
+@media (max-width: 800px) {
+
+    .life-filter {
+
+        width: 100%;
+
+        max-width: 300px;
+
+    }
+
+
+    .life-filter select {
+
+        width: 100%;
+
+    }
+
+
+    /* スマホではタップ時にも
+       LOST表示を見えるようにする */
+
+    .investigator-card.is-lost.mobile-tapped
+        .photo-area::after {
+
+        opacity: 1;
+
+    }
+
+
+    .investigator-card.is-lost.mobile-tapped
+        .lost-label {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}

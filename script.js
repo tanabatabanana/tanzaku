@@ -1266,8 +1266,6 @@ function setupInvestigatorSearch() {
 
 }
 
-
-
 /* =========================
    6版 / 7版フィルター作成
 ========================= */
@@ -1357,7 +1355,7 @@ function createEditionFilter() {
 
 
 
-/* =========================
+/* ============/* =========================
    並べ替え・検索・絞り込み
 ========================= */
 
@@ -1366,7 +1364,8 @@ function sortInvestigators(
     cards,
     selectedStat,
     skillText,
-    selectedEdition
+    selectedEdition,
+    selectedLife
 ) {
 
     const searchText =
@@ -1388,7 +1387,126 @@ function sortInvestigators(
 
 
             /*
-               まず版で絞り込む
+               ロスト状態を取得
+            */
+
+            const isLost =
+                !!(
+                    data &&
+                    data.data &&
+                    data.data.lost === true
+                );
+
+
+            /*
+               ロスト用クラスを付ける
+            */
+
+            if (isLost) {
+
+                card.classList.add(
+                    "is-lost"
+                );
+
+            } else {
+
+                card.classList.remove(
+                    "is-lost"
+                );
+
+            }
+
+
+            /*
+               LOST表示を作る
+            */
+
+            const photoArea =
+                card.querySelector(
+                    ".photo-area"
+                );
+
+
+            if (
+                photoArea &&
+                isLost &&
+                !photoArea.querySelector(
+                    ".lost-label"
+                )
+            ) {
+
+                const lostLabel =
+                    document.createElement(
+                        "span"
+                    );
+
+                lostLabel.className =
+                    "lost-label";
+
+                lostLabel.textContent =
+                    "LOST";
+
+                photoArea.appendChild(
+                    lostLabel
+                );
+
+            }
+
+
+            /*
+               ロストでない場合、
+               念のため表示を削除
+            */
+
+            if (
+                photoArea &&
+                !isLost
+            ) {
+
+                const oldLabel =
+                    photoArea.querySelector(
+                        ".lost-label"
+                    );
+
+                if (oldLabel) {
+                    oldLabel.remove();
+                }
+
+            }
+
+
+            /*
+               状態で絞り込み
+            */
+
+            if (
+                selectedLife === "lost" &&
+                !isLost
+            ) {
+
+                card.style.display =
+                    "none";
+
+                return;
+
+            }
+
+
+            if (
+                selectedLife === "alive" &&
+                isLost
+            ) {
+
+                card.style.display =
+                    "none";
+
+                return;
+
+            }
+
+
+            /*
+               版で絞り込み
             */
 
             if (
@@ -1480,17 +1598,14 @@ function sortInvestigators(
 
             /*
                通常表示
-
-               ★ここが今回の重要ポイント
-
-               JSONにデータがない人も
-               display:none にしない
             */
 
-            card.style.display = "";
+            card.style.display =
+                "";
 
 
-            let value = null;
+            let value =
+                null;
 
 
             if (selectedStat) {
@@ -1512,7 +1627,8 @@ function sortInvestigators(
 
                 value: value,
 
-                label: selectedStat
+                label:
+                    selectedStat
 
             });
 
@@ -1520,68 +1636,63 @@ function sortInvestigators(
     );
 
 
-
     /*
        並べ替え
     */
 
-    if (
-        selectedStat ||
-        searchText !== ""
-    ) {
+    results.sort(
+        function (a, b) {
 
-        results.sort(
-            function (a, b) {
+            /*
+               数値がある人を優先
+            */
 
-                /*
-                   データがある人を上にする
-                */
-
-                const valueA =
-                    a.value === null
-                        ? -1
-                        : a.value;
+            const aValue =
+                a.value === null
+                    ? -1
+                    : a.value;
 
 
-                const valueB =
-                    b.value === null
-                        ? -1
-                        : b.value;
+            const bValue =
+                b.value === null
+                    ? -1
+                    : b.value;
 
 
-                if (
-                    valueA !== valueB
-                ) {
+            /*
+               大きい順
+            */
 
-                    return (
-                        valueB -
-                        valueA
-                    );
-
-                }
-
-
-                /*
-                   同じ値なら
-                   元の順番
-                */
+            if (
+                bValue !== aValue
+            ) {
 
                 return (
-                    Number(
-                        a.card.dataset
-                            .originalOrder
-                    ) -
-                    Number(
-                        b.card.dataset
-                            .originalOrder
-                    )
+                    bValue -
+                    aValue
                 );
 
             }
-        );
 
-    }
 
+            /*
+               同じ値なら
+               元の順番
+            */
+
+            return (
+                Number(
+                    a.card.dataset
+                        .originalOrder
+                ) -
+                Number(
+                    b.card.dataset
+                        .originalOrder
+                )
+            );
+
+        }
+    );
 
 
     /*
@@ -1606,7 +1717,6 @@ function sortInvestigators(
     );
 
 }
-
 
 
 /* =========================

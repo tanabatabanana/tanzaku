@@ -976,6 +976,7 @@
   "data": {
     "name": "銈膝寺 炎 (けいしつじ えんら)",
     "edition": 6,
+    "lost": true,
     "initiative": 10,
     "externalUrl": "https://iachara.com/view/12934819",
     "iconUrl": "https://image.iaproject.app/3cd1634a-2aed-46c3-b046-68ae5a916970",
@@ -1002,6 +1003,7 @@
   "data": {
     "name": "TEDDY ver 5.2",
     "edition": 6,
+    "lost": true,
     "initiative": 11,
     "externalUrl": "https://iachara.com/view/10351733",
     "iconUrl": "https://image.iaproject.app/8ef5c3de-bdc5-44e4-99a3-3a4f4eb74995",
@@ -1028,6 +1030,7 @@
   "data": {
     "name": "四柳 菊丸 (よつやなぎ きくまる)",
     "edition": 6,
+    "lost": true,
     "initiative": 14,
     "externalUrl": "https://iachara.com/view/13570623",
     "iconUrl": "https://image.iaproject.app/f5ac9eef-6382-4e8d-9cc1-cbb91cef7978",
@@ -1359,6 +1362,7 @@
   "data": {
     "name": "筋引 みか (すじひき)",
     "edition": 6,
+    "lost": true,
     "externalUrl": "https://iachara.com/view/14483663",
     "iconUrl": "https://image.iaproject.app/b91b2ad3-cb89-4acd-b44e-ad4fddf455ea",
     "commands": "CCB<=100 【アイデア】\nCCB<=45 【幸運】\nCCB<=55 【知識】\nCCB<=70 【目星】\nCCB<=25 【聞き耳】\nCCB<=75 【図書館】\nCCB<=50 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=27 【投擲】\nCCB<=70 【バット（クリケットのバット）】\nCCB<=43 【応急手当】\nCCB<=60 【隠す】\nCCB<=36 【精神分析】\nCCB<=55 【言いくるめ】\nCCB<=50 【芸術（イカサマ）】\nCCB<=80 【心理学】",
@@ -1384,6 +1388,7 @@
   "data": {
     "name": "海原 鉾 (かいばら ぼう)",
     "edition": 6,
+    "lost": true,
     "externalUrl": "https://iachara.com/view/14102590",
     "iconUrl": "https://image.iaproject.app/de11d594-7884-4751-b1ee-cdcfe4811bad",
     "commands": "CCB<=85 【アイデア】\nCCB<=90 【幸運】\nCCB<=85 【知識】\nCCB<=65 【目星】\nCCB<=65 【聞き耳】\nCCB<=75 【図書館】\nCCB<=52 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=54 【キック】\nCCB<=70 【信用】\nCCB<=16 【説得】\nCCB<=79 【英語】\nCCB<=75 【医学】\nCCB<=85 【心理学】\nCCB<=80 【博物学】",
