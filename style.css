@@ -2436,25 +2436,26 @@ p {
     }
 
 }
-
 /* =========================
-   PC：探索者アイコンを大きくする
+   PC：探索者アイコンをもっと大きくする
 ========================= */
 
 @media (min-width: 801px) {
 
     .investigators-page {
-        max-width: 1600px;
+        max-width: 1800px;
+
         box-sizing: border-box;
 
-        padding-left: 50px;
-        padding-right: 50px;
+        padding-left: 35px;
+        padding-right: 35px;
     }
 
 
     .investigator-grid {
         width: 100%;
-        max-width: 1500px;
+
+        max-width: none;
 
         margin: 0 auto;
 
@@ -2463,7 +2464,7 @@ p {
         grid-template-columns:
             repeat(4, minmax(0, 1fr));
 
-        column-gap: 45px;
+        column-gap: 30px;
 
         row-gap: 110px;
     }
