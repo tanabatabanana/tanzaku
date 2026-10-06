@@ -412,7 +412,6 @@ function normalizeName(name) {
 }
 
 
-
 /* =========================
    名前から探索者データを探す
 ========================= */
@@ -428,73 +427,453 @@ function findInvestigatorData(card) {
     }
 
 
+    /*
+       HTML側の名前
+    */
+
     const cardName =
         normalizeName(
             nameElement.textContent
         );
 
 
-    /* 完全一致 */
-
-    let result =
-        iacharaInvestigators.find(
-            function (investigator) {
-
-                if (
-                    !investigator.data ||
-                    !investigator.data.name
-                ) {
-                    return false;
-                }
-
-                const dataName =
-                    normalizeName(
-                        investigator.data.name
-                    );
-
-                return dataName === cardName;
-
-            }
-        );
-
-
-    if (result) {
-        return result;
+    if (!cardName) {
+        return null;
     }
 
 
     /*
-       完全一致しなかった場合、
-       JSON側の名前にHTML側の名前が
-       含まれているかも調べる
+       =========================
+       名前の候補を作る
+       =========================
+
+       例：
+
+       JSON
+       Schnitt・Schneiden
+       (シュニット・シュナイデン)
+
+       ↓
+
+       シュニットシュナイデン
+       SchnittSchneiden
     */
 
-    result =
-        iacharaInvestigators.find(
-            function (investigator) {
+    function getCandidates(name) {
 
-                if (
-                    !investigator.data ||
-                    !investigator.data.name
-                ) {
-                    return false;
-                }
+        const original =
+            String(name)
+                .normalize("NFKC");
 
-                const dataName =
-                    normalizeName(
-                        investigator.data.name
-                    );
 
-                return (
-                    dataName.includes(cardName) ||
-                    cardName.includes(dataName)
+        const candidates = [];
+
+
+        function addCandidate(value) {
+
+            if (!value) {
+                return;
+            }
+
+
+            const normalized =
+                normalizeName(value);
+
+
+            if (
+                normalized &&
+                !candidates.includes(
+                    normalized
+                )
+            ) {
+
+                candidates.push(
+                    normalized
+                );
+
+            }
+
+        }
+
+
+        /*
+           名前全体
+        */
+
+        addCandidate(original);
+
+
+        /*
+           括弧の中
+        */
+
+        const bracketMatches =
+            original.match(
+                /[（(]([^）)]+)[）)]/g
+            ) || [];
+
+
+        bracketMatches.forEach(
+            function (part) {
+
+                addCandidate(
+                    part.replace(
+                        /[（()）)]/g,
+                        ""
+                    )
                 );
 
             }
         );
 
 
-    return result || null;
+        /*
+           括弧より前
+        */
+
+        addCandidate(
+            original.replace(
+                /[（(].*?[）)]/g,
+                ""
+            )
+        );
+
+
+        return candidates;
+
+    }
+
+
+    /*
+       HTML側の候補
+    */
+
+    const cardCandidates =
+        getCandidates(
+            nameElement.textContent
+        );
+
+
+    /*
+       =========================
+       JSONの名前と照合
+       =========================
+    */
+
+    for (
+        const investigator
+        of iacharaInvestigators
+    ) {
+
+        if (
+            !investigator.data ||
+            !investigator.data.name
+        ) {
+            continue;
+        }
+
+
+        const dataCandidates =
+            getCandidates(
+                investigator.data.name
+            );
+
+
+        /*
+           完全一致
+        */
+
+        for (
+            const cardCandidate
+            of cardCandidates
+        ) {
+
+            for (
+                const dataCandidate
+                of dataCandidates
+            ) {
+
+                if (
+                    cardCandidate ===
+                    dataCandidate
+                ) {
+
+                    return investigator;
+
+                }
+
+            }
+
+        }
+
+
+        /*
+           =========================
+           部分一致
+           =========================
+
+           スランバーズ
+           ↓
+           スランバーズ
+
+           シュニット・シュナイデン
+           ↓
+           シュニットシュナイデン
+
+           のようなケース
+        */
+
+        for (
+            const cardCandidate
+            of cardCandidates
+        ) {
+
+            for (
+                const dataCandidate
+                of dataCandidates
+            ) {
+
+                if (
+                    cardCandidate.length >= 4 &&
+                    dataCandidate.length >= 4 &&
+                    (
+                        dataCandidate.includes(
+                            cardCandidate
+                        ) ||
+                        cardCandidate.includes(
+                            dataCandidate
+                        )
+                    )
+                ) {
+
+                    return investigator;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /*
+       =========================
+       表記ゆれ対応
+       =========================
+
+       ファレン・コワルスキー
+       ファレン・コヴァルスキ
+
+       のように、
+       少しだけ文字が違う場合にも対応する。
+    */
+
+    function similarity(a, b) {
+
+        if (!a || !b) {
+            return 0;
+        }
+
+
+        if (a === b) {
+            return 1;
+        }
+
+
+        /*
+           共通する長い部分がある場合
+        */
+
+        if (
+            a.length >= 4 &&
+            b.length >= 4
+        ) {
+
+            if (
+                a.includes(b) ||
+                b.includes(a)
+            ) {
+
+                return 0.95;
+
+            }
+
+        }
+
+
+        /*
+           編集距離を計算
+        */
+
+        const shorter =
+            a.length <= b.length
+                ? a
+                : b;
+
+
+        const longer =
+            a.length > b.length
+                ? a
+                : b;
+
+
+        if (
+            shorter.length < 4
+        ) {
+            return 0;
+        }
+
+
+        let previous =
+            Array.from(
+                {
+                    length:
+                        longer.length + 1
+                },
+                function (_, index) {
+                    return index;
+                }
+            );
+
+
+        for (
+            let i = 1;
+            i <= shorter.length;
+            i++
+        ) {
+
+            const current = [i];
+
+
+            for (
+                let j = 1;
+                j <= longer.length;
+                j++
+            ) {
+
+                const cost =
+                    shorter[i - 1] ===
+                    longer[j - 1]
+                        ? 0
+                        : 1;
+
+
+                current[j] =
+                    Math.min(
+
+                        current[j - 1] + 1,
+
+                        previous[j] + 1,
+
+                        previous[j - 1] + cost
+
+                    );
+
+            }
+
+
+            previous =
+                current;
+
+        }
+
+
+        const distance =
+            previous[
+                longer.length
+            ];
+
+
+        return (
+            1 -
+            distance /
+            longer.length
+        );
+
+    }
+
+
+    /*
+       =========================
+       一番近い名前を探す
+       =========================
+    */
+
+    let bestResult = null;
+
+    let bestScore = 0;
+
+
+    for (
+        const investigator
+        of iacharaInvestigators
+    ) {
+
+        if (
+            !investigator.data ||
+            !investigator.data.name
+        ) {
+            continue;
+        }
+
+
+        const dataCandidates =
+            getCandidates(
+                investigator.data.name
+            );
+
+
+        for (
+            const cardCandidate
+            of cardCandidates
+        ) {
+
+            for (
+                const dataCandidate
+                of dataCandidates
+            ) {
+
+                const score =
+                    similarity(
+                        cardCandidate,
+                        dataCandidate
+                    );
+
+
+                if (
+                    score > bestScore
+                ) {
+
+                    bestScore =
+                        score;
+
+                    bestResult =
+                        investigator;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /*
+       軽い表記ゆれなら採用
+    */
+
+    if (
+        bestScore >= 0.65
+    ) {
+
+        return bestResult;
+
+    }
+
+
+    return null;
 
 }
 
