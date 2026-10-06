@@ -2502,49 +2502,35 @@ p {
 /* -------------------------
    LOST文字
 ------------------------- */
-
 .investigator-card .lost-label {
-
     position: absolute;
-
     right: 10px;
     bottom: 10px;
-
     z-index: 10;
 
-    display: block;
+    background: none;
+    border: none;
 
-    padding: 5px 9px;
+    color: red;
 
-    background: #000;
-
-    color: #fff;
-
-    font-family:
-        "Y1PixelationSerif",
-        sans-serif;
-
-    font-size: 15px;
-
+    font-family: "Y1PixelationSerif", sans-serif;
+    font-size: 18px;
     line-height: 1;
-
     letter-spacing: 2px;
 
-    border: 2px solid #fff;
-
     opacity: 0;
-
-    transform:
-        translateY(5px);
-
+    transform: translateY(5px);
     transition:
         opacity 0.25s ease,
         transform 0.25s ease;
 
     pointer-events: none;
-
 }
 
+.investigator-card.is-lost:hover .lost-label {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 /* カーソルを合わせたら表示 */
 
