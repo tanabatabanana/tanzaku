@@ -2012,21 +2012,14 @@ p {
    探索者検索・絞り込み
 ========================= */
 
-.investigator-tools {
+.i.investigator-tools {
     width: 100%;
-
     max-width: 900px;
-
-    margin: 0 auto 170px;
-
+    margin: -50px auto 70px;
     display: flex;
-
     justify-content: center;
-
     align-items: flex-end;
-
     gap: 30px;
-
     flex-wrap: wrap;
 }
 
@@ -2368,7 +2361,7 @@ p {
 @media (max-width: 800px) {
 
     .investigator-tools {
-        margin-bottom: 90px;
+        margin-bottom:180px;
     }
 
 }
