@@ -399,9 +399,8 @@ p {
 /* =========================
    INVESTIGATORS エリア
 ========================= */
-
 .investigators-page {
-    max-width: 1400px;
+    max-width: 1600px;
 
     margin: 230px auto 0;
 
@@ -442,8 +441,7 @@ p {
 .investigator-grid {
     width: 100%;
 
-    max-width: 1400px;
-
+    max-width: 1500px;
     margin: 0 auto;
 
     display: grid;
