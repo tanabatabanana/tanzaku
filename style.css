@@ -2437,7 +2437,7 @@ p {
 
 }
 /* =========================
-   PC：探索者アイコンをもっと大きくする
+   PC：探索者カードを大きくする
 ========================= */
 
 @media (min-width: 801px) {
@@ -2447,8 +2447,8 @@ p {
 
         box-sizing: border-box;
 
-        padding-left: 35px;
-        padding-right: 35px;
+        padding-left: 70px;
+        padding-right: 70px;
     }
 
 
@@ -2464,18 +2464,16 @@ p {
         grid-template-columns:
             repeat(4, minmax(0, 1fr));
 
-        column-gap: 30px;
+        column-gap: 70px;
 
-        row-gap: 110px;
+        row-gap: 120px;
     }
 
 
     .investigator-card {
-        width: 100%;
+        width: 115%;
 
-        min-width: 0;
-
-        justify-self: stretch;
+        justify-self: center;
 
         box-sizing: border-box;
     }
