@@ -2453,11 +2453,8 @@ p {
 /* =========================
    ロスト表示
 ========================= */
-
-/* 画像部分を基準にする */
 .investigator-card .photo-area {
     position: relative;
-    overflow: hidden;
 }
 
 
