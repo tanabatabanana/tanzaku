@@ -8,37 +8,6 @@ let iacharaInvestigators = [];
 
 
 /* =========================
-   7版探索者
-========================= */
-
-const seventhEditionNames = [
-    "ミクス・パーシャル",
-    "隼高 翔太"
-];
-
-
-/* =========================
-   7版かどうか判定
-========================= */
-
-function isSeventhEdition(data) {
-
-    if (!data || !data.data || !data.data.name) {
-        return false;
-    }
-
-    const name = normalizeName(data.data.name);
-
-    return seventhEditionNames.some(function (target) {
-
-        return normalizeName(target) === name;
-
-    });
-
-}
-
-
-/* =========================
    データ読み込み
 ========================= */
 
@@ -120,7 +89,9 @@ function findInvestigatorData(card) {
         }
 
         const dataName =
-            normalizeName(investigator.data.name);
+            normalizeName(
+                investigator.data.name
+            );
 
         return dataName === cardName;
 
@@ -131,15 +102,20 @@ function findInvestigatorData(card) {
 
 /* =========================
    版を取得
+   JSONのeditionをそのまま使用
 ========================= */
 
 function getEdition(data) {
 
-    if (isSeventhEdition(data)) {
-        return 7;
+    if (
+        !data ||
+        !data.data ||
+        data.data.edition === undefined
+    ) {
+        return null;
     }
 
-    return 6;
+    return Number(data.data.edition);
 
 }
 
@@ -312,7 +288,9 @@ function getSkills(data) {
 function createEditionFilter() {
 
     const tools =
-        document.querySelector(".investigator-tools");
+        document.querySelector(
+            ".investigator-tools"
+        );
 
     if (!tools) {
         return null;
@@ -322,7 +300,9 @@ function createEditionFilter() {
     /* すでに存在する場合 */
 
     let editionBox =
-        document.querySelector(".edition-filter");
+        document.querySelector(
+            ".edition-filter"
+        );
 
     if (editionBox) {
 
@@ -340,7 +320,6 @@ function createEditionFilter() {
 
     editionBox.className =
         "edition-filter";
-
 
     editionBox.innerHTML = `
 
@@ -700,7 +679,9 @@ function sortInvestigators(
 
     results.forEach(function (item) {
 
-        grid.appendChild(item.card);
+        grid.appendChild(
+            item.card
+        );
 
     });
 
@@ -782,10 +763,9 @@ function updateValueDisplay(
 
 
             text =
-                label +
-                "："
-                +
-                item.statValue;
+                label
+                + "："
+                + item.statValue;
 
         }
 
@@ -802,14 +782,18 @@ function updateValueDisplay(
                 "div"
             );
 
+
         value.className =
             "investigator-value";
+
 
         value.textContent =
             text;
 
 
-        card.appendChild(value);
+        card.appendChild(
+            value
+        );
 
     });
 
