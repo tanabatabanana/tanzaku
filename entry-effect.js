@@ -1,4 +1,8 @@
 /* 短冊の部屋 入室演出 */
+
+
+console.log("entry-effect.js 読み込み成功");
+
 (() => {
   "use strict";
 
