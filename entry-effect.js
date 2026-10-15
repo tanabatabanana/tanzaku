@@ -99,33 +99,49 @@ console.log("entry-effect.js 読み込み成功");
     if (intro) intro.remove();
 
  
-const count = window.innerWidth < 600 ? 18 : 32;
+
 const active = [];
 
-for (let i = 0; i < count; i++) {
+const cellWidth = 220;
+const cellHeight = 115;
+const cols = Math.ceil(window.innerWidth / cellWidth) + 1;
+const rows = Math.ceil(window.innerHeight / cellHeight) + 1;
+
+const positions = [];
+
+for (let row = 0; row < rows; row++) {
+  for (let col = 0; col < cols; col++) {
+    positions.push({
+      x: col * cellWidth - 30 + rand(-25, 25),
+      y: row * cellHeight - 15 + rand(-20, 20)
+    });
+  }
+}
+
+// 出現する順番をランダムにする
+positions.sort(() => Math.random() - 0.5);
+
+for (let i = 0; i < positions.length; i++) {
   const data = messages[Math.floor(Math.random() * messages.length)];
   const win = makeWindow(data);
+  const width = Math.min(250, window.innerWidth - 12);
 
-  const width = Math.min(
-    rand(210, 290),
-    window.innerWidth - 24
-  );
-
-  win.style.width = width + "px";
-  win.style.height = rand(105, 145) + "px";
   win.style.position = "absolute";
-  win.style.left = rand(0, Math.max(0, window.innerWidth - width)) + "px";
-  win.style.top = rand(0, Math.max(0, window.innerHeight - 145)) + "px";
+  win.style.width = width + "px";
+  win.style.height = "auto";
+  win.style.left = positions[i].x + "px";
+  win.style.top = positions[i].y + "px";
   win.style.setProperty("--entry-rot", rand(-3, 3).toFixed(1) + "deg");
   win.style.zIndex = String(10 + i);
 
   overlay.append(win);
   active.push(win);
 
-  if (i % 2 === 0) addGlitch();
+  if (i % 3 === 0) addGlitch();
 
-  await wait(rand(25, 55));
+  await wait(rand(20, 40));
 }
+
 
 
     await wait(1000);
