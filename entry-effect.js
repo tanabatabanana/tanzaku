@@ -1,4 +1,3 @@
-
 /* 短冊の部屋 入室演出 */
 (() => {
   "use strict";
@@ -18,11 +17,8 @@
     { title: "ERROR 404", text: "MEMORY NOT FOUND", symbol: "×" }
   ];
 
-  const wait = ms =>
-    new Promise(resolve => setTimeout(resolve, ms));
-
-  const rand = (min, max) =>
-    Math.random() * (max - min) + min;
+  const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+  const rand = (min, max) => Math.random() * (max - min) + min;
 
   let started = false;
   let overlay = null;
@@ -30,8 +26,7 @@
 
   function makeWindow(data, isIntro = false) {
     const win = document.createElement("section");
-    win.className = "entry-window " +
-      (isIntro ? "entry-intro" : "entry-error");
+    win.className = "entry-window " + (isIntro ? "entry-intro" : "entry-error");
 
     const titlebar = document.createElement("div");
     titlebar.className = "entry-titlebar";
@@ -93,43 +88,24 @@
 
   async function startChaos() {
     if (started || !overlay) return;
+
     started = true;
-
     document.removeEventListener("keydown", onKey);
-    intro.remove();
 
-    // エラーウィンドウが次々に出現
+    if (intro) intro.remove();
+
     const count = window.innerWidth < 600 ? 10 : 15;
     const active = [];
 
     for (let i = 0; i < count; i++) {
-      const data = messages[
-        Math.floor(Math.random() * messages.length)
-      ];
-
+      const data = messages[Math.floor(Math.random() * messages.length)];
       const win = makeWindow(data);
 
-      const width = Math.min(
-        rand(220, 340),
-        window.innerWidth - 18
-      );
-
+      const width = Math.min(rand(220, 340), window.innerWidth - 18);
       win.style.width = width + "px";
-      win.style.left = rand(
-        4,
-        Math.max(5, window.innerWidth - width - 4)
-      ) + "px";
-
-      win.style.top = rand(
-        5,
-        Math.max(6, window.innerHeight - 155)
-      ) + "px";
-
-      win.style.setProperty(
-        "--entry-rot",
-        rand(-4, 4).toFixed(1) + "deg"
-      );
-
+      win.style.left = rand(4, Math.max(5, window.innerWidth - width - 4)) + "px";
+      win.style.top = rand(5, Math.max(6, window.innerHeight - 155)) + "px";
+      win.style.setProperty("--entry-rot", rand(-4, 4).toFixed(1) + "deg");
       win.style.zIndex = String(10 + i);
 
       overlay.append(win);
@@ -140,27 +116,19 @@
       await wait(rand(65, 115));
     }
 
-    // エラーが画面いっぱいになった状態を見せる
     await wait(1000);
 
-    // エラーを一つずつ弾けて消す
     while (active.length > 0) {
-      const index = Math.floor(
-        Math.random() * active.length
-      );
-
+      const index = Math.floor(Math.random() * active.length);
       const win = active.splice(index, 1)[0];
-      win.classList.add("entry-popping");
 
+      win.classList.add("entry-popping");
       await wait(rand(75, 135));
       win.remove();
 
-      if (Math.random() < 0.35) {
-        addGlitch();
-      }
+      if (Math.random() < 0.35) addGlitch();
     }
 
-    // 入室画面を消してサイトを表示
     await wait(320);
     overlay.classList.add("entry-hidden");
 
@@ -192,16 +160,11 @@
     overlay.append(intro);
     document.body.append(overlay);
 
-    // OKボタンで演出開始
-    intro.querySelector(".entry-ok").addEventListener(
-      "click",
-      startChaos
-    );
+    const okButton = intro.querySelector(".entry-ok");
+    okButton.addEventListener("click", startChaos);
 
-    // Enterキーで演出開始
     document.addEventListener("keydown", onKey);
 
-    // 画面タップでも演出開始
     overlay.addEventListener("pointerdown", event => {
       if (!started && !event.target.closest(".entry-ok")) {
         startChaos();
