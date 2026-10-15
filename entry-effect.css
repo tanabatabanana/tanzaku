@@ -1,0 +1,125 @@
+.entry-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 31px;
+  padding: 4px 7px 4px 10px;
+  box-sizing: border-box;
+  background: linear-gradient(105deg, #064bff 0%, #0878ff 55%, #35aaff 100%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: .04em;
+}
+.entry-close {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 22px;
+  flex: 0 0 auto;
+  background: #f8fdff;
+  color: #004bff;
+  border: 1px solid #fff;
+  font: bold 18px/1 "Courier New", monospace;
+}
+.entry-content {
+  padding: 23px 20px 19px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 80px;
+  box-sizing: border-box;
+}
+.entry-message {
+  font: 16px/1.45 "Courier New", monospace;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+.entry-symbol {
+  flex: 0 0 37px;
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  background: #064bff;
+  font: bold 25px/1 Arial, sans-serif;
+}
+.entry-actions {
+  display: flex;
+  justify-content: center;
+  padding: 0 16px 18px;
+}
+.entry-ok {
+  min-width: 105px;
+  padding: 6px 20px;
+  border: 2px solid #064bff;
+  background: #fff;
+  color: #064bff;
+  font: 16px "Courier New", monospace;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 rgba(0, 75, 255, .18);
+}
+.entry-ok:hover, .entry-ok:focus-visible {
+  background: #064bff;
+  color: #fff;
+  outline: none;
+}
+.entry-intro {
+  position: relative;
+  z-index: 2;
+  width: min(430px, calc(100vw - 34px));
+  animation: entry-intro-pop .38s cubic-bezier(.16, 1.35, .45, 1) both;
+}
+.entry-error {
+  pointer-events: none;
+  animation: entry-error-pop .42s cubic-bezier(.16, 1.45, .45, 1) both;
+}
+.entry-error.entry-popping {
+  animation: entry-error-out .28s cubic-bezier(.5, 0, .9, .4) forwards;
+}
+.entry-glitch {
+  position: absolute;
+  z-index: 1;
+  height: 5px;
+  background: #064bff;
+  opacity: .9;
+  pointer-events: none;
+  animation: entry-glitch-flash .32s steps(2, end) both;
+}
+@keyframes entry-intro-pop {
+  0% { opacity: 0; transform: scale(.55) translateY(12px); }
+  75% { opacity: 1; transform: scale(1.04) translateY(-2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes entry-error-pop {
+  0% { opacity: 0; transform: scale(.05) rotate(var(--entry-rot, 0deg)); }
+  70% { opacity: 1; transform: scale(1.12) rotate(var(--entry-rot, 0deg)); }
+  100% { opacity: 1; transform: scale(1) rotate(var(--entry-rot, 0deg)); }
+}
+@keyframes entry-error-out {
+  0% { opacity: 1; transform: scale(1) rotate(var(--entry-rot, 0deg)); }
+  45% { opacity: 1; transform: scale(1.16) rotate(var(--entry-rot, 0deg)); }
+  100% { opacity: 0; transform: scale(0) rotate(var(--entry-rot, 0deg)); }
+}
+@keyframes entry-glitch-flash {
+  0% { opacity: 0; transform: translateX(-12px) scaleX(.4); }
+  40% { opacity: .9; transform: translateX(8px) scaleX(1.2); }
+  100% { opacity: 0; transform: translateX(0) scaleX(.7); }
+}
+@keyframes entry-overlay-fade {
+  to { opacity: 0; visibility: hidden; }
+}
+@media (max-width: 600px) {
+  .entry-content { padding: 18px 15px 15px; gap: 12px; }
+  .entry-message { font-size: 14px; }
+  .entry-symbol { width: 32px; height: 32px; flex-basis: 32px; font-size: 22px; }
+  .entry-titlebar { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entry-intro, .entry-error, .entry-error.entry-popping, .entry-glitch {
+    animation-duration: .01ms !important;
+  }
+}
