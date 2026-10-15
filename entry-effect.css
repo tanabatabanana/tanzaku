@@ -163,3 +163,33 @@
     animation-duration: .01ms !important;
   }
 }
+
+/* エラーウィンドウの形を整える */
+.entry-error {
+  min-width: 220px;
+  max-width: 290px;
+  min-height: 110px;
+  height: auto !important;
+}
+
+.entry-error .entry-titlebar {
+  white-space: nowrap;
+}
+
+.entry-error .entry-content {
+  min-height: 75px;
+  padding: 16px;
+}
+
+.entry-error .entry-message {
+  min-width: 0;
+  flex: 1;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* エラー演出中はページ自体を動かさない */
+html:has(#entry-overlay),
+body:has(#entry-overlay) {
+  overflow: hidden;
+}
