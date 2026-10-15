@@ -130,16 +130,20 @@ for (let i = 0; i < count; i++) {
 
     await wait(1000);
 
-    while (active.length > 0) {
-      const index = Math.floor(Math.random() * active.length);
-      const win = active.splice(index, 1)[0];
+    
+const delays = active.map(() => Math.random() * 220);
 
-      win.classList.add("entry-popping");
-      await wait(rand(75, 135));
-      win.remove();
+active.forEach((win, i) => {
+  win.style.animationDelay = delays[i] + "ms";
+  win.classList.add("entry-popping");
+});
 
-      if (Math.random() < 0.35) addGlitch();
-    }
+await wait(600);
+
+active.forEach(win => win.remove());
+
+if (Math.random() < 0.35) addGlitch();
+
 
     await wait(320);
     overlay.classList.add("entry-hidden");
