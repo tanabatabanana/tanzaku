@@ -144,30 +144,27 @@ for (let i = 0; i < positions.length; i++) {
 
 
 
-    await wait(1000);
+    // エラーで画面を覆った状態を少し見せる
+    await wait(1200);
 
     
-const delays = active.map(() => Math.random() * 220);
-
-active.forEach((win, i) => {
-  win.style.animationDelay = delays[i] + "ms";
-  win.classList.add("entry-popping");
-});
-
-await wait(600);
-
-active.forEach(win => win.remove());
-
-if (Math.random() < 0.35) addGlitch();
-
-
-    await wait(320);
+    // 先に水色の方眼をフェードアウト
     overlay.classList.add("entry-hidden");
 
-    await wait(500);
+    // 方眼が消える間に、エラーを少しずつ弾けさせる
+    active.forEach((win) => {
+      win.style.animationDelay = (Math.random() * 0.28) + "s";
+      win.classList.add("entry-popping");
+    });
+
+    // エラーが消えたものから、サイトが隙間越しに見える
+    await wait(650);
+
+    active.forEach(win => win.remove());
+
     overlay.remove();
     overlay = null;
-  }
+
 
   function onKey(event) {
     if (!started && (event.key === "Enter" || event.key === " ")) {
