@@ -3054,3 +3054,35 @@ p {
         height: 28px !important;
     }
 }
+
+/* =========================
+   流れるディスプレイの青枠
+   ========================= */
+
+.gallery {
+    position: relative;
+    margin-top: 160px !important; /* サイト上端から距離を取る */
+    margin-bottom: 40px;
+
+    padding: 12px;
+    box-sizing: border-box;
+
+    border: 3px solid #0047ff;
+    background: rgba(255, 255, 255, 0.85);
+
+    overflow: hidden;
+}
+
+/* ディスプレイ画像の並びを枠内に収める */
+.gallery-track {
+    box-sizing: border-box;
+}
+
+/* スマホ */
+@media (max-width: 600px) {
+    .gallery {
+        margin-top: 120px !important;
+        padding: 8px;
+        border-width: 2px;
+    }
+}
