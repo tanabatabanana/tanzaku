@@ -2940,3 +2940,25 @@ p {
         height: 28px !important;
     }
 }
+
+/* ===== ウィンドウ型ヘッダーのドラッグ設定 ===== */
+
+#header-window {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    right: auto;
+    bottom: auto;
+    z-index: 9999;
+}
+
+#header-titlebar {
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#header-titlebar:active {
+    cursor: grabbing;
+}

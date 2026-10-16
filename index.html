@@ -65,45 +65,6 @@
 <div id="star-container"></div>
 
 
-<script>
-const headerWindow = document.getElementById("header-window");
-const headerTitlebar = document.getElementById("header-titlebar");
-
-let dragging = false;
-let offsetX = 0;
-let offsetY = 0;
-
-headerTitlebar.addEventListener("pointerdown", (event) => {
-    // タイトルバーを押したときだけ移動開始
-    dragging = true;
-
-    const rect = headerWindow.getBoundingClientRect();
-    offsetX = event.clientX - rect.left;
-    offsetY = event.clientY - rect.top;
-
-    headerTitlebar.setPointerCapture(event.pointerId);
-});
-
-headerTitlebar.addEventListener("pointermove", (event) => {
-    if (!dragging) return;
-
-    const maxX = window.innerWidth - headerWindow.offsetWidth;
-    const maxY = window.innerHeight - headerWindow.offsetHeight;
-
-    const x = Math.max(0, Math.min(event.clientX - offsetX, maxX));
-    const y = Math.max(0, Math.min(event.clientY - offsetY, maxY));
-
-    headerWindow.style.left = x + "px";
-    headerWindow.style.top = y + "px";
-});
-
-function stopDragging() {
-    dragging = false;
-}
-
-headerTitlebar.addEventListener("pointerup", stopDragging);
-headerTitlebar.addEventListener("pointercancel", stopDragging);
-</script>
 
 
 <body>
@@ -2019,6 +1980,81 @@ headerTitlebar.addEventListener("pointercancel", stopDragging);
 </section>
 <script src="script.js"></script>
 <script src="entry-effect.js"></script>
+
+
+
+<script>
+(() => {
+    const headerWindow = document.getElementById("header-window");
+    const titlebar = document.getElementById("header-titlebar");
+
+    if (!headerWindow || !titlebar) {
+        console.error("ヘッダーまたはタイトルバーが見つかりません。");
+        return;
+    }
+
+    let dragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    titlebar.addEventListener("pointerdown", (event) => {
+        if (event.button !== 0 && event.pointerType === "mouse") {
+            return;
+        }
+
+        dragging = true;
+
+        const rect = headerWindow.getBoundingClientRect();
+
+        offsetX = event.clientX - rect.left;
+        offsetY = event.clientY - rect.top;
+
+        headerWindow.style.position = "fixed";
+        headerWindow.style.left = rect.left + "px";
+        headerWindow.style.top = rect.top + "px";
+        headerWindow.style.right = "auto";
+        headerWindow.style.bottom = "auto";
+
+        titlebar.setPointerCapture(event.pointerId);
+        event.preventDefault();
+    });
+
+    titlebar.addEventListener("pointermove", (event) => {
+        if (!dragging) return;
+
+        const maxX = Math.max(
+            0,
+            window.innerWidth - headerWindow.offsetWidth
+        );
+
+        const maxY = Math.max(
+            0,
+            window.innerHeight - headerWindow.offsetHeight
+        );
+
+        const x = Math.max(
+            0,
+            Math.min(event.clientX - offsetX, maxX)
+        );
+
+        const y = Math.max(
+            0,
+            Math.min(event.clientY - offsetY, maxY)
+        );
+
+        headerWindow.style.left = x + "px";
+        headerWindow.style.top = y + "px";
+    });
+
+    function stopDragging() {
+        dragging = false;
+    }
+
+    titlebar.addEventListener("pointerup", stopDragging);
+    titlebar.addEventListener("pointercancel", stopDragging);
+    titlebar.addEventListener("lostpointercapture", stopDragging);
+})();
+</script>
 
 </body>
 
