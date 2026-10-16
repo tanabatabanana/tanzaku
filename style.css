@@ -1412,34 +1412,168 @@ p {
 }
 
 
+
+/* =========================
+   GALLERY：ウィンドウ風
+========================= */
+
 .gallery-card {
-    background: white;
+    position: relative;
 
-    padding: 25px 45px;
+    background: rgba(255, 255, 255, 0.95);
 
-    border: 4px solid black;
+    padding: 62px 45px 25px;
 
+    border: 3px solid #0047ff;
     box-sizing: border-box;
 
-    box-shadow:
-        7px 8px 0 rgba(86, 57, 134, 0.2);
+    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
 
     text-align: center;
 
-    transition:
-        transform 0.2s ease;
+    transition: transform 0.2s ease;
 
     transform: translateZ(0);
-
     backface-visibility: hidden;
 }
 
+/* タイトルバー */
+.gallery-card::before {
+    content: "GALLERY.exe";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+
+    padding: 7px 12px;
+
+    background: linear-gradient(
+        105deg,
+        #064bff 0%,
+        #0878ff 55%,
+        #35aaff 100%
+    );
+
+    color: #fff;
+    font: bold 15px "Courier New", monospace;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* 閉じるボタン */
+.gallery-card::after {
+    content: "×";
+
+    position: absolute;
+    top: 5px;
+    right: 6px;
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    background: #fff;
+    border: 1px solid #fff;
+
+    color: #0047ff;
+    font: bold 20px/1 "Courier New", monospace;
+}
 
 .water-gallery:hover .gallery-card {
-    transform:
-        translateZ(0)
-        scale(1.08);
+    transform: translateZ(0) scale(1.08);
 }
+
+
+/* =========================
+   ABOUT：ウィンドウ風
+========================= */
+
+.about-card {
+    position: relative;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    padding: 62px 45px 25px;
+
+    border: 3px solid #0047ff;
+    box-sizing: border-box;
+
+    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
+
+    text-align: center;
+
+    opacity: 1;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+/* タイトルバー */
+.about-card::before {
+    content: "ABOUT.exe";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+
+    padding: 7px 12px;
+
+    background: linear-gradient(
+        105deg,
+        #064bff 0%,
+        #0878ff 55%,
+        #35aaff 100%
+    );
+
+    color: #fff;
+    font: bold 15px "Courier New", monospace;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* 閉じるボタン */
+.about-card::after {
+    content: "×";
+
+    position: absolute;
+    top: 5px;
+    right: 6px;
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    background: #fff;
+    border: 1px solid #fff;
+
+    color: #0047ff;
+    font: bold 20px/1 "Courier New", monospace;
+}
+
+.water-about:hover .about-card {
+    transform: scale(1.08);
+    opacity: 1;
+}
+
 
 
 /* GALLERYがぷかぷか */
@@ -1486,30 +1620,165 @@ p {
 }
 
 
-.about-card {
-    background:
-        rgba(255, 255, 255, 0.85);
 
-    padding: 25px 45px;
+/* =========================
+   GALLERY：ウィンドウ風
+========================= */
 
-    border: 3px solid white;
+.gallery-card {
+    position: relative;
 
-    box-shadow:
-        0 0 25px rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.95);
+
+    padding: 62px 45px 25px;
+
+    border: 3px solid #0047ff;
+    box-sizing: border-box;
+
+    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
 
     text-align: center;
 
-    opacity: 0.85;
+    transition: transform 0.2s ease;
+
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* タイトルバー */
+.gallery-card::before {
+    content: "GALLERY.exe";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+
+    padding: 7px 12px;
+
+    background: linear-gradient(
+        105deg,
+        #064bff 0%,
+        #0878ff 55%,
+        #35aaff 100%
+    );
+
+    color: #fff;
+    font: bold 15px "Courier New", monospace;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* 閉じるボタン */
+.gallery-card::after {
+    content: "×";
+
+    position: absolute;
+    top: 5px;
+    right: 6px;
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    background: #fff;
+    border: 1px solid #fff;
+
+    color: #0047ff;
+    font: bold 20px/1 "Courier New", monospace;
+}
+
+.water-gallery:hover .gallery-card {
+    transform: translateZ(0) scale(1.08);
+}
+
+
+/* =========================
+   ABOUT：ウィンドウ風
+========================= */
+
+.about-card {
+    position: relative;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    padding: 62px 45px 25px;
+
+    border: 3px solid #0047ff;
+    box-sizing: border-box;
+
+    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
+
+    text-align: center;
+
+    opacity: 1;
 
     transition:
         transform 0.2s ease,
         opacity 0.2s ease;
 }
 
+/* タイトルバー */
+.about-card::before {
+    content: "ABOUT.exe";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+
+    padding: 7px 12px;
+
+    background: linear-gradient(
+        105deg,
+        #064bff 0%,
+        #0878ff 55%,
+        #35aaff 100%
+    );
+
+    color: #fff;
+    font: bold 15px "Courier New", monospace;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* 閉じるボタン */
+.about-card::after {
+    content: "×";
+
+    position: absolute;
+    top: 5px;
+    right: 6px;
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    background: #fff;
+    border: 1px solid #fff;
+
+    color: #0047ff;
+    font: bold 20px/1 "Courier New", monospace;
+}
 
 .water-about:hover .about-card {
     transform: scale(1.08);
-
     opacity: 1;
 }
 
