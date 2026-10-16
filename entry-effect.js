@@ -1,5 +1,5 @@
-/* 短冊の部屋 入室演出 */
 
+/* 短冊の部屋 入室演出 */
 
 console.log("entry-effect.js 読み込み成功");
 
@@ -82,82 +82,110 @@ console.log("entry-effect.js 読み込み成功");
 
     const line = document.createElement("i");
     line.className = "entry-glitch";
-    line.style.top = rand(5, 95) + "%";
-    line.style.left = rand(0, 78) + "%";
+    line.style.top = rand(0, 100) + "%";
+    line.style.left = rand(0, 85) + "%";
     line.style.width = rand(35, 190) + "px";
 
     overlay.append(line);
     setTimeout(() => line.remove(), 360);
   }
 
+  async function startChaos() {
+    if (started || !overlay) return;
 
-async function startChaos() {
-  if (started || !overlay) return;
+    started = true;
+    document.removeEventListener("keydown", onKey);
 
-  started = true;
-  document.removeEventListener("keydown", onKey);
+    if (intro) intro.remove();
 
-  if (intro) intro.remove();
+    const active = [];
+    const screenW = window.innerWidth;
+    const screenH = window.innerHeight;
 
-  const active = [];
-  const screenW = window.innerWidth;
-  const screenH = window.innerHeight;
+    // 画面全体を覆うベース配置
+    const cellW = 155;
+    const cellH = 85;
+    const positions = [];
 
-  // 画面全体を覆うように、ランダムな位置へ多めに配置
-  const count = Math.max(
-    45,
-    Math.ceil((screenW * screenH) / 18000)
-  );
-
-  for (let i = 0; i < count; i++) {
-    const data = messages[Math.floor(Math.random() * messages.length)];
-    const win = makeWindow(data);
-
-    const width = Math.min(rand(220, 310), screenW - 12);
-
-    win.style.position = "absolute";
-    win.style.width = width + "px";
-    win.style.height = "auto";
-    win.style.left =
-      rand(-15, Math.max(-15, screenW - width + 15)) + "px";
-    win.style.top =
-      rand(-15, Math.max(-15, screenH - 110)) + "px";
-    win.style.setProperty(
-      "--entry-rot",
-      rand(-8, 8).toFixed(1) + "deg"
-    );
-    win.style.zIndex = String(10 + i);
-
-    overlay.append(win);
-    active.push(win);
-
-    if (i % 3 === 0) addGlitch();
-
-    // 何個かまとめて出現させる
-    if (i % 5 === 4) {
-      await wait(rand(15, 35));
+    for (let y = -cellH; y < screenH; y += cellH) {
+      for (let x = -cellW; x < screenW; x += cellW) {
+        positions.push({
+          x: x + rand(-35, 35),
+          y: y + rand(-20, 20)
+        });
+      }
     }
+
+    // 出現順をランダムにする
+    for (let i = positions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [positions[i], positions[j]] = [positions[j], positions[i]];
+    }
+
+    // さらに上から重ねるウィンドウ
+    const extraCount = Math.ceil((screenW * screenH) / 7000);
+    const total = positions.length + extraCount;
+
+    for (let i = 0; i < total; i++) {
+      const data = messages[Math.floor(Math.random() * messages.length)];
+      const win = makeWindow(data);
+      const isExtra = i >= positions.length;
+
+      const width = Math.min(
+        rand(isExtra ? 220 : 190, isExtra ? 330 : 260),
+        screenW
+      );
+
+      win.style.position = "absolute";
+      win.style.width = width + "px";
+      win.style.height = "auto";
+
+      if (isExtra) {
+        win.style.left =
+          rand(-20, Math.max(-20, screenW - width + 20)) + "px";
+        win.style.top =
+          rand(-20, Math.max(-20, screenH - 100)) + "px";
+      } else {
+        win.style.left = positions[i].x + "px";
+        win.style.top = positions[i].y + "px";
+      }
+
+      win.style.setProperty(
+        "--entry-rot",
+        rand(-12, 12).toFixed(1) + "deg"
+      );
+
+      win.style.zIndex = String(10 + i);
+
+      overlay.append(win);
+      active.push(win);
+
+      if (i % 3 === 0) addGlitch();
+
+      // 一気に出現させる
+      if (i % 8 === 7) {
+        await wait(rand(10, 25));
+      }
+    }
+
+    // ウィンドウが画面を覆った状態を見せる
+    await wait(1200);
+
+    // 背景を消し、ウィンドウを小さくして消す
+    overlay.classList.add("entry-hidden");
+
+    active.forEach(win => {
+      win.style.animationDelay = (Math.random() * 0.15) + "s";
+      win.classList.add("entry-popping");
+    });
+
+    await wait(500);
+
+    active.forEach(win => win.remove());
+
+    overlay.remove();
+    overlay = null;
   }
-
-  // 画面をエラーで覆った状態を見せる
-  await wait(1200);
-
-  // 方眼を消し始め、エラーは少しずつずれて弾ける
-  overlay.classList.add("entry-hidden");
-
-  active.forEach(win => {
-    win.style.animationDelay = (Math.random() * 0.28) + "s";
-    win.classList.add("entry-popping");
-  });
-
-  // 消える隙間からサイトが見える
-  await wait(650);
-
-  active.forEach(win => win.remove());
-
-  overlay.remove();
-  overlay = null;
-}
 
   function onKey(event) {
     if (!started && (event.key === "Enter" || event.key === " ")) {
