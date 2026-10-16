@@ -10,15 +10,15 @@ console.log("entry-effect.js 読み込み成功");
     { title: "ERROR", text: "ERROR 404 :\nOEKAKI TANOSI", symbol: "×" },
     { title: "WARNING", text: "WARNING：\nDRAWING", symbol: "!" },
     { title: "SYSTEM ERROR", text: "CODE MUZUKASI", symbol: "×" },
-    { title: "WARNING", text: "あなたは誰ですか？", symbol: "!" },
+    { title: "WARNING", text: "モチーフ探し楽しい！", symbol: "!" },
     { title: "ERROR", text: "DRAWING is not found.", symbol: "×" },
     { title: "SYSTEM FAILURE", text: "ERROR 404 : OEKAKI TANOSI", symbol: "×" },
-    { title: "CONNECTION WARNING", text: "接続先を確認できません", symbol: "!" },
+    { title: "CONNECTION WARNING", text: "構図似ちゃうの嫌", symbol: "!" },
     { title: "INFORMATION", text: "こちら短冊の部屋です。", symbol: "i" },
     { title: "ERROR", text: "UNKNOWN USER", symbol: "×" },
-    { title: "WARNING", text: "SYSTEM IS CONFUSED", symbol: "!" },
+    { title: "WARNING", text: "BUKI TUKURUNO SUKI", symbol: "!" },
     { title: "SYSTEM ERROR", text: "CODE MUZUKASI", symbol: "×" },
-    { title: "ERROR 404", text: "MEMORY NOT FOUND", symbol: "×" }
+    { title: "ERROR 404", text: "SYNARIO TUKURU", symbol: "×" }
   ];
 
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -90,81 +90,74 @@ console.log("entry-effect.js 読み込み成功");
     setTimeout(() => line.remove(), 360);
   }
 
-  async function startChaos() {
-    if (started || !overlay) return;
 
-    started = true;
-    document.removeEventListener("keydown", onKey);
+async function startChaos() {
+  if (started || !overlay) return;
 
-    if (intro) intro.remove();
+  started = true;
+  document.removeEventListener("keydown", onKey);
 
- 
+  if (intro) intro.remove();
 
-const active = [];
+  const active = [];
+  const screenW = window.innerWidth;
+  const screenH = window.innerHeight;
 
-const cellWidth = 220;
-const cellHeight = 115;
-const cols = Math.ceil(window.innerWidth / cellWidth) + 1;
-const rows = Math.ceil(window.innerHeight / cellHeight) + 1;
+  // 画面全体を覆うように、ランダムな位置へ多めに配置
+  const count = Math.max(
+    45,
+    Math.ceil((screenW * screenH) / 18000)
+  );
 
-const positions = [];
+  for (let i = 0; i < count; i++) {
+    const data = messages[Math.floor(Math.random() * messages.length)];
+    const win = makeWindow(data);
 
-for (let row = 0; row < rows; row++) {
-  for (let col = 0; col < cols; col++) {
-    positions.push({
-      x: col * cellWidth - 30 + rand(-25, 25),
-      y: row * cellHeight - 15 + rand(-20, 20)
-    });
+    const width = Math.min(rand(220, 310), screenW - 12);
+
+    win.style.position = "absolute";
+    win.style.width = width + "px";
+    win.style.height = "auto";
+    win.style.left =
+      rand(-15, Math.max(-15, screenW - width + 15)) + "px";
+    win.style.top =
+      rand(-15, Math.max(-15, screenH - 110)) + "px";
+    win.style.setProperty(
+      "--entry-rot",
+      rand(-8, 8).toFixed(1) + "deg"
+    );
+    win.style.zIndex = String(10 + i);
+
+    overlay.append(win);
+    active.push(win);
+
+    if (i % 3 === 0) addGlitch();
+
+    // 何個かまとめて出現させる
+    if (i % 5 === 4) {
+      await wait(rand(15, 35));
+    }
   }
+
+  // 画面をエラーで覆った状態を見せる
+  await wait(1200);
+
+  // 方眼を消し始め、エラーは少しずつずれて弾ける
+  overlay.classList.add("entry-hidden");
+
+  active.forEach(win => {
+    win.style.animationDelay = (Math.random() * 0.28) + "s";
+    win.classList.add("entry-popping");
+  });
+
+  // 消える隙間からサイトが見える
+  await wait(650);
+
+  active.forEach(win => win.remove());
+
+  overlay.remove();
+  overlay = null;
 }
-
-// 出現する順番をランダムにする
-positions.sort(() => Math.random() - 0.5);
-
-for (let i = 0; i < positions.length; i++) {
-  const data = messages[Math.floor(Math.random() * messages.length)];
-  const win = makeWindow(data);
-  const width = Math.min(250, window.innerWidth - 12);
-
-  win.style.position = "absolute";
-  win.style.width = width + "px";
-  win.style.height = "auto";
-  win.style.left = positions[i].x + "px";
-  win.style.top = positions[i].y + "px";
-  win.style.setProperty("--entry-rot", rand(-3, 3).toFixed(1) + "deg");
-  win.style.zIndex = String(10 + i);
-
-  overlay.append(win);
-  active.push(win);
-
-  if (i % 3 === 0) addGlitch();
-
-  await wait(rand(20, 40));
-}
-
-
-
-    // エラーで画面を覆った状態を少し見せる
-    await wait(1200);
-
-    
-    // 先に水色の方眼をフェードアウト
-    overlay.classList.add("entry-hidden");
-
-    // 方眼が消える間に、エラーを少しずつ弾けさせる
-    active.forEach((win) => {
-      win.style.animationDelay = (Math.random() * 0.28) + "s";
-      win.classList.add("entry-popping");
-    });
-
-    // エラーが消えたものから、サイトが隙間越しに見える
-    await wait(650);
-
-    active.forEach(win => win.remove());
-
-    overlay.remove();
-    overlay = null;
-
 
   function onKey(event) {
     if (!started && (event.key === "Enter" || event.key === " ")) {
