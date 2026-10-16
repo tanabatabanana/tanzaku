@@ -400,23 +400,78 @@ p {
 
 }
 
-
 /* =========================
    INVESTIGATORS エリア
 ========================= */
-.investigators-page { 
-    width: 100%; 
-    max-width: 1300px; 
-    box-sizing: border-box; 
- 
-    margin: 230px auto 0; 
-    padding: 100px 20px 150px; 
- 
-    border: 4px solid #0047ff; 
-    background-color: rgba(255,255,255,0.75); 
- 
-    position: relative; 
+
+.investigators-page {
+    width: 100%;
+    max-width: 1300px;
+    box-sizing: border-box;
+
+    margin: 230px auto 0;
+    padding: 100px 20px 150px;
+
+    border: 3px solid #0047ff;
+    background-color: rgba(255, 255, 255, 0.92);
+
+    position: relative;
+    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
 }
+
+/* ウィンドウ風タイトルバー */
+.investigators-page::before {
+    content: "INVESTIGATORS.exe";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 38px;
+    box-sizing: border-box;
+
+    padding: 7px 14px;
+
+    background: linear-gradient(
+        105deg,
+        #064bff 0%,
+        #0878ff 55%,
+        #35aaff 100%
+    );
+
+    color: #ffffff;
+    font-family: "Courier New", monospace;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* 右上の閉じるボタン */
+.investigators-page::after {
+    content: "×";
+    position: absolute;
+    top: 6px;
+    right: 7px;
+
+    width: 24px;
+    height: 24px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    border: 1px solid #ffffff;
+
+    color: #0047ff;
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+}
+
 /* =========================
    INVESTIGATORS タイトル
 ========================= */
@@ -425,13 +480,9 @@ p {
     margin: 0 0 100px;
 
     font-family: "BunanMarker", serif;
-
     font-size: 60px;
-
     color: #0047ff;
-
     text-align: center;
-
     letter-spacing: 8px;
 }
 
@@ -2368,7 +2419,7 @@ p {
 @media (max-width: 800px) {
 
     .investigator-tools {
-        margin-bottom:-50px;
+        margin-bottom:-80px;
     }
 
 }
