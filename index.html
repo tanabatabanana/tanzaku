@@ -26,27 +26,84 @@
 
 </head>
 
-<header class="site-header">
+<header class="site-header" id="header-window">
 
-    <div class="header-title">
-        短冊の部屋
+    <!-- つかんで動かすタイトルバー -->
+    <div class="header-titlebar" id="header-titlebar">
+        <span class="header-app-icon">短</span>
+        <span class="header-window-title">短冊の部屋.exe</span>
+        <span class="header-window-controls">－ □ ×</span>
     </div>
 
+    <!-- メニュー -->
     <nav class="header-menu">
 
-        <a href="#">HOME</a>
+        <a href="#" class="header-item">
+            <img src="images/icons/home.png" alt="" class="header-icon">
+            <span>HOME</span>
+        </a>
 
-        <a href="#">ABOUT</a>
+        <a href="about.html" class="header-item">
+            <img src="images/icons/about.png" alt="" class="header-icon">
+            <span>ABOUT</span>
+        </a>
 
-        <a href="#">INVESTIGATORS</a>
+        <a href="#investigators" class="header-item">
+            <img src="images/icons/investigators.png" alt="" class="header-icon">
+            <span>INVESTIGATORS</span>
+        </a>
 
-        <a href="#">GALLERY</a>
+        <a href="gallery.html" class="header-item">
+            <img src="images/icons/gallery.png" alt="" class="header-icon">
+            <span>GALLERY</span>
+        </a>
 
     </nav>
 
 </header>
+
 <div id="star-container"></div>
 
+
+<script>
+const headerWindow = document.getElementById("header-window");
+const headerTitlebar = document.getElementById("header-titlebar");
+
+let dragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+headerTitlebar.addEventListener("pointerdown", (event) => {
+    // タイトルバーを押したときだけ移動開始
+    dragging = true;
+
+    const rect = headerWindow.getBoundingClientRect();
+    offsetX = event.clientX - rect.left;
+    offsetY = event.clientY - rect.top;
+
+    headerTitlebar.setPointerCapture(event.pointerId);
+});
+
+headerTitlebar.addEventListener("pointermove", (event) => {
+    if (!dragging) return;
+
+    const maxX = window.innerWidth - headerWindow.offsetWidth;
+    const maxY = window.innerHeight - headerWindow.offsetHeight;
+
+    const x = Math.max(0, Math.min(event.clientX - offsetX, maxX));
+    const y = Math.max(0, Math.min(event.clientY - offsetY, maxY));
+
+    headerWindow.style.left = x + "px";
+    headerWindow.style.top = y + "px";
+});
+
+function stopDragging() {
+    dragging = false;
+}
+
+headerTitlebar.addEventListener("pointerup", stopDragging);
+headerTitlebar.addEventListener("pointercancel", stopDragging);
+</script>
 
 
 <body>
