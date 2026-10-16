@@ -103,8 +103,8 @@ console.log("entry-effect.js 読み込み成功");
     const screenH = window.innerHeight;
 
     // 画面全体を覆うベース配置
-    const cellW = 155;
-    const cellH = 85;
+    const cellW = 230;
+    const cellH = 135;
     const positions = [];
 
     for (let y = -cellH; y < screenH; y += cellH) {
@@ -123,7 +123,7 @@ console.log("entry-effect.js 読み込み成功");
     }
 
     // さらに上から重ねるウィンドウ
-    const extraCount = Math.ceil((screenW * screenH) / 7000);
+    const extraCount = Math.ceil((screenW * screenH) / 22000);
     const total = positions.length + extraCount;
 
     for (let i = 0; i < total; i++) {
@@ -161,12 +161,12 @@ console.log("entry-effect.js 読み込み成功");
 
       // 一気に出現させる
       if (i % 8 === 7) {
-        await wait(rand(10, 25));
+        await wait(rand(5, 12));
       }
     }
 
     // ウィンドウが画面を覆った状態を見せる
-    await wait(1200);
+    await wait(700);
 
     // 背景を消し、ウィンドウを小さくして消す
     overlay.classList.add("entry-hidden");
@@ -176,7 +176,7 @@ console.log("entry-effect.js 読み込み成功");
       win.classList.add("entry-popping");
     });
 
-    await wait(500);
+    await wait(350);
 
     active.forEach(win => win.remove());
 
