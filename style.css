@@ -3086,3 +3086,22 @@ p {
         border-width: 2px;
     }
 }
+
+/* ヘッダーのドラッグ操作を復旧 */
+.site-header#header-window {
+    pointer-events: auto !important;
+    transform: none !important;
+}
+
+.site-header#header-window .header-titlebar {
+    position: relative !important;
+    z-index: 2 !important;
+    pointer-events: auto !important;
+    cursor: grab !important;
+    touch-action: none !important;
+    user-select: none !important;
+}
+
+.site-header#header-window .header-titlebar:active {
+    cursor: grabbing !important;
+}
