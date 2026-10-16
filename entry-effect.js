@@ -150,10 +150,7 @@ console.log("entry-effect.js 読み込み成功");
         win.style.top = positions[i].y + "px";
       }
 
-      win.style.setProperty(
-        "--entry-rot",
-        rand(-12, 12).toFixed(1) + "deg"
-      );
+  
 
       win.style.zIndex = String(10 + i);
 
