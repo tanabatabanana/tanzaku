@@ -2912,3 +2912,145 @@ p {
         height: 28px;
     }
 }
+
+/* =========================
+   ウィンドウ型ヘッダーのデザイン修正
+   ========================= */
+
+.site-header#header-window {
+    position: fixed !important;
+    top: 20px !important;
+    left: 20px !important;
+    right: auto !important;
+    bottom: auto !important;
+
+    display: block !important;
+    width: max-content !important;
+    max-width: calc(100vw - 40px) !important;
+    height: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: #ffffff !important;
+    border: 3px solid #0047ff !important;
+    box-shadow: 5px 5px 0 rgba(0, 71, 255, 0.25) !important;
+
+    box-sizing: border-box !important;
+    transform: none !important;
+    z-index: 99999 !important;
+}
+
+/* 上部の青いタイトルバー */
+.site-header#header-window .header-titlebar {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+
+    width: 100% !important;
+    min-height: 38px !important;
+    margin: 0 !important;
+    padding: 7px 10px !important;
+
+    background: #0047ff !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+
+    cursor: grab;
+}
+
+/* ウィンドウ名 */
+.site-header#header-window .header-window-title {
+    display: block !important;
+    color: #ffffff !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    white-space: nowrap !important;
+}
+
+/* メニューをタイトルバーの下に配置 */
+.site-header#header-window .header-menu {
+    position: static !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 4px !important;
+
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 8px !important;
+
+    background: #ffffff !important;
+    border: none !important;
+    box-sizing: border-box !important;
+}
+
+/* メニュー項目 */
+.site-header#header-window .header-item {
+    position: static !important;
+    display: flex !important;
+    flex: 0 0 auto !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+
+    width: 82px !important;
+    min-width: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 8px 4px !important;
+
+    background: transparent !important;
+    color: #0047ff !important;
+    border: 1px solid transparent !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+
+    font-size: 10px !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    transform: none !important;
+}
+
+.site-header#header-window .header-item:hover {
+    background: rgba(0, 71, 255, 0.08) !important;
+    border-color: #0047ff !important;
+}
+
+/* アイコン画像 */
+.site-header#header-window .header-icon {
+    display: block !important;
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    object-fit: contain !important;
+}
+
+/* スマホ */
+@media (max-width: 600px) {
+    .site-header#header-window {
+        top: 10px !important;
+        left: 10px !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+
+    .site-header#header-window .header-item {
+        width: 68px !important;
+        padding: 6px 3px !important;
+        font-size: 9px !important;
+    }
+
+    .site-header#header-window .header-icon {
+        width: 28px !important;
+        height: 28px !important;
+    }
+}
