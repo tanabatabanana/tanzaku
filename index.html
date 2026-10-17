@@ -1990,7 +1990,7 @@
     const titlebar = document.getElementById("header-titlebar");
 
     if (!headerWindow || !titlebar) {
-        console.error("ドラッグ対象が見つかりません");
+
         return;
     }
 
@@ -2020,8 +2020,6 @@
    window.addEventListener("pointermove", (event) => {
     if (!dragging) return;
 
-    console.log("ドラッグ中", event.clientX, event.clientY);
-
         const maxX = Math.max(0, window.innerWidth - headerWindow.offsetWidth);
         const maxY = Math.max(0, window.innerHeight - headerWindow.offsetHeight);
 
@@ -2030,7 +2028,6 @@
 
         headerWindow.style.left = x + "px";
         headerWindow.style.top = y + "px";
-        console.log("現在位置", headerWindow.style.left, headerWindow.style.top);
     });
 
     window.addEventListener("pointerup", () => {
