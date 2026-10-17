@@ -2986,3 +2986,38 @@ p {
 #header-titlebar:active {
     cursor: grabbing;
 }
+
+
+/* =========================
+   流れるディスプレイの青い枠
+========================= */
+
+.gallery {
+    position: relative;
+    box-sizing: border-box;
+
+    width: 100%;
+    margin-top: 160px !important;
+    margin-bottom: 40px;
+
+    padding: 12px;
+
+    border: 3px solid #0047ff;
+    background: rgba(255, 255, 255, 0.85);
+
+    overflow: hidden;
+}
+
+/* 流れる画像の並び */
+.gallery-track {
+    box-sizing: border-box;
+}
+
+/* スマホ用 */
+@media (max-width: 600px) {
+    .gallery {
+        margin-top: 120px !important;
+        padding: 8px;
+        border-width: 2px;
+    }
+}
