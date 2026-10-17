@@ -1999,6 +1999,7 @@
     let offsetY = 0;
 
     titlebar.addEventListener("pointerdown", (event) => {
+        console.log("タイトルバーをつかみました");
         if (event.pointerType === "mouse" && event.button !== 0) return;
 
         const rect = headerWindow.getBoundingClientRect();
