@@ -3021,3 +3021,10 @@ p {
         border-width: 2px;
     }
 }
+
+/* ドラッグ中のウィンドウ位置を優先 */
+.site-header#header-window {
+    position: fixed !important;
+    transform: none !important;
+    transition: none !important;
+}
