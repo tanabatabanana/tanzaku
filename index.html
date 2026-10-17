@@ -1989,7 +1989,7 @@
     const titlebar = document.getElementById("header-titlebar");
 
     if (!headerWindow || !titlebar) {
-        console.error("ヘッダーまたはタイトルバーが見つかりません。");
+        console.error("ドラッグ対象が見つかりません");
         return;
     }
 
@@ -1998,14 +1998,11 @@
     let offsetY = 0;
 
     titlebar.addEventListener("pointerdown", (event) => {
-        if (event.button !== 0 && event.pointerType === "mouse") {
-            return;
-        }
-
-        dragging = true;
+        if (event.pointerType === "mouse" && event.button !== 0) return;
 
         const rect = headerWindow.getBoundingClientRect();
 
+        dragging = true;
         offsetX = event.clientX - rect.left;
         offsetY = event.clientY - rect.top;
 
@@ -2015,46 +2012,32 @@
         headerWindow.style.right = "auto";
         headerWindow.style.bottom = "auto";
 
-        titlebar.setPointerCapture(event.pointerId);
         event.preventDefault();
     });
 
-    titlebar.addEventListener("pointermove", (event) => {
+    window.addEventListener("pointermove", (event) => {
         if (!dragging) return;
 
-        const maxX = Math.max(
-            0,
-            window.innerWidth - headerWindow.offsetWidth
-        );
+        const maxX = Math.max(0, window.innerWidth - headerWindow.offsetWidth);
+        const maxY = Math.max(0, window.innerHeight - headerWindow.offsetHeight);
 
-        const maxY = Math.max(
-            0,
-            window.innerHeight - headerWindow.offsetHeight
-        );
-
-        const x = Math.max(
-            0,
-            Math.min(event.clientX - offsetX, maxX)
-        );
-
-        const y = Math.max(
-            0,
-            Math.min(event.clientY - offsetY, maxY)
-        );
+        const x = Math.max(0, Math.min(event.clientX - offsetX, maxX));
+        const y = Math.max(0, Math.min(event.clientY - offsetY, maxY));
 
         headerWindow.style.left = x + "px";
         headerWindow.style.top = y + "px";
     });
 
-    function stopDragging() {
+    window.addEventListener("pointerup", () => {
         dragging = false;
-    }
+    });
 
-    titlebar.addEventListener("pointerup", stopDragging);
-    titlebar.addEventListener("pointercancel", stopDragging);
-    titlebar.addEventListener("lostpointercapture", stopDragging);
+    window.addEventListener("pointercancel", () => {
+        dragging = false;
+    });
 })();
 </script>
+
 
 </body>
 
