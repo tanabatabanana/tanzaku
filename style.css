@@ -2922,12 +2922,24 @@ left: 20px;
 }
 
 /* スマホ */
+
 @media (max-width: 600px) {
     .site-header#header-window {
-        top: 10px !important;
-        left: 10px !important;
-        max-width: calc(100vw - 20px) !important;
+        position: fixed !important;
+        top: 8px !important;
+        left: 8px !important;
+        right: 8px !important;
+        bottom: auto !important;
+
+        width: auto !important;
+        max-width: calc(100vw - 16px) !important;
     }
+
+    #header-window.is-collapsed {
+        width: max-content !important;
+        max-width: calc(100vw - 16px) !important;
+    }
+}
 
     .site-header#header-window .header-item {
         width: 68px !important;
@@ -2939,7 +2951,7 @@ left: 20px;
         width: 28px !important;
         height: 28px !important;
     }
-}
+
 
 /* ===== ウィンドウ型ヘッダーのドラッグ設定 ===== */
 
@@ -3027,4 +3039,34 @@ left: 20px;
     position: fixed !important;
     transform: none !important;
     transition: none !important;
+}
+
+
+/* ウィンドウ操作ボタン */
+.header-window-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.header-window-controls button {
+    font: inherit;
+    color: #0047ff;
+    background: transparent;
+    border: none;
+    padding: 2px 6px;
+    cursor: pointer;
+}
+
+.header-window-controls button:hover {
+    background: #0047ff;
+    color: white;
+}
+
+/* 折りたたみ時にメニューを隠す */
+#header-window.is-collapsed nav,
+#header-window.is-collapsed .header-menu,
+#header-window.is-collapsed .header-nav {
+    display: none !important;
 }

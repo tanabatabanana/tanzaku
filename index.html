@@ -32,11 +32,18 @@
 
 
     <!-- つかんで動かすタイトルバー -->
-    <div class="header-titlebar" id="header-titlebar">
-        <span class="header-app-icon">短</span>
-        <span class="header-window-title">短冊の部屋.exe</span>
-        <span class="header-window-controls">－ □ ×</span>
+   
+<div class="header-titlebar" id="header-titlebar">
+    <span class="header-app-icon">短</span>
+    <span class="header-window-title">短冊の部屋.exe</span>
+
+    <div class="header-window-controls">
+        <button type="button" id="header-toggle" aria-expanded="true" aria-label="メニューを折りたたむ">－</button>
+        <span>□</span>
+        <span>×</span>
     </div>
+</div>
+
 
     <!-- メニュー -->
     <nav class="header-menu">
@@ -2039,6 +2046,25 @@
     });
 })();
 </script>
+
+<script>
+const headerToggle = document.getElementById("header-toggle");
+const headerWindow = document.getElementById("header-window");
+
+if (headerToggle && headerWindow) {
+    headerToggle.addEventListener("click", () => {
+        const collapsed = headerWindow.classList.toggle("is-collapsed");
+
+        headerToggle.textContent = collapsed ? "+" : "－";
+        headerToggle.setAttribute("aria-expanded", String(!collapsed));
+        headerToggle.setAttribute(
+            "aria-label",
+            collapsed ? "メニューを展開する" : "メニューを折りたたむ"
+        );
+    });
+}
+</script>
+
 
 
 </body>
