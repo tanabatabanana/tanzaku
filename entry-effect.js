@@ -28,6 +28,33 @@ console.log("entry-effect.js 読み込み成功");
   let overlay = null;
   let intro = null;
 
+  // ページの読み込み完了（画像・フォント）を待つ。
+  // 壊れたリンクなどでいつまでも終わらないよう、最大15秒で打ち切る
+  const pageReady = Promise.race([
+    new Promise(resolve => {
+      const done = () => {
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(resolve, resolve);
+        } else {
+          resolve();
+        }
+      };
+      if (document.readyState === "complete") {
+        done();
+      } else {
+        window.addEventListener("load", done, { once: true });
+      }
+    }),
+    wait(15000)
+  ]);
+
+  // 読み込めた画像の割合（%）
+  function loadedPercent() {
+    const images = Array.from(document.images);
+    if (!images.length) return 0;
+    return Math.round((images.filter(img => img.complete).length / images.length) * 100);
+  }
+
   function makeWindow(data, isIntro = false) {
     const win = document.createElement("section");
     win.className = "entry-window " + (isIntro ? "entry-intro" : "entry-error");
@@ -75,6 +102,31 @@ console.log("entry-effect.js 読み込み成功");
     }
 
     return win;
+  }
+
+  // 読み込みに時間がかかる時に出す「LOADING」の窓
+  function makeLoading() {
+    const win = makeWindow({ title: "LOADING", text: "NOW LOADING...", symbol: "i" });
+    win.className = "entry-window entry-loading";
+    win.setAttribute("role", "status");
+
+    const bar = document.createElement("div");
+    bar.className = "entry-bar";
+    const fill = document.createElement("i");
+    bar.append(fill);
+
+    const percent = document.createElement("div");
+    percent.className = "entry-pct";
+
+    win.append(bar, percent);
+
+    const setProgress = value => {
+      fill.style.setProperty("--p", value + "%");
+      percent.textContent = value + "%";
+    };
+    setProgress(loadedPercent());
+
+    return { win, setProgress };
   }
 
   function addGlitch() {
@@ -150,8 +202,6 @@ console.log("entry-effect.js 読み込み成功");
         win.style.top = positions[i].y + "px";
       }
 
-  
-
       win.style.zIndex = String(10 + i);
 
       overlay.append(win);
@@ -167,6 +217,26 @@ console.log("entry-effect.js 読み込み成功");
 
     // ウィンドウが画面を覆った状態を見せる
     await wait(700);
+
+    // 読み込みが終わるまで待つ（時間がかかる時だけ、LOADING の窓を出す）
+    let loading = null;
+    let progressTimer = null;
+
+    const showTimer = setTimeout(() => {
+      loading = makeLoading();
+      overlay.append(loading.win);
+      progressTimer = setInterval(() => loading.setProgress(loadedPercent()), 100);
+    }, 400);
+
+    await pageReady;
+
+    clearTimeout(showTimer);
+    if (loading) {
+      clearInterval(progressTimer);
+      loading.setProgress(100);
+      await wait(300);
+      loading.win.remove();
+    }
 
     // 背景を消し、ウィンドウを小さくして消す
     overlay.classList.add("entry-hidden");

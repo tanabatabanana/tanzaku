@@ -569,25 +569,23 @@ p {
     to   { opacity: 1; transform: none; }
 }
 
-/* 画面が狭いとき（スマホ・タブレット）：タイトルの下に、少し重ねて並べる
-   ディスプレイは左上・① チャットは右上・② ファンアートは左下 */
+/* 画面が狭いとき（スマホ・タブレット）：ディスプレイはタイトルの上（今まで通り）。
+   ファンアートとチャットは、タイトルの下に少し重ねて、横に並べる */
 @media (max-width: 1259px) {
     .hero {
-        grid-template-columns: repeat(12, minmax(0, 1fr));
-        grid-template-areas: none;
-        column-gap: 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-areas: "disp disp" "title title" "fa chat";
+        column-gap: 10px;
         width: calc(100% - 20px);
         max-width: 880px;
-        margin: 165px auto 0;
     }
-    .hero .main-window { grid-area: auto; grid-column: 1 / 13; grid-row: 1; width: auto; margin: 0; z-index: 1; }
-    .hero .gallery     { grid-area: auto; grid-column: 1 / 8;  grid-row: 2; margin: -22px 0 0; padding: 44px 0 8px; z-index: 6; }
-    .hero .gallery .gallery-set img { width: clamp(80px, 20vw, 140px); }
-    .chat-window       { grid-area: auto; grid-column: 6 / 13; grid-row: 2; height: 250px; margin-top: -14px; z-index: 5; }
-    .fa-window         { grid-area: auto; grid-column: 1 / 8;  grid-row: 3; height: 250px; margin-top: -16px; z-index: 4; }
+    .hero .main-window { width: auto; }
+    .fa-window,
+    .chat-window { height: 250px; margin-top: -14px; z-index: 2; }
 }
 @media (max-width: 800px) {
-    .hero { margin-top: 175px; }
+    .hero .gallery     { margin-top: 175px; }
+    .hero .main-window { margin-top: 55px; }
 }
 
 /* ---------- カーソルが通ったところに出る、ドットの赤い星（cursor-trail.js） ---------- */
@@ -605,6 +603,37 @@ p {
 @keyframes cursor-star {
     from { opacity: 1; transform: scale(1) rotate(0deg); }
     to   { opacity: 0; transform: scale(0.3) rotate(var(--rot, 40deg)); }
+}
+
+/* ---------- 入室演出：読み込みに時間がかかる時の LOADING 表示（entry-effect.js）
+   entry-effect.css の .entry-window（position: relative）に負けないよう、id付きのセレクタにしている ---------- */
+#entry-overlay .entry-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 100000;
+    width: min(320px, calc(100vw - 34px));
+    height: max-content;
+    margin: auto;
+    animation: entry-intro-pop 0.38s cubic-bezier(0.16, 1.35, 0.45, 1) both;
+}
+.entry-bar {
+    height: 22px;
+    margin: 0 20px 8px;
+    padding: 3px;
+    box-sizing: border-box;
+    border: 2px solid #064bff;
+}
+.entry-bar i {
+    display: block;
+    width: var(--p, 0%);
+    height: 100%;
+    background: repeating-linear-gradient(90deg, #064bff 0 10px, transparent 10px 13px);
+    transition: width 0.15s linear;
+}
+.entry-pct {
+    padding: 0 20px 14px;
+    font: 14px "Courier New", monospace;
+    text-align: right;
 }
 
 /* =========================================
