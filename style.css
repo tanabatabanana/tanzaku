@@ -2267,73 +2267,28 @@ p {
 }
 
 
-/* =========================
-   GALLERY・ABOUT 横並び設定
-========================= */
-
-/* 水エリア */
+/* GALLERY・ABOUT 横並び設定 */
 .water-links {
-    position: relative;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: flex-start;
-    gap: 30px;
+    gap: 14px;
 
     width: 100%;
-min-height: 500px;
-height: auto;
+    height: auto;
+    min-height: 0;
 
-margin-top: 180px;
-padding: 100px max(20px, calc((100% - 1300px) / 2 + 20px));
+    /* 上の枠との距離を縮める */
+    margin-top: 80px;
+
+    /* 上の枠と同じ最大幅の範囲に配置 */
+    padding: 30px max(20px, calc((100% - 1300px) / 2 + 20px)) 50px;
 
     box-sizing: border-box;
     overflow: hidden;
-
-    background:
-        linear-gradient(
-            to bottom,
-            transparent 0%,
-            transparent 8%,
-            #5c94fc 8%,
-            #0066ff 100%
-        );
 }
 
-/* 3枚の水面はそのまま重ねる */
-.water-surface {
-    position: absolute;
-    left: -10%;
-    width: 120%;
-    height: 90px;
-    pointer-events: none;
-    border-radius: 50% 50% 45% 55% / 40% 35% 65% 60%;
-}
-
-.water-surface1 {
-    top: 6%;
-    background: #5c94fc;
-    z-index: 3;
-    animation: wave1 4s ease-in-out infinite alternate;
-}
-
-.water-surface2 {
-    top: 7%;
-    background: #78cfe3;
-    opacity: 0.8;
-    z-index: 2;
-    animation: wave2 5s ease-in-out infinite alternate;
-}
-
-.water-surface3 {
-    top: 8%;
-    background: #5c94fc;
-    opacity: 0.9;
-    z-index: 1;
-    animation: wave3 3.5s ease-in-out infinite alternate;
-}
-
-/* 2枚のリンクを横幅いっぱいに広げる */
 .water-gallery,
 .water-about {
     position: relative;
@@ -2344,126 +2299,36 @@ padding: 100px max(20px, calc((100% - 1300px) / 2 + 20px));
 
     display: block;
     flex: 1 1 0;
-    width: 0;
+    width: auto;
     min-width: 0;
     max-width: none;
 
     margin: 0;
-    color: black;
+    animation: none;
+    transform: none;
     text-decoration: none;
-
-    z-index: 20;
 }
 
-/* カードのサイズと見た目を統一 */
 .gallery-card,
 .about-card {
-    position: relative;
-
     width: 100%;
-    min-height: 230px;
+    min-height: 190px;
     box-sizing: border-box;
-
-    padding: 62px 25px 25px;
-
-    background: rgba(255, 255, 255, 0.95);
-    border: 3px solid #0047ff;
-    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
-
-    text-align: center;
-}
-
-/* GALLERYの浮遊アニメーションを止める */
-.water-gallery {
-    animation: none;
-}
-
-/* ABOUTの沈むアニメーションを止める */
-.water-about {
-    animation: none;
-}
-
-/* タイトルバー */
-.gallery-card::before,
-.about-card::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 36px;
-    box-sizing: border-box;
-    padding: 7px 12px;
-
-    background: linear-gradient(
-        105deg,
-        #064bff 0%,
-        #0878ff 55%,
-        #35aaff 100%
-    );
-
-    color: #fff;
-    font: bold 15px "Courier New", monospace;
-    letter-spacing: 1px;
-    text-align: left;
-}
-
-/* タイトル文字 */
-.gallery-card::before {
-    content: "GALLERY.exe";
-}
-
-.about-card::before {
-    content: "ABOUT.exe";
-}
-
-/* 閉じるボタン */
-.gallery-card::after,
-.about-card::after {
-    content: "×";
-
-    position: absolute;
-    top: 5px;
-    right: 6px;
-
-    width: 24px;
-    height: 24px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-sizing: border-box;
-    background: #fff;
-    border: 1px solid #fff;
-
-    color: #0047ff;
-    font: bold 20px/1 "Courier New", monospace;
-}
-
-/* ホバー時 */
-.gallery-card,
-.about-card {
-    transition: transform 0.2s ease;
 }
 
 .water-gallery:hover .gallery-card,
 .water-about:hover .about-card {
     transform: scale(1.03);
+    opacity: 1;
 }
-
-/* =========================
-   スマホでは縦並び
-========================= */
 
 @media (max-width: 600px) {
     .water-links {
         flex-direction: column;
         align-items: center;
         gap: 25px;
-
+        padding: 30px 20px 50px;
         min-height: 0;
-        padding: 70px 20px;
     }
 
     .water-gallery,
@@ -2475,255 +2340,7 @@ padding: 100px max(20px, calc((100% - 1300px) / 2 + 20px));
 
     .gallery-card,
     .about-card {
-        min-height: 190px;
+        min-height: 170px;
         padding: 62px 20px 25px;
-    }
-}
-
-/* =========================
-   ウィンドウ型ヘッダー
-========================= */
-
-#header-window {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    right: auto;
-    bottom: auto;
-    z-index: 99999;
-
-    display: block;
-    width: 750px;
-    max-width: calc(100vw - 40px);
-    height: auto;
-    margin: 0;
-    padding: 0;
-
-    box-sizing: border-box;
-    background: #fff;
-    border: 3px solid #0047ff;
-    border-radius: 0;
-    box-shadow: 5px 5px 0 rgba(0, 71, 255, 0.25);
-}
-
-/* 青いタイトルバー */
-#header-titlebar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    min-height: 38px;
-    margin: 0;
-    padding: 7px 10px;
-
-    box-sizing: border-box;
-    background: #0047ff;
-    color: #fff;
-
-    cursor: grab;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: none;
-}
-
-#header-titlebar:active {
-    cursor: grabbing;
-}
-
-.header-app-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-
-    width: 20px;
-    height: 20px;
-    background: #fff;
-    color: #0047ff;
-    font-weight: bold;
-}
-
-.header-window-title {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    color: #fff;
-    font-size: 12px;
-    line-height: 1.4;
-}
-
-/* ウィンドウ操作ボタン */
-.header-window-controls {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-shrink: 0;
-    gap: 6px;
-    margin-left: auto;
-    padding-left: 12px;
-    color: #fff;
-    white-space: nowrap;
-}
-
-.header-window-controls button,
-.header-window-controls span {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.header-window-controls button {
-    padding: 2px 6px;
-    border: none;
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    cursor: pointer;
-}
-
-.header-window-controls button:hover {
-    background: #fff;
-    color: #0047ff;
-}
-
-/* メニュー全体 */
-#header-window .header-menu {
-    position: static;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 4px;
-
-    width: 100%;
-    height: auto;
-    margin: 0;
-    padding: 8px;
-
-    box-sizing: border-box;
-    background: #fff;
-    border: none;
-}
-
-/* メニュー項目 */
-#header-window .header-item {
-    position: static;
-    display: flex;
-    flex: 0 0 82px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
-
-    width: 82px;
-    min-width: 0;
-    height: auto;
-    margin: 0;
-    padding: 8px 4px;
-
-    box-sizing: border-box;
-    background: transparent;
-    color: #0047ff;
-    border: 1px solid transparent;
-    border-radius: 0;
-
-    font-size: 10px;
-    line-height: 1.5;
-    text-align: center;
-    text-decoration: none;
-    white-space: normal;
-    transform: none;
-}
-
-/* メニュー項目の文字 */
-#header-window .header-item span {
-    display: block;
-    position: static;
-    width: 100%;
-    height: auto;
-    margin: 0;
-    padding: 0;
-
-    line-height: 1.5;
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    transform: none;
-}
-
-/* メニューアイコン */
-#header-window .header-icon {
-    display: block;
-    flex: 0 0 32px;
-    width: 32px;
-    height: 32px;
-    margin: 0;
-    padding: 0;
-    object-fit: contain;
-}
-
-#header-window .header-item:hover {
-    background: rgba(0, 71, 255, 0.08);
-    border-color: #0047ff;
-}
-
-/* 折りたたみ時 */
-#header-window.is-collapsed nav,
-#header-window.is-collapsed .header-menu,
-#header-window.is-collapsed .header-nav {
-    display: none;
-}
-
-/* ギャラリーとの距離 */
-.gallery {
-    margin-top: 160px;
-}
-
-@media (max-width: 600px) {
-    #header-window {
-        top: 8px;
-        left: 8px;
-        right: 8px;
-        width: auto;
-        max-width: calc(100vw - 16px);
-    }
-
-    #header-window.is-collapsed {
-        width: max-content;
-        max-width: calc(100vw - 16px);
-    }
-
-    #header-titlebar {
-        gap: 6px;
-    }
-
-    #header-window .header-item {
-        flex-basis: 68px;
-        width: 68px;
-        padding: 6px 3px;
-        font-size: 9px;
-    }
-
-    #header-window .header-icon {
-        flex-basis: 28px;
-        width: 28px;
-        height: 28px;
-    }
-
-    .header-window-controls {
-        margin-left: auto;
-    }
-
-    .gallery {
-        margin-top: 120px;
-        padding: 8px;
-        border-width: 2px;
     }
 }
