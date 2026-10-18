@@ -489,7 +489,7 @@ p {
     margin: 0 auto;
 }
 .hero .gallery     { grid-area: disp;  width: auto; margin: 165px 0 0; }
-.hero .main-window { grid-area: title; width: 880px; margin: 80px 0 0; }
+.hero .main-window { grid-area: title; width: 880px; margin: 56px 0 0; }
 .fa-window         { grid-area: fa;   --title: "FA.exe"; }
 .chat-window       { grid-area: chat; --title: "CHAT.exe"; }
 
@@ -497,7 +497,7 @@ p {
     display: flex;
     min-width: 0;
     min-height: 0;
-    margin-top: 80px;
+    margin-top: 56px;
     padding: 36px 6px 6px;
     overflow: hidden;
     background-color: rgba(255, 255, 255, 0.92);
@@ -581,11 +581,11 @@ p {
     }
     .hero .main-window { width: auto; }
     .fa-window,
-    .chat-window { height: 250px; margin-top: -14px; z-index: 2; }
+    .chat-window { height: 250px; margin-top: 14px; }   /* タイトルの窓の下に、重ならずに並べる */
 }
 @media (max-width: 800px) {
     .hero .gallery     { margin-top: 175px; }
-    .hero .main-window { margin-top: 55px; }
+    .hero .main-window { margin-top: 32px; }
 }
 
 /* ---------- カーソルが通ったところに出る、ドットの赤い星（cursor-trail.js） ---------- */
@@ -643,7 +643,7 @@ p {
     --title: "INVESTIGATORS.exe";
     width: 100%;
     max-width: 1300px;
-    margin: 230px auto 0;
+    margin: 140px auto 0;
     padding: 100px 20px 150px;
     background-color: rgba(255, 255, 255, 0.92);
 }
@@ -1101,6 +1101,24 @@ p {
 
 .water-links p { margin: 12px 0 0; font-size: 20px; }
 
+/* GALLERY：images/ichimai-1.png が窓いっぱいに表示され、右下に白い太文字（拡張子が違う場合は下の url を直す） */
+.water-gallery .gallery-card {
+    padding: 0;
+    background: #61b3ff url("images/ichimai-1.png") center / cover no-repeat;
+}
+.water-gallery .water-title {
+    position: absolute;
+    right: 18px;
+    bottom: 14px;
+    color: #fff;
+    font: 900 44px/1 "Arial Black", Impact, sans-serif;
+    letter-spacing: 4px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+@media (max-width: 800px) {
+    .water-gallery .water-title { right: 12px; bottom: 10px; font-size: 28px; letter-spacing: 2px; }
+}
+
 /* 泡 */
 .bubble {
     position: absolute;
@@ -1160,7 +1178,7 @@ p {
     /* INVESTIGATORS */
     .investigators-page {
         width: calc(100% - 20px);
-        margin: 150px auto 0;
+        margin: 85px auto 0;
         padding: 60px 10px 100px;
         border-width: 4px;
     }
