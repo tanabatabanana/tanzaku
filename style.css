@@ -2265,6 +2265,2273 @@ p {
     }
 
 }
+/* =========================
+   フォント
+========================= */
+
+@font-face {
+    font-family: "AsWinterBegins";
+    src: url("fonts/AsWinterBegins.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Y1PixelationSerif";
+    src: url("fonts/Y1PixelationSerif.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "BunanMarker";
+    src: url("fonts/BunanMarker.otf") format("opentype");
+}
+@font-face { font-family: "TsunagiGothic"; src: url("fonts/TsunagiGothic.otf") format("opentype"); }
+
+/* =========================
+   全体・背景
+========================= */
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+
+    background-color: white;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 120, 200, 0.35) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0, 120, 200, 0.35) 1px,
+            transparent 1px
+        );
+
+    background-size: 25px 25px;
+
+    /* 8bit風カーソル */
+    cursor: url("images/cursor.png") 16 16, auto;
+}
+
+
+/* =========================
+   ヘッダー
+========================= */
+
+.site-header {
+    width: 100%;
+    height: 70px;
+
+    background: blue;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 30px;
+
+    box-sizing: border-box;
+
+    position: relative;
+    z-index: 2;
+}
+
+
+/* ヘッダータイトル */
+
+.header-title {
+    color: white;
+
+    font-family: "BunanMarker", serif;
+
+    font-size: 22px;
+
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   ヘッダーメニュー
+========================= */
+
+.header-menu {
+    display: flex;
+
+    align-items: center;
+
+    gap: 35px;
+
+    margin-left: auto;
+}
+
+
+.header-menu a {
+    color: white;
+
+    font-family: "Y1PixelationSerif", serif;
+
+    font-size: 18px;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        text-shadow 0.2s ease;
+}
+
+
+.header-menu a:hover {
+    color: white;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 10px white;
+}
+
+
+/* =========================
+   横に流れるディスプレイ
+========================= */
+
+.gallery {
+    width: 100%;
+
+    overflow: hidden;
+
+    padding-top: 40px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.gallery-track {
+    display: flex;
+
+    width: max-content;
+
+    animation: scroll 45s linear infinite;
+}
+
+
+.gallery-set {
+    display: flex;
+
+    gap: 12px;
+
+    padding-right: 12px;
+
+    flex-shrink: 0;
+}
+
+
+.gallery-set img {
+    width: 230px;
+
+    height: auto;
+
+    display: block;
+
+    border-radius: 15px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================
+   永遠に途切れず流れる
+========================= */
+
+@keyframes scroll {
+
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+
+}
+
+
+/* =========================
+   メインタイトル
+========================= */
+
+h1 {
+    color: black;
+
+    text-align: center;
+
+    font-family: "AsWinterBegins", serif;
+
+    font-size: 80px;
+
+    margin-top: 80px;
+}
+
+
+/* タイトルの歪み */
+
+.wiggle-title {
+    filter: url(#wavy);
+}
+
+
+/* SVGフィルターを非表示 */
+
+.svg-filter {
+    position: absolute;
+
+    width: 0;
+    height: 0;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   サブタイトル
+========================= */
+
+p {
+    color: black;
+
+    text-align: center;
+
+    font-size: 28px;
+
+    font-family: "AsWinterBegins", serif;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   テプラ風リンクメニュー
+========================= */
+
+.link-menu {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 45px;
+
+    margin-top: 70px;
+
+    flex-wrap: wrap;
+}
+
+
+.glitch-link {
+    background: yellow;
+
+    color: black;
+
+    font-family: "Y1PixelationSerif", serif;
+
+    font-size: 22px;
+
+    text-decoration: none;
+
+    padding: 10px 18px;
+
+    border: 1px solid #cccccc;
+
+    box-shadow:
+        3px 3px 2px rgba(0, 0, 0, 0.18);
+
+    transform-origin: center;
+
+    transition:
+        color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+/* バラバラに貼られた感じ */
+
+.glitch-link:nth-child(1) {
+    transform: rotate(-4deg) translateY(-8px);
+}
+
+.glitch-link:nth-child(2) {
+    transform: rotate(2deg) translateY(7px);
+}
+
+.glitch-link:nth-child(3) {
+    transform: rotate(-1deg) translateY(-4px);
+}
+
+.glitch-link:nth-child(4) {
+    transform: rotate(5deg) translateY(8px);
+}
+
+
+/* ホバー */
+
+.glitch-link:hover {
+    color: blue;
+}
+
+
+.glitch-link:nth-child(1):hover {
+    animation: peel1 0.5s ease forwards;
+}
+
+.glitch-link:nth-child(2):hover {
+    animation: peel2 0.5s ease forwards;
+}
+
+.glitch-link:nth-child(3):hover {
+    animation: peel3 0.5s ease forwards;
+}
+
+.glitch-link:nth-child(4):hover {
+    animation: peel4 0.5s ease forwards;
+}
+
+
+/* =========================
+   テプラがはがれる動き
+========================= */
+
+@keyframes peel1 {
+
+    0% {
+        transform: rotate(-4deg) translateY(-8px);
+    }
+
+    100% {
+        transform:
+            rotate(-6deg)
+            translateY(-12px)
+            translateX(-2px)
+            scale(1.06);
+    }
+
+}
+
+
+@keyframes peel2 {
+
+    0% {
+        transform: rotate(2deg) translateY(7px);
+    }
+
+    100% {
+        transform:
+            rotate(4deg)
+            translateY(2px)
+            translateX(2px)
+            scale(1.06);
+    }
+
+}
+
+
+@keyframes peel3 {
+
+    0% {
+        transform: rotate(-1deg) translateY(-4px);
+    }
+
+    100% {
+        transform:
+            rotate(-3deg)
+            translateY(-9px)
+            translateX(2px)
+            scale(1.06);
+    }
+
+}
+
+
+@keyframes peel4 {
+
+    0% {
+        transform: rotate(5deg) translateY(8px);
+    }
+
+    100% {
+        transform:
+            rotate(7deg)
+            translateY(3px)
+            translateX(-2px)
+            scale(1.06);
+    }
+
+}
+
+/* =========================
+   INVESTIGATORS エリア
+========================= */
+
+.investigators-page {
+    width: 100%;
+    max-width: 1300px;
+    box-sizing: border-box;
+
+    margin: 230px auto 0;
+    padding: 100px 20px 150px;
+
+    border: 3px solid #0047ff;
+    background-color: rgba(255, 255, 255, 0.92);
+
+    position: relative;
+    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
+}
+
+/* ウィンドウ風タイトルバー */
+.investigators-page::before {
+    content: "INVESTIGATORS.exe";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 38px;
+    box-sizing: border-box;
+
+    padding: 7px 14px;
+
+    background: linear-gradient(
+        105deg,
+        #064bff 0%,
+        #0878ff 55%,
+        #35aaff 100%
+    );
+
+    color: #ffffff;
+    font-family: "Courier New", monospace;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* 右上の閉じるボタン */
+.investigators-page::after {
+    content: "×";
+    position: absolute;
+    top: 6px;
+    right: 7px;
+
+    width: 24px;
+    height: 24px;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    border: 1px solid #ffffff;
+
+    color: #0047ff;
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* =========================
+   INVESTIGATORS タイトル
+========================= */
+
+.page-title {
+    margin: 0 0 100px;
+
+    font-family: "BunanMarker", serif;
+    font-size: 60px;
+    color: #0047ff;
+    text-align: center;
+    letter-spacing: 8px;
+}
+
+
+/* =========================
+   探索者一覧
+========================= */
+.investigator-grid {
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 70px 24px;
+    align-items: start;
+    position: relative;
+    z-index: 2;
+}
+
+/* =========================
+   探索者カード
+========================= */
+
+.investigator-card {
+    position: relative;
+
+    display: block;
+
+    background: white;
+
+    padding: 5px;
+
+    color: black;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    box-shadow:
+        4px 5px 3px rgba(0, 0, 0, 0.28);
+
+    transition:
+        box-shadow 0.3s ease;
+}
+
+
+.investigator-card:hover {
+    box-shadow:
+        4px 5px 5px rgba(0, 0, 0, 0.20);
+}
+
+
+/* =========================
+   写真エリア
+========================= */
+
+.photo-area {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 3 / 4;
+
+    background-color: #61b3ff;
+
+    /*
+       シナリオラベルが外へ出られるようにする。
+       ここは overflow: hidden にしない。
+    */
+    overflow: visible;
+
+    transition:
+        background-color 0.15s steps(2);
+}
+
+
+/* =========================
+   人物アイコン
+========================= */
+
+.photo-area img {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+
+/* =========================
+   写真の切り替え
+========================= */
+
+.photo-normal {
+    opacity: 1;
+
+    transition:
+        opacity 0.3s ease;
+}
+
+
+.photo-hover {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    opacity: 0;
+
+    z-index: 2;
+
+    transition:
+        opacity 0.2s ease;
+
+    transition-delay: 0.15s;
+}
+
+
+/* =========================
+   ホバーしたとき
+========================= */
+
+.investigator-card:hover .photo-area {
+    background-color: #0066ff;
+}
+
+
+.investigator-card:hover .photo-hover {
+    opacity: 1;
+
+    z-index: 3;
+}
+
+
+.investigator-card:hover .photo-normal {
+    opacity: 0;
+
+    transition-delay: 0.15s;
+}
+
+
+/* =========================
+   カーソルを外したとき
+========================= */
+
+.investigator-card:not(:hover) .photo-normal {
+    transition-delay: 0s;
+}
+
+.investigator-card:not(:hover) .photo-hover {
+    transition-delay: 0.15s;
+}
+
+
+/* =========================
+   ホバー画像なし
+========================= */
+
+.investigator-card.no-hover:hover .photo-normal {
+    opacity: 1;
+}
+
+
+/* =========================
+   出身シナリオ ラベル
+========================= */
+
+.scenario-bubble {
+    position: absolute;
+
+    top: -65px;
+    left: -20px;
+
+    background: white;
+
+    color: black;
+
+    font-family: "AsWinterBegins", serif;
+
+    font-weight: bold;
+
+    text-shadow:
+        0.5px 0 black,
+        -0.5px 0 black,
+        0 0.5px black,
+        0 -0.5px black;
+
+    font-size: 20px;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    padding: 12px 20px;
+
+    border: 3px solid black;
+
+    border-radius:
+        12px 20px 14px 18px
+        /
+        18px 12px 20px 14px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 100;
+
+    transform:
+        translateY(10px)
+        scale(0.8);
+
+    transform-origin: left bottom;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.photo-area:hover .scenario-bubble {
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
+
+/* =========================
+   名前ラベル
+========================= */
+
+.name-label {
+    position: absolute;
+
+    left: 50%;
+
+    bottom: -35px;
+
+    background: white;
+
+    color: black;
+
+    font-family: "AsWinterBegins", serif;
+
+    font-size: 20px;
+
+    font-weight: normal;
+
+    padding: 10px 25px;
+
+    white-space: nowrap;
+
+    border: 1px solid #cccccc;
+
+    box-shadow:
+        3px 3px 2px rgba(0, 0, 0, 0.18);
+
+    z-index: 10;
+}
+
+
+/* 名前の文字 */
+
+.name-text {
+    display: inline-block;
+
+    font-family: "AsWinterBegins", serif;
+
+    font-weight: normal;
+
+    text-shadow:
+        0.3px 0 black,
+        -0.3px 0 black,
+        0 0.3px black,
+        0 -0.3px black;
+}
+
+
+/* =========================
+   カードのふわふわ
+========================= */
+
+.investigator-card:nth-child(8n + 1) {
+    animation: float1 4.7s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(8n + 2) {
+    animation: float2 5.3s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(8n + 3) {
+    animation: float3 4.1s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(8n + 4) {
+    animation: float4 5.8s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(8n + 5) {
+    animation: float3 5.1s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(8n + 6) {
+    animation: float4 4.4s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(8n + 7) {
+    animation: float1 5.6s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(8n) {
+    animation: float2 4.3s ease-in-out infinite;
+}
+
+
+/* =========================
+   ふわふわアニメーション
+========================= */
+
+@keyframes float1 {
+
+    0%, 100% {
+        transform:
+            rotate(-2deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            rotate(-2deg)
+            translateY(-7px);
+    }
+
+}
+
+
+@keyframes float2 {
+
+    0%, 100% {
+        transform:
+            rotate(1deg)
+            translateY(5px);
+    }
+
+    50% {
+        transform:
+            rotate(1deg)
+            translateY(-4px);
+    }
+
+}
+
+
+@keyframes float3 {
+
+    0%, 100% {
+        transform:
+            rotate(-1deg)
+            translateY(-4px);
+    }
+
+    50% {
+        transform:
+            rotate(-1deg)
+            translateY(-12px);
+    }
+
+}
+
+
+@keyframes float4 {
+
+    0%, 100% {
+        transform:
+            rotate(2deg)
+            translateY(6px);
+    }
+
+    50% {
+        transform:
+            rotate(2deg)
+            translateY(-3px);
+    }
+
+}
+
+
+/* =========================
+   名前ラベルを別々にふわふわ
+========================= */
+
+.investigator-card:nth-child(4n + 1) .name-label {
+    animation: label1 3.2s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(4n + 2) .name-label {
+    animation: label2 4.1s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(4n + 3) .name-label {
+    animation: label3 3.6s ease-in-out infinite;
+}
+
+.investigator-card:nth-child(4n + 4) .name-label {
+    animation: label4 4.5s ease-in-out infinite;
+}
+
+
+@keyframes label1 {
+
+    0%, 100% {
+        transform:
+            translateX(-50%)
+            rotate(-3deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            rotate(-3deg)
+            translateY(-4px);
+    }
+
+}
+
+
+@keyframes label2 {
+
+    0%, 100% {
+        transform:
+            translateX(-50%)
+            rotate(2deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            rotate(2deg)
+            translateY(5px);
+    }
+
+}
+
+
+@keyframes label3 {
+
+    0%, 100% {
+        transform:
+            translateX(-50%)
+            rotate(-1deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            rotate(-1deg)
+            translateY(-5px);
+    }
+
+}
+
+
+@keyframes label4 {
+
+    0%, 100% {
+        transform:
+            translateX(-50%)
+            rotate(3deg)
+            translateY(0);
+    }
+
+    50% {
+        transform:
+            translateX(-50%)
+            rotate(3deg)
+            translateY(4px);
+    }
+
+}
+
+
+/* =========================
+   クリック：星が弾ける
+========================= */
+
+.click-star {
+    position: fixed;
+
+    width: 8px;
+    height: 8px;
+
+    background: red;
+
+    pointer-events: none;
+
+    z-index: 9999;
+
+    animation:
+        star-burst 0.5s steps(4) forwards;
+}
+
+
+@keyframes star-burst {
+
+    0% {
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translate(
+                calc(-50% + var(--x)),
+                calc(-50% + var(--y))
+            )
+            scale(0);
+
+        opacity: 0;
+    }
+}
+/* =========================
+   浮かぶネオン星
+========================= */
+
+.floating-star {
+    position: fixed;
+
+    width: var(--star-size);
+    height: var(--star-size);
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    opacity: 0;
+
+    animation:
+        floatingUp var(--duration)
+        linear
+        forwards;
+}
+
+
+.star-shape {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: var(--star-color);
+
+    filter:
+        drop-shadow(0 0 3px var(--star-color))
+        drop-shadow(0 0 8px var(--star-color));
+
+    animation:
+        underwaterSway 3.5s
+        ease-in-out
+        infinite alternate;
+}
+
+
+/* =========================
+   星が上昇する
+========================= */
+
+@keyframes floatingUp {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(40px)
+            scale(0.7);
+    }
+
+    15% {
+        opacity: 0.8;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translateY(-160px)
+            scale(0.8);
+    }
+
+}
+
+
+/* =========================
+   星が横に揺れる
+========================= */
+
+@keyframes underwaterSway {
+
+    0% {
+        transform:
+            translateX(calc(var(--sway) * -1))
+            rotate(-5deg);
+    }
+
+    50% {
+        transform:
+            translateX(var(--sway))
+            rotate(5deg);
+    }
+
+    100% {
+        transform:
+            translateX(calc(var(--sway) * -0.6))
+            rotate(-3deg);
+    }
+
+}
+
+
+/* =========================
+   星の種類
+========================= */
+
+
+/* 十字 */
+
+.star-cross {
+    background: var(--star-color);
+
+    clip-path: polygon(
+        35% 0%,
+        65% 0%,
+        65% 35%,
+        100% 35%,
+        100% 65%,
+        65% 65%,
+        65% 100%,
+        35% 100%,
+        35% 65%,
+        0% 65%,
+        0% 35%,
+        35% 35%
+    );
+}
+
+
+/* キラキラ星 */
+
+.star-sparkle {
+    background: var(--star-color);
+
+    clip-path: polygon(
+        50% 0%,
+        58% 35%,
+        100% 50%,
+        58% 58%,
+        50% 100%,
+        42% 58%,
+        0% 50%,
+        42% 42%
+    );
+}
+
+
+/* ダイヤ */
+
+.star-diamond {
+    background: var(--star-color);
+
+    clip-path: polygon(
+        50% 0%,
+        100% 50%,
+        50% 100%,
+        0% 50%
+    );
+}
+
+
+/* 小さい十字 */
+
+.star-small {
+    background: var(--star-color);
+
+    clip-path: polygon(
+        40% 0%,
+        60% 0%,
+        60% 40%,
+        100% 40%,
+        100% 60%,
+        60% 60%,
+        60% 100%,
+        40% 100%,
+        40% 60%,
+        0% 60%,
+        0% 40%,
+        40% 40%
+    );
+}
+
+
+/* 細いプラス */
+
+.star-plus {
+    background: var(--star-color);
+
+    clip-path: polygon(
+        43% 0%,
+        57% 0%,
+        57% 43%,
+        100% 43%,
+        100% 57%,
+        57% 57%,
+        57% 100%,
+        43% 100%,
+        43% 57%,
+        0% 57%,
+        0% 43%,
+        43% 43%
+    );
+}
+
+
+/* =========================
+   WATER LINKS
+========================= */
+
+.water-links {
+    position: relative;
+
+    width: 100%;
+
+    height: 900px;
+
+    margin-top: 180px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 8%,
+            #5c94fc 8%,
+            #0066ff 100%
+        );
+}
+
+
+/* =========================
+   水面：3重のなみなみ
+========================= */
+
+.water-surface {
+    position: absolute;
+
+    left: -10%;
+
+    width: 120%;
+
+    height: 90px;
+
+    pointer-events: none;
+
+    border-radius:
+        50% 50% 45% 55%
+        /
+        40% 35% 65% 60%;
+}
+
+
+/* 1枚目の波 */
+
+.water-surface1 {
+    top: 6%;
+
+    background: #5c94fc;
+
+    z-index: 3;
+
+    animation:
+        wave1 4s ease-in-out infinite alternate;
+}
+
+
+/* 2枚目の波 */
+
+.water-surface2 {
+    top: 7%;
+
+    background: #78cfe3;
+
+    opacity: 0.8;
+
+    z-index: 2;
+
+    animation:
+        wave2 5s ease-in-out infinite alternate;
+}
+
+
+/* 3枚目の波 */
+
+.water-surface3 {
+    top: 8%;
+
+    background: #5c94fc;
+
+    opacity: 0.9;
+
+    z-index: 1;
+
+    animation:
+        wave3 3.5s ease-in-out infinite alternate;
+}
+
+
+/* =========================
+   波のアニメーション
+========================= */
+
+@keyframes wave1 {
+
+    0% {
+        transform:
+            translateX(-30px)
+            translateY(0)
+            rotate(-1deg);
+    }
+
+    100% {
+        transform:
+            translateX(30px)
+            translateY(10px)
+            rotate(1deg);
+    }
+
+}
+
+
+@keyframes wave2 {
+
+    0% {
+        transform:
+            translateX(25px)
+            translateY(5px)
+            rotate(1deg);
+    }
+
+    100% {
+        transform:
+            translateX(-25px)
+            translateY(-8px)
+            rotate(-1deg);
+    }
+
+}
+
+
+@keyframes wave3 {
+
+    0% {
+        transform:
+            translateX(-15px)
+            translateY(0);
+    }
+
+    100% {
+        transform:
+            translateX(15px)
+            translateY(8px);
+    }
+
+}
+
+/* =========================
+   GALLERY：水面に浮かぶ
+========================= */
+
+.water-gallery {
+    position: absolute;
+    top: 2%;
+    left: calc(50% - 165px);
+
+    display: block;
+    text-decoration: none;
+    color: black;
+    z-index: 20;
+
+    animation: galleryFloat 4s ease-in-out infinite;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+
+/* =========================
+   ABOUT：水の中に沈む
+========================= */
+
+.water-about {
+    position: absolute;
+    top: 2%;
+    left: calc(50% + 165px);
+
+    text-decoration: none;
+    color: black;
+    z-index: 10;
+
+    animation: aboutSink 6s ease-in-out infinite;
+}
+
+
+/* =========================
+   共通：ウィンドウ風カード
+========================= */
+
+.gallery-card,
+.about-card {
+    position: relative;
+    box-sizing: border-box;
+
+    background: rgba(255, 255, 255, 0.95);
+    padding: 62px 45px 25px;
+    border: 3px solid #0047ff;
+    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
+
+    text-align: center;
+}
+
+
+/* GALLERYのカード */
+
+.gallery-card {
+    transition: transform 0.2s ease;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+
+/* ABOUTのカード */
+
+.about-card {
+    opacity: 1;
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+/* タイトルバー共通 */
+
+.gallery-card::before,
+.about-card::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+    padding: 7px 12px;
+
+    background: linear-gradient(
+        105deg,
+        #064bff 0%,
+        #0878ff 55%,
+        #35aaff 100%
+    );
+
+    color: #fff;
+    font: bold 15px "Courier New", monospace;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+
+/* タイトル */
+
+.gallery-card::before {
+    content: "GALLERY.exe";
+}
+
+.about-card::before {
+    content: "ABOUT.exe";
+}
+
+
+/* 閉じるボタン共通 */
+
+.gallery-card::after,
+.about-card::after {
+    content: "×";
+
+    position: absolute;
+    top: 5px;
+    right: 6px;
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #fff;
+
+    color: #0047ff;
+    font: bold 20px/1 "Courier New", monospace;
+}
+
+
+/* ホバー時の動き */
+
+.water-gallery:hover .gallery-card {
+    transform: translateZ(0) scale(1.08);
+}
+
+.water-about:hover .about-card {
+    transform: scale(1.08);
+    opacity: 1;
+}
+
+/* =========================
+   スマホ対応
+========================= */
+
+@media (max-width: 800px) {
+
+    /* =========================
+       全体
+    ========================= */
+
+    body {
+        overflow-x: hidden;
+    }
+
+
+    /* =========================
+       ヘッダー
+    ========================= */
+
+    .site-header {
+        height: auto;
+
+        min-height: 60px;
+
+        padding: 12px 15px;
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+    }
+
+
+    .header-title {
+        font-size: 18px;
+    }
+
+
+    .header-menu {
+        gap: 15px;
+
+        margin-left: auto;
+
+        flex-wrap: wrap;
+
+        justify-content: flex-end;
+    }
+
+
+    .header-menu a {
+        font-size: 14px;
+    }
+
+
+    /* =========================
+       流れるディスプレイ
+    ========================= */
+
+    .gallery {
+        padding-top: 25px;
+    }
+
+
+    .gallery-set {
+        gap: 8px;
+
+        padding-right: 8px;
+    }
+
+
+    .gallery-set img {
+        width: 145px;
+
+        border-radius: 10px;
+    }
+
+
+    /* =========================
+       メインタイトル
+    ========================= */
+
+    h1 {
+        font-size: 48px;
+
+        margin-top: 55px;
+
+        margin-bottom: 15px;
+
+        padding: 0 10px;
+    }
+
+
+    p {
+        font-size: 20px;
+
+        padding: 0 15px;
+
+        box-sizing: border-box;
+    }
+
+
+    /* =========================
+       上部リンク
+    ========================= */
+
+    .link-menu {
+        width: calc(100% - 30px);
+
+        margin: 50px auto 0;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 22px 12px;
+
+        box-sizing: border-box;
+    }
+
+
+    .glitch-link {
+        font-size: 17px;
+
+        padding: 9px 8px;
+
+        text-align: center;
+
+        box-sizing: border-box;
+
+        white-space: nowrap;
+    }
+
+
+    .glitch-link:nth-child(1) {
+        transform:
+            rotate(-3deg)
+            translateY(-4px);
+    }
+
+
+    .glitch-link:nth-child(2) {
+        transform:
+            rotate(2deg)
+            translateY(4px);
+    }
+
+
+    .glitch-link:nth-child(3) {
+        transform:
+            rotate(-1deg)
+            translateY(-3px);
+    }
+
+
+    .glitch-link:nth-child(4) {
+        transform:
+            rotate(3deg)
+            translateY(4px);
+    }
+
+
+    /* =========================
+       INVESTIGATORS 外枠
+    ========================= */
+
+    .investigators-page {
+        width: calc(100% - 20px);
+
+        box-sizing: border-box;
+
+        margin: 150px auto 0;
+
+        padding: 60px 10px 100px;
+
+        border-width: 4px;
+    }
+
+
+    /* =========================
+       INVESTIGATORS タイトル
+    ========================= */
+
+    .page-title {
+        font-size: 40px;
+
+        letter-spacing: 4px;
+
+        margin-bottom: 70px;
+
+        padding: 0;
+    }
+
+
+    /* =========================
+       探索者一覧
+    ========================= */
+
+    .investigator-grid {
+        width: 100%;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 65px 12px;
+    }
+
+
+    /* =========================
+       探索者カード
+    ========================= */
+
+    .investigator-card {
+        width: 100%;
+
+        min-width: 0;
+
+        box-sizing: border-box;
+    }
+
+
+    /* =========================
+       写真
+    ========================= */
+
+    .photo-area {
+        width: 100%;
+
+        aspect-ratio: 3 / 4;
+    }
+
+
+    /* =========================
+       シナリオ名
+    ========================= */
+
+    .scenario-bubble {
+        top: -48px;
+
+        left: -5px;
+
+        max-width:
+            calc(100vw - 35px);
+
+        box-sizing: border-box;
+
+        font-size: 14px;
+
+        line-height: 1.35;
+
+        padding: 7px 10px;
+
+        white-space: normal;
+
+        border-width: 2px;
+    }
+
+
+    /* =========================
+       名前ラベル
+    ========================= */
+
+    .name-label {
+        bottom: -28px;
+
+        max-width:
+            calc(100% - 8px);
+
+        box-sizing: border-box;
+
+        font-size: 15px;
+
+        padding: 7px 12px;
+
+        white-space: nowrap;
+    }
+
+
+    .name-text {
+        font-size: inherit;
+    }
+
+
+    /* =========================
+       水エリア
+    ========================= */
+
+    .water-links {
+        height: 800px;
+
+        margin-top: 120px;
+    }
+
+
+    .gallery-card,
+    .about-card {
+        padding: 20px 25px;
+
+        width: 230px;
+
+        box-sizing: border-box;
+    }
+
+
+    .water-title {
+        font-size: 32px;
+
+        letter-spacing: 12px;
+    }
+
+
+    .water-links p {
+        font-size: 13px;
+    }
+
+
+    .water-about {
+        top: 400px;
+    }
+
+
+    .gallery-card {
+        border-width: 3px;
+
+        padding: 18px 22px;
+    }
+
+
+    .about-card {
+        padding: 18px 22px;
+    }
+
+
+    /* =========================
+       泡の位置
+    ========================= */
+
+    .bubble1 {
+        left: 10%;
+    }
+
+
+    .bubble2 {
+        left: 25%;
+    }
+
+
+    .bubble3 {
+        left: 60%;
+    }
+
+
+    .bubble4 {
+        left: 78%;
+    }
+
+
+    .bubble5 {
+        left: 40%;
+    }
+
+
+    .bubble6 {
+        left: 58%;
+    }
+
+}
+
+
+/* =========================
+   探索者検索・絞り込み
+========================= */
+
+.investigator-tools {
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: 0 auto 170px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-end;
+
+    gap: 30px;
+
+    flex-wrap: wrap;
+}
+
+
+/* =========================
+   3つの検索・絞り込み
+========================= */
+
+.stat-sort,
+.skill-search,
+.edition-filter {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+/* =========================
+   ラベル
+========================= */
+
+.stat-sort label,
+.skill-search label,
+.edition-filter label {
+    font-family:
+        "TsunagiGothic",
+        sans-serif;
+
+    font-size: 16px;
+
+    color: #0047ff;
+
+    line-height: 1.2;
+}
+
+
+/* =========================
+   入力欄・選択欄
+========================= */
+
+.stat-sort select,
+.skill-search input,
+.edition-filter select {
+    height: 42px;
+
+    box-sizing: border-box;
+
+    border: 3px solid #0047ff;
+
+    background:
+        rgba(255, 255, 255, 0.9);
+
+    font-family:
+        "Y1PixelationSerif",
+        sans-serif;
+
+    font-size: 16px;
+
+    padding: 5px 12px;
+
+    color: black;
+}
+
+
+/* =========================
+   幅
+========================= */
+
+.stat-sort select {
+    width: 190px;
+}
+
+
+.skill-search input {
+    width: 240px;
+}
+
+
+.edition-filter select {
+    width: 150px;
+}
+
+
+/* =========================
+   フォーカス
+========================= */
+
+.stat-sort select:focus,
+.skill-search input:focus,
+.edition-filter select:focus {
+    outline: none;
+
+    box-shadow:
+        0 0 12px
+        rgba(0, 71, 255, 0.5);
+}
+
+
+/* =========================
+   選択した能力値・技能値
+========================= */
+
+.investigator-value {
+    position: absolute;
+
+    top: -22px;
+
+    left: 70%;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 20;
+
+    padding: 6px 12px;
+
+    background: white;
+
+    border: 3px solid #0047ff;
+
+    font-family:
+        "TsunagiGothic",
+        sans-serif;
+
+    font-size: 17px;
+
+    white-space: nowrap;
+
+    box-shadow:
+        3px 3px 0 #0047ff;
+}
+
+/* =========================
+   LOST
+========================= */
+
+
+/*
+   ロスト探索者は
+   写真エリアそのものの背景を赤にする。
+*/
+
+.investigator-card.is-lost .photo-area {
+    background-color: #61b3ff;
+}
+
+
+.investigator-card.is-lost:hover .photo-area {
+    background-color: red;
+}
+
+
+/*
+   LOST探索者の通常画像
+*/
+
+.investigator-card.is-lost .photo-normal {
+    opacity: 1;
+}
+
+
+.investigator-card.is-lost .photo-hover {
+    opacity: 0;
+}
+
+
+.investigator-card.is-lost:hover .photo-normal {
+    opacity: 0;
+}
+
+
+.investigator-card.is-lost:hover .photo-hover {
+    opacity: 1;
+}
+
+
+/*
+   LOST探索者にカーソルを合わせたとき
+   上から黒いグラデーションを出す。
+*/
+
+.investigator-card.is-lost .photo-area::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0.6) 30%,
+            rgba(0, 0, 0, 0.2) 60%,
+            rgba(0, 0, 0, 0) 100%
+        );
+
+    opacity: 0;
+
+    transition:
+        opacity 0.25s ease;
+
+    z-index: 5;
+}
+
+
+/* ホバー時だけ黒いグラデーション */
+
+.investigator-card.is-lost:hover
+.photo-area::after {
+    opacity: 1;
+}
+
+
+/* =========================
+   LOST文字
+========================= */
+
+.investigator-card .lost-label {
+    position: absolute;
+
+    right: 10px;
+
+    bottom: 10px;
+
+    z-index: 10;
+
+    background: none;
+
+    border: none;
+
+    color: red;
+
+    font-family:
+        "Y1PixelationSerif",
+        sans-serif;
+
+    font-size: 18px;
+
+    line-height: 1;
+
+    letter-spacing: 2px;
+
+    opacity: 0;
+
+    transform:
+        translateY(5px);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+
+    pointer-events: none;
+}
+
+
+.investigator-card.is-lost:hover
+.lost-label {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================
+   検索・絞り込み スマホ
+========================= */
+
+@media (max-width: 800px) {
+
+    .investigator-tools {
+        width: calc(100% - 20px);
+
+        margin-bottom: 120px;
+
+        gap: 18px;
+
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+
+    .stat-sort,
+    .skill-search,
+    .edition-filter {
+        width: 100%;
+
+        max-width: 300px;
+    }
+
+
+    .stat-sort select,
+    .skill-search input,
+    .edition-filter select {
+        width: 100%;
+    }
+
+
+    /* =========================
+       能力値・技能値
+    ========================= */
+
+    .investigator-value {
+        top: -30px;
+
+        font-size: 14px;
+
+        padding: 5px 9px;
+
+        border-width: 2px;
+
+        box-shadow:
+            2px 2px 0 #0047ff;
+    }
+
+
+
+    /* =========================
+       LOST
+    ========================= */
+
+    .investigator-card .lost-label {
+        right: 7px;
+
+        bottom: 7px;
+
+        font-size: 15px;
+
+        letter-spacing: 1px;
+    }
+
+}
+@media (max-width: 800px) {
+
+    .investigator-tools {
+        margin-bottom:-80px;
+    }
+
+}
 
 /* =========================
    GALLERY・ABOUT 横並び設定
