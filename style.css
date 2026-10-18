@@ -264,152 +264,128 @@ p {
 .main-window h1 { margin: 55px 0 0; }
 .main-window .link-menu { margin-top: 55px; }
 
-/* ---------- 飾り：エラー画面「風」（押せない飾り。赤いエラーアイコンやOKボタンは使わず、文言も短冊の部屋オリジナル） ---------- */
-.deco > * {
-    position: absolute;
+/* ---------- 背景の飾り：エラー画面「風」（bg-deco.js が画面の背景にランダムに並べる）
+   押せない飾り。赤いエラーアイコンやOKボタンは使わず、文言も短冊の部屋オリジナル ---------- */
+.bgdeco {
+    position: fixed;
+    inset: 0;
+    z-index: -1;                 /* すべての窓より後ろ */
+    overflow: hidden;
     pointer-events: none;
     user-select: none;
 }
 
-/* 重なった窓の段々 */
-.deco-stack {
-    top: -52px;
-    right: 40px;
-    z-index: 1;
-    width: 150px;
-    height: 44px;
-    box-sizing: border-box;
-    background: #fff;
-    border: 2px solid var(--blue);
-    border-top-width: 12px;
-    box-shadow:
-        8px -8px 0 0 #fff,  8px -8px 0 2px var(--blue),
-        16px -16px 0 0 #fff, 16px -16px 0 2px var(--blue),
-        24px -24px 0 0 #fff, 24px -24px 0 2px var(--blue);
+.bgdeco > * {
+    position: absolute;
+    transform-origin: center;
+    transform: rotate(var(--r, 0deg)) scale(var(--s, 1));
 }
 
-/* 大きな太字（窓の角にかぶせる） */
+/* 重なった窓の段々 */
+.deco-stack {
+    width: 240px;
+    height: 72px;
+    box-sizing: border-box;
+    background: #fff;
+    border: 3px solid var(--blue);
+    border-top-width: 18px;
+    box-shadow:
+        14px -14px 0 0 #fff, 14px -14px 0 3px var(--blue),
+        28px -28px 0 0 #fff, 28px -28px 0 3px var(--blue),
+        42px -42px 0 0 #fff, 42px -42px 0 3px var(--blue);
+}
+
+/* 大きな太字 */
 .deco-big {
-    top: -50px;
-    left: -44px;
-    z-index: 2;
     color: #111;
-    font: 900 54px/0.92 "Arial Black", Impact, sans-serif;
-    letter-spacing: -2px;
-    mix-blend-mode: multiply;
-    transform: rotate(-3deg);
+    font: 900 96px/0.92 "Arial Black", Impact, sans-serif;
+    letter-spacing: -3px;
+    white-space: nowrap;
 }
 
 /* 黄色いテープ */
 .deco-tape {
-    z-index: 3;
-    padding: 4px 12px;
+    padding: 6px 18px;
     background: yellow;
     color: #000;
     border: 1px solid #ccc;
-    box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.18);
-    font: bold 15px "Y1PixelationSerif", sans-serif;
+    box-shadow: 4px 4px 3px rgba(0, 0, 0, 0.18);
+    font: bold 24px "Y1PixelationSerif", sans-serif;
     letter-spacing: 1px;
     white-space: nowrap;
 }
-.deco-tape1 { left: -22px;  top: 62px;     transform: rotate(-6deg); }
-.deco-tape2 { right: -18px; bottom: 44px;  transform: rotate(4deg); }
-.deco-tape3 { left: 120px;  bottom: -30px; transform: rotate(-1deg); font-size: 14px; }
 
-/* ノイズの帯（窓の後ろから、外側にはみ出して見える） */
+/* ノイズの帯・市松模様 */
 .deco-glitch {
-    left: -78px;
-    bottom: 96px;
-    z-index: -1;
-    width: 200px;
-    height: 14px;
+    width: 420px;
+    height: 24px;
     background: linear-gradient(90deg, #ff00c8 0 18%, #ffe600 18% 30%, #0047ff 30% 55%, #00d5ff 55% 70%, #111 70% 74%, #ffe600 74% 100%);
 }
 .deco-check {
-    right: -78px;
-    top: 118px;
-    z-index: -1;
-    width: 190px;
-    height: 16px;
-    border: 1px solid #111;
-    background: repeating-conic-gradient(#111 0 25%, #fff 0 50%) 0 0 / 16px 16px;
+    width: 360px;
+    height: 28px;
+    border: 2px solid #111;
+    box-sizing: border-box;
+    background: repeating-conic-gradient(#111 0 25%, #fff 0 50%) 0 0 / 28px 28px;
 }
 
-/* 丸いアイコン・注意の三角（赤ではなく、ピンクと黄色にして本物のエラーに見えないようにする） */
+/* 丸いアイコン・注意の三角（赤ではなくピンクと黄色にして、本物のエラーに見えないようにする） */
 .deco-circle {
-    right: -26px;
-    top: 86px;
-    z-index: 3;
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 44px;
-    border: 2px solid #fff;
+    width: 84px;
+    height: 84px;
+    border: 3px solid #fff;
     border-radius: 50%;
     background: radial-gradient(circle at 35% 30%, #ff9aeb, #ff2bb8 70%);
-    box-shadow: 0 0 0 2px #ff2bb8;
+    box-shadow: 0 0 0 3px #ff2bb8;
     color: #fff;
-    font: bold 26px/1 Arial, sans-serif;
+    font: bold 48px/1 Arial, sans-serif;
 }
 .deco-warn {
-    left: -34px;
-    bottom: -30px;
-    z-index: 3;
-    width: 56px;
-    height: 50px;
-    padding-top: 18px;
+    width: 104px;
+    height: 92px;
+    padding-top: 34px;
     box-sizing: border-box;
     background: #ffe600;
     clip-path: polygon(50% 0, 100% 100%, 0 100%);
     color: #111;
-    font: bold 24px/1 Arial, sans-serif;
+    font: bold 44px/1 Arial, sans-serif;
     text-align: center;
 }
 
 /* ドット絵のカーソル */
 .deco-cursor {
-    right: 96px;
-    bottom: 6px;
-    z-index: 5;
-    width: 44px;
-    height: 73px;
+    width: 84px;
+    height: 140px;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 20' shape-rendering='crispEdges'%3E%3Cpolygon points='.5,.5 .5,16.5 4.5,12.5 7.5,19.5 9.5,18.5 6.5,11.5 11.5,11.5' fill='white' stroke='black'/%3E%3C/svg%3E") no-repeat center / contain;
     image-rendering: pixelated;
-    filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.2));
-    transform: rotate(-8deg);
+    filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.2));
 }
 
 /* 404（色ずれ + ときどきブレる） */
 .deco-404 {
-    right: -44px;
-    bottom: -66px;
-    z-index: 3;
     color: var(--blue);
-    font: 72px/1 "Y1PixelationSerif", monospace;
-    text-shadow: 3px 0 #ff00c8, -3px 0 #00d5ff;
+    font: 130px/1 "Y1PixelationSerif", monospace;
+    text-shadow: 5px 0 #ff00c8, -5px 0 #00d5ff;
     animation: deco-jitter 2.4s steps(1) infinite;
 }
 .deco-404 small {
     display: block;
     color: #111;
-    font-size: 16px;
-    letter-spacing: 2px;
+    font-size: 26px;
+    letter-spacing: 3px;
     text-align: right;
     text-shadow: none;
 }
 
 @keyframes deco-jitter {
-    0%, 100% { transform: translate(0, 0); }
-    40%      { transform: translate(2px, -1px); }
-    42%      { transform: translate(-3px, 1px); }
-    44%      { transform: translate(0, 0); }
-    80%      { transform: translate(1px, 0); }
-    82%      { transform: translate(0, 0); }
-}
-
-/* 窓の外にはみ出す飾りなので、画面が狭いときは出さない */
-@media (max-width: 1040px) {
-    .deco { display: none; }
+    0%, 100% { translate: 0 0; }
+    40%      { translate: 3px -2px; }
+    42%      { translate: -5px 2px; }
+    44%      { translate: 0 0; }
+    80%      { translate: 2px 0; }
+    82%      { translate: 0 0; }
 }
 
 /* タイトルまわりにランダムにポップする窓（title-popups.js が生成。見た目は entry-effect.css を流用） */
@@ -419,20 +395,21 @@ p {
 }
 .link-menu {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;               /* 4つを必ず1行に並べる */
     justify-content: center;
     align-items: center;
-    gap: 28px;
+    gap: clamp(10px, 1.6vw, 22px);
     margin-top: 70px;
 }
 
 .glitch-link {
-    padding: 10px 18px;
+    padding: 10px clamp(8px, 1.2vw, 16px);
     background: yellow;
     color: black;
     border: 1px solid #ccc;
     box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.18);
-    font: 22px "Y1PixelationSerif", serif;
+    font: clamp(12px, 1.7vw, 20px) "Y1PixelationSerif", serif;   /* 窓の幅に合わせて縮む */
+    white-space: nowrap;
     text-decoration: none;
     transform-origin: center;
     transition: color 0.3s ease, box-shadow 0.3s ease;
@@ -711,30 +688,48 @@ p {
 }
 
 /* ---------- LOST ---------- */
-/* ロスト：写真がクシャっとしたように、ふちがギザギザ・しわの筋・少し傾く */
-.investigator-card.is-lost .photo-area {
-    rotate: -1.5deg;
-    scale: 0.97;
+/* ロスト：ときどきノイズが走る（カードごとに周期をずらす） */
+.investigator-card.is-lost                   { --noise: 6.4s; --noise-delay: 0s; }
+.investigator-card.is-lost:nth-child(3n)     { --noise: 8.2s; --noise-delay: -2.5s; }
+.investigator-card.is-lost:nth-child(3n + 1) { --noise: 5.6s; --noise-delay: -4.1s; }
+
+/* 写真が一瞬ずれて、色がずれる */
+.investigator-card.is-lost .photo-area img {
+    animation: lost-noise-img var(--noise) steps(1, end) var(--noise-delay) infinite;
+}
+@keyframes lost-noise-img {
+    0%  { translate: 0 0; filter: none; }
+    60% { translate: -5px 0; filter: hue-rotate(90deg) saturate(2.2); }
+    62% { translate: 6px 1px; filter: hue-rotate(-60deg) contrast(1.5); }
+    64% { translate: 0 0; filter: none; }
+    86% { translate: 3px 0; filter: grayscale(1) contrast(1.7); }
+    88% { translate: -4px -1px; filter: hue-rotate(160deg) saturate(2); }
+    90% { translate: 0 0; filter: none; }
 }
 
-.investigator-card.is-lost .photo-area img,
-.investigator-card.is-lost .photo-area::before {
-    clip-path: polygon(2% 1%, 30% 0, 52% 2%, 80% 0, 99% 3%, 100% 30%, 98% 55%, 100% 82%, 97% 99%, 70% 100%, 45% 98%, 20% 100%, 1% 97%, 0 70%, 2% 45%, 0 20%);
-}
-
-.investigator-card.is-lost .photo-area img { filter: saturate(0.85) contrast(1.05); }
-
-/* しわの筋（明るい線と暗い線を斜めに重ねる） */
+/* 横縞のノイズの帯が一瞬走る */
 .investigator-card.is-lost .photo-area::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 4;
     pointer-events: none;
+    opacity: 0;
     background:
-        linear-gradient(115deg, rgba(255, 255, 255, 0.45) 0 6%, transparent 6% 22%, rgba(0, 0, 0, 0.18) 22% 24%, transparent 24% 48%, rgba(255, 255, 255, 0.4) 48% 51%, transparent 51% 70%, rgba(0, 0, 0, 0.2) 70% 72%, transparent 72%),
-        linear-gradient(20deg, transparent 0 40%, rgba(0, 0, 0, 0.15) 40% 42%, transparent 42% 75%, rgba(255, 255, 255, 0.35) 75% 78%, transparent 78%);
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0 2px, transparent 2px 5px),
+        linear-gradient(90deg, rgba(255, 0, 200, 0.4), transparent 30%, rgba(0, 213, 255, 0.4) 70%, transparent);
+    animation: lost-noise-bar var(--noise) steps(1, end) var(--noise-delay) infinite;
 }
+@keyframes lost-noise-bar {
+    0%  { opacity: 0; }
+    60% { opacity: 1; clip-path: inset(20% 0 65% 0); }
+    62% { opacity: 1; clip-path: inset(55% 0 30% 0); }
+    64% { opacity: 0; }
+    86% { opacity: 1; clip-path: inset(70% 0 15% 0); }
+    88% { opacity: 1; clip-path: inset(10% 0 80% 0); }
+    90% { opacity: 0; }
+}
+
 .investigator-card.is-lost:hover .photo-area,
 .investigator-card.is-lost.mobile-tapped .photo-area { background-color: red; }
 
@@ -966,7 +961,7 @@ p {
         margin: 50px auto 0;
         box-sizing: border-box;
     }
-    .glitch-link { padding: 8px 2px; box-sizing: border-box; font-size: 13px; text-align: center; white-space: nowrap; }
+    .glitch-link { padding: 6px 0; box-sizing: border-box; font-size: clamp(7px, 2.3vw, 13px); text-align: center; white-space: nowrap; }
     .glitch-link:nth-child(1) { transform: rotate(-3deg) translateY(-4px); }
     .glitch-link:nth-child(2) { transform: rotate(2deg)  translateY(4px); }
     .glitch-link:nth-child(3) { transform: rotate(-1deg) translateY(-3px); }
@@ -1053,12 +1048,6 @@ p {
     .about-card { min-height: var(--card-h); }
 }
 
-/* 幅が狭すぎる画面では、黄色いリンクを2×2に戻す */
-@media (max-width: 480px) {
-    .link-menu { grid-template-columns: repeat(2, 1fr); gap: 22px 12px; }
-    .glitch-link { padding: 9px 8px; font-size: 17px; }
-}
-
 /* =========================================
    9. 動きを減らす設定
 ========================================= */
@@ -1070,5 +1059,7 @@ p {
     .bubble,
     .floating-star,
     .star-shape,
-    .deco-404 { animation: none !important; }
+    .deco-404,
+    .investigator-card.is-lost .photo-area img,
+    .investigator-card.is-lost .photo-area::before { animation: none !important; }
 }
