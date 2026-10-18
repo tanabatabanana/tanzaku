@@ -2266,9 +2266,12 @@ p {
 
 }
 
+/* =========================
+   GALLERY・ABOUT 横並び設定
+========================= */
 
-/* GALLERY・ABOUT 横並び設定 */
 .water-links {
+    position: relative;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
@@ -2276,17 +2279,23 @@ p {
     gap: 14px;
 
     width: 100%;
-    height: auto;
+    height: 500px;
     min-height: 0;
 
-    /* 上の枠との距離を縮める */
-    margin-top: 80px;
-
-    /* 上の枠と同じ最大幅の範囲に配置 */
-    padding: 30px max(20px, calc((100% - 1300px) / 2 + 20px)) 50px;
+    margin-top: 0;
+    padding: 40px 20px 50px;
 
     box-sizing: border-box;
     overflow: hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 8%,
+            #5c94fc 8%,
+            #0066ff 100%
+        );
 }
 
 .water-gallery,
@@ -2298,10 +2307,10 @@ p {
     bottom: auto;
 
     display: block;
-    flex: 1 1 0;
-    width: auto;
+    flex: 0 1 420px;
+    width: 420px;
     min-width: 0;
-    max-width: none;
+    max-width: 100%;
 
     margin: 0;
     animation: none;
@@ -2327,8 +2336,10 @@ p {
         flex-direction: column;
         align-items: center;
         gap: 25px;
-        padding: 30px 20px 50px;
+        height: auto;
         min-height: 0;
+        margin-top: 0;
+        padding: 30px 20px 50px;
     }
 
     .water-gallery,
