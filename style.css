@@ -53,6 +53,7 @@ p {
 
 /* ウィンドウ風の枠（共通）：タイトルバーと×ボタン */
 .gallery,
+.side-window,
 .main-window,
 .investigators-page,
 .gallery-card,
@@ -64,6 +65,7 @@ p {
 }
 
 .gallery::before,
+.side-window::before,
 .main-window::before,
 .investigators-page::before,
 .gallery-card::before,
@@ -84,6 +86,7 @@ p {
 }
 
 .gallery::after,
+.side-window::after,
 .main-window::after,
 .investigators-page::after,
 .gallery-card::after,
@@ -388,12 +391,51 @@ p {
     82%      { translate: 0 0; }
 }
 
-/* タイトルまわりにランダムにポップする窓（title-popups.js が生成。見た目は entry-effect.css を流用） */
-/* entry-effect.css の .entry-window（position: relative）に負けないよう、セレクタを強くしている */
-.main-window .title-popup {
-    position: absolute;
-    z-index: 40;                 /* ヘッダー(50)より下、タイトルの窓より上 */
+/* 追加の飾り */
+.deco-tape-wrap { width: 300px; font-size: 20px; line-height: 1.35; white-space: normal; }
+.deco-big2 { color: transparent; -webkit-text-stroke: 3px #111; font: 900 110px/1 "Arial Black", Impact, sans-serif; letter-spacing: -2px; white-space: nowrap; }
+.deco-plus { color: var(--blue); font: bold 44px/1.1 "Courier New", monospace; letter-spacing: 10px; white-space: nowrap; }
+
+.deco-loading,
+.deco-face {
+    box-sizing: border-box;
+    background: #fff;
+    border: 3px solid var(--blue);
+    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.2);
+    color: var(--blue);
 }
+.deco-loading::before,
+.deco-face::before {
+    content: var(--t);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 24px;
+    box-sizing: border-box;
+    padding: 2px 8px;
+    background: var(--win-bar);
+    color: #fff;
+    font: bold 14px "Courier New", monospace;
+}
+.deco-loading { --t: "LOADING.exe"; width: 280px; padding: 40px 16px 16px; font: 16px "Y1PixelationSerif", sans-serif; }
+.deco-face    { --t: "HELLO.exe"; width: 200px; padding: 40px 16px 16px; font: 44px/1 "Y1PixelationSerif", sans-serif; text-align: center; white-space: nowrap; }
+.dl-bar { height: 26px; margin-top: 8px; padding: 3px; box-sizing: border-box; border: 2px solid var(--blue); }
+.dl-bar i { display: block; height: 100%; width: 72%; background: repeating-linear-gradient(90deg, var(--blue) 0 12px, transparent 12px 15px); }
+
+.deco-star,
+.deco-heart {
+    background: no-repeat center / contain;
+    image-rendering: pixelated;
+    filter: drop-shadow(4px 4px 0 rgba(0, 0, 0, 0.18));
+}
+.deco-star  { width: 100px; height: 100px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath fill='%23ffe600' d='M3 0h1v2h1v1h2v1h-2v1h-1v2h-1v-2h-1v-1h-2v-1h2v-1h1z'/%3E%3C/svg%3E"); }
+.deco-heart { width: 100px; height: 86px;  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath fill='%23ff2bb8' d='M1 0h2v1h-2zM4 0h2v1h-2zM0 1h7v2h-7zM1 3h5v1h-5zM2 4h3v1h-3zM3 5h1v1h-1z'/%3E%3C/svg%3E"); }
+
+.deco-barcode { width: 220px; height: 64px; border: 6px solid #fff; box-shadow: 0 0 0 2px #111; background: repeating-linear-gradient(90deg, #111 0 3px, #fff 3px 5px, #111 5px 6px, #fff 6px 10px, #111 10px 14px, #fff 14px 16px); }
+.deco-scan    { width: 240px; height: 110px; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0 3px, transparent 3px 6px), linear-gradient(90deg, #ff00c8, #ffe600 40%, #00d5ff); }
+.deco-dots    { width: 220px; height: 150px; background: radial-gradient(circle, var(--blue) 3px, transparent 3.5px) 0 0 / 18px 18px; }
+
 .link-menu {
     display: flex;
     flex-direction: column;          /* 上3つ・下2つの2段 */
@@ -433,6 +475,136 @@ p {
 @keyframes peel {
     from { transform: rotate(var(--r, 0deg)) translateY(var(--y, 0px)); }
     to   { transform: rotate(calc(var(--r, 0deg) - 2deg)) translateY(calc(var(--y, 0px) - 4px)) scale(1.06); }
+}
+
+/* ---------- 上部：ディスプレイ ／ ファンアート・タイトル・チャット ----------
+   幅はINVESTIGATORSの枠と同じ。タイトルの窓は880pxのまま、左右に1個ずつ */
+.hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 880px minmax(0, 1fr);
+    grid-template-areas: "disp disp disp" "fa title chat";
+    column-gap: 16px;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.hero .gallery     { grid-area: disp;  width: auto; margin: 165px 0 0; }
+.hero .main-window { grid-area: title; width: 880px; margin: 80px 0 0; }
+.fa-window         { grid-area: fa;   --title: "FA.exe"; }
+.chat-window       { grid-area: chat; --title: "CHAT.exe"; }
+
+.side-window {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    margin-top: 80px;
+    padding: 36px 6px 6px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.92);
+}
+
+/* 左：ファンアート（画像の大きさはまちまちなので、枠の中に収める） */
+.fa-frame {
+    position: relative;
+    display: block;
+    flex: 1;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: repeating-conic-gradient(#e8f4ff 0 25%, #fff 0 50%) 0 0 / 16px 16px;
+    cursor: pointer;
+}
+.fa-frame img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.fa-frame img.is-shown { opacity: 1; }
+.fa-frame:focus-visible { outline: 3px solid var(--blue); outline-offset: -3px; }
+
+/* 右：チャット（LINE風：左が白、右が緑の吹き出し） */
+.chat-log {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 8px;
+    min-width: 0;
+    padding: 8px 6px;
+    overflow: hidden;
+    background: #8aa9d6;
+}
+.chat-msg { display: flex; flex: none; align-items: flex-end; gap: 4px; animation: chat-pop 0.25s ease-out both; }
+.chat-msg.me { flex-direction: row-reverse; }
+.chat-ava {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    background: #fff;
+    border: 2px solid var(--blue);
+    border-radius: 50%;
+    color: var(--blue);
+    font: 12px/1 "BunanMarker", serif;
+}
+.chat-bubble {
+    max-width: 70%;
+    padding: 6px 9px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+    color: #111;
+    font: 12px/1.35 "Y1PixelationSerif", sans-serif;
+    overflow-wrap: anywhere;
+}
+.chat-msg.me .chat-bubble { background: #8de055; }
+.chat-time { flex: none; color: rgba(255, 255, 255, 0.9); font: 9px "Courier New", monospace; }
+@keyframes chat-pop {
+    from { opacity: 0; transform: translateY(8px) scale(0.9); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* 画面が狭いとき（スマホ・タブレット）：タイトルの下に、少し重ねて並べる
+   ディスプレイは左上・① チャットは右上・② ファンアートは左下 */
+@media (max-width: 1259px) {
+    .hero {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-template-areas: none;
+        column-gap: 0;
+        width: calc(100% - 20px);
+        max-width: 880px;
+        margin: 165px auto 0;
+    }
+    .hero .main-window { grid-area: auto; grid-column: 1 / 13; grid-row: 1; width: auto; margin: 0; z-index: 1; }
+    .hero .gallery     { grid-area: auto; grid-column: 1 / 8;  grid-row: 2; margin: -22px 0 0; padding: 44px 0 8px; z-index: 6; }
+    .hero .gallery .gallery-set img { width: clamp(80px, 20vw, 140px); }
+    .chat-window       { grid-area: auto; grid-column: 6 / 13; grid-row: 2; height: 250px; margin-top: -14px; z-index: 5; }
+    .fa-window         { grid-area: auto; grid-column: 1 / 8;  grid-row: 3; height: 250px; margin-top: -16px; z-index: 4; }
+}
+@media (max-width: 800px) {
+    .hero { margin-top: 175px; }
+}
+
+/* ---------- カーソルが通ったところに出る、ドットの赤い星（cursor-trail.js） ---------- */
+.cursor-star {
+    position: fixed;
+    z-index: 9998;
+    width: var(--sz, 14px);
+    height: var(--sz, 14px);
+    margin: calc(var(--sz, 14px) / -2) 0 0 calc(var(--sz, 14px) / -2);
+    pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath fill='%23ff1a1a' d='M3 0h1v2h1v1h2v1h-2v1h-1v2h-1v-2h-1v-1h-2v-1h2v-1h1z'/%3E%3C/svg%3E") no-repeat center / contain;
+    image-rendering: pixelated;
+    animation: cursor-star 0.5s steps(5) forwards;
+}
+@keyframes cursor-star {
+    from { opacity: 1; transform: scale(1) rotate(0deg); }
+    to   { opacity: 0; transform: scale(0.3) rotate(var(--rot, 40deg)); }
 }
 
 /* =========================================
@@ -1044,6 +1216,7 @@ p {
     .floating-star,
     .star-shape,
     .deco-404,
+    .chat-msg,
     .investigator-card.is-lost .photo-area img,
     .investigator-card.is-lost .photo-area::before { animation: none !important; }
 }

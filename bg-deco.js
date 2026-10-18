@@ -1,22 +1,35 @@
 /* 短冊の部屋：背景にランダムに並ぶ飾り（エラー画面「風」）
    画面に固定した背景の層に置くので、スクロールすると窓の下から見え隠れする。
-   中央は空け、左右の端に寄せて置く。読み込むたびに配置が変わる。 */
+   中央は空け、左右の端に寄せて置く。読み込むたびに種類・配置が変わる。 */
 (() => {
   "use strict";
 
-  // [クラス名, 中身]。見た目は style.css の .deco-* にある
+  // [クラス名, 中身]。見た目は style.css の .deco-* にある（押せない飾り。本物のエラーに見えないよう赤いアイコンやOKは使わない）
+  const MUST = [
+    ["deco-tape deco-tape-wrap", "An unexpected drawing has occurred."]   // いつも1つは出す
+  ];
   const TYPES = [
     ["deco-stack", ""],
     ["deco-big", "TANZAKU<br>(TANZAKU<br>TANZAKU"],
+    ["deco-big2", "OEKAKI"],
     ["deco-tape", "OEKAKI"],
     ["deco-tape", "TANOSII"],
-    ["deco-tape", "予期せぬお絵描きが発生しました"],
+    ["deco-tape", "NOW LOADING..."],
+    ["deco-tape", "NO SIGNAL"],
     ["deco-glitch", ""],
     ["deco-check", ""],
-    ["deco-circle", "×"],
+    ["deco-circle", "−"],
     ["deco-warn", "!"],
     ["deco-cursor", ""],
-    ["deco-404", "404<small>OEKAKI FOUND</small>"]
+    ["deco-404", "404<small>OEKAKI FOUND</small>"],
+    ["deco-loading", '<div>OEKAKI 72%</div><div class="dl-bar"><i></i></div>'],
+    ["deco-face", "(・ω・)"],
+    ["deco-star", ""],
+    ["deco-heart", ""],
+    ["deco-barcode", ""],
+    ["deco-scan", ""],
+    ["deco-dots", ""],
+    ["deco-plus", "+ + +<br>+ + +"]
   ];
 
   const rand = (min, max) => Math.random() * (max - min) + min;
@@ -31,15 +44,14 @@
 
   // 狭い画面では小さく・少なくする
   const base = Math.max(0.45, Math.min(1, vw / 1100));
-  const extra = vw < 700 ? 0 : 4;
+  const count = vw < 700 ? 8 : 14;
 
-  const list = TYPES.slice();
-  for (let i = 0; i < extra; i++) {
-    list.push(TYPES[Math.floor(Math.random() * TYPES.length)]);
-  }
+  // 種類をシャッフルして、必須のもの + 好きな数だけ選ぶ
+  const shuffled = TYPES.slice().sort(() => Math.random() - 0.5);
+  const list = MUST.concat(shuffled.slice(0, count - MUST.length));
 
   const placed = [];
-  const minGap = Math.min(vw, vh) * 0.2;   // 飾り同士がなるべく近づかないようにする
+  const minGap = Math.min(vw, vh) * 0.18;   // 飾り同士がなるべく近づかないようにする
 
   list.forEach(([className, html], index) => {
     const el = document.createElement("div");
