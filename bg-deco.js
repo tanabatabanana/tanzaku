@@ -1,5 +1,6 @@
 /* 短冊の部屋：背景にランダムに並ぶ飾り（エラー画面「風」）
-   画面に固定した背景の層に置くので、スクロールすると窓の下から見え隠れする。読み込むたびに配置が変わる。 */
+   画面に固定した背景の層に置くので、スクロールすると窓の下から見え隠れする。
+   中央は空け、左右の端に寄せて置く。読み込むたびに配置が変わる。 */
 (() => {
   "use strict";
 
@@ -40,25 +41,33 @@
   const placed = [];
   const minGap = Math.min(vw, vh) * 0.2;   // 飾り同士がなるべく近づかないようにする
 
-  list.forEach(([className, html]) => {
+  list.forEach(([className, html], index) => {
     const el = document.createElement("div");
     el.className = className;
     if (html) el.innerHTML = html;           // 上の固定の文字列だけを入れている
 
+    const scale = rand(0.85, 1.2) * base;
+    el.style.setProperty("--r", rand(-12, 12) + "deg");
+    el.style.setProperty("--s", String(scale));
+    layer.append(el);
+
+    // 幅は拡大後の大きさで測る（transform-origin が中央なので、拡大分は左右に等しく広がる）
+    const w = el.offsetWidth * scale;
+    const h = el.offsetHeight * scale;
+    const grow = (el.offsetWidth * (scale - 1)) / 2;
+
+    // 左右交互に、画面の端に寄せる（左端：-3%〜10%、右端：右から-2%〜18%）
     let x = 0;
     let y = 0;
+    const left = index % 2 === 0;
     for (let tries = 0; tries < 30; tries++) {
-      x = rand(-0.02, 0.9) * vw;
-      y = rand(0.02, 0.95) * vh;
+      x = left ? rand(-0.03, 0.1) * vw + grow : vw - w - rand(-0.02, 0.18) * vw + grow;
+      y = rand(0.02, 0.9) * vh;
       if (!placed.some((p) => Math.hypot(p.x - x, p.y - y) < minGap)) break;
     }
     placed.push({ x, y });
 
-    el.style.left = (x / vw) * 100 + "%";
-    el.style.top = (y / vh) * 100 + "%";
-    el.style.setProperty("--r", rand(-12, 12) + "deg");
-    el.style.setProperty("--s", String(rand(0.85, 1.2) * base));
-
-    layer.append(el);
+    el.style.left = x + "px";
+    el.style.top = Math.min(y, vh - h) + "px";
   });
 })();

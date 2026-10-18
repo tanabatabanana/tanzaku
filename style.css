@@ -395,11 +395,18 @@ p {
 }
 .link-menu {
     display: flex;
-    flex-wrap: nowrap;               /* 4つを必ず1行に並べる */
+    flex-direction: column;          /* 上3つ・下2つの2段 */
+    align-items: center;
+    gap: 30px;
+    margin-top: 70px;
+}
+
+.link-row {
+    display: flex;
+    flex-wrap: nowrap;               /* 各段は必ず1行に並べる */
     justify-content: center;
     align-items: center;
     gap: clamp(10px, 1.6vw, 22px);
-    margin-top: 70px;
 }
 
 .glitch-link {
@@ -416,33 +423,15 @@ p {
 }
 .glitch-link:hover { color: blue; }
 
-/* バラバラに貼られた感じ */
-.glitch-link:nth-child(1) { transform: rotate(-4deg) translateY(-8px); }
-.glitch-link:nth-child(2) { transform: rotate(2deg)  translateY(7px); }
-.glitch-link:nth-child(3) { transform: rotate(-1deg) translateY(-4px); }
-.glitch-link:nth-child(4) { transform: rotate(5deg)  translateY(8px); }
-
-.glitch-link:nth-child(1):hover { animation: peel1 0.5s ease forwards; }
-.glitch-link:nth-child(2):hover { animation: peel2 0.5s ease forwards; }
-.glitch-link:nth-child(3):hover { animation: peel3 0.5s ease forwards; }
-.glitch-link:nth-child(4):hover { animation: peel4 0.5s ease forwards; }
+/* バラバラに貼られた感じ（傾きと位置は、各リンクの style の --r / --y） */
+.glitch-link { transform: rotate(var(--r, 0deg)) translateY(var(--y, 0px)); }
 
 /* テプラがはがれる動き */
-@keyframes peel1 {
-    0%   { transform: rotate(-4deg) translateY(-8px); }
-    100% { transform: rotate(-6deg) translate(-2px, -12px) scale(1.06); }
-}
-@keyframes peel2 {
-    0%   { transform: rotate(2deg) translateY(7px); }
-    100% { transform: rotate(4deg) translate(2px, 2px) scale(1.06); }
-}
-@keyframes peel3 {
-    0%   { transform: rotate(-1deg) translateY(-4px); }
-    100% { transform: rotate(-3deg) translate(2px, -9px) scale(1.06); }
-}
-@keyframes peel4 {
-    0%   { transform: rotate(5deg) translateY(8px); }
-    100% { transform: rotate(7deg) translate(-2px, 3px) scale(1.06); }
+.glitch-link:hover { animation: peel 0.5s ease forwards; }
+
+@keyframes peel {
+    from { transform: rotate(var(--r, 0deg)) translateY(var(--y, 0px)); }
+    to   { transform: rotate(calc(var(--r, 0deg) - 2deg)) translateY(calc(var(--y, 0px) - 4px)) scale(1.06); }
 }
 
 /* =========================================
@@ -673,25 +662,23 @@ p {
     transform: translateX(-50%);
 }
 
-/* ---------- スクロールで写真が下から出てくる（index.html が js-reveal を付ける） ---------- */
-.js-reveal .photo-area {
+/* ---------- スクロールで、白い枠ごと下から入ってくる（index.html が js-reveal を付ける）
+   カードは浮遊アニメで transform を使っているので、動きは個別の translate で付ける ---------- */
+.js-reveal .investigator-card {
     opacity: 0;
-    transform: translateY(60px);
+    translate: 0 60px;
     transition:
-        background-color 0.15s steps(2),
+        box-shadow 0.3s ease,
         opacity 0.6s ease var(--d, 0ms),
-        transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) var(--d, 0ms);
+        translate 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) var(--d, 0ms);
 }
-.js-reveal .investigator-card.is-in .photo-area {
-    opacity: 1;
-    transform: none;
-}
+.js-reveal .investigator-card.is-in { opacity: 1; translate: 0 0; }
 
 /* ---------- LOST ---------- */
-/* ロスト：ときどきノイズが走る（カードごとに周期をずらす） */
-.investigator-card.is-lost                   { --noise: 6.4s; --noise-delay: 0s; }
-.investigator-card.is-lost:nth-child(3n)     { --noise: 8.2s; --noise-delay: -2.5s; }
-.investigator-card.is-lost:nth-child(3n + 1) { --noise: 5.6s; --noise-delay: -4.1s; }
+/* ロスト：ノイズが頻繁に走る（カードごとに周期をずらす。1周期に3回） */
+.investigator-card.is-lost                   { --noise: 4.2s; --noise-delay: 0s; }
+.investigator-card.is-lost:nth-child(3n)     { --noise: 5.1s; --noise-delay: -1.7s; }
+.investigator-card.is-lost:nth-child(3n + 1) { --noise: 6s;   --noise-delay: -3.2s; }
 
 /* 写真が一瞬ずれて、色がずれる */
 .investigator-card.is-lost .photo-area img {
@@ -699,12 +686,15 @@ p {
 }
 @keyframes lost-noise-img {
     0%  { translate: 0 0; filter: none; }
-    60% { translate: -5px 0; filter: hue-rotate(90deg) saturate(2.2); }
-    62% { translate: 6px 1px; filter: hue-rotate(-60deg) contrast(1.5); }
-    64% { translate: 0 0; filter: none; }
-    86% { translate: 3px 0; filter: grayscale(1) contrast(1.7); }
-    88% { translate: -4px -1px; filter: hue-rotate(160deg) saturate(2); }
-    90% { translate: 0 0; filter: none; }
+    18% { translate: -5px 0; filter: hue-rotate(90deg) saturate(2.2); }
+    20% { translate: 6px 1px; filter: hue-rotate(-60deg) contrast(1.5); }
+    22% { translate: 0 0; filter: none; }
+    50% { translate: 3px 0; filter: grayscale(1) contrast(1.7); }
+    52% { translate: -4px -1px; filter: hue-rotate(160deg) saturate(2); }
+    54% { translate: 0 0; filter: none; }
+    81% { translate: -6px 1px; filter: hue-rotate(200deg) contrast(1.4); }
+    83% { translate: 4px 0; filter: saturate(2.5); }
+    85% { translate: 0 0; filter: none; }
 }
 
 /* 横縞のノイズの帯が一瞬走る */
@@ -722,12 +712,15 @@ p {
 }
 @keyframes lost-noise-bar {
     0%  { opacity: 0; }
-    60% { opacity: 1; clip-path: inset(20% 0 65% 0); }
-    62% { opacity: 1; clip-path: inset(55% 0 30% 0); }
-    64% { opacity: 0; }
-    86% { opacity: 1; clip-path: inset(70% 0 15% 0); }
-    88% { opacity: 1; clip-path: inset(10% 0 80% 0); }
-    90% { opacity: 0; }
+    18% { opacity: 1; clip-path: inset(20% 0 65% 0); }
+    20% { opacity: 1; clip-path: inset(55% 0 30% 0); }
+    22% { opacity: 0; }
+    50% { opacity: 1; clip-path: inset(70% 0 15% 0); }
+    52% { opacity: 1; clip-path: inset(10% 0 80% 0); }
+    54% { opacity: 0; }
+    81% { opacity: 1; clip-path: inset(40% 0 45% 0); }
+    83% { opacity: 1; clip-path: inset(5% 0 85% 0); }
+    85% { opacity: 0; }
 }
 
 .investigator-card.is-lost:hover .photo-area,
@@ -953,19 +946,9 @@ p {
     p  { padding: 0 15px; box-sizing: border-box; font-size: 20px; }
 
     /* 上部リンク */
-    .link-menu {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px 8px;
-        width: calc(100% - 30px);
-        margin: 50px auto 0;
-        box-sizing: border-box;
-    }
-    .glitch-link { padding: 6px 0; box-sizing: border-box; font-size: clamp(7px, 2.3vw, 13px); text-align: center; white-space: nowrap; }
-    .glitch-link:nth-child(1) { transform: rotate(-3deg) translateY(-4px); }
-    .glitch-link:nth-child(2) { transform: rotate(2deg)  translateY(4px); }
-    .glitch-link:nth-child(3) { transform: rotate(-1deg) translateY(-3px); }
-    .glitch-link:nth-child(4) { transform: rotate(3deg)  translateY(4px); }
+    .link-menu { gap: 18px; margin: 50px auto 0; }
+    .link-row { gap: 8px; }
+    .glitch-link { padding: 6px 4px; box-sizing: border-box; font-size: clamp(9px, 3vw, 13px); text-align: center; white-space: nowrap; }
 
     /* タイトルとリンクを囲むウィンドウ */
     .main-window { width: calc(100% - 20px); margin-top: 55px; padding: 36px 8px 55px; }

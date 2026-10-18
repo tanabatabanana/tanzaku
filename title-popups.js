@@ -1,5 +1,6 @@
 /* 短冊の部屋：タイトルまわりにランダムにポップする窓（エラー風の飾り）
-   見た目は entry-effect.css の .entry-window / .entry-error を流用。入室演出が終わってから動き出す。 */
+   見た目は entry-effect.css の .entry-window / .entry-error を流用。入室演出が終わってから動き出す。
+   窓は「タイトルの窓（.main-window）の中」に置くので、レイアウトが動いても一緒に動き、ほかの場所には出ない。 */
 (() => {
   "use strict";
 
@@ -51,6 +52,17 @@
     return win;
   }
 
+  function clearAll() {
+    document.querySelectorAll(".title-popup").forEach((el) => el.remove());
+    active = 0;
+  }
+
+  function remove(win) {
+    if (!win.isConnected) return;
+    win.remove();
+    active = Math.max(0, active - 1);
+  }
+
   function spawn() {
     const area = document.querySelector(".main-window");
     if (!area || document.hidden || active >= MAX_AT_ONCE) return;
@@ -65,20 +77,21 @@
     win.style.width = w + "px";
     win.style.setProperty("--entry-rot", rand(-4, 4) + "deg");
 
-    // タイトルの窓の少し外側〜内側のどこかにランダムに置く
-    let x = rand(r.left - 120, r.right - w + 120);
-    x = Math.max(6, Math.min(x, vw - w - 6));
-    const y = Math.max(4, rand(r.top - 60, r.bottom - 100) + window.scrollY);
+    // タイトルの窓の少し外側〜内側のどこか（座標は窓の左上が基準）。画面の外には出さない
+    let x = rand(-120, r.width - w + 120);
+    x = Math.max(6 - r.left, Math.min(x, vw - w - 6 - r.left));
+    const y = rand(-60, Math.max(0, r.height - 100));
 
-    win.style.left = x + window.scrollX + "px";
+    win.style.left = x + "px";
     win.style.top = y + "px";
 
-    document.body.append(win);
+    area.append(win);
     active++;
 
     setTimeout(() => {
+      if (!win.isConnected) return;
       win.classList.add("entry-popping");
-      setTimeout(() => { win.remove(); active--; }, 300);
+      setTimeout(() => remove(win), 300);
     }, rand(2200, 4200));
   }
 
@@ -95,6 +108,10 @@
     }
     loop();
   }
+
+  // ページを離れる・タブを切り替える時は、残っている窓を全部消す
+  window.addEventListener("pagehide", clearAll);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) clearAll(); });
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => setTimeout(waitForEntry, 0));
