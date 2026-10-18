@@ -3113,3 +3113,33 @@ max-width: calc(100vw - 40px) !important;
         margin-left: auto;
     }
 }
+
+/* PC：ヘッダー内のアイコンと文字の重なりを防ぐ */
+@media (min-width: 601px) {
+    .site-header#header-window .header-menu {
+        align-items: stretch !important;
+    }
+
+    .site-header#header-window .header-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        height: auto !important;
+        line-height: 1.5 !important;
+    }
+
+    .site-header#header-window .header-icon {
+        display: block !important;
+        flex-shrink: 0 !important;
+        margin: 0 !important;
+    }
+
+    .site-header#header-window .header-item span {
+        position: static !important;
+        display: block !important;
+        line-height: 1.5 !important;
+        transform: none !important;
+    }
+}
