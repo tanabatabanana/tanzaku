@@ -389,7 +389,8 @@ p {
 }
 
 /* タイトルまわりにランダムにポップする窓（title-popups.js が生成。見た目は entry-effect.css を流用） */
-.title-popup {
+/* entry-effect.css の .entry-window（position: relative）に負けないよう、セレクタを強くしている */
+.main-window .title-popup {
     position: absolute;
     z-index: 40;                 /* ヘッダー(50)より下、タイトルの窓より上 */
 }
