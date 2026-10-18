@@ -1384,217 +1384,23 @@ p {
 
 }
 
-
 /* =========================
    GALLERY：水面に浮かぶ
 ========================= */
 
 .water-gallery {
     position: absolute;
-
     top: 2%;
-    left: 50%;
+    left: calc(50% - 165px);
 
     display: block;
-
     text-decoration: none;
-
     color: black;
-
     z-index: 20;
 
-    animation:
-        galleryFloat 4s ease-in-out infinite;
-
+    animation: galleryFloat 4s ease-in-out infinite;
     will-change: transform;
-
     backface-visibility: hidden;
-}
-
-
-
-/* =========================
-   GALLERY：ウィンドウ風
-========================= */
-
-.gallery-card {
-    position: relative;
-
-    background: rgba(255, 255, 255, 0.95);
-
-    padding: 62px 45px 25px;
-
-    border: 3px solid #0047ff;
-    box-sizing: border-box;
-
-    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
-
-    text-align: center;
-
-    transition: transform 0.2s ease;
-
-    transform: translateZ(0);
-    backface-visibility: hidden;
-}
-
-/* タイトルバー */
-.gallery-card::before {
-    content: "GALLERY.exe";
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 36px;
-    box-sizing: border-box;
-
-    padding: 7px 12px;
-
-    background: linear-gradient(
-        105deg,
-        #064bff 0%,
-        #0878ff 55%,
-        #35aaff 100%
-    );
-
-    color: #fff;
-    font: bold 15px "Courier New", monospace;
-    letter-spacing: 1px;
-    text-align: left;
-}
-
-/* 閉じるボタン */
-.gallery-card::after {
-    content: "×";
-
-    position: absolute;
-    top: 5px;
-    right: 6px;
-
-    width: 24px;
-    height: 24px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-sizing: border-box;
-
-    background: #fff;
-    border: 1px solid #fff;
-
-    color: #0047ff;
-    font: bold 20px/1 "Courier New", monospace;
-}
-
-.water-gallery:hover .gallery-card {
-    transform: translateZ(0) scale(1.08);
-}
-
-
-/* =========================
-   ABOUT：ウィンドウ風
-========================= */
-
-.about-card {
-    position: relative;
-
-    background: rgba(255, 255, 255, 0.95);
-
-    padding: 62px 45px 25px;
-
-    border: 3px solid #0047ff;
-    box-sizing: border-box;
-
-    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
-
-    text-align: center;
-
-    opacity: 1;
-
-    transition:
-        transform 0.2s ease,
-        opacity 0.2s ease;
-}
-
-/* タイトルバー */
-.about-card::before {
-    content: "ABOUT.exe";
-
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 36px;
-    box-sizing: border-box;
-
-    padding: 7px 12px;
-
-    background: linear-gradient(
-        105deg,
-        #064bff 0%,
-        #0878ff 55%,
-        #35aaff 100%
-    );
-
-    color: #fff;
-    font: bold 15px "Courier New", monospace;
-    letter-spacing: 1px;
-    text-align: left;
-}
-
-/* 閉じるボタン */
-.about-card::after {
-    content: "×";
-
-    position: absolute;
-    top: 5px;
-    right: 6px;
-
-    width: 24px;
-    height: 24px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-sizing: border-box;
-
-    background: #fff;
-    border: 1px solid #fff;
-
-    color: #0047ff;
-    font: bold 20px/1 "Courier New", monospace;
-}
-
-.water-about:hover .about-card {
-    transform: scale(1.08);
-    opacity: 1;
-}
-
-
-
-/* GALLERYがぷかぷか */
-
-@keyframes galleryFloat {
-
-    0%,
-    100% {
-        transform:
-            translateX(-50%)
-            translateY(0)
-            rotate(-2deg);
-    }
-
-    50% {
-        transform:
-            translateX(-50%)
-            translateY(-18px)
-            rotate(2deg);
-    }
-
 }
 
 
@@ -1604,132 +1410,58 @@ p {
 
 .water-about {
     position: absolute;
-
-    top: 430px;
-
-    left: 50%;
+    top: 2%;
+    left: calc(50% + 165px);
 
     text-decoration: none;
-
     color: black;
-
     z-index: 10;
 
-    animation:
-        aboutSink 6s ease-in-out infinite;
+    animation: aboutSink 6s ease-in-out infinite;
 }
 
 
-
 /* =========================
-   GALLERY：ウィンドウ風
+   共通：ウィンドウ風カード
 ========================= */
 
-.gallery-card {
+.gallery-card,
+.about-card {
     position: relative;
-
-    background: rgba(255, 255, 255, 0.95);
-
-    padding: 62px 45px 25px;
-
-    border: 3px solid #0047ff;
     box-sizing: border-box;
 
+    background: rgba(255, 255, 255, 0.95);
+    padding: 62px 45px 25px;
+    border: 3px solid #0047ff;
     box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
 
     text-align: center;
+}
 
+
+/* GALLERYのカード */
+
+.gallery-card {
     transition: transform 0.2s ease;
-
     transform: translateZ(0);
     backface-visibility: hidden;
 }
 
-/* タイトルバー */
-.gallery-card::before {
-    content: "GALLERY.exe";
 
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 36px;
-    box-sizing: border-box;
-
-    padding: 7px 12px;
-
-    background: linear-gradient(
-        105deg,
-        #064bff 0%,
-        #0878ff 55%,
-        #35aaff 100%
-    );
-
-    color: #fff;
-    font: bold 15px "Courier New", monospace;
-    letter-spacing: 1px;
-    text-align: left;
-}
-
-/* 閉じるボタン */
-.gallery-card::after {
-    content: "×";
-
-    position: absolute;
-    top: 5px;
-    right: 6px;
-
-    width: 24px;
-    height: 24px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-sizing: border-box;
-
-    background: #fff;
-    border: 1px solid #fff;
-
-    color: #0047ff;
-    font: bold 20px/1 "Courier New", monospace;
-}
-
-.water-gallery:hover .gallery-card {
-    transform: translateZ(0) scale(1.08);
-}
-
-
-/* =========================
-   ABOUT：ウィンドウ風
-========================= */
+/* ABOUTのカード */
 
 .about-card {
-    position: relative;
-
-    background: rgba(255, 255, 255, 0.95);
-
-    padding: 62px 45px 25px;
-
-    border: 3px solid #0047ff;
-    box-sizing: border-box;
-
-    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
-
-    text-align: center;
-
     opacity: 1;
-
     transition:
         transform 0.2s ease,
         opacity 0.2s ease;
 }
 
-/* タイトルバー */
-.about-card::before {
-    content: "ABOUT.exe";
 
+/* タイトルバー共通 */
+
+.gallery-card::before,
+.about-card::before {
     position: absolute;
     top: 0;
     left: 0;
@@ -1737,7 +1469,6 @@ p {
     width: 100%;
     height: 36px;
     box-sizing: border-box;
-
     padding: 7px 12px;
 
     background: linear-gradient(
@@ -1753,7 +1484,21 @@ p {
     text-align: left;
 }
 
-/* 閉じるボタン */
+
+/* タイトル */
+
+.gallery-card::before {
+    content: "GALLERY.exe";
+}
+
+.about-card::before {
+    content: "ABOUT.exe";
+}
+
+
+/* 閉じるボタン共通 */
+
+.gallery-card::after,
 .about-card::after {
     content: "×";
 
@@ -1769,7 +1514,6 @@ p {
     justify-content: center;
 
     box-sizing: border-box;
-
     background: #fff;
     border: 1px solid #fff;
 
@@ -1777,188 +1521,16 @@ p {
     font: bold 20px/1 "Courier New", monospace;
 }
 
+
+/* ホバー時の動き */
+
+.water-gallery:hover .gallery-card {
+    transform: translateZ(0) scale(1.08);
+}
+
 .water-about:hover .about-card {
     transform: scale(1.08);
     opacity: 1;
-}
-
-
-/* ABOUTが沈む */
-
-@keyframes aboutSink {
-
-    0%,
-    100% {
-        transform:
-            translateX(-50%)
-            translateY(0)
-            rotate(1deg);
-    }
-
-    50% {
-        transform:
-            translateX(-50%)
-            translateY(25px)
-            rotate(-1deg);
-    }
-
-}
-
-
-/* =========================
-   水エリアのタイトル
-========================= */
-
-.water-title {
-    font-family:
-        "BunanMarker",
-        serif;
-
-    font-size: 42px;
-
-    letter-spacing: 23px;
-
-    margin-bottom: 15px;
-}
-
-
-.water-links p {
-    margin: 0;
-
-    font-family:
-        "BunanMarker",
-        serif;
-
-    font-size: 16px;
-
-    line-height: 1.8;
-
-    color: black;
-}
-
-
-/* =========================
-   泡
-========================= */
-
-.bubble {
-    position: absolute;
-
-    display: block;
-
-    border-radius: 50%;
-
-    border: 3px solid white;
-
-    background:
-        rgba(255, 255, 255, 0.15);
-
-    animation:
-        bubbleUp linear infinite;
-
-    z-index: 5;
-
-    pointer-events: none;
-}
-
-
-.bubble1 {
-    width: 18px;
-    height: 18px;
-
-    left: 20%;
-    top: 650px;
-
-    animation-duration: 5s;
-}
-
-
-.bubble2 {
-    width: 30px;
-    height: 30px;
-
-    left: 30%;
-    top: 800px;
-
-    animation-duration: 7s;
-}
-
-
-.bubble3 {
-    width: 12px;
-    height: 12px;
-
-    left: 65%;
-    top: 600px;
-
-    animation-duration: 4s;
-}
-
-
-.bubble4 {
-    width: 25px;
-    height: 25px;
-
-    left: 75%;
-    top: 750px;
-
-    animation-duration: 6s;
-}
-
-
-.bubble5 {
-    width: 15px;
-    height: 15px;
-
-    left: 45%;
-    top: 700px;
-
-    animation-duration: 5.5s;
-}
-
-
-.bubble6 {
-    width: 35px;
-    height: 35px;
-
-    left: 55%;
-    top: 850px;
-
-    animation-duration: 8s;
-}
-
-
-/* =========================
-   泡が上昇する
-========================= */
-
-@keyframes bubbleUp {
-
-    0% {
-        transform:
-            translateY(0)
-            scale(0.6);
-
-        opacity: 0;
-    }
-
-    20% {
-        opacity: 0.8;
-    }
-
-    80% {
-        opacity: 0.8;
-    }
-
-    100% {
-        transform:
-            translateY(-300px)
-            translateX(20px)
-            scale(1);
-
-        opacity: 0;
-    }
-
 }
 /* =========================
    スマホ対応
