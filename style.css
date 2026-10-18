@@ -3070,3 +3070,46 @@ max-width: calc(100vw - 40px) !important;
 #header-window.is-collapsed .header-nav {
     display: none !important;
 }
+
+/* ウィンドウの操作ボタンが消えないようにする */
+.header-window-controls {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    gap: 6px;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.header-window-controls button,
+.header-window-controls span {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* タイトル文字がボタンを押し出さないようにする */
+.header-window-title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .site-header#header-window {
+        max-width: calc(100vw - 16px) !important;
+    }
+
+    #header-titlebar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .header-window-controls {
+        margin-left: auto;
+    }
+}
