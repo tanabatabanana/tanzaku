@@ -2281,11 +2281,11 @@ p {
     gap: 30px;
 
     width: 100%;
-    min-height: 500px;
-    height: auto;
+min-height: 500px;
+height: auto;
 
-    margin-top: 180px;
-    padding: 100px 20px;
+margin-top: 180px;
+padding: 100px max(20px, calc((100% - 1300px) / 2 + 20px));
 
     box-sizing: border-box;
     overflow: hidden;
@@ -2333,7 +2333,7 @@ p {
     animation: wave3 3.5s ease-in-out infinite alternate;
 }
 
-/* 2枚のリンクを同じ幅にする */
+/* 2枚のリンクを横幅いっぱいに広げる */
 .water-gallery,
 .water-about {
     position: relative;
@@ -2346,7 +2346,7 @@ p {
     flex: 1 1 0;
     width: 0;
     min-width: 0;
-    max-width: 420px;
+    max-width: none;
 
     margin: 0;
     color: black;
