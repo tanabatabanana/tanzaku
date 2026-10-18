@@ -52,6 +52,7 @@ p {
 .svg-filter { position: absolute; width: 0; height: 0; overflow: hidden; }
 
 /* ウィンドウ風の枠（共通）：タイトルバーと×ボタン */
+.main-window,
 .investigators-page,
 .gallery-card,
 .about-card {
@@ -61,6 +62,7 @@ p {
     box-shadow: var(--win-shadow);
 }
 
+.main-window::before,
 .investigators-page::before,
 .gallery-card::before,
 .about-card::before {
@@ -79,6 +81,7 @@ p {
     text-align: left;
 }
 
+.main-window::after,
 .investigators-page::after,
 .gallery-card::after,
 .about-card::after {
@@ -244,6 +247,17 @@ p {
 /* =========================================
    4. メイン・テプラ風リンク
 ========================================= */
+
+/* タイトルとリンクを囲むウィンドウ */
+.main-window {
+    --title: "HOME.exe";
+    width: min(880px, calc(100% - 40px));
+    margin: 80px auto 0;
+    padding: 36px 20px 80px;       /* 上36px = タイトルバーの高さ */
+    background-color: rgba(255, 255, 255, 0.92);
+}
+.main-window h1 { margin: 55px 0 0; }
+.main-window .link-menu { margin-top: 55px; }
 .link-menu {
     display: flex;
     flex-wrap: wrap;
@@ -617,17 +631,22 @@ p {
    7. WATER LINKS（GALLERY / ABOUT）
 ========================================= */
 .water-links {
+    --card-h: 230px;                                        /* カードの高さ */
+    --pad-top: 70px;
+    --water-y: calc(var(--pad-top) + var(--card-h) / 2);    /* 水面 = カードの高さの真ん中 */
+    --rise: 280px;                                          /* 泡が昇る距離 */
     position: relative;
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 14px;
+    gap: 24px;
     width: 100%;
-    height: 500px;
-    padding: 40px 20px 50px;
+    height: 440px;
+    /* 左右はINVESTIGATORSの枠（最大1300px）と同じ幅にする */
+    padding: var(--pad-top) max(0px, calc((100% - 1300px) / 2)) 50px;
     box-sizing: border-box;
     overflow: hidden;
-    background: linear-gradient(to bottom, transparent 8%, #5c94fc 8%, #0066ff 100%);
+    background: linear-gradient(to bottom, transparent var(--water-y), #5c94fc var(--water-y), #0066ff 100%);
 }
 
 /* 水面：3重のなみなみ */
@@ -639,9 +658,9 @@ p {
     pointer-events: none;
     border-radius: 50% 50% 45% 55% / 40% 35% 65% 60%;
 }
-.water-surface1 { top: 6%; z-index: 3; background: #5c94fc;                 animation: wave1 4s   ease-in-out infinite alternate; }
-.water-surface2 { top: 7%; z-index: 2; background: #78cfe3; opacity: 0.8;    animation: wave2 5s   ease-in-out infinite alternate; }
-.water-surface3 { top: 8%; z-index: 1; background: #5c94fc; opacity: 0.9;    animation: wave3 3.5s ease-in-out infinite alternate; }
+.water-surface1 { top: calc(var(--water-y) - 10px); z-index: 3; background: #5c94fc;                 animation: wave1 4s   ease-in-out infinite alternate; }
+.water-surface2 { top: calc(var(--water-y) - 5px); z-index: 2; background: #78cfe3; opacity: 0.8;    animation: wave2 5s   ease-in-out infinite alternate; }
+.water-surface3 { top: var(--water-y); z-index: 1; background: #5c94fc; opacity: 0.9;    animation: wave3 3.5s ease-in-out infinite alternate; }
 
 @keyframes wave1 {
     0%   { transform: translate(-30px, 0)  rotate(-1deg); }
@@ -661,7 +680,7 @@ p {
 .water-about {
     position: relative;
     display: block;
-    flex: 0 1 420px;
+    flex: 1 1 0;
     min-width: 0;
     max-width: 100%;
     color: black;
@@ -673,7 +692,7 @@ p {
 .gallery-card,
 .about-card {
     width: 100%;
-    min-height: 190px;
+    min-height: var(--card-h);
     padding: 62px 45px 25px;
     background: rgba(255, 255, 255, 0.95);
     text-align: center;
@@ -717,7 +736,7 @@ p {
 @keyframes bubble-rise {
     0%   { opacity: 0;   transform: translateY(0); }
     15%  { opacity: 0.9; }
-    100% { opacity: 0;   transform: translateY(-440px); }
+    100% { opacity: 0;   transform: translateY(calc(var(--rise) * -1)); }
 }
 
 /* =========================================
@@ -753,6 +772,11 @@ p {
     .glitch-link:nth-child(2) { transform: rotate(2deg)  translateY(4px); }
     .glitch-link:nth-child(3) { transform: rotate(-1deg) translateY(-3px); }
     .glitch-link:nth-child(4) { transform: rotate(3deg)  translateY(4px); }
+
+    /* タイトルとリンクを囲むウィンドウ */
+    .main-window { width: calc(100% - 20px); margin-top: 55px; padding: 36px 8px 55px; }
+    .main-window h1 { margin: 35px 0 10px; padding: 0 6px; }
+    .main-window .link-menu { width: 100%; margin-top: 40px; }
 
     /* INVESTIGATORS */
     .investigators-page {
@@ -798,6 +822,7 @@ p {
     .investigator-card .lost-label { right: 7px; bottom: 7px; font-size: 15px; letter-spacing: 1px; }
 
     /* WATER LINKS */
+    .water-links { --card-h: 200px; padding-left: 10px; padding-right: 10px; }
     .gallery-card,
     .about-card { padding: 62px 20px 25px; }
     .water-title { font-size: 32px; letter-spacing: 8px; }
@@ -817,12 +842,16 @@ p {
         align-items: center;
         gap: 25px;
         height: auto;
-        padding: 30px 20px 50px;
+        --card-h: 180px;
+        --pad-top: 40px;
+        --water-y: calc(var(--pad-top) + var(--card-h) + 12px);   /* 水面 = 2枚のカードの間 */
+        --rise: 270px;
+        padding: var(--pad-top) 10px 60px;
     }
     .water-gallery,
     .water-about { flex: none; width: 100%; max-width: 420px; }
     .gallery-card,
-    .about-card { min-height: 170px; }
+    .about-card { min-height: var(--card-h); }
 }
 
 /* =========================================
