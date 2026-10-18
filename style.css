@@ -1532,6 +1532,7 @@ p {
     transform: scale(1.08);
     opacity: 1;
 }
+
 /* =========================
    スマホ対応
 ========================= */
@@ -2268,26 +2269,71 @@ p {
 
 /* =========================
    GALLERY・ABOUT 横並び設定
-   ========================= */
+========================= */
 
-/* 水エリアの配置 */
+/* 水エリア */
 .water-links {
+    position: relative;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: flex-start;
     gap: 30px;
 
-    height: auto;
+    width: 100%;
     min-height: 500px;
+    height: auto;
+
     margin-top: 180px;
-    padding: 100px 20px 100px;
+    padding: 100px 20px;
 
     box-sizing: border-box;
     overflow: hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 8%,
+            #5c94fc 8%,
+            #0066ff 100%
+        );
 }
 
-/* GALLERY・ABOUTを横並びにする */
+/* 3枚の水面はそのまま重ねる */
+.water-surface {
+    position: absolute;
+    left: -10%;
+    width: 120%;
+    height: 90px;
+    pointer-events: none;
+    border-radius: 50% 50% 45% 55% / 40% 35% 65% 60%;
+}
+
+.water-surface1 {
+    top: 6%;
+    background: #5c94fc;
+    z-index: 3;
+    animation: wave1 4s ease-in-out infinite alternate;
+}
+
+.water-surface2 {
+    top: 7%;
+    background: #78cfe3;
+    opacity: 0.8;
+    z-index: 2;
+    animation: wave2 5s ease-in-out infinite alternate;
+}
+
+.water-surface3 {
+    top: 8%;
+    background: #5c94fc;
+    opacity: 0.9;
+    z-index: 1;
+    animation: wave3 3.5s ease-in-out infinite alternate;
+}
+
+/* 2枚のリンクを同じ幅にする */
 .water-gallery,
 .water-about {
     position: relative;
@@ -2297,43 +2343,127 @@ p {
     bottom: auto;
 
     display: block;
-    flex: 0 1 420px;
-    width: 420px;
-    max-width: calc(50% - 15px);
+    flex: 1 1 0;
+    width: 0;
+    min-width: 0;
+    max-width: 420px;
 
     margin: 0;
-    animation: none !important;
-    transform: none !important;
+    color: black;
     text-decoration: none;
+
+    z-index: 20;
 }
 
-/* ウィンドウのサイズを統一 */
+/* カードのサイズと見た目を統一 */
 .gallery-card,
 .about-card {
+    position: relative;
+
     width: 100%;
-    min-height: 190px;
-    height: 100%;
+    min-height: 230px;
     box-sizing: border-box;
+
+    padding: 62px 25px 25px;
+
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #0047ff;
+    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
+
+    text-align: center;
 }
 
-/* ホバー時は少しだけ拡大 */
+/* GALLERYの浮遊アニメーションを止める */
+.water-gallery {
+    animation: none;
+}
+
+/* ABOUTの沈むアニメーションを止める */
+.water-about {
+    animation: none;
+}
+
+/* タイトルバー */
+.gallery-card::before,
+.about-card::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+    padding: 7px 12px;
+
+    background: linear-gradient(
+        105deg,
+        #064bff 0%,
+        #0878ff 55%,
+        #35aaff 100%
+    );
+
+    color: #fff;
+    font: bold 15px "Courier New", monospace;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* タイトル文字 */
+.gallery-card::before {
+    content: "GALLERY.exe";
+}
+
+.about-card::before {
+    content: "ABOUT.exe";
+}
+
+/* 閉じるボタン */
+.gallery-card::after,
+.about-card::after {
+    content: "×";
+
+    position: absolute;
+    top: 5px;
+    right: 6px;
+
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #fff;
+
+    color: #0047ff;
+    font: bold 20px/1 "Courier New", monospace;
+}
+
+/* ホバー時 */
+.gallery-card,
+.about-card {
+    transition: transform 0.2s ease;
+}
+
 .water-gallery:hover .gallery-card,
 .water-about:hover .about-card {
     transform: scale(1.03);
-    opacity: 1;
 }
 
-/* 水面や泡はそのまま表示 */
+/* =========================
+   スマホでは縦並び
+========================= */
 
-/* スマホでは縦並び */
 @media (max-width: 600px) {
     .water-links {
         flex-direction: column;
         align-items: center;
         gap: 25px;
 
-        padding: 70px 20px;
         min-height: 0;
+        padding: 70px 20px;
     }
 
     .water-gallery,
@@ -2345,7 +2475,7 @@ p {
 
     .gallery-card,
     .about-card {
-        min-height: 170px;
+        min-height: 190px;
         padding: 62px 20px 25px;
     }
 }
