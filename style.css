@@ -2790,8 +2790,8 @@ left: 20px;
     bottom: auto !important;
 
     display: block !important;
-    width: max-content !important;
-    max-width: calc(100vw - 40px) !important;
+width: 750px !important;
+max-width: calc(100vw - 40px) !important;
     height: auto !important;
 
     margin: 0 !important;
