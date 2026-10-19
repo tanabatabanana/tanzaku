@@ -112,6 +112,7 @@
     const names = scenarioNames();
     let side = "other";
     let visible = true;
+    let count = 0;   // 何通目か（定期的に「通過済みシナリオ」を送るため）
 
     if ("IntersectionObserver" in window) {
       new IntersectionObserver((entries) => { visible = entries[0].isIntersecting; }).observe(log);
@@ -135,7 +136,9 @@
 
       const bubble = document.createElement("div");
       bubble.className = "chat-bubble";
-      bubble.textContent = names[Math.floor(Math.random() * names.length)];
+      count++;
+      // 7通に1回、「通過済みシナリオ」と送る
+      bubble.textContent = count % 7 === 0 ? "通過済みシナリオ" : names[Math.floor(Math.random() * names.length)];
 
       const now = new Date();
       const time = document.createElement("span");

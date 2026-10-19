@@ -53,6 +53,9 @@ p {
 
 /* ウィンドウ風の枠（共通）：タイトルバーと×ボタン */
 .gallery,
+.memo-window,
+.gallery-window,
+.lightbox-window,
 .side-window,
 .main-window,
 .investigators-page,
@@ -65,6 +68,9 @@ p {
 }
 
 .gallery::before,
+.memo-window::before,
+.gallery-window::before,
+.lightbox-window::before,
 .side-window::before,
 .main-window::before,
 .investigators-page::before,
@@ -86,6 +92,9 @@ p {
 }
 
 .gallery::after,
+.memo-window::after,
+.gallery-window::after,
+.lightbox-window::after,
 .side-window::after,
 .main-window::after,
 .investigators-page::after,
@@ -166,8 +175,8 @@ p {
     font: bold 16px/1 "Courier New", monospace;
     letter-spacing: 0;
 }
-.header-window-controls button { cursor: pointer; }
-.header-window-controls button:hover { background: var(--blue); color: #fff; }
+.header-window-controls > * { cursor: pointer; }
+.header-window-controls > *:hover { background: var(--blue); color: #fff; }
 
 /* デスクトップのアイコンのように、画像の下に名前を置く */
 .header-menu {
@@ -559,11 +568,11 @@ p {
     border-radius: 12px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
     color: #111;
-    font: 12px/1.35 "Y1PixelationSerif", sans-serif;
+    font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", sans-serif;
     overflow-wrap: anywhere;
 }
 .chat-msg.me .chat-bubble { background: #8de055; }
-.chat-time { flex: none; color: rgba(255, 255, 255, 0.9); font: 9px "Courier New", monospace; }
+.chat-time { flex: none; color: rgba(255, 255, 255, 0.9); font: 10px -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", sans-serif; }
 @keyframes chat-pop {
     from { opacity: 0; transform: translateY(8px) scale(0.9); }
     to   { opacity: 1; transform: none; }
@@ -643,7 +652,7 @@ p {
     --title: "INVESTIGATORS.exe";
     width: 100%;
     max-width: 1300px;
-    margin: 140px auto 0;
+    margin: 56px auto 0;
     padding: 100px 20px 150px;
     background-color: rgba(255, 255, 255, 0.92);
 }
@@ -806,7 +815,9 @@ p {
     left: 50%;
     bottom: -35px;
     z-index: 10;
-    padding: 10px 25px;
+    box-sizing: border-box;
+    max-width: calc(100% - 6px);   /* カードの幅より広がらない */
+    padding: 10px 14px;
     background: white;
     color: black;
     border: 1px solid #ccc;
@@ -817,7 +828,10 @@ p {
 }
 
 .name-text {
-    display: inline-block;
+    display: block;
+    overflow: hidden;              /* 枠に入りきらない名前は「…」で省略 */
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-family: "AsWinterBegins", serif;
     font-weight: normal;
     text-shadow: 0.3px 0 black, -0.3px 0 black, 0 0.3px black, 0 -0.3px black;
@@ -1178,7 +1192,7 @@ p {
     /* INVESTIGATORS */
     .investigators-page {
         width: calc(100% - 20px);
-        margin: 85px auto 0;
+        margin: 32px auto 0;
         padding: 60px 10px 100px;
         border-width: 4px;
     }
@@ -1267,3 +1281,214 @@ p {
     .investigator-card.is-lost .photo-area img,
     .investigator-card.is-lost .photo-area::before { animation: none !important; }
 }
+
+
+/* =========================================
+   10. GALLERYページ
+========================================= */
+.header-item[aria-current="page"] {
+    background: rgba(0, 71, 255, 0.1);
+    border-color: var(--blue);
+}
+
+.gallery-page {
+    width: 100%;
+    max-width: 1300px;
+    margin: 165px auto 0;
+}
+
+.gallery-window {
+    --title: "GALLERY.exe";
+    padding: 80px 20px 60px;
+    background-color: rgba(255, 255, 255, 0.92);
+}
+.gallery-window .page-title { margin-bottom: 40px; }
+
+/* 種類で絞り込むボタン */
+.gallery-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 44px;
+}
+.gallery-tabs button {
+    padding: 6px 16px;
+    background: #fff;
+    border: 3px solid var(--blue);
+    color: var(--blue);
+    font: 16px "Y1PixelationSerif", sans-serif;
+    cursor: pointer;
+}
+.gallery-tabs button[aria-pressed="true"],
+.gallery-tabs button:hover { background: var(--blue); color: #fff; }
+
+/* 一覧（大きさがまちまちでも、段組みで並べる） */
+.gallery-grid { columns: 4 220px; column-gap: 22px; }
+
+.gallery-item {
+    display: block;
+    width: 100%;
+    margin: 0 0 26px;
+    padding: 5px;
+    break-inside: avoid;
+    background: #fff;
+    border: 0;
+    box-shadow: 4px 5px 3px rgba(0, 0, 0, 0.28);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.gallery-item:hover,
+.gallery-item:focus-visible {
+    outline: none;
+    transform: translateY(-4px) rotate(-0.6deg);
+    box-shadow: 6px 8px 5px rgba(0, 0, 0, 0.22);
+}
+.gallery-item img { display: block; width: 100%; height: auto; background: #61b3ff; }
+.gallery-item span { display: block; padding: 8px 4px 4px; color: #111; font: 14px "AsWinterBegins", serif; }
+
+/* 拡大表示 */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 90000;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: rgba(0, 40, 120, 0.45);
+}
+.lightbox[hidden] { display: none; }
+
+.lightbox-window {
+    --title: "VIEWER.exe";
+    max-width: min(96vw, 1100px);
+    padding: 36px 10px 10px;
+    background: #fff;
+}
+.lightbox-window img { display: block; max-width: 100%; max-height: 70vh; margin: 0 auto; object-fit: contain; }
+/* 右上の×の上に、押せるボタンを重ねる */
+.lightbox-close {
+    position: absolute;
+    top: 6px;
+    right: 7px;
+    z-index: 2;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+.lightbox-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 10px; }
+.lightbox-bar button { padding: 4px 14px; background: #fff; border: 3px solid var(--blue); color: var(--blue); font: 16px "Courier New", monospace; cursor: pointer; }
+.lightbox-bar button:hover { background: var(--blue); color: #fff; }
+#lb-caption { flex: 1; color: #111; font: 16px "AsWinterBegins", serif; text-align: center; }
+
+@media (max-width: 800px) {
+    .gallery-page { width: calc(100% - 20px); margin-top: 175px; }
+    .gallery-window { padding: 70px 10px 40px; }
+    .gallery-grid { columns: 2 140px; column-gap: 14px; }
+}
+
+/* =========================================
+   11. ページ移動の演出：窓がすべて、一瞬少し上がって、下に落ちていく（page-transition.js）
+========================================= */
+html.is-leaving { overflow: hidden; }
+
+html.is-leaving :is(.site-header, .gallery, .main-window, .side-window, .investigators-page, .gallery-card, .about-card, .gallery-window, .memo-window) {
+    animation: window-leave 0.95s both;
+    animation-delay: var(--fd, 0ms);
+}
+@keyframes window-leave {
+    0%   { translate: 0 0; rotate: 0deg; animation-timing-function: ease-out; }
+    22%  { translate: 0 -14px; rotate: 0deg; animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+    100% { translate: 0 130vh; rotate: var(--fr, 0deg); }
+}
+
+
+/* =========================================
+   12. memo.exe ／ ウィンドウの×ボタン ／ 探索者一覧の縮小
+========================================= */
+/* memo.exe：幅は探索者一覧に合わせる */
+.memo-window {
+    --title: "memo.exe";
+    display: block;
+    width: 100%;
+    max-width: 1300px;
+    margin: 56px auto 0;
+    padding: 36px 0 0;
+    background-color: rgba(255, 255, 255, 0.92);
+    color: #111;
+    text-decoration: none;
+    cursor: pointer;
+}
+.memo-body {
+    padding: 34px 28px 38px;
+    font: 30px/1.4 "AsWinterBegins", serif;
+    background: repeating-linear-gradient(180deg, transparent 0 41px, rgba(0, 71, 255, 0.18) 41px 42px);
+}
+.memo-window:hover #memo-text,
+.memo-window:focus-visible #memo-text { text-decoration: underline; text-underline-offset: 6px; }
+.memo-caret { margin-left: 2px; color: var(--blue); animation: caret-blink 1s steps(1) infinite; }
+@keyframes caret-blink { 50% { opacity: 0; } }
+
+@media (max-width: 800px) {
+    .memo-window { width: calc(100% - 20px); }
+    .memo-body { padding: 24px 14px 28px; font-size: 18px; background: none; }
+}
+
+/* ウィンドウの×の上に重ねる、押せるボタン */
+.win-x {
+    position: absolute;
+    top: 6px;
+    right: 7px;
+    z-index: 30;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+.win-x:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }
+
+/* ぽよんと跳ねる */
+.is-poyon { animation: poyon 0.6s ease-out; transform-origin: center bottom; }
+@keyframes poyon {
+    0%   { transform: scale(1, 1); }
+    18%  { transform: scale(1.1, 0.88); }
+    36%  { transform: scale(0.94, 1.08); }
+    54%  { transform: scale(1.04, 0.97); }
+    72%  { transform: scale(0.99, 1.015); }
+    100% { transform: scale(1, 1); }
+}
+
+/* 探索者一覧を縮小：ランダムな1枚だけ残して、その横に通過シナリオ名と能力値 */
+.investigators-page.is-collapsed { padding-bottom: 110px; }
+.investigators-page.is-collapsed .page-title { margin-bottom: 70px; }
+.investigators-page.is-collapsed .investigator-tools { display: none; }
+.investigators-page.is-collapsed .investigator-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px 40px;
+}
+.investigators-page.is-collapsed .investigator-card:not(.is-pick) { display: none !important; }
+.investigators-page.is-collapsed .investigator-card.is-pick { display: block !important; flex: none; width: 200px; }
+
+.collapse-info {
+    flex: 1 1 260px;
+    max-width: 420px;
+    padding: 14px 16px;
+    background: #fff;
+    border: 3px solid var(--blue);
+    box-shadow: 6px 6px 0 rgba(0, 71, 255, 0.18);
+    color: #111;
+}
+.ci-name { margin-bottom: 8px; font: 26px/1.2 "AsWinterBegins", serif; overflow-wrap: anywhere; }
+.ci-scenario { margin-bottom: 12px; font: 16px/1.4 "Y1PixelationSerif", sans-serif; }
+.ci-scenario b { display: block; color: var(--blue); font-weight: normal; font-size: 13px; }
+.ci-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px 10px; font: 15px "Courier New", monospace; }
+.ci-stats b { color: var(--blue); }

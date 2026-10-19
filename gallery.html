@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GALLERY | 短冊の部屋</title>
+    <meta name="description" content="ディスプレイやイラスト、落書きなどをまとめた場所">
+
+    <meta property="og:title" content="GALLERY | 短冊の部屋">
+    <meta property="og:description" content="ディスプレイやイラスト、落書きなどをまとめた場所">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tanabatabanana.github.io/tanzaku/gallery.html">
+    <meta property="og:image" content="https://tanabatabanana.github.io/tanzaku/images/ogp.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body id="top">
+
+<!-- ヘッダー（index.html と同じ） -->
+<header class="site-header" id="header-window">
+
+    <div class="header-titlebar" id="header-titlebar">
+        <span class="header-app-icon">短</span>
+        <span class="header-window-title">短冊の部屋.exe</span>
+
+        <div class="header-window-controls">
+            <button type="button" id="header-toggle" aria-expanded="true" aria-label="メニューを折りたたむ">－</button>
+            <span>□</span>
+            <span>×</span>
+        </div>
+    </div>
+
+    <nav class="header-menu">
+        <a href="index.html" class="header-item">
+            <svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path fill="#0b1f66" d="M7 1h2v1h-2zM6 2h1v1h-1zM9 2h1v1h-1zM5 3h1v1h-1zM10 3h1v1h-1zM4 4h1v1h-1zM11 4h1v1h-1zM3 5h1v1h-1zM12 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM1 7h1v1h-1zM14 7h1v1h-1zM0 8h16v1h-16zM2 9h1v1h-1zM13 9h1v1h-1zM2 10h1v1h-1zM13 10h1v1h-1zM2 11h1v1h-1zM13 11h1v1h-1zM2 12h1v1h-1zM7 12h2v1h-2zM13 12h1v1h-1zM2 13h1v1h-1zM6 13h1v1h-1zM9 13h1v1h-1zM13 13h1v1h-1zM2 14h1v1h-1zM6 14h1v1h-1zM9 14h1v1h-1zM13 14h1v1h-1zM2 15h12v1h-12z"/><path fill="#0047ff" d="M7 2h2v1h-2zM6 3h4v1h-4zM5 4h6v1h-6zM4 5h8v1h-8zM3 6h10v1h-10zM2 7h12v1h-12z"/><path fill="#ffffff" d="M3 9h10v1h-10zM3 10h1v1h-1zM6 10h4v1h-4zM12 10h1v1h-1zM3 11h1v1h-1zM6 11h4v1h-4zM12 11h1v1h-1zM3 12h4v1h-4zM9 12h4v1h-4zM3 13h3v1h-3zM10 13h3v1h-3zM3 14h3v1h-3zM10 14h3v1h-3z"/><path fill="#61b3ff" d="M4 10h2v1h-2zM10 10h2v1h-2zM4 11h2v1h-2zM10 11h2v1h-2z"/><path fill="#ffe600" d="M7 13h2v1h-2zM7 14h2v1h-2z"/></svg>
+            <span>HOME</span>
+        </a>
+        <a href="about.html" class="header-item">
+            <svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path fill="#0b1f66" d="M5 1h6v1h-6zM3 2h2v1h-2zM11 2h2v1h-2zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM1 5h1v1h-1zM14 5h1v1h-1zM1 6h1v1h-1zM14 6h1v1h-1zM1 7h1v1h-1zM14 7h1v1h-1zM1 8h1v1h-1zM14 8h1v1h-1zM1 9h1v1h-1zM14 9h1v1h-1zM1 10h1v1h-1zM14 10h1v1h-1zM2 11h1v1h-1zM13 11h1v1h-1zM2 12h1v1h-1zM13 12h1v1h-1zM3 13h2v1h-2zM11 13h2v1h-2zM5 14h6v1h-6z"/><path fill="#0047ff" d="M5 2h6v1h-6zM3 3h10v1h-10zM3 4h4v1h-4zM9 4h4v1h-4zM2 5h5v1h-5zM9 5h5v1h-5zM2 6h12v1h-12zM2 7h4v1h-4zM9 7h5v1h-5zM2 8h5v1h-5zM9 8h5v1h-5zM2 9h5v1h-5zM9 9h5v1h-5zM2 10h5v1h-5zM9 10h5v1h-5zM3 11h3v1h-3zM10 11h3v1h-3zM3 12h10v1h-10zM5 13h6v1h-6z"/><path fill="#ffffff" d="M7 4h2v1h-2zM7 5h2v1h-2zM6 7h3v1h-3zM7 8h2v1h-2zM7 9h2v1h-2zM7 10h2v1h-2zM6 11h4v1h-4z"/></svg>
+            <span>ABOUT</span>
+        </a>
+        <a href="index.html#investigators" class="header-item">
+            <svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path fill="#0b1f66" d="M6 1h4v1h-4zM5 2h6v1h-6zM4 3h2v1h-2zM10 3h2v1h-2zM4 4h1v1h-1zM11 4h1v1h-1zM4 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM11 5h1v1h-1zM4 6h1v1h-1zM11 6h1v1h-1zM5 7h1v1h-1zM10 7h1v1h-1zM6 8h4v1h-4zM3 9h2v1h-2zM11 9h2v1h-2zM2 10h1v1h-1zM13 10h1v1h-1zM1 11h1v1h-1zM14 11h1v1h-1zM1 12h1v1h-1zM14 12h1v1h-1zM1 13h1v1h-1zM14 13h1v1h-1zM1 14h14v1h-14z"/><path fill="#ffffff" d="M6 3h4v1h-4zM5 4h6v1h-6zM5 5h1v1h-1zM7 5h2v1h-2zM10 5h1v1h-1zM5 6h6v1h-6zM6 7h4v1h-4z"/><path fill="#0047ff" d="M5 9h6v1h-6zM3 10h10v1h-10zM2 11h12v1h-12zM2 12h12v1h-12zM2 13h12v1h-12z"/></svg>
+            <span>INVESTIGATORS</span>
+        </a>
+        <a href="gallery.html" class="header-item" aria-current="page">
+            <svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path fill="#0b1f66" d="M1 2h14v1h-14zM1 3h1v1h-1zM14 3h1v1h-1zM1 4h1v1h-1zM14 4h1v1h-1zM1 5h1v1h-1zM14 5h1v1h-1zM1 6h1v1h-1zM14 6h1v1h-1zM1 7h1v1h-1zM14 7h1v1h-1zM1 8h1v1h-1zM14 8h1v1h-1zM1 9h1v1h-1zM14 9h1v1h-1zM1 10h1v1h-1zM14 10h1v1h-1zM1 11h1v1h-1zM14 11h1v1h-1zM1 12h1v1h-1zM14 12h1v1h-1zM1 13h14v1h-14z"/><path fill="#ffffff" d="M2 3h12v1h-12zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM2 10h1v1h-1zM13 10h1v1h-1zM2 11h1v1h-1zM13 11h1v1h-1zM2 12h12v1h-12z"/><path fill="#61b3ff" d="M3 4h10v1h-10zM3 5h6v1h-6zM11 5h2v1h-2zM3 6h6v1h-6zM11 6h2v1h-2zM3 7h10v1h-10zM3 8h3v1h-3zM7 8h6v1h-6zM3 9h2v1h-2zM8 9h3v1h-3zM12 9h1v1h-1zM3 10h1v1h-1zM9 10h1v1h-1z"/><path fill="#ffe600" d="M9 5h2v1h-2zM9 6h2v1h-2z"/><path fill="#0047ff" d="M6 8h1v1h-1zM5 9h3v1h-3zM11 9h1v1h-1zM4 10h5v1h-5zM10 10h3v1h-3zM3 11h10v1h-10z"/></svg>
+            <span>GALLERY</span>
+        </a>
+    </nav>
+
+</header>
+
+<div id="star-container"></div>
+
+
+<!-- =========================
+     GALLERY
+========================= -->
+<main class="gallery-page">
+
+    <section class="gallery-window">
+
+        <h1 class="page-title">GALLERY</h1>
+
+        <!-- 種類で絞り込み（下の GALLERY_ITEMS にある種類から自動で作られる） -->
+        <div class="gallery-tabs" id="gallery-tabs"></div>
+
+        <!-- 作品の一覧（gallery.js が作る） -->
+        <div class="gallery-grid" id="gallery-grid"></div>
+
+    </section>
+
+</main>
+
+
+<!-- 拡大表示 -->
+<div class="lightbox" id="lightbox" hidden>
+    <div class="lightbox-window" role="dialog" aria-modal="true" aria-label="拡大表示">
+        <button type="button" class="lightbox-close" id="lb-close" aria-label="閉じる"></button>
+        <img id="lb-img" alt="">
+        <div class="lightbox-bar">
+            <button type="button" id="lb-prev" aria-label="前へ">◀</button>
+            <span id="lb-caption"></span>
+            <button type="button" id="lb-next" aria-label="次へ">▶</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- =========================
+     作品のデータ
+     1行 = 1枚： [画像のパス, 題名, 種類]
+     種類は自由に付けられる（例："DISPLAY" / "ILLUST" / "LOG"）。使った種類が、絞り込みのボタンになる
+     追加は、末尾に1行足すだけ
+========================= -->
+<script>
+const GALLERY_ITEMS = [
+    ["images/display/d-kinse.png", "キンセー", "DISPLAY"],
+    ["images/display/d-madara.png", "蛾場 マダラ", "DISPLAY"],
+    ["images/display/d-zugai.png", "卍真・頭蓋大明神卍", "DISPLAY"],
+    ["images/display/d-muerute.png", "サンタ・ムエルテ", "DISPLAY"],
+    ["images/display/d-mujyo.png", "無常", "DISPLAY"],
+    ["images/display/d-doru.png", "ドルチェ・パネッティ", "DISPLAY"],
+    ["images/display/d-shuni.PNG", "シュニット・シュナイデン", "DISPLAY"],
+    ["images/display/d-syota.png", "隼高 翔太", "DISPLAY"],
+    ["images/display/d-mimika.png", "山田 ミミ花", "DISPLAY"],
+    ["images/ichimai-1.png", "ichimai-1", "ILLUST"]
+];
+</script>
+
+<script src="script.js"></script>
+<script src="bg-deco.js"></script>
+<script src="cursor-trail.js"></script>
+<script src="header.js"></script>
+<script src="retype.js"></script>
+<script src="page-transition.js"></script>
+<script src="gallery.js"></script>
+
+</body>
+
+</html>

@@ -122,12 +122,12 @@
 
     <nav class="link-menu">
         <div class="link-row">
-            <a href="https://tanzaku7.wixsite.com/scenariomatome" target="_blank" rel="noopener" class="glitch-link" style="--r:-4deg;--y:-8px"><span>SCENARIO</span></a>
+            <a href="https://www.pixiv.net/users/118443135" target="_blank" rel="noopener" class="glitch-link" style="--r:-4deg;--y:-8px"><span>PIXIV</span></a>
             <a href="https://poipiku.com/10743334" target="_blank" rel="noopener" class="glitch-link" style="--r:2deg;--y:7px"><span>POIPIKU</span></a>
             <a href="https://fusetter.com/u/qwerqwer" target="_blank" rel="noopener" class="glitch-link" style="--r:-1deg;--y:-4px"><span>FUSETER</span></a>
         </div>
         <div class="link-row">
-            <a href="https://www.pixiv.net/users/118443135" target="_blank" rel="noopener" class="glitch-link" style="--r:5deg;--y:8px"><span>PIXIV</span></a>
+            <a href="https://tanzaku7.wixsite.com/scenariomatome" target="_blank" rel="noopener" class="glitch-link" style="--r:5deg;--y:8px"><span>SCENARIO</span></a>
             <a href="https://x.com/tanabata15679" target="_blank" rel="noopener" class="glitch-link" style="--r:-3deg;--y:5px"><span>X</span></a>
         </div>
     </nav>
@@ -141,6 +141,14 @@
 
 
 </div><!-- hero -->
+
+
+<!-- =========================
+     memo.exe：短冊についての情報（about）へのリンク。文字が入力されていく（memo.js）
+========================= -->
+<a href="about.html" class="memo-window" aria-label="短冊についての情報はこちらをクリック">
+    <div class="memo-body"><span id="memo-text" aria-hidden="true"></span><span class="memo-caret" aria-hidden="true">▌</span></div>
+</a>
 
 
 <!-- =========================
@@ -362,6 +370,11 @@ const INVESTIGATORS = [
 <!-- 既存のスクリプト（カードが作られたあとに読み込む） -->
 <script src="script.js"></script>
 <script src="entry-effect.js"></script>
+<script src="header.js"></script>
+<script src="retype.js"></script>
+<script src="page-transition.js"></script>
+<script src="window-buttons.js"></script>
+<script src="memo.js"></script>
 <script src="side-windows.js"></script>
 <script src="cursor-trail.js"></script>
 <script src="bg-deco.js"></script>
@@ -377,59 +390,6 @@ const INVESTIGATORS = [
     track.append(track.firstElementChild.cloneNode(true));
 })();
 
-// ヘッダー：ドラッグで移動 + 折りたたみ
-(() => {
-    const headerWindow = document.getElementById("header-window");
-    const titlebar = document.getElementById("header-titlebar");
-    const toggle = document.getElementById("header-toggle");
-    if (!headerWindow || !titlebar) return;
-
-    // --- ドラッグ ---
-    let dragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    titlebar.addEventListener("pointerdown", (event) => {
-        if (event.target.closest("button")) return;                         // 折りたたみボタンは除外
-        if (event.pointerType === "mouse" && event.button !== 0) return;
-
-        const rect = headerWindow.getBoundingClientRect();
-        dragging = true;
-        offsetX = event.clientX - rect.left;
-        offsetY = event.clientY - rect.top;
-
-        headerWindow.style.position = "fixed";
-        headerWindow.style.left = rect.left + "px";
-        headerWindow.style.top = rect.top + "px";
-        headerWindow.style.right = "auto";
-        headerWindow.style.bottom = "auto";
-
-        event.preventDefault();
-    });
-
-    window.addEventListener("pointermove", (event) => {
-        if (!dragging) return;
-
-        const maxX = Math.max(0, window.innerWidth - headerWindow.offsetWidth);
-        const maxY = Math.max(0, window.innerHeight - headerWindow.offsetHeight);
-
-        headerWindow.style.left = Math.max(0, Math.min(event.clientX - offsetX, maxX)) + "px";
-        headerWindow.style.top = Math.max(0, Math.min(event.clientY - offsetY, maxY)) + "px";
-    });
-
-    const stopDrag = () => { dragging = false; };
-    window.addEventListener("pointerup", stopDrag);
-    window.addEventListener("pointercancel", stopDrag);
-
-    // --- 折りたたみ ---
-    if (!toggle) return;
-    toggle.addEventListener("click", () => {
-        const collapsed = headerWindow.classList.toggle("is-collapsed");
-        toggle.textContent = collapsed ? "+" : "－";
-        toggle.setAttribute("aria-expanded", String(!collapsed));
-        toggle.setAttribute("aria-label", collapsed ? "メニューを展開する" : "メニューを折りたたむ");
-    });
-})();
 </script>
 
 </body>
