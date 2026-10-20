@@ -7,6 +7,9 @@
       "birthscenario":"幽世常世の満天下",
       "GOscenario": ["福綏たれ", "お前は誰だ？", "ワンコイン・ナイトメア"],
       "edition": 6,
+      "sex":"female",
+      "height":142,
+      "age":22,
       "hitokoto": "財布の重さが何より大事でしょ？",
       "information":"暗黒地下街「九朧城」の何でも屋で働く詐欺師。拝金主義者。手先が器用で、スリ、イカサマ、詐欺、金のためならなんでもやる。人を騙すことに一切の抵抗がない。口がよく回り、道理の通ってないことでも無理やり通す。\n家族のことを心底大切に思っている。家族以外が不幸になろうとなんとも思わない、家族至上主義。もちろん、金になるなら人助けは大歓迎。気分屋で、気ままな猫。",
       "externalUrl": "https://iachara.com/view/7517553",
@@ -1473,6 +1476,75 @@
       {
         "label": "EDU",
         "value": "12"
+      }
+    ]
+  }
+},
+{
+  "kind": "character",
+  "data": {
+    "name": "名張 カフカ (なばり)",
+    "initiative": 8,
+    "birthscenario": "芋虫",
+    "GOscenario": [],
+    "edition": 6,
+    "sex": "male",
+    "height": 179,
+    "age": 26,
+    "hitokoto": "早く家に帰らなければ。妻が待っているんです。ふふ。",
+    "information": "職業：執事\nやわらかいのにどこか胡散臭く、軽薄そうな男。とある屋敷の執事をしているらしい。どこかを見ているかと思えば、ふとした時に目が合う。行動が読めない。相当遊んできたことが、その言動から伺えるかもしれない。右手の薬指に婚約指輪をしている。\n妻の写真を入れたペンダントを首から下げている。",
+    "externalUrl": "https://iachara.com/view/15248175",
+    "iconUrl": "https://image.iaproject.app/39590843-da90-45fa-8303-0d1bdcb45a4d",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=60 【アイデア】\nCCB<=60 【幸運】\nCCB<=50 【知識】\nCCB<=55 【目星】\nCCB<=45 【聞き耳】\nCCB<=40 【図書館】\nCCB<=56 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=65 【キック】\nCCB<=71 【精神分析】\nCCB<=50 【信用】\nCCB<=75 【医学】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {
+        "label": "HP",
+        "value": 13,
+        "max": 13
+      },
+      {
+        "label": "MP",
+        "value": 12,
+        "max": 12
+      },
+      {
+        "label": "SAN",
+        "value": 60,
+        "max": 60
+      }
+    ],
+    "params": [
+      {
+        "label": "STR",
+        "value": "15"
+      },
+      {
+        "label": "CON",
+        "value": "12"
+      },
+      {
+        "label": "POW",
+        "value": "12"
+      },
+      {
+        "label": "DEX",
+        "value": "8"
+      },
+      {
+        "label": "APP",
+        "value": "12"
+      },
+      {
+        "label": "SIZ",
+        "value": "13"
+      },
+      {
+        "label": "INT",
+        "value": "12"
+      },
+      {
+        "label": "EDU",
+        "value": "10"
       }
     ]
   }
