@@ -1548,6 +1548,146 @@
       }
     ]
   }
+},
+
+{
+  "kind": "character",
+  "data": {
+    "name": "レベル・ファン",
+    "initiative": 17,
+    "birthscenario": "ビスポークランドで何があったか",
+    "GOscenario": [],
+    "edition": 6,
+    "sex": "unknown",
+    "height": "可変",
+    "age": null,
+    "hitokoto": "ハロー！自由の国からやってきた！その名も〜〜レベル・ファン！よろしくぅ！",
+    "information": "職業：テーラー\nノイズがかったその声は、ボイスチェンジャーのせいだ。神出鬼没で、気づけばそこにいる。ほら、今でもそこの本棚の裏に！！\n本名は誰も知らず、謎に満ちた存在である。大きな背丈、男か女かもわからぬフルフェイスが特徴的。いきなり現れる露店「POP‼︎ UP SHOP」の店主をしており、そこへ並ぶ服の数々はフリーダムで型にとらわれないという。\n服飾でお金を稼ぐだけでなく、機械工として仕事をすることも。シャッターや電子ロックの扉を修理するが、20回に1回くらいの確率でバックルームと繋がる。マジでごめんとは思っている。つながっちゃった日は結構凹む。自分の仕事に誇りを持っているのだ。",
+    "externalUrl": "https://iachara.com/view/15213267",
+    "iconUrl": "https://image.iaproject.app/bb3e24f8-743e-433b-abd1-ccf7cd3d979f",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=55 【アイデア】\nCCB<=70 【幸運】\nCCB<=75 【知識】\nCCB<=70 【目星】\nCCB<=29 【聞き耳】\nCCB<=26 【図書館】\nCCB<=74 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=75 【キック】\nCCB<=30 【組み付き】\nCCB<=75 【投擲】\nCCB<=65 【応急手当】\nCCB<=50 【隠す】\nCCB<=75 【機械修理】\nCCB<=71 【変装】\nCCB<=75 【説得】\nCCB<=60 【値切り】\nCCB<=92 【芸術（服飾）】\nCCB<=75 【心理学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {
+        "label": "HP",
+        "value": 11,
+        "max": 11
+      },
+      {
+        "label": "MP",
+        "value": 14,
+        "max": 14
+      },
+      {
+        "label": "SAN",
+        "value": 70,
+        "max": 70
+      }
+    ],
+    "params": [
+      {
+        "label": "STR",
+        "value": "9"
+      },
+      {
+        "label": "CON",
+        "value": "11"
+      },
+      {
+        "label": "POW",
+        "value": "14"
+      },
+      {
+        "label": "DEX",
+        "value": "17"
+      },
+      {
+        "label": "APP",
+        "value": "13"
+      },
+      {
+        "label": "SIZ",
+        "value": "11"
+      },
+      {
+        "label": "INT",
+        "value": "11"
+      },
+      {
+        "label": "EDU",
+        "value": "15"
+      }
+    ]
+  }
+},
+
+{
+  "kind": "character",
+  "data": {
+    "name": "鳩山 よつば (はとやま よつば)",
+    "initiative": 12,
+    "birthscenario": "",
+    "GOscenario": [],
+    "edition": 6,
+    "sex": "female",
+    "height": 136,
+    "age": 14,
+    "hitokoto": "あなたが強くなくたっていい場所を、私は作りたいの。",
+    "information": "職業：看護師\n中国人と日本人のハーフ。のんびり屋さんで、お姉さん気質。\n料理はへたくそだが、これからうまくなる予定。最近仲良くしてくれるお姉さんができて、とっても嬉しい。",
+    "externalUrl": "https://iachara.com/view/15548561",
+    "iconUrl": "https://image.iaproject.app/715226f0-4400-45f0-9d8c-79f809390d2e",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=75 【アイデア】\nCCB<=55 【幸運】\nCCB<=80 【知識】\nCCB<=65 【目星】\nCCB<=65 【聞き耳】\nCCB<=65 【図書館】\nCCB<=60 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=75 【精神分析】\nCCB<=55 【信用】\nCCB<=68 【中国語】\nCCB<=75 【医学】\nCCB<=70 【経理】\nCCB<=51 【薬学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {
+        "label": "HP",
+        "value": 11,
+        "max": 11
+      },
+      {
+        "label": "MP",
+      "value": 11,
+        "max": 11
+      },
+      {
+        "label": "SAN",
+        "value": 55,
+        "max": 55
+      }
+    ],
+    "params": [
+      {
+        "label": "STR",
+        "value": "11"
+      },
+      {
+        "label": "CON",
+        "value": "9"
+      },
+      {
+        "label": "POW",
+        "value": "11"
+      },
+      {
+        "label": "DEX",
+        "value": "12"
+      },
+      {
+        "label": "APP",
+        "value": "15"
+      },
+      {
+        "label": "SIZ",
+        "value": "13"
+      },
+      {
+        "label": "INT",
+        "value": "15"
+      },
+      {
+        "label": "EDU",
+        "value": "16"
+      }
+    ]
+  }
 }
  
 ]
