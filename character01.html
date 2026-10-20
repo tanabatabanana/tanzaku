@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>小猫 | 短冊の部屋</title>
+    <meta name="description" content="短冊の部屋の探索者：小猫">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../character.css">
+
+    <script>
+        // ホームから探索者の写真を押して来た時は、波が画面をおおった状態から始める（ちらつき防止）
+        try { if (sessionStorage.getItem("charFly")) document.documentElement.classList.add("arriving"); } catch (e) {}
+    </script>
+</head>
+
+<!--
+    このページのひな形：キャラクターを変える時は、body の data- の4つを書き換える
+    data-character … 名前（data/investigators.json の name と同じ）
+    data-tatie     … 立ち絵    data-faces … 顔アップの差分のフォルダ    data-photo … 履歴書の写真（ホームの一覧の画像）
+-->
+<body id="top" class="page-char"
+      data-character="小猫"
+      data-tatie="../images/tatie/t_xiao.png"
+      data-faces="../images/hyojyo/hyo_xiao/"
+      data-photo="../images/kao/k-xiaomao.png">
+
+<header class="site-header" id="header-window">
+
+    <div class="header-titlebar" id="header-titlebar">
+        <span class="header-app-icon">短</span>
+        <span class="header-window-title">短冊の部屋.exe</span>
+
+        <div class="header-window-controls">
+            <button type="button" id="header-toggle" aria-expanded="true" aria-label="メニューを折りたたむ">－</button>
+            <span>□</span>
+            <span>×</span>
+        </div>
+    </div>
+
+    <nav class="header-menu">
+        <a href="../index.html" class="header-item">
+            <svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path fill="#0b1f66" d="M7 1h2v1h-2zM6 2h1v1h-1zM9 2h1v1h-1zM5 3h1v1h-1zM10 3h1v1h-1zM4 4h1v1h-1zM11 4h1v1h-1zM3 5h1v1h-1zM12 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM1 7h1v1h-1zM14 7h1v1h-1zM0 8h16v1h-16zM2 9h1v1h-1zM13 9h1v1h-1zM2 10h1v1h-1zM13 10h1v1h-1zM2 11h1v1h-1zM13 11h1v1h-1zM2 12h1v1h-1zM7 12h2v1h-2zM13 12h1v1h-1zM2 13h1v1h-1zM6 13h1v1h-1zM9 13h1v1h-1zM13 13h1v1h-1zM2 14h1v1h-1zM6 14h1v1h-1zM9 14h1v1h-1zM13 14h1v1h-1zM2 15h12v1h-12z"/><path fill="#0047ff" d="M7 2h2v1h-2zM6 3h4v1h-4zM5 4h6v1h-6zM4 5h8v1h-8zM3 6h10v1h-10zM2 7h12v1h-12z"/><path fill="#ffffff" d="M3 9h10v1h-10zM3 10h1v1h-1zM6 10h4v1h-4zM12 10h1v1h-1zM3 11h1v1h-1zM6 11h4v1h-4zM12 11h1v1h-1zM3 12h4v1h-4zM9 12h4v1h-4zM3 13h3v1h-3zM10 13h3v1h-3zM3 14h3v1h-3zM10 14h3v1h-3z"/><path fill="#61b3ff" d="M4 10h2v1h-2zM10 10h2v1h-2zM4 11h2v1h-2zM10 11h2v1h-2z"/><path fill="#ffe600" d="M7 13h2v1h-2zM7 14h2v1h-2z"/></svg>
+            <span>HOME</span>
+        </a>
+        <a href="../about.html" class="header-item">
+            <svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path fill="#0b1f66" d="M5 1h6v1h-6zM3 2h2v1h-2zM11 2h2v1h-2zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM1 5h1v1h-1zM14 5h1v1h-1zM1 6h1v1h-1zM14 6h1v1h-1zM1 7h1v1h-1zM14 7h1v1h-1zM1 8h1v1h-1zM14 8h1v1h-1zM1 9h1v1h-1zM14 9h1v1h-1zM1 10h1v1h-1zM14 10h1v1h-1zM2 11h1v1h-1zM13 11h1v1h-1zM2 12h1v1h-1zM13 12h1v1h-1zM3 13h2v1h-2zM11 13h2v1h-2zM5 14h6v1h-6z"/><path fill="#0047ff" d="M5 2h6v1h-6zM3 3h10v1h-10zM3 4h4v1h-4zM9 4h4v1h-4zM2 5h5v1h-5zM9 5h5v1h-5zM2 6h12v1h-12zM2 7h4v1h-4zM9 7h5v1h-5zM2 8h5v1h-5zM9 8h5v1h-5zM2 9h5v1h-5zM9 9h5v1h-5zM2 10h5v1h-5zM9 10h5v1h-5zM3 11h3v1h-3zM10 11h3v1h-3zM3 12h10v1h-10zM5 13h6v1h-6z"/><path fill="#ffffff" d="M7 4h2v1h-2zM7 5h2v1h-2zM6 7h3v1h-3zM7 8h2v1h-2zM7 9h2v1h-2zM7 10h2v1h-2zM6 11h4v1h-4z"/></svg>
+            <span>ABOUT</span>
+        </a>
+        <a href="../index.html#investigators" class="header-item">
+            <svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path fill="#0b1f66" d="M6 1h4v1h-4zM5 2h6v1h-6zM4 3h2v1h-2zM10 3h2v1h-2zM4 4h1v1h-1zM11 4h1v1h-1zM4 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM11 5h1v1h-1zM4 6h1v1h-1zM11 6h1v1h-1zM5 7h1v1h-1zM10 7h1v1h-1zM6 8h4v1h-4zM3 9h2v1h-2zM11 9h2v1h-2zM2 10h1v1h-1zM13 10h1v1h-1zM1 11h1v1h-1zM14 11h1v1h-1zM1 12h1v1h-1zM14 12h1v1h-1zM1 13h1v1h-1zM14 13h1v1h-1zM1 14h14v1h-14z"/><path fill="#ffffff" d="M6 3h4v1h-4zM5 4h6v1h-6zM5 5h1v1h-1zM7 5h2v1h-2zM10 5h1v1h-1zM5 6h6v1h-6zM6 7h4v1h-4z"/><path fill="#0047ff" d="M5 9h6v1h-6zM3 10h10v1h-10zM2 11h12v1h-12zM2 12h12v1h-12zM2 13h12v1h-12z"/></svg>
+            <span>INVESTIGATORS</span>
+        </a>
+        <a href="../gallery.html" class="header-item">
+            <svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path fill="#0b1f66" d="M1 2h14v1h-14zM1 3h1v1h-1zM14 3h1v1h-1zM1 4h1v1h-1zM14 4h1v1h-1zM1 5h1v1h-1zM14 5h1v1h-1zM1 6h1v1h-1zM14 6h1v1h-1zM1 7h1v1h-1zM14 7h1v1h-1zM1 8h1v1h-1zM14 8h1v1h-1zM1 9h1v1h-1zM14 9h1v1h-1zM1 10h1v1h-1zM14 10h1v1h-1zM1 11h1v1h-1zM14 11h1v1h-1zM1 12h1v1h-1zM14 12h1v1h-1zM1 13h14v1h-14z"/><path fill="#ffffff" d="M2 3h12v1h-12zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM2 10h1v1h-1zM13 10h1v1h-1zM2 11h1v1h-1zM13 11h1v1h-1zM2 12h12v1h-12z"/><path fill="#61b3ff" d="M3 4h10v1h-10zM3 5h6v1h-6zM11 5h2v1h-2zM3 6h6v1h-6zM11 6h2v1h-2zM3 7h10v1h-10zM3 8h3v1h-3zM7 8h6v1h-6zM3 9h2v1h-2zM8 9h3v1h-3zM12 9h1v1h-1zM3 10h1v1h-1zM9 10h1v1h-1z"/><path fill="#ffe600" d="M9 5h2v1h-2zM9 6h2v1h-2z"/><path fill="#0047ff" d="M6 8h1v1h-1zM5 9h3v1h-3zM11 9h1v1h-1zM4 10h5v1h-5zM10 10h3v1h-3zM3 11h10v1h-10z"/></svg>
+            <span>GALLERY</span>
+        </a>
+    </nav>
+
+</header>
+
+<h1 class="sr-only">小猫</h1>
+
+<div class="char-layout">
+
+    <!-- 左：立ち絵のまわり（スクロールしても、その場に残る） -->
+    <section class="char-left">
+        <div class="stage">
+            <div class="stage-name" aria-hidden="true">小猫</div>
+            <div class="stage-floor" aria-hidden="true"></div>
+            <button type="button" class="stage-tachie" id="tachie" aria-label="立ち絵をタップすると、ひとこと話す">
+                <img id="tachie-img" alt="小猫の立ち絵">
+            </button>
+            <div class="stage-speech" id="speech" role="status" hidden></div>
+        </div>
+    </section>
+
+    <!-- 右：ウィンドウ達（スクロールする） -->
+    <section class="char-right" id="char-right">
+
+        <!-- 後ろの、ぼかしたウィンドウ（character.js が作る） -->
+        <div class="back-windows" id="back-windows" aria-hidden="true"></div>
+
+        <div class="char-windows">
+
+            <!-- A：履歴書 -->
+            <article class="char-win win-resume" aria-label="プロフィール">
+
+                <div class="resume">
+                    <div class="r-field r-yomi"><span>ふりがな</span><b id="r-yomi"></b></div>
+                    <div class="r-field r-name"><span>氏名</span><b id="r-name"></b></div>
+                    <div class="r-field r-gender"><span>性別</span><b id="r-gender"></b></div>
+                    <div class="r-field r-age"><span>年齢</span><b id="r-age"></b></div>
+                    <div class="r-field r-height"><span>身長</span><b id="r-height"></b></div>
+
+                    <div class="resume-photo" id="resume-photo">
+                        <div class="rp-inner"><img id="resume-img" alt="小猫の写真"></div>
+                        <i class="tape"></i>
+                    </div>
+
+                    <div class="r-field r-stats"><span>能力値</span><div class="r-statgrid" id="r-statgrid"></div></div>
+                    <div class="r-field r-birth"><span>出身シナリオ</span><b id="r-birth"></b></div>
+                    <div class="r-field r-go"><span>通過シナリオ</span><ol id="r-go"></ol></div>
+                </div>
+
+                <!-- B：能力値のフローチャート -->
+                <aside class="char-win win-radar" aria-label="能力値のチャート">
+                    <svg id="radar" viewBox="-110 -105 220 210" role="img" aria-label="STRからINTまでの能力値のレーダーチャート"></svg>
+                </aside>
+
+            </article>
+
+            <!-- 顔アップ：音楽プレイヤー風 -->
+            <aside class="char-win win-player" aria-label="顔アップの差分">
+                <div class="player-face">
+                    <img id="face-img" alt="表情の差分">
+                    <span class="face-count" id="face-count"></span>
+                </div>
+                <div class="player-panel">
+                    <div class="player-bar"><i id="face-progress"></i></div>
+                    <div class="player-ctrl">
+                        <button type="button" id="pl-first" aria-label="最初の表情">|◀</button>
+                        <button type="button" id="pl-prev" aria-label="前の表情">◀◀</button>
+                        <button type="button" id="pl-play" aria-label="自動で切り替える" aria-pressed="false">▶</button>
+                        <button type="button" id="pl-next" aria-label="次の表情">▶▶</button>
+                        <button type="button" id="pl-last" aria-label="最後の表情">▶|</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 説明（見えた瞬間にタイピングされる） -->
+            <article class="char-win win-info" id="win-info" aria-label="キャラクターの説明">
+                <div class="info-body"><span id="info-text"></span></div>
+            </article>
+
+        </div>
+    </section>
+
+</div>
+
+<!-- ページの下部の波：ウィンドウ達は、この中から現れる -->
+<div class="char-waves" aria-hidden="true">
+    <i class="w1"></i><i class="w2"></i><i class="w3"></i>
+    <div class="char-water"></div>
+</div>
+
+<script src="../cursor-trail.js"></script>
+<script src="../header.js"></script>
+<script src="../retype.js"></script>
+<script src="../page-transition.js"></script>
+<script src="../char-transition.js"></script>
+<script src="character.js"></script>
+
+</body>
+
+</html>

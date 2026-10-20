@@ -53,6 +53,7 @@ p {
 
 /* ウィンドウ風の枠（共通）：タイトルバーと×ボタン */
 .gallery,
+.char-win,
 .memo-window,
 .gallery-window,
 .lightbox-window,
@@ -68,6 +69,7 @@ p {
 }
 
 .gallery::before,
+.char-win::before,
 .memo-window::before,
 .gallery-window::before,
 .lightbox-window::before,
@@ -92,6 +94,7 @@ p {
 }
 
 .gallery::after,
+.char-win::after,
 .memo-window::after,
 .gallery-window::after,
 .lightbox-window::after,
@@ -1396,7 +1399,7 @@ p {
 ========================================= */
 html.is-leaving { overflow: hidden; }
 
-html.is-leaving :is(.site-header, .gallery, .main-window, .side-window, .investigators-page, .gallery-card, .about-card, .gallery-window, .memo-window) {
+html.is-leaving :is(.site-header, .gallery, .main-window, .side-window, .investigators-page, .gallery-card, .about-card, .gallery-window, .memo-window, .char-win) {
     animation: window-leave 0.95s both;
     animation-delay: var(--fd, 0ms);
 }
@@ -1492,3 +1495,27 @@ html.is-leaving :is(.site-header, .gallery, .main-window, .side-window, .investi
 .ci-scenario b { display: block; color: var(--blue); font-weight: normal; font-size: 13px; }
 .ci-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px 10px; font: 15px "Courier New", monospace; }
 .ci-stats b { color: var(--blue); }
+
+
+/* =========================================
+   13. 探索者のページへの移動演出：写真が浮かび、波が押し寄せ、引いたら写真が貼られる（char-transition.js）
+========================================= */
+.wave-curtain { position: fixed; inset: 0; z-index: 100000; pointer-events: auto; }
+.wave-body { position: absolute; inset: 0; background: linear-gradient(#5c94fc, #0066ff 70%); }
+.wave-edge { position: absolute; left: 0; top: -44px; width: 200%; height: 90px; fill: #5c94fc; animation: wave-slide 1.1s linear infinite; }
+@keyframes wave-slide { to { translate: -6.25% 0; } }
+
+.fly-photo {
+    position: fixed;
+    z-index: 100001;
+    box-sizing: border-box;
+    padding: 5px;
+    background: #fff;
+    box-shadow: 6px 10px 12px rgba(0, 0, 60, 0.35);
+    pointer-events: none;
+}
+.fly-inner { position: relative; width: 100%; height: 100%; background: #61b3ff; }
+.fly-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+
+/* キャラクターページに着いた直後、波がおおうまでのあいだ画面をおおっておく（ちらつき防止） */
+html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; background: #3f7dff; }

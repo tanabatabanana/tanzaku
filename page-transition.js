@@ -9,7 +9,7 @@
   // 演出が始まるリンク
   const LINKS = ".site-header a, .water-gallery, .water-about, .memo-window";
   // 落ちていくウィンドウ（style.css の html.is-leaving と同じ並び）
-  const WINDOWS = ".site-header, .gallery, .main-window, .side-window, .investigators-page, .gallery-card, .about-card, .gallery-window, .memo-window";
+  const WINDOWS = ".site-header, .gallery, .main-window, .side-window, .investigators-page, .gallery-card, .about-card, .gallery-window, .memo-window, .char-win";
 
   const DURATION = 1050;   // 落ち終わるまでの時間（ミリ秒）
   let leaving = false;
