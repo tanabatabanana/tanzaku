@@ -15,6 +15,10 @@
         // ホームから探索者の写真を押して来た時は、波が画面をおおった状態から始める（ちらつき防止）
         try { if (sessionStorage.getItem("charFly")) document.documentElement.classList.add("arriving"); } catch (e) {}
     </script>
+    <script>
+        // 別のページから青い円で移動してきた時は、画面を青でおおった状態から始める（ちらつき防止）
+        try { if (sessionStorage.getItem("rippleFrom")) document.documentElement.classList.add("ripple-in"); } catch (e) {}
+    </script>
 </head>
 
 <!--

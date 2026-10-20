@@ -28,6 +28,14 @@ console.log("entry-effect.js 読み込み成功");
   let overlay = null;
   let intro = null;
 
+  // 入室演出は、このサイトに最初に入った1回だけ（同じタブでホームに戻ってきても出さない）
+  const markEntered = () => {
+    try { sessionStorage.setItem("entered", "1"); } catch (error) { /* 何もしない */ }
+  };
+  const alreadyEntered = () => {
+    try { return sessionStorage.getItem("entered") === "1"; } catch (error) { return false; }
+  };
+
   // ページの読み込み完了（画像・フォント）を待つ。
   // 壊れたリンクなどでいつまでも終わらないよう、最大15秒で打ち切る
   const pageReady = Promise.race([
@@ -146,6 +154,7 @@ console.log("entry-effect.js 読み込み成功");
     if (started || !overlay) return;
 
     started = true;
+    markEntered();
     document.removeEventListener("keydown", onKey);
 
     if (intro) intro.remove();
@@ -263,6 +272,10 @@ console.log("entry-effect.js 読み込み成功");
 
   function start() {
     if (document.getElementById("entry-overlay")) return;
+
+    // 別のページから青い円で戻ってきた時や、もう入室済みの時は、入室演出を出さない
+    if (document.documentElement.classList.contains("ripple-in")) markEntered();
+    if (alreadyEntered()) return;
 
     overlay = document.createElement("div");
     overlay.id = "entry-overlay";

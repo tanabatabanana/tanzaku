@@ -1169,9 +1169,12 @@ p {
 @media (max-width: 800px) {
 
     /* ヘッダー */
-    .header-menu { gap: 4px; padding: 8px 8px 6px; }
-    .header-item { min-width: 70px; padding: 4px; font-size: 11px; gap: 4px; }
-    .header-icon { width: 34px; height: 34px; }
+    /* 4つのアイコンは必ず横一列（折り返さない）。ウィンドウの幅は一定にして、文字は画面の幅に合わせて縮める */
+    .site-header { width: calc(100% - 28px); }
+    .header-menu { flex-wrap: nowrap; justify-content: space-between; gap: 2px; padding: 8px 6px 6px; }
+    .header-item { flex: 0 1 auto; min-width: 0; padding: 4px 2px; gap: 4px; font-size: clamp(6px, calc((100vw - 80px) / 34), 11px); }
+    .header-item span { padding: 1px 2px; }
+    .header-icon { width: 30px; height: 30px; }
 
     /* 流れるディスプレイ */
     .gallery { width: calc(100% - 20px); margin-top: 175px; padding: 46px 0 10px; }
@@ -1215,24 +1218,24 @@ p {
     .skill-search input,
     .edition-filter select { width: 100%; }
 
-    .investigator-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 65px 12px; max-width: none; }
+    .investigator-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 58px 8px; max-width: none; }
     .investigator-card { width: 100%; min-width: 0; box-sizing: border-box; }
 
     .scenario-bubble {
-        top: -48px;
-        left: -5px;
+        top: -40px;
+        left: -3px;
         max-width: calc(100vw - 35px);
         box-sizing: border-box;
-        padding: 7px 10px;
+        padding: 5px 8px;
         box-shadow: -2px 0 #000, 2px 0 #000, 0 -2px #000, 0 2px #000;
-        font-size: 14px;
+        font-size: 11px;
         line-height: 1.35;
         white-space: normal;
     }
-    .name-label { bottom: -28px; max-width: calc(100% - 8px); box-sizing: border-box; padding: 7px 12px; font-size: 15px; }
+    .name-label { bottom: -22px; max-width: calc(100% - 4px); box-sizing: border-box; padding: 5px 6px; font-size: 11px; }
     .name-text { font-size: inherit; }
 
-    .investigator-value { top: -30px; padding: 5px 9px; border-width: 2px; box-shadow: 2px 2px 0 var(--blue); font-size: 14px; }
+    .investigator-value { top: -26px; padding: 3px 6px; border-width: 2px; box-shadow: 2px 2px 0 var(--blue); font-size: 11px; }
     .investigator-card .lost-label { right: 7px; bottom: 7px; font-size: 15px; letter-spacing: 1px; }
 
     /* WATER LINKS */
@@ -1395,20 +1398,22 @@ p {
 }
 
 /* =========================================
-   11. ページ移動の演出：窓がすべて、一瞬少し上がって、下に落ちていく（page-transition.js）
+   11. ページ移動の演出：押した所から青が広がり、移動先でその中心からサイトが広がる（page-transition.js）
 ========================================= */
-html.is-leaving { overflow: hidden; }
+.ripple { position: fixed; inset: 0; z-index: 100000; background: #0047ff; pointer-events: auto; }
+.ripple-cover { position: fixed; inset: 0; z-index: 100000; pointer-events: auto; }
 
-html.is-leaving :is(.site-header, .gallery, .main-window, .side-window, .investigators-page, .gallery-card, .about-card, .gallery-window, .memo-window, .char-win) {
-    animation: window-leave 0.95s both;
-    animation-delay: var(--fd, 0ms);
+/* 移動先のページが読み込まれてから、円が広がり始めるまで、画面を青でおおっておく（ちらつき防止）。
+   何かあっても青いままにならないよう、数秒後に自動で消える */
+html.ripple-in::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #0047ff;
+    animation: cover-safety 0.3s ease 5s forwards;
 }
-@keyframes window-leave {
-    0%   { translate: 0 0; rotate: 0deg; animation-timing-function: ease-out; }
-    22%  { translate: 0 -14px; rotate: 0deg; animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
-    100% { translate: 0 130vh; rotate: var(--fr, 0deg); }
-}
-
+@keyframes cover-safety { to { opacity: 0; visibility: hidden; } }
 
 /* =========================================
    12. memo.exe ／ ウィンドウの×ボタン ／ 探索者一覧の縮小
@@ -1428,7 +1433,7 @@ html.is-leaving :is(.site-header, .gallery, .main-window, .side-window, .investi
 }
 .memo-body {
     padding: 34px 28px 38px;
-    font: 30px/1.4 "AsWinterBegins", serif;
+    font: 30px/1.4 Meiryo, "メイリオ", "Hiragino Sans", "Yu Gothic UI", sans-serif;
     background: repeating-linear-gradient(180deg, transparent 0 41px, rgba(0, 71, 255, 0.18) 41px 42px);
 }
 .memo-window:hover #memo-text,
@@ -1518,4 +1523,19 @@ html.is-leaving :is(.site-header, .gallery, .main-window, .side-window, .investi
 .fly-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 
 /* キャラクターページに着いた直後、波がおおうまでのあいだ画面をおおっておく（ちらつき防止） */
-html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; background: #3f7dff; }
+html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; background: #3f7dff; animation: cover-safety 0.3s ease 6s forwards; }
+
+/* 探索者のページがまだ無い時の知らせ（char-transition.js） */
+.char-notice {
+    position: fixed;
+    z-index: 100002;
+    max-width: 230px;
+    padding: 6px 12px;
+    background: yellow;
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.18);
+    color: #000;
+    font: bold 14px/1.4 "Y1PixelationSerif", sans-serif;
+    transform: rotate(-3deg);
+    pointer-events: none;
+}

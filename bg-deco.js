@@ -10,7 +10,7 @@
   ];
   const TYPES = [
     ["deco-stack", ""],
-    ["deco-big", "TANZAKU<br>(TANZAKU<br>TANZAKU"],
+    ["deco-big", "TANABATA<br>(TANABATA<br>TANABATA"],
     ["deco-big2", "OEKAKI"],
     ["deco-tape", "OEKAKI"],
     ["deco-tape", "TANOSII"],

@@ -1,6 +1,7 @@
 /* 短冊の部屋：探索者のページへの移動演出（ホーム ⇄ キャラクターページ）
    ホームで探索者の写真を押す → 写真が浮かび上がる → 波が下から押し寄せて、写真以外を飲み込む → 移動
-   キャラクターページに着く → 波が引いていく → 写真が履歴書の写真のところに飛んで、貼られる */
+   キャラクターページに着く → 波が引いていく → 写真が履歴書の写真のところに飛んで、貼られる
+   演出で何かが失敗しても、必ず移動するようにしてある。移動先のページがまだ無い時は、演出を元に戻して知らせる。 */
 (() => {
   "use strict";
 
@@ -48,6 +49,14 @@
     return fly;
   }
 
+  async function pageExists(url) {
+    try {
+      return (await fetch(url, { method: "HEAD" })).ok;
+    } catch (e) {
+      return true;           // 確かめられない時（ファイルを直接開いた時など）は、そのまま移動する
+    }
+  }
+
   /* =========================
      ホーム側：写真を押した時
   ========================= */
@@ -71,26 +80,56 @@
       leaving = true;
 
       const rect = card.getBoundingClientRect();
-      const fly = makeFly(photo.currentSrc || photo.src, rect);
-      document.body.append(fly);
-      card.style.visibility = "hidden";
+      const src = photo.currentSrc || photo.src;
+      const exists = pageExists(url.href);
+      let fly = null;
+      let curtain = null;
 
-      // 写真が浮かび上がる
-      fly.animate([{ transform: "none" }, { transform: LIFT }], { duration: 450, easing: "cubic-bezier(0.2, 0.9, 0.3, 1.2)", fill: "forwards" });
+      // 演出のどこかで失敗しても移動できるよう、移動の予約を先にしておく
+      setTimeout(async () => {
+        if (await exists) {
+          try {
+            sessionStorage.setItem(KEY, JSON.stringify({ src, left: rect.left, top: rect.top, width: rect.width, height: rect.height }));
+          } catch (e) { /* 保存できなくても移動する */ }
+          location.href = url.href;
+          return;
+        }
 
-      // 波が下から押し寄せて、写真以外を飲み込む
-      const curtain = makeCurtain();
-      document.body.append(curtain);
-      setTimeout(() => {
-        curtain.animate([{ transform: HIDDEN }, { transform: COVER }], { duration: 1000, easing: "cubic-bezier(0.5, 0, 0.25, 1)", fill: "forwards" });
-      }, 200);
-
-      setTimeout(() => {
+        // 移動先のページがまだ無い時：演出を元に戻して知らせる
         try {
-          sessionStorage.setItem(KEY, JSON.stringify({ src: photo.currentSrc || photo.src, left: rect.left, top: rect.top, width: rect.width, height: rect.height }));
-        } catch (e) { /* 保存できなくても、そのまま移動する */ }
-        location.href = url.href;
+          if (curtain) curtain.animate([{ transform: COVER }, { transform: HIDDEN }], { duration: 600, easing: "ease-in-out", fill: "forwards" }).finished.then(() => curtain.remove());
+          if (fly) fly.remove();
+          card.style.visibility = "";
+          const notice = document.createElement("div");
+          notice.className = "char-notice";
+          notice.textContent = "このキャラクターのページは、まだありません";
+          notice.style.left = Math.max(8, Math.min(rect.left, window.innerWidth - 240)) + "px";
+          notice.style.top = Math.max(8, rect.top + rect.height / 2) + "px";
+          document.body.append(notice);
+          setTimeout(() => notice.remove(), 2600);
+        } catch (e) { console.warn(e); }
+        leaving = false;
       }, 1300);
+
+      try {
+        fly = makeFly(src, rect);
+        document.body.append(fly);
+        card.style.visibility = "hidden";
+
+        // 写真が浮かび上がる
+        fly.animate([{ transform: "none" }, { transform: LIFT }], { duration: 450, easing: "cubic-bezier(0.2, 0.9, 0.3, 1.2)", fill: "forwards" });
+
+        // 波が下から押し寄せて、写真以外を飲み込む
+        curtain = makeCurtain();
+        document.body.append(curtain);
+        setTimeout(() => {
+          try {
+            curtain.animate([{ transform: HIDDEN }, { transform: COVER }], { duration: 1000, easing: "cubic-bezier(0.5, 0, 0.25, 1)", fill: "forwards" });
+          } catch (e) { console.warn(e); }
+        }, 200);
+      } catch (e) {
+        console.warn(e);
+      }
     });
 
     // 「戻る」で戻ってきた時に、波や写真が残らないようにする
@@ -131,36 +170,42 @@
     document.body.append(fly);
     root.classList.remove("arriving");
 
-    // 画像・フォント・データが読み込まれるまで待つ
-    if (document.readyState !== "complete") {
-      await new Promise((resolve) => window.addEventListener("load", resolve, { once: true }));
-    }
-    if (document.fonts && document.fonts.ready) await document.fonts.ready;
-    await wait(500);
+    try {
+      // 画像・フォント・データが読み込まれるまで待つ（長くても3秒）
+      if (document.readyState !== "complete") {
+        await Promise.race([new Promise((resolve) => window.addEventListener("load", resolve, { once: true })), wait(3000)]);
+      }
+      if (document.fonts && document.fonts.ready) await Promise.race([document.fonts.ready, wait(1500)]);
+      await wait(500);
 
-    // 波が引いていく
-    curtain.animate([{ transform: COVER }, { transform: HIDDEN }], { duration: 1100, easing: "cubic-bezier(0.5, 0, 0.25, 1)", fill: "forwards" })
-      .finished.then(() => curtain.remove());
+      // 波が引いていく
+      curtain.animate([{ transform: COVER }, { transform: HIDDEN }], { duration: 1100, easing: "cubic-bezier(0.5, 0, 0.25, 1)", fill: "forwards" })
+        .finished.then(() => curtain.remove());
 
-    // 写真が、履歴書の写真のところに飛んでいって貼られる
-    await wait(300);
-    const target = document.getElementById("resume-photo");
-    if (!target) {
+      // 写真が、履歴書の写真のところに飛んでいって貼られる
+      await wait(300);
+      const target = document.getElementById("resume-photo");
+      if (target) {
+        const t = target.getBoundingClientRect();
+        await fly.animate(
+          [
+            { left: data.left + "px", top: data.top + "px", width: data.width + "px", height: data.height + "px", transform: LIFT },
+            { left: t.left + "px", top: t.top + "px", width: t.width + "px", height: t.height + "px", transform: "none" }
+          ],
+          { duration: 800, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
+        ).finished;
+      }
+    } catch (e) {
+      console.warn(e);
+    } finally {
+      // 何があっても、波も写真の控えも消して、写真は貼った状態にする
+      const target = document.getElementById("resume-photo");
+      if (target) target.classList.add("is-pasted");
       fly.remove();
-      return;
+      curtain.remove();
+      root.classList.remove("arriving");
+      window.__charFlying = false;
     }
-    const t = target.getBoundingClientRect();
-    await fly.animate(
-      [
-        { left: data.left + "px", top: data.top + "px", width: data.width + "px", height: data.height + "px", transform: LIFT },
-        { left: t.left + "px", top: t.top + "px", width: t.width + "px", height: t.height + "px", transform: "none" }
-      ],
-      { duration: 800, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
-    ).finished;
-
-    target.classList.add("is-pasted");
-    fly.remove();
-    window.__charFlying = false;
   }
 
   if (isChar) arrive();

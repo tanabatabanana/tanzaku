@@ -16,6 +16,10 @@
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="stylesheet" href="style.css">
+    <script>
+        // 別のページから青い円で移動してきた時は、画面を青でおおった状態から始める（ちらつき防止）
+        try { if (sessionStorage.getItem("rippleFrom")) document.documentElement.classList.add("ripple-in"); } catch (e) {}
+    </script>
 </head>
 
 <body id="top">
