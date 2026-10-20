@@ -151,7 +151,10 @@
      memo.exe：短冊についての情報（about）へのリンク。文字が入力されていく（memo.js）
 ========================= -->
 <a href="about.html" class="memo-window" aria-label="短冊についての情報はこちらをクリック">
-    <div class="memo-body"><span id="memo-text" aria-hidden="true"></span><span class="memo-caret" aria-hidden="true">▌</span></div>
+    <div class="memo-body">
+        <span class="memo-ghost" aria-hidden="true">短冊についての情報はこちらをクリック▌</span>
+        <span class="memo-live" aria-hidden="true"><span id="memo-text"></span><span class="memo-caret">▌</span></span>
+    </div>
 </a>
 
 
@@ -304,9 +307,9 @@ const INVESTIGATORS = [
     ["50", "閃堂 電弧", "denko", "トゴスマ", "HO1"],
     ["51", "筋引 みか", "mika", "最果てまで。", "HO2"],
     ["52", "サンタ・ムエルテ", "mueru", "ʀ.ɪ.ᴘ±³", "KPC"],
-    ["53", "妻紅 みつる", "mituru", "芋虫。", "PC"],
+    ["53", "妻紅 みつる", "mituru", "芋虫", "PC"],
     ["54", "夜光 権六", "gonroku", "累卵", "HO1"],
-    ["55", "かがち", "kagachi", "はいよか", "KPC"],
+    ["55", "かがち", "kagachi", "はいよか", "KPC"]
     ["56", "名張 カフカ", "kafuka", "芋虫。", "KPC"],
     ["57", "Level Fun", "fun", "ビスポ", "HO3"],
     ["58", "鳩山 よつは", "yotuha", "初恋性", "KPC"]

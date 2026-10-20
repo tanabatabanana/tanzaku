@@ -24,13 +24,16 @@
 <!--
     このページのひな形：キャラクターを変える時は、body の data- の4つを書き換える
     data-character … 名前（data/investigators.json の name と同じ）
-    data-tatie     … 立ち絵    data-faces … 顔アップの差分のフォルダ    data-photo … 履歴書の写真（ホームの一覧の画像）
+    data-tatie     … 立ち絵（t-○○.png）    data-faces … 顔アップの差分のフォルダ    data-photo … 履歴書の写真（k-○○.png）
+    data-display   … ディスプレイ（d-○○.png）
+    顔アップのファイル名が自動で見つからない時は、data-face-files="名前1.png,名前2.png,…" を足すと、その順に表示される
 -->
 <body id="top" class="page-char"
       data-character="小猫"
-      data-tatie="../images/tatie/t_xiao.png"
+      data-tatie="../images/tatie/t-xiaomao.png"
       data-faces="../images/hyojyo/hyo_xiao/"
-      data-photo="../images/kao/k-xiaomao.png">
+      data-photo="../images/kao/k-xiaomao.png"
+      data-display="../images/display/d-xiaomao.png">
 
 <header class="site-header" id="header-window">
 
@@ -72,12 +75,12 @@
 
     <!-- 左：立ち絵のまわり（スクロールしても、その場に残る） -->
     <section class="char-left">
-        <div class="stage">
-            <div class="stage-name" aria-hidden="true">小猫</div>
-            <div class="stage-floor" aria-hidden="true"></div>
+        <div class="stage" id="stage">
+            <div class="stage-name" id="stage-name" aria-hidden="true">小猫</div>
             <button type="button" class="stage-tachie" id="tachie" aria-label="立ち絵をタップすると、ひとこと話す">
                 <img id="tachie-img" alt="小猫の立ち絵">
             </button>
+            <svg class="stage-floor" id="stage-floor" aria-hidden="true"></svg>
             <div class="stage-speech" id="speech" role="status" hidden></div>
         </div>
     </section>
@@ -122,6 +125,7 @@
                 <div class="player-face">
                     <img id="face-img" alt="表情の差分">
                     <span class="face-count" id="face-count"></span>
+                    <span class="face-empty" id="face-empty" hidden></span>
                 </div>
                 <div class="player-panel">
                     <div class="player-bar"><i id="face-progress"></i></div>
@@ -135,9 +139,14 @@
                 </div>
             </aside>
 
-            <!-- 説明（見えた瞬間にタイピングされる） -->
+            <!-- ディスプレイ -->
+            <aside class="char-win win-display" aria-label="ディスプレイ">
+                <img id="display-img" alt="小猫のディスプレイ">
+            </aside>
+
+            <!-- 説明（見えた瞬間にタイピングされる。窓の大きさは全文に合わせて最初から固定） -->
             <article class="char-win win-info" id="win-info" aria-label="キャラクターの説明">
-                <div class="info-body"><span id="info-text"></span></div>
+                <div class="info-body"><span class="info-ghost" id="info-ghost" aria-hidden="true"></span><span id="info-text"></span></div>
             </article>
 
         </div>

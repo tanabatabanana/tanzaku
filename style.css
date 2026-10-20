@@ -124,7 +124,7 @@ p {
    ※ 元のデザインが見つからなかったため、他のウィンドウに合わせて作り直したもの
 ========================================= */
 .site-header {
-    position: absolute;          /* ドラッグ後は script が fixed に切り替える */
+    position: fixed;             /* スクロールしても、画面の左上に残る */
     top: 14px;
     left: 14px;
     z-index: 50;
@@ -795,9 +795,8 @@ p {
     border-radius: 0;
     /* ドット風：四辺に枠を重ねて、角を欠けさせる */
     box-shadow: -3px 0 #000, 3px 0 #000, 0 -3px #000, 0 3px #000;
-    font: bold 20px/1.5 "AsWinterBegins", serif;
+    font: 20px/1.5 "TsunagiGothic", sans-serif;
     text-align: center;
-    text-shadow: 0.5px 0 black, -0.5px 0 black, 0 0.5px black, 0 -0.5px black;
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
@@ -1432,10 +1431,13 @@ html.ripple-in::before {
     cursor: pointer;
 }
 .memo-body {
+    display: grid;               /* 見えない全文と、打っている文字を、同じ場所に重ねる。大きさは全文で決まる */
     padding: 34px 28px 38px;
     font: 30px/1.4 Meiryo, "メイリオ", "Hiragino Sans", "Yu Gothic UI", sans-serif;
     background: repeating-linear-gradient(180deg, transparent 0 41px, rgba(0, 71, 255, 0.18) 41px 42px);
 }
+.memo-body > * { grid-area: 1 / 1; }
+.memo-ghost { visibility: hidden; }
 .memo-window:hover #memo-text,
 .memo-window:focus-visible #memo-text { text-decoration: underline; text-underline-offset: 6px; }
 .memo-caret { margin-left: 2px; color: var(--blue); animation: caret-blink 1s steps(1) infinite; }
@@ -1443,7 +1445,8 @@ html.ripple-in::before {
 
 @media (max-width: 800px) {
     .memo-window { width: calc(100% - 20px); }
-    .memo-body { padding: 24px 14px 28px; font-size: 18px; background: none; }
+    /* スマホ：19文字が1行に収まるよう、画面の幅に合わせて文字の大きさを決める */
+    .memo-body { padding: 24px 14px 28px; font-size: clamp(10px, calc((100vw - 60px) / 19.5), 18px); white-space: nowrap; background: none; }
 }
 
 /* ウィンドウの×の上に重ねる、押せるボタン */
