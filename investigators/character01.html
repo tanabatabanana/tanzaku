@@ -96,29 +96,46 @@
             <!-- A：履歴書 -->
             <article class="char-win win-resume" aria-label="プロフィール">
 
-                <div class="resume">
-                    <div class="r-field r-yomi"><span>ふりがな</span><b id="r-yomi"></b></div>
-                    <div class="r-field r-name"><span>氏名</span><b id="r-name"></b></div>
-                    <div class="r-field r-gender"><span>性別</span><b id="r-gender"></b></div>
-                    <div class="r-field r-age"><span>年齢</span><b id="r-age"></b></div>
-                    <div class="r-field r-height"><span>身長</span><b id="r-height"></b></div>
-
-                    <div class="resume-photo" id="resume-photo">
-                        <div class="rp-inner"><img id="resume-img" alt="小猫の写真"></div>
-                        <i class="tape"></i>
-                    </div>
-
-                    <div class="r-field r-stats"><span>能力値</span><div class="r-statgrid" id="r-statgrid"></div></div>
-                    <div class="r-field r-birth"><span>出身シナリオ</span><b id="r-birth"></b></div>
-                    <div class="r-field r-go"><span>通過シナリオ</span><ol id="r-go"></ol></div>
+                <div class="resume-head">
+                    <h3 class="resume-title">履歴書</h3>
+                    <span class="resume-date" id="r-date"></span>
                 </div>
 
-                <!-- B：能力値のフローチャート -->
+                <div class="resume">
+                    <!-- 履歴書の形：ふりがな・氏名・性別（男・女に○）・写真・年齢と身長 → 能力値 → 出身シナリオ → 通過済みシナリオ（学歴の欄と同じ罫線） -->
+                    <div class="rc rc-yomi"><span class="rl">ふりがな</span><b id="r-yomi"></b></div>
+                    <div class="rc rc-name"><span class="rl">氏　名</span><b id="r-name"></b></div>
+                    <div class="rc rc-gender"><div id="r-gender"></div></div>
+
+                    <div class="rc rc-photo">
+                        <div class="resume-photo" id="resume-photo">
+                            <div class="rp-inner"><img id="resume-img" alt="小猫の写真"></div>
+                            <i class="tape"></i>
+                        </div>
+                    </div>
+
+                    <div class="rc rc-body">
+                        <span class="rl">年　齢</span><b id="r-age"></b>
+                        <span class="rl rl-sep">身　長</span><b id="r-height"></b>
+                    </div>
+
+                    <div class="rc rc-stats"><span class="rl">能力値</span><div class="r-statgrid" id="r-statgrid"></div></div>
+                    <div class="rc rc-birth"><span class="rl">出身シナリオ</span><b id="r-birth"></b></div>
+
+                    <div class="rc rc-go">
+                        <div class="go-head"><span>No.</span><span>通過済みシナリオ</span></div>
+                        <ol class="go-list" id="r-go"></ol>
+                    </div>
+                </div>
+
+            </article>
+
+
+                <!-- B：能力値のチャート（履歴書とは別の窓） -->
                 <aside class="char-win win-radar" aria-label="能力値のチャート">
                     <svg id="radar" viewBox="-110 -105 220 210" role="img" aria-label="STRからINTまでの能力値のレーダーチャート"></svg>
                 </aside>
 
-            </article>
 
             <!-- 顔アップ：音楽プレイヤー風 -->
             <aside class="char-win win-player" aria-label="顔アップの差分">

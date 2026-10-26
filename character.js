@@ -16,9 +16,27 @@
   const FACE_BASES = ["hyo_xiao", "hyo-xiao", "hyo_xiaomao", "hyo-xiaomao", "xiao", "xiaomao"];
   const FACE_SEPS = ["", "_", "-"];
 
-  $("tachie-img").src = body.dataset.tatie;
-  $("resume-img").src = body.dataset.photo;
-  if (body.dataset.display) $("display-img").src = body.dataset.display;
+  // 画像を読み込む。見つからない時は、拡張子を変えて順に試す（.png / .PNG / .webp / .jpg …）
+  function loadImage(img, src, label) {
+    if (!src) return;
+    const exts = ["png", "PNG", "webp", "jpg", "jpeg", "gif"];
+    const base = src.replace(/\.[A-Za-z0-9]+$/, "");
+    const tries = [src].concat(exts.map((e) => base + "." + e)).filter((v, i, a) => a.indexOf(v) === i);
+    let i = 0;
+    img.onerror = () => {
+      i++;
+      if (i < tries.length) {
+        img.src = tries[i];
+      } else {
+        img.onerror = null;
+        console.warn(label + " の画像が見つかりません: " + src);
+      }
+    };
+    img.src = tries[0];
+  }
+  loadImage($("tachie-img"), body.dataset.tatie, "立ち絵");
+  loadImage($("resume-img"), body.dataset.photo, "履歴書の写真");
+  loadImage($("display-img"), body.dataset.display, "ディスプレイ");
   // ホームから写真が飛んでくる場合は、着いてから貼る（char-transition.js）。そうでなければ、最初から貼ってある
   if (!window.__charFlying) $("resume-photo").classList.add("is-pasted");
 
@@ -46,22 +64,46 @@
       fill(null);
     });
 
+  // 性別：「男・女」のうち、当てはまる方を丸で囲む。それ以外の書き方は、そのまま表示する
+  function renderGender(value) {
+    const box = $("r-gender");
+    const g = String(value || "").trim();
+    const m = /^(男|女)/.exec(g);
+    box.textContent = "";
+    if (m) {
+      ["男", "女"].forEach((c, i) => {
+        if (i) box.append("・");
+        box.append(c === m[1] ? el("span", "gm", c) : c);
+      });
+    } else {
+      box.textContent = g || "男・女";
+    }
+  }
+
   function fill(d) {
     const dash = "—";
     const rawName = d ? String(d.name).replace(/[（(].*?[）)]/g, "").trim() : NAME;
     const yomi = d && /[（(](.*?)[）)]/.exec(String(d.name));
 
     $("r-name").textContent = rawName;
+    const today = new Date();                                     // 履歴書の日付（今日）
+    $("r-date").textContent = today.getFullYear() + "年 " + (today.getMonth() + 1) + "月 " + today.getDate() + "日現在";
     $("r-yomi").textContent = yomi ? yomi[1] : dash;
-    $("r-gender").textContent = (d && d.gender) || dash;
-    $("r-age").textContent = (d && d.age) || dash;
+    renderGender(d && d.gender);
+    const age = d && d.age;
+    $("r-age").textContent = /^\d+$/.test(String(age || "")) ? "満 " + age + " 歳" : age || dash;
     $("r-height").textContent = (d && d.height) || dash;
     $("r-birth").textContent = (d && d.birthscenario) || dash;
 
     // 通過シナリオ（配列でも、1つの文字列でも）
     const go = d ? [].concat(d.GOscenario || []).filter(Boolean) : [];
     const list = $("r-go");
-    (go.length ? go : [dash]).forEach((name) => list.append(el("li", "", String(name).trim())));
+    const rows = Math.max(5, go.length);                       // 履歴書の欄のように、空の罫線の行も並べる
+    for (let i = 0; i < rows; i++) {
+      const li = el("li", i < go.length ? "" : "is-blank");
+      li.append(el("span", "", i < go.length ? String(go[i]).trim() : ""));
+      list.append(li);
+    }
 
     // 能力値（技能値と SAN は載せない）
     const grid = $("r-statgrid");
@@ -89,19 +131,28 @@
     const R = 80;
     const N = KEYS.length;
     const NS = "http://www.w3.org/2000/svg";
-    const make = (tag, attrs) => {
+    const group = (cls) => {
+      const g = document.createElementNS(NS, "g");
+      g.setAttribute("class", cls);
+      svg.append(g);
+      return g;
+    };
+    const make = (parent, tag, attrs) => {
       const node = document.createElementNS(NS, tag);
       Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
-      svg.append(node);
+      parent.append(node);
       return node;
     };
     const point = (i, r) => [Math.sin((2 * Math.PI * i) / N) * r, -Math.cos((2 * Math.PI * i) / N) * r];
     const poly = (r) => KEYS.map((_, i) => point(i, r).map((n) => n.toFixed(1)).join(",")).join(" ");
 
-    [1 / 3, 2 / 3, 1].forEach((k) => make("polygon", { points: poly(R * k), fill: "none", stroke: "#9aa7ff", "stroke-width": 1 }));
+    const grid = group("radar-grid");
+    [1 / 3, 2 / 3, 1].forEach((k) => make(grid, "polygon", { points: poly(R * k), fill: "none", stroke: "#9aa7ff", "stroke-width": 1 }));
+
+    const axes = group("radar-axes");
     KEYS.forEach((_, i) => {
       const [x, y] = point(i, R);
-      make("line", { x1: 0, y1: 0, x2: x, y2: y, stroke: "#111", "stroke-width": 1.5 });
+      make(axes, "line", { x1: 0, y1: 0, x2: x, y2: y, stroke: "#111", "stroke-width": 1.5 });
     });
 
     // 7版の能力値は5倍になっているので、6版と同じ目盛りに戻す
@@ -110,14 +161,28 @@
       const p = params.find((q) => q.label === k);
       return Math.max(0, Number(p ? p.value : 0) / scale / MAX);      // 1を超えたら、外にはみ出す
     });
-    const data = values.map((v, i) => point(i, R * v).map((n) => n.toFixed(1)).join(",")).join(" ");
-    make("polygon", { points: data, fill: "rgba(255,230,0,0.75)", stroke: "#111", "stroke-width": 2 });
+    const data = group("radar-data");
+    make(data, "polygon", { points: values.map((v, i) => point(i, R * v).map((n) => n.toFixed(1)).join(",")).join(" "), fill: "rgba(255,230,0,0.75)", stroke: "#111", "stroke-width": 2 });
 
+    const labels = group("radar-labels");
     KEYS.forEach((k, i) => {
       const [x, y] = point(i, R + 15);
-      const t = make("text", { x, y: y + 4, "text-anchor": "middle", "font-size": 12, "font-family": "Courier New, monospace", fill: "#0047ff" });
+      const t = make(labels, "text", { x, y: y + 4, "text-anchor": "middle", "font-size": 12, "font-family": "Courier New, monospace", fill: "#0047ff" });
       t.textContent = k;
     });
+
+    // チャートの窓が見えたら、ぶわっと広がる
+    const win = svg.closest(".win-radar");
+    if (win && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) return;
+        io.disconnect();
+        win.classList.add("is-bloom");
+      }, { threshold: 0.35 });
+      io.observe(win);
+    } else if (win) {
+      win.classList.add("is-bloom");
+    }
   }
 
   /* =========================
@@ -206,9 +271,9 @@
   let lastH = 0;
 
   function layoutStage() {
-    const sw = stage.clientWidth;
-    const sh = stage.clientHeight;
-    if (!sw || !sh || (sw === lastW && sh === lastH)) return;   // 大きさが変わっていない時（スマホでアドレスバーが動いた時など）は、何もしない
+    const sw = stage.clientWidth || window.innerWidth;
+    const sh = stage.clientHeight || Math.round(window.innerHeight * 0.8);
+    if (sw === lastW && sh === lastH) return;   // 大きさが変わっていない時（スマホでアドレスバーが動いた時など）は、何もしない
     lastW = sw;
     lastH = sh;
 
@@ -258,6 +323,7 @@
 
   buildFloor();
   layoutStage();
+  if ("ResizeObserver" in window) new ResizeObserver(layoutStage).observe(stage);   // 大きさが決まった時・変わった時に、配置しなおす
   window.addEventListener("load", layoutStage);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(layoutStage);
   let resizeTimer = null;

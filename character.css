@@ -82,41 +82,64 @@
     opacity: 0.75;
 }
 
-/* ③ A：履歴書 */
-.win-resume { --title: "RESUME.exe"; position: relative; width: 78%; padding: 36px 16px 18px; }
+/* ③ A：履歴書（一般的な履歴書の並び：ふりがな・氏名・性別・写真・年齢など。通過済みシナリオは、学歴・職歴の欄と同じ罫線の表） */
+.win-resume { --title: "RESUME.exe"; position: relative; width: 74%; padding: 36px 16px 18px; }
+.resume-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
+.resume-title { margin: 10px 0 8px; color: #111; font: 400 24px/1 "TsunagiGothic", sans-serif; letter-spacing: 0.5em; }
+.resume-date { margin-bottom: 8px; color: #111; font: 11px "TsunagiGothic", sans-serif; white-space: nowrap; }
 
 .resume {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) clamp(110px, 19%, 150px);
+    grid-template-columns: minmax(0, 1fr) 72px clamp(110px, 19%, 150px);
+    grid-template-rows: auto minmax(62px, 1fr) auto;
     grid-template-areas:
-        "yomi   yomi yomi   photo"
-        "name   name name   photo"
-        "gender age  height photo"
-        "stats  stats stats stats"
-        "birth  birth birth birth"
-        "go     go   go     go";
-    gap: 8px 10px;
-    padding-top: 14px;
+        "yomi   gender photo"
+        "name   gender photo"
+        "agehei agehei photo"
+        "stats  stats  stats"
+        "birth  birth  birth"
+        "go     go     go";
+    gap: 1px;                       /* すき間から黒い背景が見えて、罫線になる */
+    background: #111;
+    border: 2px solid #111;
     color: #111;
     font-family: "TsunagiGothic", sans-serif;
 }
-.r-field { position: relative; box-sizing: border-box; min-width: 0; padding: 18px 10px 6px; border: 2px solid #111; background: #fff; }
-.r-field > span { position: absolute; top: 2px; left: 8px; color: var(--blue); font: 11px/1 "Y1PixelationSerif", sans-serif; }
+.resume > * { min-width: 0; background: #fff; }
+
+.r-field { position: relative; box-sizing: border-box; padding: 18px 10px 6px; }
+.r-field > span { position: absolute; top: 3px; left: 8px; color: #333; font: 11px/1 "Y1PixelationSerif", sans-serif; }
 .r-field b { display: block; font-size: 20px; font-weight: normal; line-height: 1.3; overflow-wrap: anywhere; }
 .r-yomi   { grid-area: yomi; }
 .r-name   { grid-area: name; }
 .r-name b { font-size: clamp(22px, 3.2vw, 34px); }
-.r-gender { grid-area: gender; }
-.r-age    { grid-area: age; }
-.r-height { grid-area: height; }
 .r-stats  { grid-area: stats; }
 .r-birth  { grid-area: birth; }
-.r-go     { grid-area: go; }
+
+/* 性別：氏名の右、写真の左。「男・女」のうち、当てはまる方を丸で囲む */
+.r-gender { grid-area: gender; display: grid; place-items: center; padding: 6px; text-align: center; }
+.r-gender b { font-size: 18px; white-space: nowrap; }
+.r-gender .gm { display: inline-block; padding: 0 3px; border: 2px solid #111; border-radius: 50%; line-height: 1.25; }
+
+/* 年齢・身長：氏名の下、写真の左 */
+.r-agehei { grid-area: agehei; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #111; }
+.r-agehei > .r-field { background: #fff; }
 
 .r-statgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px 10px; font: 18px "Courier New", monospace; }
 .r-statgrid div { border-bottom: 1px solid #aab4ff; }
 .r-statgrid b { display: inline; color: var(--blue); font-size: 14px; }
-.r-go ol { margin: 0; padding-left: 1.4em; font-size: 17px; line-height: 1.7; }
+
+/* 通過済みシナリオ：学歴・職歴の欄と同じ、罫線の表（No. の欄と、シナリオ名の欄） */
+.r-go { grid-area: go; padding: 0; }
+.go-head { display: grid; grid-template-columns: 56px 1fr; border-bottom: 3px double #111; font: 12px/1 "Y1PixelationSerif", sans-serif; text-align: center; }
+.go-head span { padding: 9px 4px; }
+.go-head span + span { border-left: 1px solid #bbb; }
+.r-go ol { margin: 0; padding: 0; list-style: none; counter-reset: go; }
+.r-go li { display: grid; grid-template-columns: 56px 1fr; align-items: center; min-height: 38px; border-top: 1px solid #ccc; font-size: 17px; counter-increment: go; }
+.r-go li:first-child { border-top: 0; }
+.r-go li::before { content: counter(go); color: #333; font-family: "Courier New", monospace; text-align: center; }
+.r-go li.is-blank::before { content: ""; }
+.r-go li > span { display: flex; align-self: stretch; align-items: center; padding: 4px 12px; border-left: 1px solid #ccc; }
 
 /* 写真：ホームの探索者一覧と同じ見た目と比率（写真の部分が 3:4、まわりに白い枠 5px） */
 .resume-photo {
@@ -144,20 +167,35 @@
 .resume-photo.is-pasted .tape { opacity: 1; animation: paste-pop 0.35s ease-out; }
 @keyframes paste-pop { 0% { transform: translateX(-50%) rotate(-4deg) scale(1.8); opacity: 0; } 100% { transform: translateX(-50%) rotate(-4deg) scale(1); opacity: 1; } }
 
-/* ④ B：能力値のチャート（最大値18。18を超えた分は、チャートの外にはみ出す）。履歴書の右の外側に置いて、写真や文字にかぶせない */
+/* ④ B：能力値のチャート（最大値18。18を超えた分は、チャートの外にはみ出す）。履歴書とは別の窓で、履歴書の右側に置く */
 .win-radar {
     --title: "CHART.exe";
     position: absolute;
     top: -34px;
-    left: calc(100% - 20px);
+    right: 0;
     z-index: 3;
-    width: clamp(150px, 19vw, 210px);
+    width: clamp(150px, 17vw, 200px);
     padding: 36px 6px 6px;
 }
 .win-radar svg { display: block; width: 100%; height: auto; overflow: visible; }
 
+/* 窓が見えたら、チャートがぶわっと広がる（character.js が is-bloom を付ける） */
+.radar-grid, .radar-axes, .radar-data { transform-origin: 0 0; transform: scale(0); }
+.radar-labels { opacity: 0; }
+.is-bloom .radar-grid   { animation: radar-bloom 0.7s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+.is-bloom .radar-axes   { animation: radar-bloom 0.8s cubic-bezier(0.2, 1.4, 0.4, 1) 0.1s both; }
+.is-bloom .radar-data   { animation: radar-bloom 1.1s cubic-bezier(0.2, 1.7, 0.35, 1) 0.25s both; }
+.is-bloom .radar-labels { animation: radar-fade 0.5s ease 0.7s both; }
+@keyframes radar-bloom { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes radar-fade  { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+    .radar-grid, .radar-axes, .radar-data { transform: none; }
+    .radar-labels { opacity: 1; }
+    .is-bloom .radar-grid, .is-bloom .radar-axes, .is-bloom .radar-data, .is-bloom .radar-labels { animation: none; }
+}
+
 /* ⑦ 顔アップ：音楽プレイヤー風 */
-.win-player { --title: "PLAYER.exe"; position: relative; z-index: 4; width: min(320px, 70%); margin: 30px 0 0 auto; padding: 36px 0 0; }
+.win-player { --title: "hyojyo.exe"; position: relative; z-index: 4; width: min(320px, 70%); margin: 30px 0 0 auto; padding: 36px 0 0; }
 .player-face { position: relative; aspect-ratio: 1; background: #dfeaff; }
 .player-face img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; cursor: pointer; }
 .face-count { position: absolute; right: 6px; bottom: 6px; padding: 2px 8px; background: rgba(0, 0, 80, 0.7); color: #fff; font: 13px "Courier New", monospace; }
@@ -213,20 +251,19 @@
 .char-water { position: absolute; left: 0; right: 0; top: 34px; bottom: 0; background: linear-gradient(#5c94fc, #0066ff); }
 
 /* =========================================
-   スマホ・タブレット：立ち絵・名前・床は、画面に固定したまま、ウィンドウ達がその上にスクロールして重なる
+   スマホ・タブレット：立ち絵・名前・床を上に置いて、その下にウィンドウを並べる（画面には固定しない）
 ========================================= */
 @media (max-width: 900px) {
-    .char-layout { display: block; position: relative; }
-    .char-left { position: absolute; inset: 0; }
-    .stage { z-index: 1; }
-    .stage-floor { bottom: 84px; }               /* 下の波の上に立つ */
+    .char-layout { display: block; }
+    .char-left { position: relative; }
+    .stage { position: relative; z-index: 1; height: calc(var(--vh) * 80); margin-top: 104px; }   /* 上の104pxは、固定したヘッダーの分 */
 
-    .char-right { z-index: 2; padding: calc(var(--vh) * 70) 12px 200px; }
+    .char-right { padding: 24px 12px 200px; }
     .char-windows { max-width: none; }
     .win-resume { width: 100%; }
-    .resume { grid-template-columns: repeat(3, minmax(0, 1fr)) 110px; }
+    .resume { grid-template-columns: minmax(0, 1fr) 62px 110px; }
     .r-statgrid { grid-template-columns: repeat(3, 1fr); }
-    .win-radar { position: relative; top: auto; left: auto; width: 210px; margin: 14px 0 0 auto; }
+    .win-radar { position: relative; top: auto; right: auto; width: 210px; margin: 30px 0 0 auto; }
     .win-player { width: min(300px, 90%); }
     .win-display { width: min(100%, 360px); }
     .win-info { width: 100%; }

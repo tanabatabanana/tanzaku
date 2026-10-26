@@ -52,13 +52,20 @@
       const img = document.createElement("img");
       img.src = src;
       img.alt = title;
-      img.loading = "lazy";
 
       const caption = document.createElement("span");
       caption.textContent = title;
 
       button.append(img, caption);
       button.addEventListener("click", () => open(index, button));
+
+      // 画像が読み込めるまで枠は出さない。読み込めなかった画像は、空の枠と影が残らないよう取り除く
+      button.hidden = true;
+      img.addEventListener("load", () => { button.hidden = false; });
+      img.addEventListener("error", () => {
+        console.warn("画像を読み込めませんでした: " + src);
+        button.remove();
+      });
       grid.append(button);
     });
   }

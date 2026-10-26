@@ -503,7 +503,7 @@ p {
 .hero .gallery     { grid-area: disp;  width: auto; margin: 165px 0 0; }
 .hero .main-window { grid-area: title; width: 880px; margin: 56px 0 0; }
 .fa-window         { grid-area: fa;   --title: "FA.exe"; }
-.chat-window       { grid-area: chat; --title: "CHAT.exe"; }
+.chat-window       { grid-area: chat; --title: "tukazumi.exe"; }
 
 .side-window {
     display: flex;
