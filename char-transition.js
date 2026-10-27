@@ -16,8 +16,8 @@
 
   // 波のカーテン（上のふちが波打っている）
   function makeCurtain() {
-    let d = "M0 45 q37.5 -45 75 0";
-    for (let i = 0; i < 31; i++) d += " t75 0";
+    let d = "M0 45 q75 -28 150 0";                 // なだらかな波（高さ±14、波1つの長さ300）
+    for (let i = 0; i < 15; i++) d += " t150 0";
     d += " V90 H0 Z";
 
     const curtain = document.createElement("div");
@@ -97,7 +97,7 @@
 
         // 移動先のページがまだ無い時：演出を元に戻して知らせる
         try {
-          if (curtain) curtain.animate([{ transform: COVER }, { transform: HIDDEN }], { duration: 600, easing: "ease-in-out", fill: "forwards" }).finished.then(() => curtain.remove());
+          if (curtain) curtain.animate([{ transform: COVER }, { transform: HIDDEN }], { duration: 900, easing: "ease-in-out", fill: "forwards" }).finished.then(() => curtain.remove());
           if (fly) fly.remove();
           card.style.visibility = "";
           const notice = document.createElement("div");
@@ -109,7 +109,7 @@
           setTimeout(() => notice.remove(), 2600);
         } catch (e) { console.warn(e); }
         leaving = false;
-      }, 1300);
+      }, 1900);                              // 波が上がりきって、少し待ってから移動する
 
       try {
         fly = makeFly(src, rect);
@@ -117,14 +117,14 @@
         card.style.visibility = "hidden";
 
         // 写真が浮かび上がる
-        fly.animate([{ transform: "none" }, { transform: LIFT }], { duration: 450, easing: "cubic-bezier(0.2, 0.9, 0.3, 1.2)", fill: "forwards" });
+        fly.animate([{ transform: "none" }, { transform: LIFT }], { duration: 650, easing: "cubic-bezier(0.2, 0.9, 0.3, 1.2)", fill: "forwards" });
 
         // 波が下から押し寄せて、写真以外を飲み込む
         curtain = makeCurtain();
         document.body.append(curtain);
         setTimeout(() => {
           try {
-            curtain.animate([{ transform: HIDDEN }, { transform: COVER }], { duration: 1000, easing: "cubic-bezier(0.5, 0, 0.25, 1)", fill: "forwards" });
+            curtain.animate([{ transform: HIDDEN }, { transform: COVER }], { duration: 1500, easing: "cubic-bezier(0.45, 0, 0.3, 1)", fill: "forwards" });
           } catch (e) { console.warn(e); }
         }, 200);
       } catch (e) {
@@ -179,7 +179,7 @@
       await wait(500);
 
       // 波が引いていく
-      curtain.animate([{ transform: COVER }, { transform: HIDDEN }], { duration: 1100, easing: "cubic-bezier(0.5, 0, 0.25, 1)", fill: "forwards" })
+      curtain.animate([{ transform: COVER }, { transform: HIDDEN }], { duration: 1700, easing: "cubic-bezier(0.45, 0, 0.3, 1)", fill: "forwards" })
         .finished.then(() => curtain.remove());
 
       // 写真が、履歴書の写真のところに飛んでいって貼られる
@@ -192,7 +192,7 @@
             { left: data.left + "px", top: data.top + "px", width: data.width + "px", height: data.height + "px", transform: LIFT },
             { left: t.left + "px", top: t.top + "px", width: t.width + "px", height: t.height + "px", transform: "none" }
           ],
-          { duration: 800, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
+          { duration: 1100, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
         ).finished;
       }
     } catch (e) {

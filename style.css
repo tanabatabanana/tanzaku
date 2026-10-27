@@ -53,6 +53,7 @@ p {
 
 /* ウィンドウ風の枠（共通）：タイトルバーと×ボタン */
 .gallery,
+.about-win,
 .char-win,
 .memo-window,
 .gallery-window,
@@ -69,6 +70,7 @@ p {
 }
 
 .gallery::before,
+.about-win::before,
 .char-win::before,
 .memo-window::before,
 .gallery-window::before,
@@ -94,6 +96,7 @@ p {
 }
 
 .gallery::after,
+.about-win::after,
 .char-win::after,
 .memo-window::after,
 .gallery-window::after,
@@ -996,7 +999,7 @@ p {
 /* 両端に浮かぶネオン星 */
 .floating-star {
     position: fixed;
-    z-index: 0;
+    z-index: -1;                 /* すべてのウィンドウより後ろ */
     width: var(--star-size);
     height: var(--star-size);
     opacity: 0;
@@ -1419,7 +1422,7 @@ html.ripple-in::before {
 ========================================= */
 /* memo.exe：幅は探索者一覧に合わせる */
 .memo-window {
-    --title: "memo.exe";
+    --title: "about me.exe";
     display: block;
     width: 100%;
     max-width: 1300px;
@@ -1510,8 +1513,8 @@ html.ripple-in::before {
 ========================================= */
 .wave-curtain { position: fixed; inset: 0; z-index: 100000; pointer-events: auto; }
 .wave-body { position: absolute; inset: 0; background: linear-gradient(#5c94fc, #0066ff 70%); }
-.wave-edge { position: absolute; left: 0; top: -44px; width: 200%; height: 90px; fill: #5c94fc; animation: wave-slide 1.1s linear infinite; }
-@keyframes wave-slide { to { translate: -6.25% 0; } }
+.wave-edge { position: absolute; left: 0; top: -44px; width: 200%; height: 90px; fill: #5c94fc; animation: wave-slide 3.4s linear infinite; }
+@keyframes wave-slide { to { translate: -12.5% 0; } }   /* 波1つぶん（波の長さ300 / 全体2400）だけ動いて、くり返す */
 
 .fly-photo {
     position: fixed;
@@ -1541,4 +1544,134 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
     font: bold 14px/1.4 "Y1PixelationSerif", sans-serif;
     transform: rotate(-3deg);
     pointer-events: none;
+}
+
+
+/* =========================================
+   14. ページの一番上に戻る、ドットの矢印のボタン（キャラクターページの右下）
+========================================= */
+.to-top {
+    position: fixed;
+    right: 18px;
+    bottom: 24px;
+    z-index: 30;                 /* 下の波（20）より手前 */
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    background: #fff;
+    border: 3px solid var(--blue);
+    box-shadow: 4px 4px 0 rgba(0, 71, 255, 0.25);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.15s steps(2);
+}
+.to-top.is-visible { opacity: 1; pointer-events: auto; transform: none; }
+/* 矢印（ドット絵）：色は background で決める。マスクで矢印の形に切り抜く */
+.to-top::before {
+    content: "";
+    position: absolute;
+    inset: 11px;
+    background: var(--blue);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 10' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v1h-1zM4 1h3v1h-3zM3 2h5v1h-5zM2 3h7v1h-7zM1 4h9v1h-9zM4 5h3v5h-3z'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 10' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v1h-1zM4 1h3v1h-3zM3 2h5v1h-5zM2 3h7v1h-7zM1 4h9v1h-9zM4 5h3v5h-3z'/%3E%3C/svg%3E") center / contain no-repeat;
+    image-rendering: pixelated;
+}
+.to-top:hover,
+.to-top:focus-visible { background: var(--blue); outline: none; }
+.to-top:hover::before,
+.to-top:focus-visible::before { background: #fff; }
+
+
+/* =========================================
+   15. ABOUTページ（仮）
+========================================= */
+.about-page { display: grid; gap: 56px; width: 100%; max-width: 1300px; margin: 165px auto 0; }
+
+.about-win { padding: 80px 24px 44px; background-color: rgba(255, 255, 255, 0.92); }
+.win-about    { --title: "ABOUT.exe"; }
+.win-scenario { --title: "scenario.exe"; }
+.win-faces    { --title: "face.exe"; }
+
+.about-win .page-title { margin-bottom: 30px; }
+.about-h { margin: 0 0 28px; color: var(--blue); font: 400 32px/1.2 "BunanMarker", serif; letter-spacing: 4px; text-align: center; }
+.about-lead { margin: 0; color: #111; font: 18px/1.9 "TsunagiGothic", sans-serif; }
+
+/* 通過済みシナリオ：検索 */
+.sc-tools { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: 12px 24px; margin-bottom: 24px; }
+.sc-search { display: flex; flex-direction: column; gap: 8px; }
+.sc-search label { color: var(--blue); font: 16px/1.2 "TsunagiGothic", sans-serif; }
+.sc-search input {
+    box-sizing: border-box;
+    width: min(340px, 100%);
+    height: 42px;
+    padding: 5px 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 3px solid var(--blue);
+    color: #000;
+    font: 16px "Y1PixelationSerif", sans-serif;
+}
+.sc-search input:focus { outline: none; box-shadow: 0 0 12px rgba(0, 71, 255, 0.5); }
+.sc-count { margin: 0 0 8px; color: #111; font: 14px "Courier New", monospace; text-align: left; }
+
+/* 通過済みシナリオ：一覧（履歴書の欄と同じ、罫線の表） */
+.sc-list { background: #fff; border: 2px solid #111; }
+.sc-row { display: grid; grid-template-columns: minmax(120px, 28%) minmax(0, 1fr); min-height: 44px; border-top: 1px solid #c4c4c4; }
+.sc-row:first-child { border-top: 0; }
+.sc-title { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; padding: 6px 14px; border-right: 1px solid #c4c4c4; font: 400 18px/1.4 "TsunagiGothic", sans-serif; overflow-wrap: anywhere; }
+.sc-pcs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; padding: 6px 14px; }
+.sc-pcs span { padding: 1px 10px; background: #e8f0ff; border: 1px solid #aab4ff; color: #111; font: 14px/1.6 "TsunagiGothic", sans-serif; }
+.sc-title small { color: var(--blue); font: 12px/1.3 "Y1PixelationSerif", sans-serif; }
+.sc-note { flex-basis: 100%; margin: 2px 0 0; color: #555; font: 13px/1.6 "TsunagiGothic", sans-serif; text-align: left; }
+.sc-empty { padding: 24px; color: #111; font: 16px "TsunagiGothic", sans-serif; text-align: center; }
+
+/* アイコン（顔）：顔の部分が見えるよう、上の方を切り抜く */
+.face-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 22px 16px; }
+.face { margin: 0; padding: 5px; background: #fff; box-shadow: 4px 5px 3px rgba(0, 0, 0, 0.28); }
+.face img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; object-position: top; background: #61b3ff; }
+.face figcaption { padding: 6px 2px 2px; overflow: hidden; color: #111; font: 12px/1.3 "TsunagiGothic", sans-serif; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (max-width: 800px) {
+    .about-page { width: calc(100% - 20px); margin-top: 175px; gap: 36px; }
+    .about-win { padding: 70px 12px 32px; }
+    .sc-row { grid-template-columns: 1fr; }
+    .sc-title { border-right: 0; border-bottom: 1px dashed #c4c4c4; }
+    .face-grid { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 16px 10px; }
+}
+
+
+/* ABOUT：短冊のプロフィール */
+.prof-basic { margin: 0 auto 34px; max-width: 760px; background: #fff; border: 2px solid #111; }
+.prof-basic > div { display: grid; grid-template-columns: minmax(120px, 30%) minmax(0, 1fr); border-top: 1px solid #c4c4c4; }
+.prof-basic > div:first-child { border-top: 0; }
+.prof-basic dt { padding: 10px 14px; border-right: 1px solid #c4c4c4; color: var(--blue); font: 15px/1.5 "TsunagiGothic", sans-serif; }
+.prof-basic dd { margin: 0; padding: 10px 14px; color: #111; font: 18px/1.5 "TsunagiGothic", sans-serif; overflow-wrap: anywhere; }
+
+.prof-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 28px; max-width: 980px; margin: 0 auto; }
+.prof-wide { grid-column: 1 / -1; }
+.prof-sec { padding: 26px 22px 18px; background: #fff; border: 2px solid #111; box-shadow: 5px 5px 0 rgba(0, 71, 255, 0.18); }
+
+/* 見出しは、黄色いテープ */
+.prof-h {
+    display: inline-block;
+    margin: -44px 0 14px -6px;
+    padding: 6px 18px;
+    background: yellow;
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.18);
+    color: #000;
+    font: 400 20px/1.3 "TsunagiGothic", sans-serif;
+    letter-spacing: 0.15em;
+    transform: rotate(var(--r, 0deg));
+}
+.prof-sec ul { margin: 0; padding: 0; list-style: none; }
+.prof-sec li { position: relative; padding-left: 1.3em; color: #111; font: 17px/1.85 "TsunagiGothic", sans-serif; overflow-wrap: anywhere; }
+.prof-sec li + li { margin-top: 6px; }
+.prof-sec li::before { content: "■"; position: absolute; left: 0; top: 0.1em; color: var(--blue); font-size: 0.7em; }
+
+@media (max-width: 800px) {
+    .prof-grid { grid-template-columns: 1fr; gap: 40px; }
+    .prof-basic > div { grid-template-columns: 1fr; }
+    .prof-basic dt { border-right: 0; border-bottom: 1px dashed #c4c4c4; padding-bottom: 6px; }
 }

@@ -102,29 +102,30 @@
                 </div>
 
                 <div class="resume">
-                    <!-- 履歴書の形：ふりがな・氏名・性別（男・女に○）・写真・年齢と身長 → 能力値 → 出身シナリオ → 通過済みシナリオ（学歴の欄と同じ罫線） -->
-                    <div class="rc rc-yomi"><span class="rl">ふりがな</span><b id="r-yomi"></b></div>
-                    <div class="rc rc-name"><span class="rl">氏　名</span><b id="r-name"></b></div>
-                    <div class="rc rc-gender"><div id="r-gender"></div></div>
+                    <div class="r-field r-yomi"><span>ふりがな</span><b id="r-yomi"></b></div>
+                    <div class="r-field r-name"><span>氏　名</span><b id="r-name"></b></div>
 
-                    <div class="rc rc-photo">
-                        <div class="resume-photo" id="resume-photo">
-                            <div class="rp-inner"><img id="resume-img" alt="小猫の写真"></div>
-                            <i class="tape"></i>
-                        </div>
+                    <!-- 性別：氏名の右・写真の左。「男・女」のうち、当てはまる方に丸 -->
+                    <div class="r-gender"><b id="r-gender"></b></div>
+
+                    <!-- 年齢・身長：氏名の下 -->
+                    <div class="r-agehei">
+                        <div class="r-field"><span>年齢</span><b id="r-age"></b></div>
+                        <div class="r-field"><span>身長</span><b id="r-height"></b></div>
                     </div>
 
-                    <div class="rc rc-body">
-                        <span class="rl">年　齢</span><b id="r-age"></b>
-                        <span class="rl rl-sep">身　長</span><b id="r-height"></b>
+                    <div class="resume-photo" id="resume-photo">
+                        <div class="rp-inner"><img id="resume-img" alt="小猫の写真"></div>
+                        <i class="tape"></i>
                     </div>
 
-                    <div class="rc rc-stats"><span class="rl">能力値</span><div class="r-statgrid" id="r-statgrid"></div></div>
-                    <div class="rc rc-birth"><span class="rl">出身シナリオ</span><b id="r-birth"></b></div>
+                    <div class="r-field r-stats"><span>能力値</span><div class="r-statgrid" id="r-statgrid"></div></div>
+                    <div class="r-field r-birth"><span>出身シナリオ</span><b id="r-birth"></b></div>
 
-                    <div class="rc rc-go">
+                    <!-- 通過済みシナリオ：学歴・職歴の欄と同じ罫線の表 -->
+                    <div class="r-go">
                         <div class="go-head"><span>No.</span><span>通過済みシナリオ</span></div>
-                        <ol class="go-list" id="r-go"></ol>
+                        <ol id="r-go"></ol>
                     </div>
                 </div>
 
@@ -176,6 +177,9 @@
     <i class="w1"></i><i class="w2"></i><i class="w3"></i>
     <div class="char-water"></div>
 </div>
+
+<!-- ページの一番上に戻るボタン（ドットの矢印） -->
+<button type="button" class="to-top" id="to-top" aria-label="ページの一番上に戻る"></button>
 
 <script src="../cursor-trail.js"></script>
 <script src="../header.js"></script>
