@@ -46,6 +46,10 @@
   const base = Math.max(0.45, Math.min(1, vw / 1100));
   const count = vw < 700 ? 8 : 14;
 
+  // 画面が狭いと、窓が画面のほぼ全部をおおい、飾りが端のすき間から黒い筋のように見えてしまう。
+  // そのページ（body の data-deco-mobile="off"）では、スマホの時は飾りを出さない
+  if (vw < 700 && document.body.dataset.decoMobile === "off") return;
+
   // 種類をシャッフルして、必須のもの + 好きな数だけ選ぶ
   const shuffled = TYPES.slice().sort(() => Math.random() - 0.5);
   const list = MUST.concat(shuffled.slice(0, count - MUST.length));

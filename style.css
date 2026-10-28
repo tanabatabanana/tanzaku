@@ -133,7 +133,7 @@ p {
     z-index: 50;
     max-width: calc(100% - 28px);
     box-sizing: border-box;
-    background: rgba(255, 255, 255, 0.95);
+    background: #fff;
     border: 3px solid var(--blue);
     box-shadow: var(--win-shadow);
 }
@@ -238,7 +238,7 @@ p {
     margin: 165px auto 0;        /* ヘッダーウィンドウの下から始める */
     padding: 50px 0 14px;        /* 上50px = タイトルバー + すき間 */
     overflow: hidden;            /* 画像は枠の中で切る */
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: #fff;
 }
 
 .gallery-track {
@@ -277,7 +277,7 @@ p {
     width: min(880px, calc(100% - 40px));
     margin: 80px auto 0;
     padding: 36px 20px 80px;       /* 上36px = タイトルバーの高さ */
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: #fff;
 }
 .main-window h1 { margin: 55px 0 0; }
 .main-window .link-menu { margin-top: 55px; }
@@ -515,7 +515,7 @@ p {
     margin-top: 56px;
     padding: 36px 6px 6px;
     overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: #fff;
 }
 
 /* 左：ファンアート（画像の大きさはまちまちなので、枠の中に収める） */
@@ -660,7 +660,7 @@ p {
     max-width: 1300px;
     margin: 56px auto 0;
     padding: 100px 20px 150px;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: #fff;
 }
 
 .page-title {
@@ -1308,7 +1308,7 @@ p {
 .gallery-window {
     --title: "GALLERY.exe";
     padding: 80px 20px 60px;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: #fff;
 }
 .gallery-window .page-title { margin-bottom: 40px; }
 
@@ -1428,7 +1428,7 @@ html.ripple-in::before {
     max-width: 1300px;
     margin: 56px auto 0;
     padding: 36px 0 0;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: #fff;
     color: #111;
     text-decoration: none;
     cursor: pointer;
@@ -1589,7 +1589,7 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
 ========================================= */
 .about-page { display: grid; gap: 56px; width: 100%; max-width: 1300px; margin: 165px auto 0; }
 
-.about-win { padding: 80px 24px 44px; background-color: rgba(255, 255, 255, 0.92); }
+.about-win { padding: 80px 24px 44px; background-color: #fff; }
 .win-about    { --title: "ABOUT.exe"; }
 .win-scenario { --title: "scenario.exe"; }
 .win-faces    { --title: "face.exe"; }
