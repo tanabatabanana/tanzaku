@@ -40,6 +40,24 @@
 .stage-tachie { position: absolute; z-index: 3; padding: 0; background: none; border: 0; cursor: pointer; translate: -50% 0; }
 .stage-tachie img { display: block; width: auto; height: 100%; max-width: none; object-fit: contain; }
 .stage-tachie:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+.stage-tachie img { transition: opacity 0.18s ease; }
+.stage-tachie.is-switching img { opacity: 0; }
+
+/* 全身立ち絵の差分ボタン（立ち絵の左下） */
+.tachie-switch { position: absolute; left: 12px; bottom: 14px; z-index: 7; display: flex; flex-direction: column; gap: 6px; }
+.tachie-switch[hidden] { display: none; }
+.tachie-switch button {
+    min-width: 72px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 3px solid var(--blue);
+    box-shadow: 3px 3px 0 rgba(0, 71, 255, 0.25);
+    color: var(--blue);
+    font: 14px/1.2 "Y1PixelationSerif", sans-serif;
+    cursor: pointer;
+}
+.tachie-switch button:hover,
+.tachie-switch button[aria-pressed="true"] { background: var(--blue); color: #fff; }
 
 /* ② 床の格子：立ち絵の足元に重なる。奥は少しぼける */
 .stage-floor { position: absolute; z-index: 5; bottom: calc(var(--vh) * 2); overflow: visible; translate: -50% 0; pointer-events: none; }
@@ -84,18 +102,16 @@
 
 /* ③ A：履歴書（一般的な履歴書の並び：ふりがな・氏名・性別・写真・年齢など。通過済みシナリオは、学歴・職歴の欄と同じ罫線の表） */
 .win-resume { --title: "RESUME.exe"; position: relative; width: 74%; padding: 36px 16px 18px; }
-.resume-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
-.resume-title { margin: 10px 0 8px; color: #111; font: 400 24px/1 "TsunagiGothic", sans-serif; letter-spacing: 0.5em; }
-.resume-date { margin-bottom: 8px; color: #111; font: 11px "TsunagiGothic", sans-serif; white-space: nowrap; }
 
 .resume {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 72px clamp(110px, 19%, 150px);
-    grid-template-rows: auto minmax(62px, 1fr) auto;
+    grid-template-rows: auto minmax(62px, 1fr) auto auto;
     grid-template-areas:
         "yomi   gender photo"
         "name   gender photo"
         "agehei agehei photo"
+        "job    job    photo"
         "stats  stats  stats"
         "birth  birth  birth"
         "go     go     go";
@@ -113,16 +129,18 @@
 .r-yomi   { grid-area: yomi; }
 .r-name   { grid-area: name; }
 .r-name b { font-size: clamp(22px, 3.2vw, 34px); }
+.r-job    { grid-area: job; }
 .r-stats  { grid-area: stats; }
 .r-birth  { grid-area: birth; }
 
 /* 性別：氏名の右、写真の左。「男・女」のうち、当てはまる方を丸で囲む */
 .r-gender { grid-area: gender; display: grid; place-items: center; padding: 6px; text-align: center; }
-.r-gender b { font-size: 18px; white-space: nowrap; }
+.r-gender b { display: grid; gap: 4px; justify-items: center; font-size: 18px; font-weight: normal; white-space: nowrap; }
+.r-gender .gl { display: block; line-height: 1.25; }
 .r-gender .gm { display: inline-block; padding: 0 3px; border: 2px solid #111; border-radius: 50%; line-height: 1.25; }
 
 /* 年齢・身長：氏名の下、写真の左 */
-.r-agehei { grid-area: agehei; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #111; }
+.r-agehei { grid-area: agehei; display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 1px; background: #111; }
 .r-agehei > .r-field { background: #fff; }
 
 .r-statgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px 10px; font: 18px "Courier New", monospace; }
@@ -144,14 +162,12 @@
 /* 写真：ホームの探索者一覧と同じ見た目と比率（写真の部分が 3:4、まわりに白い枠 5px） */
 .resume-photo {
     position: relative;
-    grid-area: photo;
-    align-self: start;
     box-sizing: border-box;
     padding: 5px;
     background: #fff;
-    box-shadow: 3px 4px 3px rgba(0, 0, 0, 0.28);
 }
-.rp-inner { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #61b3ff; }
+.r-photo { grid-area: photo; padding: 6px; }          /* 写真の欄。白で埋める */
+.rp-inner { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #fff; }
 .rp-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
 .resume-photo.is-pasted .rp-inner img { opacity: 1; }
 .resume-photo .tape {
@@ -195,7 +211,7 @@
 }
 
 /* ⑦ 顔アップ：音楽プレイヤー風 */
-.win-player { --title: "hyojyo.exe"; position: relative; z-index: 4; width: min(320px, 70%); margin: 30px 0 0 auto; padding: 36px 0 0; }
+.win-player { --title: "hyojyo.exe"; position: relative; z-index: 4; width: min(320px, 62%); margin: -120px 0 0 -28px; padding: 36px 0 0; }   /* 履歴書の左下に被せる */
 .player-face { position: relative; aspect-ratio: 1; background: #dfeaff; }
 .player-face img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; cursor: pointer; }
 .face-count { position: absolute; right: 6px; bottom: 6px; padding: 2px 8px; background: rgba(0, 0, 80, 0.7); color: #fff; font: 13px "Courier New", monospace; }
@@ -264,7 +280,9 @@
     .resume { grid-template-columns: minmax(0, 1fr) 62px 110px; }
     .r-statgrid { grid-template-columns: repeat(3, 1fr); }
     .win-radar { position: relative; top: auto; right: auto; width: 210px; margin: 30px 0 0 auto; }
-    .win-player { width: min(300px, 90%); }
+    .win-player { width: min(280px, 78%); margin: -56px 0 0 -4px; }
+    .r-agehei { grid-template-columns: 1fr 1fr; }
+    .r-drawn { grid-column: 1 / -1; }
     .win-display { width: min(100%, 360px); }
     .win-info { width: 100%; }
     .info-body { font-size: 18px; }

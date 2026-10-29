@@ -1527,6 +1527,7 @@ html.ripple-in::before {
 }
 .fly-inner { position: relative; width: 100%; height: 100%; background: #61b3ff; }
 .fly-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.fly-photo.to-white .fly-inner { background: #fff; transition: background-color 0.9s ease; }   /* 貼られる前の欄は白いので、飛びながら白に */
 
 /* キャラクターページに着いた直後、波がおおうまでのあいだ画面をおおっておく（ちらつき防止） */
 html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; background: #3f7dff; animation: cover-safety 0.3s ease 6s forwards; }
@@ -1552,9 +1553,9 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
 ========================================= */
 .to-top {
     position: fixed;
-    right: 18px;
-    bottom: 24px;
-    z-index: 30;                 /* 下の波（20）より手前 */
+    right: 16px;
+    bottom: 130px;               /* 下の波（高さ110px）より上。波にかくれず、見えやすい位置 */
+    z-index: 30;
     width: 56px;
     height: 56px;
     padding: 0;

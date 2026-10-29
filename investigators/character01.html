@@ -24,13 +24,17 @@
 <!--
     このページのひな形：キャラクターを変える時は、body の data- の4つを書き換える
     data-character … 名前（data/investigators.json の name と同じ）
-    data-tatie     … 立ち絵（t-○○.png）    data-faces … 顔アップの差分のフォルダ    data-photo … 履歴書の写真（k-○○.png）
+    data-tatie     … 立ち絵（t_○○.png）    data-faces … 顔アップの差分のフォルダ    data-photo … 履歴書の写真（k-○○.png）
     data-display   … ディスプレイ（d-○○.png）
+    data-tatie-labels … 全身立ち絵の差分のボタンの名前（t_○○.png、t_○○2.png、t_○○3.png … があれば自動で見つかる）
+    data-drawn     … 描いた日    data-job … 職業（データに job という項目があれば、そちらを使う）
     顔アップのファイル名が自動で見つからない時は、data-face-files="名前1.png,名前2.png,…" を足すと、その順に表示される
 -->
 <body id="top" class="page-char"
       data-character="小猫"
-      data-tatie="../images/tatie/t-xiaomao.png"
+      data-tatie="../images/tatie/t_xiao.png"
+      data-tatie-labels="通常,私服"
+      data-drawn="2023.11"
       data-faces="../images/hyojyo/hyo_xiao/"
       data-photo="../images/kao/k-xiaomao.png"
       data-display="../images/display/d-xiaomao.png">
@@ -81,6 +85,8 @@
                 <img id="tachie-img" alt="小猫の立ち絵">
             </button>
             <svg class="stage-floor" id="stage-floor" aria-hidden="true"></svg>
+            <!-- 全身立ち絵の差分を切り替えるボタン（差分がある時だけ、character.js が出す） -->
+            <div class="tachie-switch" id="tachie-switch" role="group" aria-label="立ち絵の差分" hidden></div>
             <div class="stage-speech" id="speech" role="status" hidden></div>
         </div>
     </section>
@@ -96,11 +102,6 @@
             <!-- A：履歴書 -->
             <article class="char-win win-resume" aria-label="プロフィール">
 
-                <div class="resume-head">
-                    <h3 class="resume-title">履歴書</h3>
-                    <span class="resume-date" id="r-date"></span>
-                </div>
-
                 <div class="resume">
                     <div class="r-field r-yomi"><span>ふりがな</span><b id="r-yomi"></b></div>
                     <div class="r-field r-name"><span>氏　名</span><b id="r-name"></b></div>
@@ -112,12 +113,17 @@
                     <div class="r-agehei">
                         <div class="r-field"><span>年齢</span><b id="r-age"></b></div>
                         <div class="r-field"><span>身長</span><b id="r-height"></b></div>
+                        <div class="r-field r-drawn"><span>描いた日</span><b id="r-drawn"></b></div>
                     </div>
 
-                    <div class="resume-photo" id="resume-photo">
-                        <div class="rp-inner"><img id="resume-img" alt="小猫の写真"></div>
-                        <i class="tape"></i>
+                    <div class="r-photo">
+                        <div class="resume-photo" id="resume-photo">
+                            <div class="rp-inner"><img id="resume-img" alt="小猫の写真"></div>
+                            <i class="tape"></i>
+                        </div>
                     </div>
+
+                    <div class="r-field r-job"><span>職業</span><b id="r-job"></b></div>
 
                     <div class="r-field r-stats"><span>能力値</span><div class="r-statgrid" id="r-statgrid"></div></div>
                     <div class="r-field r-birth"><span>出身シナリオ</span><b id="r-birth"></b></div>
@@ -130,12 +136,6 @@
                 </div>
 
             </article>
-
-
-                <!-- B：能力値のチャート（履歴書とは別の窓） -->
-                <aside class="char-win win-radar" aria-label="能力値のチャート">
-                    <svg id="radar" viewBox="-110 -105 220 210" role="img" aria-label="STRからINTまでの能力値のレーダーチャート"></svg>
-                </aside>
 
 
             <!-- 顔アップ：音楽プレイヤー風 -->
@@ -156,6 +156,11 @@
                     </div>
                 </div>
             </aside>
+
+                <!-- B：能力値のチャート（履歴書とは別の窓） -->
+                <aside class="char-win win-radar" aria-label="能力値のチャート">
+                    <svg id="radar" viewBox="-110 -105 220 210" role="img" aria-label="STRからINTまでの能力値のレーダーチャート"></svg>
+                </aside>
 
             <!-- ディスプレイ -->
             <aside class="char-win win-display" aria-label="ディスプレイ">
