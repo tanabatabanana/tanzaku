@@ -11,10 +11,10 @@
 
 .char-layout {
     display: grid;
-    grid-template-columns: 38% minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) 38%;          /* 左：ウィンドウ群、右：立ち絵・格子・名前 */
     min-height: calc(var(--vh) * 100);
 }
-.char-left { position: relative; }
+.char-left { position: relative; grid-column: 2; grid-row: 1; }
 
 /* =========================================
    左：立ち絵・名前・床の格子（位置は character.js が、画面の大きさに合わせて決める）
@@ -24,14 +24,13 @@
 /* ⑤ 名前：右側に寄せて立ち絵にかぶせる。上の辺は右下がり、下の辺は右上がり（格子の左辺と同じ傾き） */
 .stage-name {
     position: absolute;
-    z-index: 4;
+    z-index: 2;                  /* 立ち絵（3）のうしろ */
     margin: 0;
     color: #0000ff;
     font: 400 100px/1 "TsunagiGothic", sans-serif;
     white-space: nowrap;
     writing-mode: vertical-rl;
     transform-origin: 0 0;
-    mix-blend-mode: multiply;
     user-select: none;
     pointer-events: none;
 }
@@ -81,7 +80,7 @@
 /* =========================================
    右：ウィンドウ達
 ========================================= */
-.char-right { position: relative; padding: 17vh 4vw 240px 2vw; }
+.char-right { position: relative; grid-column: 1; grid-row: 1; padding: 17vh 2vw 240px 4vw; }
 
 .char-windows { position: relative; z-index: 2; display: flex; flex-direction: column; max-width: 840px; }
 
@@ -211,7 +210,7 @@
 }
 
 /* ⑦ 顔アップ：音楽プレイヤー風 */
-.win-player { --title: "hyojyo.exe"; position: relative; z-index: 4; width: min(320px, 62%); margin: -120px 0 0 -28px; padding: 36px 0 0; }   /* 履歴書の左下に被せる */
+.win-player { --title: "hyojyo.exe"; position: relative; z-index: 4; width: min(320px, 62%); margin: -64px -22px 0 auto; padding: 36px 0 0; }   /* 履歴書の右下に、軽く被せる */
 .player-face { position: relative; aspect-ratio: 1; background: #dfeaff; }
 .player-face img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; cursor: pointer; }
 .face-count { position: absolute; right: 6px; bottom: 6px; padding: 2px 8px; background: rgba(0, 0, 80, 0.7); color: #fff; font: 13px "Courier New", monospace; }
@@ -280,7 +279,7 @@
     .resume { grid-template-columns: minmax(0, 1fr) 62px 110px; }
     .r-statgrid { grid-template-columns: repeat(3, 1fr); }
     .win-radar { position: relative; top: auto; right: auto; width: 210px; margin: 30px 0 0 auto; }
-    .win-player { width: min(280px, 78%); margin: -56px 0 0 -4px; }
+    .win-player { width: min(280px, 78%); margin: -40px -4px 0 auto; }
     .r-agehei { grid-template-columns: 1fr 1fr; }
     .r-drawn { grid-column: 1 / -1; }
     .win-display { width: min(100%, 360px); }

@@ -79,46 +79,71 @@
     box.append(line1, line2);
   }
 
+  // 欄が無い（HTMLとJSの版がずれている）時や、どこかの欄でエラーが出た時も、ほかの欄は表示するようにする
+  const setText = (id, text) => {
+    const node = $(id);
+    if (node) node.textContent = text;
+  };
+  const step = (label, fn) => {
+    try {
+      fn();
+    } catch (e) {
+      console.error(label + " でエラー:", e);
+    }
+  };
+
   function fill(d) {
     const dash = "—";
-    const rawName = d ? String(d.name).replace(/[（(].*?[）)]/g, "").trim() : NAME;
-    const yomi = d && /[（(](.*?)[）)]/.exec(String(d.name));
 
-    $("r-name").textContent = rawName;
-    $("r-yomi").textContent = yomi ? yomi[1] : dash;
-    renderGender(d && d.gender);
-    const age = d && d.age;
-    $("r-age").textContent = /^\d+$/.test(String(age || "")) ? age + " 歳" : age || dash;
-    const height = d && d.height !== undefined && d.height !== null ? String(d.height).trim() : "";
-    $("r-height").textContent = height ? (/cm$/i.test(height) ? height : height + "cm") : dash;   // 最後は必ず cm
-    $("r-job").textContent = (d && (d.job || d.syokugyo)) || body.dataset.job || dash;                 // 職業
-    $("r-drawn").textContent = (d && d.drawn) || body.dataset.drawn || dash;                        // 描いた日（例：2023.11）
-    $("r-birth").textContent = (d && d.birthscenario) || dash;
+    // ひとこと・説明は最初に決める（ほかの欄で何かあっても、しゃべる・説明は動くように）
+    info = { text: (d && d.information) || "", lines: d ? [].concat(d.hitokoto || []).filter(Boolean) : [] };
+    step("説明", () => {
+      setText("info-ghost", info.text);      // 見えない全文：窓の大きさを、最初から全文に合わせて固定する
+      setupTyping();
+    });
+
+    step("基本の欄", () => {
+      const rawName = d ? String(d.name).replace(/[（(].*?[）)]/g, "").trim() : NAME;
+      const yomi = d && /[（(](.*?)[）)]/.exec(String(d.name));
+      setText("r-name", rawName);
+      setText("r-yomi", yomi ? yomi[1] : dash);
+      const age = d && d.age;
+      setText("r-age", /^\d+$/.test(String(age || "")) ? age + " 歳" : age || dash);
+      const height = d && d.height !== undefined && d.height !== null ? String(d.height).trim() : "";
+      setText("r-height", height ? (/cm$/i.test(height) ? height : height + "cm") : dash);          // 最後は必ず cm
+      setText("r-job", (d && (d.job || d.syokugyo)) || body.dataset.job || dash);                     // 職業
+      setText("r-drawn", (d && d.drawn) || body.dataset.drawn || dash);                              // 描いた日（例：2023.11）
+      setText("r-birth", (d && d.birthscenario) || dash);
+    });
+
+    step("性別", () => renderGender(d && d.gender));
 
     // 通過シナリオ（配列でも、1つの文字列でも）
-    const go = d ? [].concat(d.GOscenario || []).filter(Boolean) : [];
-    const list = $("r-go");
-    const rows = Math.max(5, go.length);                       // 履歴書の欄のように、空の罫線の行も並べる
-    for (let i = 0; i < rows; i++) {
-      const li = el("li", i < go.length ? "" : "is-blank");
-      li.append(el("span", "", i < go.length ? String(go[i]).trim() : ""));
-      list.append(li);
-    }
+    step("通過シナリオ", () => {
+      const go = d ? [].concat(d.GOscenario || []).filter(Boolean) : [];
+      const list = $("r-go");
+      if (!list) return;
+      const rows = Math.max(5, go.length);                       // 履歴書の欄のように、空の罫線の行も並べる
+      for (let i = 0; i < rows; i++) {
+        const li = el("li", i < go.length ? "" : "is-blank");
+        li.append(el("span", "", i < go.length ? String(go[i]).trim() : ""));
+        list.append(li);
+      }
+    });
 
     // 能力値（技能値と SAN は載せない）
-    const grid = $("r-statgrid");
     const params = (d && d.params) || [];
-    const status = ((d && d.status) || []).filter((s) => s.label !== "SAN");
-    params.concat(status).forEach((p) => {
-      const cell = el("div");
-      cell.append(el("b", "", p.label), " " + p.value);
-      grid.append(cell);
+    step("能力値", () => {
+      const grid = $("r-statgrid");
+      if (!grid) return;
+      const status = ((d && d.status) || []).filter((s) => s.label !== "SAN");
+      params.concat(status).forEach((p) => {
+        const cell = el("div");
+        cell.append(el("b", "", p.label), " " + p.value);
+        grid.append(cell);
+      });
     });
-    drawRadar(params, d && Number(d.edition));
-
-    info = { text: (d && d.information) || "", lines: d ? [].concat(d.hitokoto || []).filter(Boolean) : [] };
-    $("info-ghost").textContent = info.text;      // 見えない全文：窓の大きさを、最初から全文に合わせて固定する
-    setupTyping();
+    step("チャート", () => drawRadar(params, d && Number(d.edition)));
   }
 
   /* =========================
@@ -126,6 +151,7 @@
   ========================= */
   function drawRadar(params, edition) {
     const svg = $("radar");
+    if (!svg) return;
     const KEYS = ["STR", "CON", "POW", "DEX", "APP", "SIZ", "INT"];
     const MAX = 18;
     const R = 80;
@@ -277,7 +303,7 @@
     lastW = sw;
     lastH = sh;
 
-    const cx = sw * 0.62;                                       // 立ち絵と床の中心（左に名前が入る分、少し右寄り）
+    const cx = sw * 0.38;                                       // 立ち絵と床の中心（右に名前が入る分、少し左寄り）
     const floorW = Math.min(620, sw * 1.3);
     const k = floorW / FLOOR.W;
     const floorH = FLOOR.H * k;
@@ -302,11 +328,11 @@
     const w = cols * fs;
     const h = Math.min(n, rows) * fs;
 
-    // 立ち絵の左に置く（右の端が、立ち絵に少しだけ重なってよい）
+    // 立ち絵の右うしろに置く（左の端が、立ち絵のうしろに少しかくれる）
     const ratio = tachieImg.naturalWidth && tachieImg.naturalHeight ? tachieImg.naturalWidth / tachieImg.naturalHeight : 0.45;
-    const tachieLeft = cx - (th * ratio) / 2;
+    const tachieRight = cx + (th * ratio) / 2;
     const floorLeftX = cx - floorW / 2;                         // 床の左のかど
-    const bottomLeftX = Math.max(6, tachieLeft - w * 0.75);
+    const bottomLeftX = Math.max(6, Math.min(tachieRight - w * 0.35, sw - w - 6));
     // 名前の下の辺：床の左辺の線の上（床の左のかどから、右上へ同じ傾きで）
     const bottomLeftY = sh - floorBottom - Math.max(0, bottomLeftX - floorLeftX) * Math.tan(ALPHA);
 
@@ -465,6 +491,10 @@
 
     // 名前の付け方の候補を全部、最初の数枚だけ同時に確かめる
     const patterns = [];
+    ["png", "jpg", "jpeg", "webp"].forEach((ext) => {        // 1.png, 2.png, 3.png … のような、数字だけの名前
+      patterns.push("{n}." + ext);
+      patterns.push("{nn}." + ext);
+    });
     FACE_BASES.forEach((base) => FACE_SEPS.forEach((sep) => {
       patterns.push(base + sep + "{n}.png");
       patterns.push(base + sep + "{nn}.png");
@@ -534,6 +564,7 @@
   function setupTyping() {
     const target = $("info-text");
     const win = $("win-info");
+    if (!target || !win) return;
     if (reduce) {
       target.textContent = info.text;
       return;

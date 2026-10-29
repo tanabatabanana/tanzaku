@@ -187,7 +187,6 @@
       const target = document.getElementById("resume-photo");
       if (target) {
         const t = target.getBoundingClientRect();
-        fly.classList.add("to-white");
         await fly.animate(
           [
             { left: data.left + "px", top: data.top + "px", width: data.width + "px", height: data.height + "px", transform: LIFT },
