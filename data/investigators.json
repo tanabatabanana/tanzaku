@@ -5,13 +5,16 @@
       "name": "小猫 (xiǎomāo)",
       "initiative": 14,
       "birthscenario":"幽世常世の満天下",
+      "HO":"HO2",
       "GOscenario": ["福綏たれ", "お前は誰だ？", "ワンコイン・ナイトメア"],
       "edition": 6,
       "sex":"female",
       "height":142,
       "age":22,
+      "job":"詐欺師",
+      "kaita":"2023.11",
       "hitokoto": "財布の重さが何より大事でしょ？",
-      "information":"暗黒地下街「九朧城」の何でも屋で働く詐欺師。拝金主義者。手先が器用で、スリ、イカサマ、詐欺、金のためならなんでもやる。人を騙すことに一切の抵抗がない。口がよく回り、道理の通ってないことでも無理やり通す。\n家族のことを心底大切に思っている。家族以外が不幸になろうとなんとも思わない、家族至上主義。もちろん、金になるなら人助けは大歓迎。気分屋で、気ままな猫。",
+      "information":"暗黒地下街「九朧城」の何でも屋で働く詐欺師。拝金主義者。手先が器用で、スリ、イカサマ、詐欺、金のためならなんでもやる。\n人を騙すことに一切の抵抗がなく、口がよく回り、道理の通ってないことでも無理やり通す。\n家族のことは心底大切に思っているが、家族以外が不幸になろうとなんとも思わない、家族至上主義。もちろん、金になるなら人助けは大歓迎。\n気分屋で、気ままな猫。",
       "externalUrl": "https://iachara.com/view/7517553",
       "iconUrl": "https://image.iaproject.app/7b2ef071-5102-4e8c-922d-4ce9fb2e77e1",
       "commands": "nCCB<=65 【アイデア】\nCCB<=60 【幸運】\nCCB<=60 【知識】\nCCB<=71 【目星】\nCCB<=67 【聞き耳】\nCCB<=25 【図書館】\nCCB<=67 【回避】\nCCB<=51 【こぶし（パンチ）】\nCCB<=60 【拳銃】\nCCB<=42 【応急手当】\nCCB<=40 【言いくるめ】\nCCB<=55 【信用】\nCCB<=69 【値切り】\nCCB<=60 【心理学】\nCCB<=50 【薬学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
@@ -1689,5 +1692,80 @@
     ]
   }
 }
+,
+{
+  "kind": "character",
+  "data": {
+    "name": "Wáng Yīnuò",
+    "realName": "王 一诺",
+    "initiative": 12,
+    "birthscenario": "初恋性ストックホルム症候群",
+    "HO": "KPC",
+    "GOscenario": ["喰らわば、日常"],
+    "edition": 6,
+    "sex": "male",
+    "height": 180,
+    "age": 20,
+    "job": "刑事",
+    "kaita": "2026.10",
+    "hitokoto": "僕は王 一諾。呼びにくいだろうから、イヌオでいいよ。",
+    "information": "本名は 王 一諾（ワン イーヌォ）で、あだ名がイヌオ。刑事。優しく、丁寧で、美しい容姿を持つ好青年。理想の王子様を具現化したような存在で、老若男女問わず人気が高い。が、かなり空虚なひと。趣味はないし、好きなものも特にない。\n小学生時代に、父親の仕事の関係で日本へ。そこからずっと、中華街に住んでいた。両親ともに仕事で忙しく、寂しさを抱えたまま大人へ。王子様のような容姿と、愛嬌から、言い寄られることも多いが、中身のない言葉に少し飽き飽きしている。",
+    "externalUrl": "https://iachara.com/view/15548562",
+    "iconUrl": "https://image.iaproject.app/c9e6f2a9-6313-49f3-9a83-13ed129cc5d1",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=50 【アイデア】\nCCB<=35 【幸運】\nCCB<=55 【知識】\nCCB<=75 【目星】\nCCB<=25 【聞き耳】\nCCB<=44 【図書館】\nCCB<=50 【回避】\nCCB<=70 【こぶし（パンチ）】\nCCB<=61 【マーシャルアーツ】\nCCB<=25 【拳銃】\nCCB<=70 【応急手当】\nCCB<=41 【精神分析】\nCCB<=17 【電気修理】\nCCB<=65 【信用】\nCCB<=15 【芸術（料理）】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [
+      {
+        "label": "HP",
+        "value": 14,
+        "max": 14
+      },
+      {
+        "label": "MP",
+        "value": 7,
+        "max": 7
+      },
+      {
+        "label": "SAN",
+        "value": 70,
+        "max": 70
+      }
+    ],
+    "params": [
+      {
+        "label": "STR",
+        "value": "10"
+      },
+      {
+        "label": "CON",
+        "value": "11"
+      },
+      {
+        "label": "POW",
+        "value": "7"
+      },
+      {
+        "label": "DEX",
+        "value": "12"
+      },
+      {
+        "label": "APP",
+        "value": "17"
+      },
+      {
+        "label": "SIZ",
+        "value": "16"
+      },
+      {
+        "label": "INT",
+        "value": "10"
+      },
+      {
+        "label": "EDU",
+        "value": "11"
+      }
+    ]
+  }
+}
+
  
 ]
