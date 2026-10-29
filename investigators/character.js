@@ -34,7 +34,8 @@
     };
     img.src = tries[0];
   }
-  loadImage($("tachie-img"), body.dataset.tatie, "立ち絵");
+  const tachieImg = $("tachie-img");
+  loadImage(tachieImg, body.dataset.tatie, "立ち絵");
   loadImage($("resume-img"), body.dataset.photo, "履歴書の写真");
   loadImage($("display-img"), body.dataset.display, "ディスプレイ");
   // ホームから写真が飛んでくる場合は、着いてから貼る（char-transition.js）。そうでなければ、最初から貼ってある
@@ -64,61 +65,85 @@
       fill(null);
     });
 
-  // 性別：「男・女」のうち、当てはまる方を丸で囲む。それ以外の書き方は、そのまま表示する
+  // 性別：「男・女」と、その下の「その他」のうち、当てはまるものを丸で囲む（男・女以外は「その他」）
   function renderGender(value) {
     const box = $("r-gender");
     const g = String(value || "").trim();
-    const m = /^(男|女)/.exec(g);
+    const pick = /^男/.test(g) ? "男" : /^女/.test(g) ? "女" : g ? "その他" : "";
+    const mark = (label) => (label === pick ? el("span", "gm", label) : document.createTextNode(label));
     box.textContent = "";
-    if (m) {
-      ["男", "女"].forEach((c, i) => {
-        if (i) box.append("・");
-        box.append(c === m[1] ? el("span", "gm", c) : c);
-      });
-    } else {
-      box.textContent = g || "男・女";
-    }
+    const line1 = el("span", "gl");
+    line1.append(mark("男"), "・", mark("女"));
+    const line2 = el("span", "gl");
+    line2.append(mark("その他"));
+    box.append(line1, line2);
   }
+
+  // 欄が無い（HTMLとJSの版がずれている）時や、どこかの欄でエラーが出た時も、ほかの欄は表示するようにする
+  const setText = (id, text) => {
+    const node = $(id);
+    if (node) node.textContent = text;
+  };
+  const step = (label, fn) => {
+    try {
+      fn();
+    } catch (e) {
+      console.error(label + " でエラー:", e);
+    }
+  };
 
   function fill(d) {
     const dash = "—";
-    const rawName = d ? String(d.name).replace(/[（(].*?[）)]/g, "").trim() : NAME;
-    const yomi = d && /[（(](.*?)[）)]/.exec(String(d.name));
 
-    $("r-name").textContent = rawName;
-    const today = new Date();                                     // 履歴書の日付（今日）
-    $("r-date").textContent = today.getFullYear() + "年 " + (today.getMonth() + 1) + "月 " + today.getDate() + "日現在";
-    $("r-yomi").textContent = yomi ? yomi[1] : dash;
-    renderGender(d && d.gender);
-    const age = d && d.age;
-    $("r-age").textContent = /^\d+$/.test(String(age || "")) ? "満 " + age + " 歳" : age || dash;
-    $("r-height").textContent = (d && d.height) || dash;
-    $("r-birth").textContent = (d && d.birthscenario) || dash;
+    // ひとこと・説明は最初に決める（ほかの欄で何かあっても、しゃべる・説明は動くように）
+    info = { text: (d && d.information) || "", lines: d ? [].concat(d.hitokoto || []).filter(Boolean) : [] };
+    step("説明", () => {
+      setText("info-ghost", info.text);      // 見えない全文：窓の大きさを、最初から全文に合わせて固定する
+      setupTyping();
+    });
+
+    step("基本の欄", () => {
+      const rawName = d ? String(d.name).replace(/[（(].*?[）)]/g, "").trim() : NAME;
+      const yomi = d && /[（(](.*?)[）)]/.exec(String(d.name));
+      setText("r-name", rawName);
+      setText("r-yomi", yomi ? yomi[1] : dash);
+      const age = d && d.age;
+      setText("r-age", /^\d+$/.test(String(age || "")) ? age + " 歳" : age || dash);
+      const height = d && d.height !== undefined && d.height !== null ? String(d.height).trim() : "";
+      setText("r-height", height ? (/cm$/i.test(height) ? height : height + "cm") : dash);          // 最後は必ず cm
+      setText("r-job", (d && (d.job || d.syokugyo)) || body.dataset.job || dash);                     // 職業
+      setText("r-drawn", (d && d.drawn) || body.dataset.drawn || dash);                              // 描いた日（例：2023.11）
+      setText("r-birth", (d && d.birthscenario) || dash);
+    });
+
+    step("性別", () => renderGender(d && d.gender));
 
     // 通過シナリオ（配列でも、1つの文字列でも）
-    const go = d ? [].concat(d.GOscenario || []).filter(Boolean) : [];
-    const list = $("r-go");
-    const rows = Math.max(5, go.length);                       // 履歴書の欄のように、空の罫線の行も並べる
-    for (let i = 0; i < rows; i++) {
-      const li = el("li", i < go.length ? "" : "is-blank");
-      li.append(el("span", "", i < go.length ? String(go[i]).trim() : ""));
-      list.append(li);
-    }
+    step("通過シナリオ", () => {
+      const go = d ? [].concat(d.GOscenario || []).filter(Boolean) : [];
+      const list = $("r-go");
+      if (!list) return;
+      const rows = Math.max(5, go.length);                       // 履歴書の欄のように、空の罫線の行も並べる
+      for (let i = 0; i < rows; i++) {
+        const li = el("li", i < go.length ? "" : "is-blank");
+        li.append(el("span", "", i < go.length ? String(go[i]).trim() : ""));
+        list.append(li);
+      }
+    });
 
     // 能力値（技能値と SAN は載せない）
-    const grid = $("r-statgrid");
     const params = (d && d.params) || [];
-    const status = ((d && d.status) || []).filter((s) => s.label !== "SAN");
-    params.concat(status).forEach((p) => {
-      const cell = el("div");
-      cell.append(el("b", "", p.label), " " + p.value);
-      grid.append(cell);
+    step("能力値", () => {
+      const grid = $("r-statgrid");
+      if (!grid) return;
+      const status = ((d && d.status) || []).filter((s) => s.label !== "SAN");
+      params.concat(status).forEach((p) => {
+        const cell = el("div");
+        cell.append(el("b", "", p.label), " " + p.value);
+        grid.append(cell);
+      });
     });
-    drawRadar(params, d && Number(d.edition));
-
-    info = { text: (d && d.information) || "", lines: d ? [].concat(d.hitokoto || []).filter(Boolean) : [] };
-    $("info-ghost").textContent = info.text;      // 見えない全文：窓の大きさを、最初から全文に合わせて固定する
-    setupTyping();
+    step("チャート", () => drawRadar(params, d && Number(d.edition)));
   }
 
   /* =========================
@@ -126,6 +151,7 @@
   ========================= */
   function drawRadar(params, edition) {
     const svg = $("radar");
+    if (!svg) return;
     const KEYS = ["STR", "CON", "POW", "DEX", "APP", "SIZ", "INT"];
     const MAX = 18;
     const R = 80;
@@ -277,7 +303,7 @@
     lastW = sw;
     lastH = sh;
 
-    const cx = sw * 0.55;                                       // 立ち絵と床の中心
+    const cx = sw * 0.38;                                       // 立ち絵と床の中心（右に名前が入る分、少し左寄り）
     const floorW = Math.min(620, sw * 1.3);
     const k = floorW / FLOOR.W;
     const floorH = FLOOR.H * k;
@@ -290,7 +316,8 @@
     const feet = floorBottom + floorH * 0.3;
     tachieBtn.style.left = cx + "px";
     tachieBtn.style.bottom = feet + "px";
-    tachieBtn.style.height = Math.max(120, sh - feet - 8) + "px";
+    const th = Math.max(120, sh - feet - 8);
+    tachieBtn.style.height = th + "px";
 
     // 名前：縦書き。下の辺は、床の左辺をそのまま延ばした線の上に置く（同じ傾き）
     const text = [...nameEl.textContent.trim()];
@@ -301,20 +328,26 @@
     const w = cols * fs;
     const h = Math.min(n, rows) * fs;
 
-    const edgeX = cx - floorW / 2 + FLOOR.inset * k;            // 床の左辺の上の端
-    const edgeY = sh - floorBottom - floorH + FLOOR.topY * k;
-    const slide = sw * 0.22;                                    // 左辺の延長線に沿って、右上にずらす
-    const bottomLeftX = edgeX + slide;
-    const bottomLeftY = edgeY - slide * Math.tan(ALPHA);
+    // 立ち絵の右うしろに置く（左の端が、立ち絵のうしろに少しかくれる）
+    const ratio = tachieImg.naturalWidth && tachieImg.naturalHeight ? tachieImg.naturalWidth / tachieImg.naturalHeight : 0.45;
+    const tachieRight = cx + (th * ratio) / 2;
+    const floorLeftX = cx - floorW / 2;                         // 床の左のかど
+    const bottomLeftX = Math.max(6, Math.min(tachieRight - w * 0.35, sw - w - 6));
+    // 名前の下の辺：床の左辺の線の上（床の左のかどから、右上へ同じ傾きで）
+    const bottomLeftY = sh - floorBottom - Math.max(0, bottomLeftX - floorLeftX) * Math.tan(ALPHA);
 
     nameEl.style.fontSize = fs + "px";
     nameEl.style.width = w + "px";
     nameEl.style.height = h + "px";
     nameEl.style.left = bottomLeftX + "px";
     nameEl.style.top = bottomLeftY - h + "px";
+    // 1文字の名前など、背が低い時は、右端がつぶれすぎないよう、傾きをゆるめる（背が高い名前は、床の左辺と同じ傾きのまま）
+    const tanA = Math.tan(ALPHA);
+    const tanB = Math.tan(BETA);
+    const soften = Math.min(1, (0.55 * h) / (w * (tanA + tanB)));
     nameEl.style.transform = quadMatrix(
       [[0, 0], [w, 0], [w, h], [0, h]],
-      [[0, 0], [w, w * Math.tan(BETA)], [w, h - w * Math.tan(ALPHA)], [0, h]]   // 上の辺は右下がり、下の辺は右上がり
+      [[0, 0], [w, w * tanB * soften], [w, h - w * tanA * soften], [0, h]]   // 上の辺は右下がり、下の辺は右上がり
     );
 
     speech.style.left = cx + "px";
@@ -328,6 +361,57 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(layoutStage);
   let resizeTimer = null;
   window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(layoutStage, 150); });
+
+  /* =========================
+     全身立ち絵の差分（t_○○.png、t_○○2.png、t_○○3.png … があれば、ボタンで切り替える）
+  ========================= */
+  const switchBox = $("tachie-switch");
+  let tachieList = [body.dataset.tatie];
+  let tachieNow = 0;
+
+  tachieImg.addEventListener("load", () => { lastW = 0; layoutStage(); });     // 立ち絵の幅が分かったら、名前の位置を決めなおす
+
+  function switchTachie(i) {
+    if (i === tachieNow || !tachieList[i]) return;
+    tachieNow = i;
+    switchBox.querySelectorAll("button").forEach((b, k) => b.setAttribute("aria-pressed", String(k === i)));
+    tachieBtn.classList.add("is-switching");
+    setTimeout(() => {
+      const probe = new Image();
+      probe.onload = probe.onerror = () => {
+        tachieImg.src = tachieList[i];
+        tachieBtn.classList.remove("is-switching");
+      };
+      probe.src = tachieList[i];
+    }, reduce ? 0 : 180);
+  }
+
+  async function setupTachieVariants() {
+    const m = /^(.*?)(\.[A-Za-z0-9]+)$/.exec(body.dataset.tatie || "");
+    if (!m) return;
+    let misses = 0;
+    for (let n = 2; n <= 20; n++) {
+      const url = m[1] + n + m[2];
+      if (await exists(url)) {
+        tachieList.push(url);
+        misses = 0;
+      } else if (++misses >= 2) {
+        break;
+      }
+    }
+    if (tachieList.length < 2) return;                       // 差分が無い時は、ボタンを出さない
+
+    const labels = (body.dataset.tatieLabels || "").split(",").map((s) => s.trim());
+    tachieList.forEach((_, i) => {
+      const button = el("button", "", labels[i] || (i === 0 ? "通常" : "差分" + (i + 1)));
+      button.type = "button";
+      button.setAttribute("aria-pressed", String(i === 0));
+      button.addEventListener("click", () => switchTachie(i));
+      switchBox.append(button);
+    });
+    switchBox.hidden = false;
+  }
+  setupTachieVariants();
 
   /* =========================
      ⑥ 立ち絵をタップすると、ひとこと話す
@@ -382,6 +466,24 @@
     }
   }
 
+  // GitHub Pages のサイトなら、フォルダの中のファイルの一覧を GitHub から取得できる（名前の付け方が分からなくても見つかる）
+  async function listFolder(dirUrl) {
+    try {
+      if (!/\.github\.io$/.test(location.hostname)) return [];
+      const owner = location.hostname.split(".")[0];
+      const parts = new URL(dirUrl, location.href).pathname.split("/").filter(Boolean);   // 例：["tanzaku", "images", "hyojyo", "hyo_xiao"]
+      const repo = parts.shift();
+      const res = await fetch("https://api.github.com/repos/" + owner + "/" + repo + "/contents/" + parts.join("/"));
+      if (!res.ok) return [];
+      return (await res.json())
+        .filter((item) => item.type === "file" && /\.(png|jpe?g|webp|gif)$/i.test(item.name))
+        .map((item) => item.name)
+        .sort((a, b) => a.localeCompare(b, "ja", { numeric: true }));
+    } catch (e) {
+      return [];
+    }
+  }
+
   async function findFaces() {
     // ファイル名を直接書いてある時は、その順に使う
     const listed = (body.dataset.faceFiles || "").split(",").map((s) => s.trim()).filter(Boolean);
@@ -389,6 +491,10 @@
 
     // 名前の付け方の候補を全部、最初の数枚だけ同時に確かめる
     const patterns = [];
+    ["png", "jpg", "jpeg", "webp"].forEach((ext) => {        // 1.png, 2.png, 3.png … のような、数字だけの名前
+      patterns.push("{n}." + ext);
+      patterns.push("{nn}." + ext);
+    });
     FACE_BASES.forEach((base) => FACE_SEPS.forEach((sep) => {
       patterns.push(base + sep + "{n}.png");
       patterns.push(base + sep + "{nn}.png");
@@ -400,7 +506,7 @@
       return -1;
     }));
     const found = firstHit.findIndex((n) => n >= 0);
-    if (found < 0) return [];
+    if (found < 0) return (await listFolder(FACE_DIR)).map((name) => FACE_DIR + name);   // 付け方が分からない時は、フォルダの中身を調べる
 
     // 見つかった付け方で、続きの番号を順に探す（欠番は2つまで許容）
     const result = [];
@@ -458,6 +564,7 @@
   function setupTyping() {
     const target = $("info-text");
     const win = $("win-info");
+    if (!target || !win) return;
     if (reduce) {
       target.textContent = info.text;
       return;
