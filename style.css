@@ -1675,3 +1675,17 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
     .prof-basic > div { grid-template-columns: 1fr; }
     .prof-basic dt { border-right: 0; border-bottom: 1px dashed #c4c4c4; padding-bottom: 6px; }
 }
+
+
+/* ギャラリー：ディスプレイは、白い枠なしで、角の丸い画面のまま並べる */
+.gallery-item[data-kind="DISPLAY"] { padding: 0; background: transparent; box-shadow: none; }
+.gallery-item[data-kind="DISPLAY"] img { background: transparent; border-radius: 15px; }
+.gallery-item[data-kind="DISPLAY"]:hover,
+.gallery-item[data-kind="DISPLAY"]:focus-visible { box-shadow: none; }
+
+/* アバウト：外部卓の青い星と、その説明 */
+.sc-legend { margin: -8px 0 22px; color: #111; font: 15px/1.6 "TsunagiGothic", sans-serif; text-align: center; }
+.sc-star-demo { margin-right: 6px; color: var(--blue); font-size: 16px; }
+.sc-row { position: relative; }
+.sc-star { position: absolute; top: 3px; left: 5px; z-index: 1; color: var(--blue); font: 12px/1 "TsunagiGothic", sans-serif; pointer-events: none; }
+.sc-row.is-external .sc-title { padding-left: 24px; }

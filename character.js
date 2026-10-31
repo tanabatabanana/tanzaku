@@ -34,6 +34,14 @@
     };
     img.src = tries[0];
   }
+  document.title = NAME + " | 短冊の部屋";
+  const srH1 = document.querySelector("h1.sr-only");
+  if (srH1) srH1.textContent = NAME;
+  $("tachie-img").alt = NAME + "の立ち絵";
+  $("resume-img").alt = NAME + "の写真";
+  const dispImg = $("display-img");
+  if (dispImg) dispImg.alt = NAME + "のディスプレイ";
+
   const tachieImg = $("tachie-img");
   loadImage(tachieImg, body.dataset.tatie, "立ち絵");
   loadImage($("resume-img"), body.dataset.photo, "履歴書の写真");
@@ -92,6 +100,19 @@
     }
   };
 
+  // ホームの探索者一覧（index.html）から、この探索者の HO を探す
+  async function findHo() {
+    try {
+      const res = await fetch("../index.html");
+      if (!res.ok) return "";
+      const text = await res.text();
+      for (const m of text.matchAll(/\["(\d+)", "([^"]*)", "([^"]*)", "([^"]*)", "([^"]*)"(?:, "x")?\]/g)) {
+        if (plain(m[2]) === plain(NAME)) return m[5];
+      }
+    } catch (e) { /* 何もしない */ }
+    return "";
+  }
+
   function fill(d) {
     const dash = "—";
 
@@ -113,7 +134,13 @@
       setText("r-height", height ? (/cm$/i.test(height) ? height : height + "cm") : dash);          // 最後は必ず cm
       setText("r-job", (d && (d.job || d.syokugyo)) || body.dataset.job || dash);                     // 職業
       setText("r-drawn", (d && d.drawn) || body.dataset.drawn || dash);                              // 描いた日（例：2023.11）
-      setText("r-birth", (d && d.birthscenario) || dash);
+      // 出身シナリオ名の横に、（HO名）。HOは、データの ho／HO、<body> の data-ho、ホームの一覧の順で探す
+      const birth = (d && d.birthscenario) || "";
+      const hoNow = (d && (d.ho || d.HO)) || body.dataset.ho || "";
+      setText("r-birth", birth ? birth + (hoNow ? "（" + hoNow + "）" : "") : dash);
+      if (birth && !hoNow) {
+        findHo().then((ho) => { if (ho) setText("r-birth", birth + "（" + ho + "）"); });
+      }
     });
 
     step("性別", () => renderGender(d && d.gender));
@@ -217,6 +244,7 @@
   const stage = $("stage");
   const floor = $("stage-floor");
   const nameEl = $("stage-name");
+  nameEl.textContent = NAME.replace(/\s+/g, "");           // 大きい名前（data-character から入る）
   const tachieBtn = $("tachie");
   const speech = $("speech");
 
@@ -312,42 +340,41 @@
     floor.style.height = floorH + "px";
     const floorBottom = parseFloat(getComputedStyle(floor).bottom) || 0;
 
-    // 立ち絵：足が床の中ほどに立つ。できるだけ大きく
+    // 立ち絵：足が床の中ほどに立つ。高さの上限（th）を決めて、どんな立ち絵も、縦横の比率を変えずに、その高さに合わせて表示する
+    // （横長で画面の幅に入らない時だけ、比率を保ったまま小さくする）
     const feet = floorBottom + floorH * 0.3;
+    const th = Math.max(120, sh - feet - 8);
+    const ratio = tachieImg.naturalWidth && tachieImg.naturalHeight ? tachieImg.naturalWidth / tachieImg.naturalHeight : 0.45;
+    const shownH = Math.min(th, (sw * 0.92) / ratio);
     tachieBtn.style.left = cx + "px";
     tachieBtn.style.bottom = feet + "px";
-    const th = Math.max(120, sh - feet - 8);
-    tachieBtn.style.height = th + "px";
+    tachieBtn.style.height = shownH + "px";
 
-    // 名前：縦書き。下の辺は、床の左辺をそのまま延ばした線の上に置く（同じ傾き）
+    // 名前：縦書き。立ち絵の右うしろ。傾きは「上の辺が右上がり、下の辺が右下がり」（右がひろがる形）。
+    // 左辺の高さは、立ち絵の上限の高さ（th）にそろえる。文字は、その高さに合わせて縦に伸びる
     const text = [...nameEl.textContent.trim()];
     const n = Math.max(1, text.length);
     const fs = Math.min(sh * 0.23, (sh * 0.46) / n, sw * 0.34);
     const rows = Math.max(1, Math.floor((sh * 0.5) / fs));
     const cols = Math.ceil(n / rows);
     const w = cols * fs;
-    const h = Math.min(n, rows) * fs;
+    const h0 = Math.min(n, rows) * fs;                          // 文字が並ぶ、もとの高さ
 
-    // 立ち絵の右うしろに置く（左の端が、立ち絵のうしろに少しかくれる）
-    const ratio = tachieImg.naturalWidth && tachieImg.naturalHeight ? tachieImg.naturalWidth / tachieImg.naturalHeight : 0.45;
-    const tachieRight = cx + (th * ratio) / 2;
-    const floorLeftX = cx - floorW / 2;                         // 床の左のかど
-    const bottomLeftX = Math.max(6, Math.min(tachieRight - w * 0.35, sw - w - 6));
-    // 名前の下の辺：床の左辺の線の上（床の左のかどから、右上へ同じ傾きで）
-    const bottomLeftY = sh - floorBottom - Math.max(0, bottomLeftX - floorLeftX) * Math.tan(ALPHA);
+    const tachieRight = cx + (shownH * ratio) / 2;
+    const left = Math.max(6, Math.min(tachieRight - w * 0.35, sw - w - 6));
+    const tanA = Math.tan(ALPHA);                               // 下の辺の傾き（床の辺と同じ角度）
+    const tanB = Math.tan(BETA);                                // 上の辺の傾き
+    // 右下の角が、画面の下から出ないように、傾きをゆるめる
+    const s = Math.min(1, Math.max(0.15, (feet - 6) / (w * tanA)));
 
     nameEl.style.fontSize = fs + "px";
     nameEl.style.width = w + "px";
-    nameEl.style.height = h + "px";
-    nameEl.style.left = bottomLeftX + "px";
-    nameEl.style.top = bottomLeftY - h + "px";
-    // 1文字の名前など、背が低い時は、右端がつぶれすぎないよう、傾きをゆるめる（背が高い名前は、床の左辺と同じ傾きのまま）
-    const tanA = Math.tan(ALPHA);
-    const tanB = Math.tan(BETA);
-    const soften = Math.min(1, (0.55 * h) / (w * (tanA + tanB)));
+    nameEl.style.height = h0 + "px";
+    nameEl.style.left = left + "px";
+    nameEl.style.top = sh - feet - th + "px";                   // 左辺の上の端 = 立ち絵の上の端
     nameEl.style.transform = quadMatrix(
-      [[0, 0], [w, 0], [w, h], [0, h]],
-      [[0, 0], [w, w * tanB * soften], [w, h - w * tanA * soften], [0, h]]   // 上の辺は右下がり、下の辺は右上がり
+      [[0, 0], [w, 0], [w, h0], [0, h0]],
+      [[0, 0], [w, -w * tanB * s], [w, th + w * tanA * s], [0, th]]
     );
 
     speech.style.left = cx + "px";

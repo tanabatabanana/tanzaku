@@ -3,7 +3,7 @@
 (() => {
   "use strict";
 
-  const items = typeof GALLERY_ITEMS !== "undefined" ? GALLERY_ITEMS : [];
+  let items = typeof GALLERY_ITEMS !== "undefined" ? GALLERY_ITEMS.slice() : [];
 
   const grid = document.getElementById("gallery-grid");
   const tabs = document.getElementById("gallery-tabs");
@@ -18,7 +18,8 @@
   let opener = null;
 
   // ---- 絞り込みボタン（使われている種類から自動で作る） ----
-  const kinds = ["ALL"].concat([...new Set(items.map((item) => item[2]).filter(Boolean))]);
+  let kinds = ["ALL"];
+  const computeKinds = () => { kinds = ["ALL"].concat([...new Set(items.map((item) => item[2]).filter(Boolean))]); };
 
   function renderTabs() {
     tabs.textContent = "";
@@ -48,6 +49,7 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "gallery-item";
+      button.dataset.kind = item[2] || "";
 
       const img = document.createElement("img");
       img.src = src;
@@ -104,6 +106,70 @@
     if (event.key === "ArrowRight") show(current + 1);
   });
 
-  renderTabs();
-  renderGrid();
+  /* ---------- images/display の中に入っているものを、ディスプレイとして並べる ----------
+     ファイル名は d-○○.png（○○ は、探索者の画像名 k-○○.png と同じ）。新しく入れたものも、自動で増える */
+  async function exists(url) {
+    try {
+      return (await fetch(url, { method: "HEAD" })).ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // GitHub Pages のサイトなら、フォルダの中のファイルの一覧を GitHub から取得できる
+  async function listFolder(dir) {
+    try {
+      if (!/\.github\.io$/.test(location.hostname)) return [];
+      const owner = location.hostname.split(".")[0];
+      const parts = new URL(dir, location.href).pathname.split("/").filter(Boolean);
+      const repo = parts.shift();
+      const res = await fetch("https://api.github.com/repos/" + owner + "/" + repo + "/contents/" + parts.join("/"));
+      if (!res.ok) return [];
+      return (await res.json()).filter((it) => it.type === "file" && /\.(png|jpe?g|webp|gif)$/i.test(it.name)).map((it) => it.name);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  // ホームの探索者一覧から [名前, 画像名] を読み込む（題名と、並び順に使う）
+  async function loadRows() {
+    try {
+      const res = await fetch("index.html");
+      if (!res.ok) return [];
+      const text = await res.text();
+      return [...text.matchAll(/\["(\d+)", "([^"]*)", "([^"]*)", "([^"]*)", "([^"]*)"(?:, "x")?\]/g)]
+        .map((m) => ({ no: Number(m[1]), name: m[2], img: m[3] }))
+        .sort((a, b) => a.no - b.no);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async function loadDisplayItems() {
+    const rows = await loadRows();
+    const order = new Map(rows.map((r, i) => [r.img, i]));
+    const nameOf = new Map(rows.map((r) => [r.img, r.name]));
+
+    let files = await listFolder("images/display/");
+    if (!files.length) {
+      // 一覧を取得できない時：探索者ごとに d-○○.png / .PNG があるか確かめる
+      const checks = await Promise.all(rows.flatMap((r) => ["png", "PNG"].map(async (ext) => ((await exists("images/display/d-" + r.img + "." + ext)) ? "d-" + r.img + "." + ext : ""))));
+      files = checks.filter(Boolean);
+    }
+    const keyOf = (file) => file.replace(/\.[^.]+$/, "").replace(/^d[-_]/, "");
+    return files
+      .sort((a, b) => (order.has(keyOf(a)) ? order.get(keyOf(a)) : 1e6) - (order.has(keyOf(b)) ? order.get(keyOf(b)) : 1e6) || a.localeCompare(b, "ja", { numeric: true }))
+      .map((file) => ["images/display/" + file, nameOf.get(keyOf(file)) || keyOf(file), "DISPLAY"]);
+  }
+
+  loadDisplayItems()
+    .then((list) => {
+      if (list.length) items = items.filter((item) => item[2] !== "DISPLAY").concat(list);    // 見つかった時は、フォルダの中身に置き換える
+    })
+    .catch(() => { /* 見つからない時は、gallery.html に書いてある分をそのまま使う */ })
+    .finally(() => {
+      computeKinds();
+      renderTabs();
+      renderGrid();
+    });
 })();

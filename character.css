@@ -43,7 +43,7 @@
 .stage-tachie.is-switching img { opacity: 0; }
 
 /* 全身立ち絵の差分ボタン（立ち絵の左下） */
-.tachie-switch { position: absolute; left: 12px; bottom: 14px; z-index: 7; display: flex; flex-direction: column; gap: 6px; }
+.tachie-switch { position: absolute; left: 12px; bottom: 104px; z-index: 7; display: flex; flex-direction: column; gap: 6px; }
 .tachie-switch[hidden] { display: none; }
 .tachie-switch button {
     min-width: 72px;
@@ -59,7 +59,8 @@
 .tachie-switch button[aria-pressed="true"] { background: var(--blue); color: #fff; }
 
 /* ② 床の格子：立ち絵の足元に重なる。奥は少しぼける */
-.stage-floor { position: absolute; z-index: 5; bottom: calc(var(--vh) * 2); overflow: visible; translate: -50% 0; pointer-events: none; }
+.stage-floor { position: absolute; z-index: 1;                       /* 立ち絵（3）のうしろ。立ち絵が格子の前に立つ */
+    bottom: calc(var(--vh) * 2); overflow: visible; translate: -50% 0; pointer-events: none; }
 
 .stage-speech {
     position: absolute;
@@ -80,7 +81,7 @@
 /* =========================================
    右：ウィンドウ達
 ========================================= */
-.char-right { position: relative; grid-column: 1; grid-row: 1; padding: 17vh 2vw 240px 4vw; }
+.char-right { position: relative; grid-column: 1; grid-row: 1; padding: 17vh 1vw 240px 9vw; }   /* 左の余白を広げて、ウィンドウ群を右に寄せる */
 
 .char-windows { position: relative; z-index: 2; display: flex; flex-direction: column; max-width: 840px; }
 
@@ -98,6 +99,9 @@
     filter: blur(4px);
     opacity: 0.75;
 }
+
+.resume-head { margin: 10px 0 6px; }
+.resume-title { margin: 0; color: #111; font: 400 26px/1.2 "TsunagiGothic", sans-serif; letter-spacing: 0.4em; }
 
 /* ③ A：履歴書（一般的な履歴書の並び：ふりがな・氏名・性別・写真・年齢など。通過済みシナリオは、学歴・職歴の欄と同じ罫線の表） */
 .win-resume { --title: "RESUME.exe"; position: relative; width: 74%; padding: 36px 16px 18px; }
@@ -166,7 +170,7 @@
     background: #fff;
 }
 .r-photo { grid-area: photo; padding: 6px; }          /* 写真の欄。白で埋める */
-.rp-inner { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #fff; }
+.rp-inner { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #61b3ff; }   /* ホームの一覧と同じ青 */
 .rp-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
 .resume-photo.is-pasted .rp-inner img { opacity: 1; }
 .resume-photo .tape {
