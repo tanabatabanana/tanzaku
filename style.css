@@ -1689,3 +1689,33 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
 .sc-row { position: relative; }
 .sc-star { position: absolute; top: 3px; left: 5px; z-index: 1; color: var(--blue); font: 12px/1 "TsunagiGothic", sans-serif; pointer-events: none; }
 .sc-row.is-external .sc-title { padding-left: 24px; }
+
+
+/* アバウト：行の見出し（あ行 など）と、出身の探索者の顔の吹き出し */
+.sc-group { padding: 6px 14px; background: #e8f0ff; border-top: 1px solid #aab4ff; border-bottom: 1px solid #aab4ff; color: var(--blue); font: 14px/1.4 "TsunagiGothic", sans-serif; letter-spacing: 0.2em; }
+.sc-group:first-child { border-top: 0; }
+.sc-row.has-pcs { cursor: help; }
+.sc-row.has-pcs:hover { background: #f3f7ff; }
+
+.sc-pop {
+    position: fixed;
+    z-index: 60;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: min(420px, calc(100vw - 16px));
+    padding: 12px 14px;
+    background: #fff;
+    box-shadow: -3px 0 #000, 3px 0 #000, 0 -3px #000, 0 3px #000;     /* ドット風の枠 */
+    pointer-events: none;
+    animation: sc-pop-in 0.15s ease-out both;
+}
+.sc-pop[hidden] { display: none; }
+/* しっぽ（行の方を向く） */
+.sc-pop::after { content: ""; position: absolute; left: var(--tail, 24px); bottom: -11px; width: 8px; height: 8px; background: #fff; box-shadow: -3px 0 #000, 3px 0 #000, 0 3px #000; }
+.sc-pop.is-below::after { top: -11px; bottom: auto; box-shadow: -3px 0 #000, 3px 0 #000, 0 -3px #000; }
+@keyframes sc-pop-in { from { opacity: 0; transform: translateY(6px) scale(0.92); } to { opacity: 1; transform: none; } }
+.pop-face { display: grid; gap: 4px; width: 76px; margin: 0; text-align: center; }
+.pop-face img { display: block; width: 76px; height: 76px; object-fit: cover; object-position: top; background: #61b3ff; }
+.pop-face.is-empty img { visibility: hidden; }
+.pop-face figcaption { overflow: hidden; color: #111; font: 11px/1.3 "TsunagiGothic", sans-serif; text-overflow: ellipsis; white-space: nowrap; }
