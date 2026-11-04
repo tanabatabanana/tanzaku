@@ -17,6 +17,25 @@
 
   let leaving = false;
 
+  // 青い画面の間に出す LOADING の窓
+  function makeLoading() {
+    const node = document.createElement("div");
+    node.className = "ripple-loading";
+    node.setAttribute("role", "status");
+    node.innerHTML = '<div class="rl-bar">LOADING</div><div class="rl-msg">NOW LOADING...</div>' +
+      '<div class="rl-track"><i class="rl-fill"></i></div><div class="rl-pct">0%</div>';
+    const fill = node.querySelector(".rl-fill");
+    const pct = node.querySelector(".rl-pct");
+    return {
+      node,
+      set(ratio) {
+        const v = Math.max(0, Math.min(100, Math.round(ratio * 100)));
+        fill.style.setProperty("--p", v + "%");
+        pct.textContent = v + "%";
+      }
+    };
+  }
+
   /* =========================
      出る側：押した所から、青が広がる
   ========================= */
@@ -100,6 +119,25 @@
         await Promise.race([new Promise((resolve) => window.addEventListener("load", resolve, { once: true })), wait(2000)]);
       }
       await wait(150);
+
+      // ページが「準備ができた」と知らせる時（ギャラリー：全部の画像の読み込み）は、それまで青い画面のまま待つ。時間がかかる時は LOADING を出す
+      if (window.__pageReady) {
+        let loading = null;
+        let poll = null;
+        const showTimer = setTimeout(() => {
+          loading = makeLoading();
+          document.body.append(loading.node);
+          poll = setInterval(() => loading.set(window.__pageProgress || 0), 100);
+        }, 300);
+        await Promise.race([window.__pageReady, wait(21000)]);
+        clearTimeout(showTimer);
+        if (poll) clearInterval(poll);
+        if (loading) {
+          loading.set(1);
+          await wait(300);
+          loading.node.remove();
+        }
+      }
 
       const radius = farthest(from.x, from.y) + 4;
       const duration = 750;

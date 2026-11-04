@@ -1677,12 +1677,6 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
 }
 
 
-/* ギャラリー：ディスプレイは、白い枠なしで、角の丸い画面のまま並べる */
-.gallery-item[data-kind="DISPLAY"] { padding: 0; background: transparent; box-shadow: none; }
-.gallery-item[data-kind="DISPLAY"] img { background: transparent; border-radius: 15px; }
-.gallery-item[data-kind="DISPLAY"]:hover,
-.gallery-item[data-kind="DISPLAY"]:focus-visible { box-shadow: none; }
-
 /* アバウト：外部卓の青い星と、その説明 */
 .sc-legend { margin: -8px 0 22px; color: #111; font: 15px/1.6 "TsunagiGothic", sans-serif; text-align: center; }
 .sc-star-demo { margin-right: 6px; color: var(--blue); font-size: 16px; }
@@ -1719,3 +1713,48 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
 .pop-face img { display: block; width: 76px; height: 76px; object-fit: cover; object-position: top; background: #61b3ff; }
 .pop-face.is-empty img { visibility: hidden; }
 .pop-face figcaption { overflow: hidden; color: #111; font: 11px/1.3 "TsunagiGothic", sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+
+
+/* ページ移動で画面が青でおおわれている間の LOADING（page-transition.js） */
+.ripple-loading {
+    position: fixed;
+    inset: 0;
+    z-index: 100001;
+    width: min(300px, calc(100vw - 34px));
+    height: max-content;
+    margin: auto;
+    background: #fff;
+    border: 2px solid #064bff;
+    box-shadow: 5px 5px 0 rgba(0, 75, 255, 0.22);
+    color: #064bff;
+    font-family: "Courier New", monospace;
+    pointer-events: none;
+}
+.ripple-loading .rl-bar { height: 28px; padding: 5px 10px; background: linear-gradient(105deg, #064bff 0%, #0878ff 55%, #35aaff 100%); color: #fff; font-size: 14px; font-weight: bold; letter-spacing: 0.04em; }
+.ripple-loading .rl-msg { margin: 18px 20px 10px; font-size: 16px; }
+.ripple-loading .rl-track { height: 22px; margin: 0 20px 8px; padding: 3px; box-sizing: border-box; border: 2px solid #064bff; }
+.ripple-loading .rl-fill { display: block; width: var(--p, 0%); height: 100%; background: repeating-linear-gradient(90deg, #064bff 0 10px, transparent 10px 13px); transition: width 0.15s linear; }
+.ripple-loading .rl-pct { margin: 0 20px 14px; font-size: 14px; text-align: right; }
+
+
+/* アバウト：「正式名称：略称」の並び・顔が上で名前が下・ロストの赤いバツ印 */
+.sc-title { display: block; align-self: center; }
+.sc-name { font-weight: normal; }
+.sc-short { color: var(--blue); font-size: 0.82em; }
+.sc-pcs .is-lost { background: #f4f4f4; border-color: #c4c4c4; color: #777; }
+
+.face { position: relative; display: flex; flex-direction: column; }
+.face.is-lost img { opacity: 0.85; }
+.face-x {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    aspect-ratio: 1;
+    pointer-events: none;
+    background:
+        linear-gradient(to top right, transparent calc(50% - 3px), #e60000 calc(50% - 3px), #e60000 calc(50% + 3px), transparent calc(50% + 3px)),
+        linear-gradient(to bottom right, transparent calc(50% - 3px), #e60000 calc(50% - 3px), #e60000 calc(50% + 3px), transparent calc(50% + 3px));
+}
+.pop-face { position: relative; }
+.pop-face .face-x { top: 0; left: 0; right: auto; width: 76px; height: 76px; }

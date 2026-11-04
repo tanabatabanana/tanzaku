@@ -1,9 +1,22 @@
 /* 短冊の部屋：ABOUTページ
-   ・通過済みシナリオ：data/scenarios.js（SCENARIO_TEXT / SCENARIOS）に、ホームの探索者一覧から「出身の探索者」を自動で付けて、検索できる一覧にする
-     ☆付き（外部卓）には、青い小さな星。出身の探索者がいるシナリオは、カーソルを合わせると、吹き出しで顔が出る
-   ・探索者の総数（総勢）とロストの数：ホームの探索者一覧と、data/investigators.json から数える */
+   ■ データの整理（上から順に）
+      1. 探索者       … { name, img, scenario(出身シナリオの略称), ho, lost }   ホームの探索者一覧 ＋ data/investigators.json のロスト
+      2. シナリオ     … { name(正式名称), short(略称), external(外部卓), group(あ行など), note, aliases, pcs(出身の探索者) }
+                        data/scenarios.js の SCENARIO_TEXT / SCENARIOS から作り、1 の探索者を付ける
+      3. 表示         … 通過済みシナリオの一覧（検索・五十音順・外部卓の星・吹き出しの顔）／探索者の総数／顔の一覧（ロストは赤いバツ） */
 (() => {
   "use strict";
+
+  /* ============================================================
+     設定
+  ============================================================ */
+  // ここに登録しない探索者たちの人数。総勢・ロストの数に、それぞれ足して表示する
+  const EXTRA_TOTAL = 19;
+  const EXTRA_LOST = 7;
+
+  const NO_OFFICIAL = "正式名称がまだ無いシナリオ（略称）";   // 貼りつけた一覧に無く、ホームの一覧にだけあるシナリオの見出し
+  // 五十音順の、見出しの並び
+  const GROUP_ORDER = ["英語タイトル", "あ行", "か行", "さ行", "た行", "な行", "は行", "ま行", "や行", "ら行", "わ行", NO_OFFICIAL];
 
   const SCENARIO_DATA = typeof SCENARIOS !== "undefined" ? SCENARIOS : [];
   const SCENARIO_TEXT_DATA = typeof SCENARIO_TEXT !== "undefined" ? SCENARIO_TEXT : "";
@@ -20,30 +33,58 @@
   const norm = (s) => String(s).normalize("NFKC").toLowerCase().replace(/\s+/g, "");
   // シナリオ名を照らし合わせる用：記号（。、！？・☆ など）も無視する
   const key = (s) => String(s).normalize("NFKC").toLowerCase().replace(/[\s\u3000。、．，.,・!?！？☆★…「」『』()（）\-－―~〜]/g, "");
+  // 探索者の名前を照らし合わせる用：括弧の中（読み）と空白を無視する
+  const nameKey = (s) => String(s).normalize("NFKC").replace(/[（(].*?[）)]/g, "").replace(/\s+/g, "").toLowerCase();
 
-  /* ---------- 探索者の一覧：ホーム（index.html）から読み込む。読み込めない時は、予備のデータを使う ---------- */
+  /* ============================================================
+     1. 探索者のデータ
+  ============================================================ */
+  // ホームの探索者一覧（index.html）から読み込む。読み込めない時は、予備のデータを使う
   async function loadPcs() {
+    let rows = [];
     try {
       const res = await fetch("index.html");
       if (!res.ok) throw new Error("index.html を読み込めませんでした");
       const text = await res.text();
-      const rows = [...text.matchAll(/\["(\d+)", "([^"]*)", "([^"]*)", "([^"]*)", "([^"]*)"(?:, "x")?\]/g)]
+      rows = [...text.matchAll(/\["(\d+)", "([^"]*)", "([^"]*)", "([^"]*)", "([^"]*)"(?:, "x")?\]/g)]
         .map((m) => ({ no: Number(m[1]), row: [m[2], m[3], m[4], m[5]] }))
         .sort((a, b) => a.no - b.no)
         .map((item) => item.row);
-      if (rows.length) return rows;
     } catch (e) { /* 予備のデータを使う */ }
-    return FALLBACK_PCS;
+    if (!rows.length) rows = FALLBACK_PCS;
+    return rows.map(([name, img, scenario, ho]) => ({ name, img, scenario, ho, lost: false }));
   }
 
-  /* ---------- シナリオの一覧 ---------- */
+  // data/investigators.json から、ロストした探索者を調べる（{ lost: true }）
+  async function loadLost() {
+    try {
+      const res = await fetch("data/investigators.json");
+      if (!res.ok) return null;
+      const data = await res.json();
+      const names = data.filter((e) => e && e.data && e.data.lost === true).map((e) => nameKey(e.data.name));
+      return { names, count: names.length };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function markLost(pcs, lostInfo) {
+    if (!lostInfo) return;
+    pcs.forEach((pc) => {
+      const k = nameKey(pc.name);
+      pc.lost = lostInfo.names.some((n) => n === k || (Math.min(n.length, k.length) >= 3 && (n.includes(k) || k.includes(n))));
+    });
+  }
+
+  /* ============================================================
+     2. シナリオのデータ
+  ============================================================ */
   const HEADING = /^(英語タイトル|[ぁ-ん]行)$/;                // 「あ行」「英語タイトル」などの、見出しだけの行
-  const NO_OFFICIAL = "正式名称がまだ無いシナリオ（略称）";          // 貼りつけた一覧に無く、ホームの一覧にだけあるシナリオの見出し
   const INVISIBLE = /[\u200B-\u200D\uFEFF]/g;                  // 見えない文字（ゼロ幅スペースなど）
 
   // 貼りつけた文章を、1行ずつ読み取る。「正式名称☆　：略称」の形（☆・略称は無くてもよい）
-  function parseText(text) {
-    const entries = [];
+  function parseScenarioText(text) {
+    const list = [];
     let group = "";
     String(text).split(/\r?\n/).forEach((raw) => {
       const line = raw.replace(INVISIBLE, "").trim();
@@ -53,58 +94,92 @@
       // 「：」の前に空白（全角スペース）がある時だけ、そのあとを略称とみなす（「探索者：Uの証言」のような題名の中の「：」は、そのまま）
       const m = line.match(/^(.*?)[\s\u3000]+：\s*(.+)$/);
       const left = m ? m[1] : line;
-      const abbr = m ? m[2].trim() : "";
-      const external = /[☆★]/.test(left);
-      const official = left.replace(/[☆★]/g, "").trim();
+      const short = m ? m[2].trim() : "";
+      const name = left.replace(/[☆★]/g, "").trim();
 
       // 略称が無い題名に、全角スペースで区切った続きがある時（例：「狂気山脈　カエラズノケン」）は、最後の部分も、探索者との照合に使う
-      const aliases = [abbr, official];
-      if (!abbr && /\u3000/.test(official)) aliases.push(official.split(/\u3000+/).pop());
+      const aliases = [short, name];
+      if (!short && /\u3000/.test(name)) aliases.push(name.split(/\u3000+/).pop());
 
-      entries.push({ short: abbr || official, official, note: "", external, group, aliases: aliases.filter(Boolean), pcs: [] });
+      list.push({ name, short: short || name, external: /[☆★]/.test(left), group, note: "", aliases: aliases.filter(Boolean), pcs: [] });
     });
-    return entries;
+    return list;
   }
 
-  function buildScenarios(pcs) {
-    const entries = parseText(SCENARIO_TEXT_DATA);
-    const find = (name) => {
-      const k = key(name);
-      return k ? entries.find((e) => e.aliases.some((a) => key(a) === k)) : undefined;
-    };
+  // 名前（正式名称・略称のどちらでも）から、シナリオを探す
+  const findScenario = (list, name) => {
+    const k = key(name);
+    return k ? list.find((s) => s.aliases.some((a) => key(a) === k)) : undefined;
+  };
 
-    // SCENARIOS（["略称", "正式名称", "ひとこと", 外部卓か]）。貼りつけた文章に同じシナリオがあれば、そこにひとこと等を足す
-    SCENARIO_DATA.forEach(([short, official = "", note = "", external = false]) => {
+  // SCENARIOS（["略称", "正式名称", "ひとこと", 外部卓か]）を足す。同じシナリオが貼りつけた文章にあれば、ひとこと等だけ足す
+  function mergeScenarioArray(list) {
+    SCENARIO_DATA.forEach(([short, name = "", note = "", external = false]) => {
       let star = !!external;
       if (/[☆★]/.test(short)) { star = true; short = short.replace(/[☆★]/g, "").trim(); }
-      if (/[☆★]/.test(official)) { star = true; official = official.replace(/[☆★]/g, "").trim(); }
-      const found = find(short) || (official && find(official));
+      if (/[☆★]/.test(name)) { star = true; name = name.replace(/[☆★]/g, "").trim(); }
+      const found = findScenario(list, short) || (name && findScenario(list, name));
       if (found) {
         if (note && !found.note) found.note = note;
         if (star) found.external = true;
-        if (official && !found.official) found.official = official;
+        if (name && found.name === found.short && name !== short) found.name = name;
       } else {
-        entries.push({ short, official, note, external: star, group: NO_OFFICIAL, aliases: [short, official].filter(Boolean), pcs: [] });
+        list.push({ name: name || short, short, external: star, group: NO_OFFICIAL, note, aliases: [short, name].filter(Boolean), pcs: [] });
       }
     });
-
-    // ホームの探索者一覧にある略称（出身シナリオ）：該当するシナリオに、探索者を付ける。一覧に無ければ、略称だけで追加する
-    pcs.forEach(([name, img, scenario, ho]) => {
-      if (!scenario) return;
-      let entry = find(scenario);
-      if (!entry) {
-        entry = { short: scenario, official: "", note: "", external: false, group: NO_OFFICIAL, aliases: [scenario], pcs: [] };
-        entries.push(entry);
-      }
-      entry.pcs.push({ name, img, ho });
-    });
-    return entries;
   }
 
+  // 探索者の出身シナリオ（略称）から、該当するシナリオに、探索者を付ける。一覧に無ければ、略称だけで追加する
+  function attachPcs(list, pcs) {
+    pcs.forEach((pc) => {
+      if (!pc.scenario) return;
+      let scenario = findScenario(list, pc.scenario);
+      if (!scenario) {
+        scenario = { name: pc.scenario, short: pc.scenario, external: false, group: NO_OFFICIAL, note: "", aliases: [pc.scenario], pcs: [] };
+        list.push(scenario);
+      }
+      scenario.pcs.push(pc);
+    });
+  }
+
+  // 五十音順：見出し（英語タイトル → あ行 … わ行 → 略称だけのもの）の順に並べる。
+  // 見出しの中は、貼りつけた一覧の並び（五十音順に書いてある）のまま。略称だけのものは、略称の五十音順
+  function sortScenarios(list) {
+    const rank = (g) => { const i = GROUP_ORDER.indexOf(g || NO_OFFICIAL); return i < 0 ? GROUP_ORDER.length : i; };
+    const indexed = list.map((s, i) => ({ s, i }));
+    indexed.sort((a, b) => rank(a.s.group) - rank(b.s.group)
+      || (a.s.group === NO_OFFICIAL || !a.s.group ? a.s.short.localeCompare(b.s.short, "ja") : 0)
+      || a.i - b.i);
+    return indexed.map((x) => x.s);
+  }
+
+  function buildScenarios(pcs) {
+    const list = parseScenarioText(SCENARIO_TEXT_DATA);
+    mergeScenarioArray(list);
+    attachPcs(list, pcs);
+    list.forEach((s) => { if (!s.group) s.group = NO_OFFICIAL; });
+    return sortScenarios(list);
+  }
+
+  /* ============================================================
+     3. 表示
+  ============================================================ */
   const list = $("sc-list");
   const input = $("sc-search-input");
   const count = $("sc-count");
   let scenarios = [];
+
+  const pcLabel = (pc) => pc.name + (pc.ho ? "（" + pc.ho + "）" : "");
+
+  // 顔の画像（ロストした探索者は、赤いバツ印を重ねる）
+  function faceImage(pc, figure) {
+    const img = el("img");
+    img.src = "images/kao/k-" + pc.img + ".png";
+    img.alt = pc.name;
+    figure.append(img);
+    if (pc.lost) figure.append(el("span", "face-x"));
+    return img;
+  }
 
   /* ---------- カーソルを合わせると、出身の探索者の顔が、吹き出しで出る ---------- */
   const pop = el("div", "sc-pop");
@@ -113,16 +188,13 @@
   document.body.append(pop);
   let popRow = null;
 
-  function showPop(row, entry) {
+  function showPop(row, scenario) {
     popRow = row;
     pop.textContent = "";
-    entry.pcs.forEach((pc) => {
-      const figure = el("figure", "pop-face");
-      const img = el("img");
-      img.src = "images/kao/k-" + pc.img + ".png";
-      img.alt = pc.name;
-      img.addEventListener("error", () => figure.classList.add("is-empty"));
-      figure.append(img, el("figcaption", "", pc.name + (pc.ho ? "（" + pc.ho + "）" : "")));
+    scenario.pcs.forEach((pc) => {
+      const figure = el("figure", "pop-face" + (pc.lost ? " is-lost" : ""));
+      faceImage(pc, figure).addEventListener("error", () => figure.classList.add("is-empty"));
+      figure.append(el("figcaption", "", pcLabel(pc)));
       pop.append(figure);
     });
     pop.hidden = false;
@@ -147,20 +219,20 @@
 
   // スマホなど、カーソルを合わせられない時は、タップで出し入れする
   document.addEventListener("click", (event) => {
-    if (!popRow) return;
-    if (!popRow.contains(event.target)) hidePop();
+    if (popRow && !popRow.contains(event.target)) hidePop();
   });
 
+  /* ---------- 通過済みシナリオの一覧 ---------- */
   function renderScenarios() {
     const q = norm(input.value);
     list.textContent = "";
     hidePop();
 
-    const hits = scenarios.filter((s) => !q || norm([s.short, s.official, s.note].concat(s.pcs.map((p) => p.name + (p.ho || ""))).join(" ")).includes(q));
+    const hits = scenarios.filter((s) => !q || norm([s.name, s.short, s.note].concat(s.pcs.map(pcLabel)).join(" ")).includes(q));
 
     let lastGroup = null;
     hits.forEach((s) => {
-      if (s.group && s.group !== lastGroup) {                       // 「あ行」などの見出し
+      if (s.group !== lastGroup) {                                 // 「あ行」などの見出し
         list.append(el("div", "sc-group", s.group));
         lastGroup = s.group;
       }
@@ -172,20 +244,21 @@
         row.append(star);
       }
 
+      // 「正式名称：略称」の並び（正式名称が無い時は、略称だけ）
       const title = el("b", "sc-title");
-      title.append(s.official || s.short);
-      if (s.official && s.official !== s.short) title.append(el("small", "", "略称：" + s.short));
+      title.append(el("span", "sc-name", s.name));
+      if (s.name !== s.short) title.append(el("span", "sc-short", "：" + s.short));
       row.append(title);
 
       const box = el("div", "sc-pcs");
-      s.pcs.forEach((pc) => box.append(el("span", "", pc.name + (pc.ho ? "（" + pc.ho + "）" : ""))));
+      s.pcs.forEach((pc) => box.append(el("span", pc.lost ? "is-lost" : "", pcLabel(pc))));
       if (s.note) box.append(el("p", "sc-note", s.note));
       row.append(box);
 
       if (s.pcs.length) {
         row.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") showPop(row, s); });
         row.addEventListener("pointerleave", (e) => { if (e.pointerType !== "touch") hidePop(); });
-        row.addEventListener("click", (e) => { if (popRow === row) hidePop(); else showPop(row, s); });
+        row.addEventListener("click", () => { if (popRow === row) hidePop(); else showPop(row, s); });
       }
       list.append(row);
     });
@@ -195,47 +268,34 @@
   }
 
   /* ---------- 探索者の総数（総勢）とロストの数 ---------- */
-  async function countLost() {
-    try {
-      const res = await fetch("data/investigators.json");
-      if (!res.ok) return null;
-      const data = await res.json();
-      return data.filter((e) => e && e.data && e.data.lost === true).length;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async function renderCounts(pcs) {
+  function renderCounts(pcs, lostInfo) {
     const heading = $("face-heading");
     if (!heading) return;
-    const lost = await countLost();
-    // 総勢は、ホームの一覧の人数。探索者が1人増えるごとに、自動で増える
-    heading.textContent = "総勢：" + pcs.length + "　ロスト：" + (lost === null ? "13" : lost);
+    // 登録されている探索者に、登録しない人たちの分（EXTRA_*）を足す。探索者が1人増えるごとに、総勢も自動で増える
+    const lost = lostInfo ? lostInfo.count + EXTRA_LOST : 13;
+    heading.textContent = "総勢：" + (pcs.length + EXTRA_TOTAL) + "　ロスト：" + lost;
   }
 
-  /* ---------- 顔のアイコン（見出しの下に並べる） ---------- */
+  /* ---------- 顔のアイコン：顔が上、名前が下 ---------- */
   function renderFaces(pcs) {
     const grid = $("face-grid");
     if (!grid) return;
-    pcs.forEach(([name, image]) => {
-      const figure = el("figure", "face");
-      const img = el("img");
-      img.src = "images/kao/k-" + image + ".png";
-      img.alt = name;
-      img.loading = "lazy";
-      img.addEventListener("error", () => figure.remove());       // 画像が無い人は、空の枠を出さない
-      figure.append(img, el("figcaption", "", name));
+    pcs.forEach((pc) => {
+      const figure = el("figure", "face" + (pc.lost ? " is-lost" : ""));
+      const img = faceImage(pc, figure);
+      img.addEventListener("error", () => figure.remove());         // 画像が無い人は、空の枠を出さない
+      figure.append(el("figcaption", "", pc.name));
       grid.append(figure);
     });
   }
 
   input.addEventListener("input", renderScenarios);
 
-  loadPcs().then((pcs) => {
+  Promise.all([loadPcs(), loadLost()]).then(([pcs, lostInfo]) => {
+    markLost(pcs, lostInfo);
     scenarios = buildScenarios(pcs);
     renderScenarios();
-    renderCounts(pcs);
+    renderCounts(pcs, lostInfo);
     renderFaces(pcs);
   });
 })();

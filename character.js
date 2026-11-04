@@ -143,7 +143,7 @@
       }
     });
 
-    step("性別", () => renderGender(d && d.gender));
+    step("性別", () => renderGender(d ? d.gender || d.sex || d["性別"] || d.seibetsu || body.dataset.gender : body.dataset.gender));
 
     // 通過シナリオ（配列でも、1つの文字列でも）
     step("通過シナリオ", () => {
@@ -224,8 +224,20 @@
       t.textContent = k;
     });
 
-    // チャートの窓が見えたら、ぶわっと広がる
+    // チャートの窓が見えたら、ぶわっと広がる。窓の×を押すと、もう一度広がる
     const win = svg.closest(".win-radar");
+    if (win) {
+      const again = document.createElement("button");
+      again.type = "button";
+      again.className = "win-x";
+      again.setAttribute("aria-label", "チャートをもう一度広げる");
+      again.addEventListener("click", () => {
+        win.classList.remove("is-bloom");
+        void win.offsetWidth;
+        win.classList.add("is-bloom");
+      });
+      win.append(again);
+    }
     if (win && "IntersectionObserver" in window) {
       const io = new IntersectionObserver((entries) => {
         if (!entries[0].isIntersecting) return;
@@ -251,7 +263,7 @@
   // 床：下の辺が広く、奥の辺が狭い台形。左辺の傾き(ALPHA)に、名前の下の辺も合わせる
   const FLOOR = { W: 640, H: 200, topY: 78, inset: 200 };
   const ALPHA = Math.atan2(FLOOR.H - FLOOR.topY, FLOOR.inset);
-  const BETA = (14 * Math.PI) / 180;     // 名前の上の辺の傾き（右下がり）
+  const TACHIE_LIMIT = 0.86;             // 立ち絵の高さの上限：画面に入る最大の高さに対する割合（小さくすると、立ち絵も小さくなる）
 
   function buildFloor() {
     const NS = "http://www.w3.org/2000/svg";
@@ -341,17 +353,16 @@
     const floorBottom = parseFloat(getComputedStyle(floor).bottom) || 0;
 
     // 立ち絵：足が床の中ほどに立つ。高さの上限（th）を決めて、どんな立ち絵も、縦横の比率を変えずに、その高さに合わせて表示する
-    // （横長で画面の幅に入らない時だけ、比率を保ったまま小さくする）
+    // （横長で画面の幅に入らない時だけ、比率を保ったまま小さくする）。上限は、画面に入る最大の高さの 86%
     const feet = floorBottom + floorH * 0.3;
-    const th = Math.max(120, sh - feet - 8);
+    const th = Math.max(120, (sh - feet - 8) * TACHIE_LIMIT);
     const ratio = tachieImg.naturalWidth && tachieImg.naturalHeight ? tachieImg.naturalWidth / tachieImg.naturalHeight : 0.45;
     const shownH = Math.min(th, (sw * 0.92) / ratio);
     tachieBtn.style.left = cx + "px";
     tachieBtn.style.bottom = feet + "px";
     tachieBtn.style.height = shownH + "px";
 
-    // 名前：縦書き。立ち絵の右うしろ。傾きは「上の辺が右上がり、下の辺が右下がり」（右がひろがる形）。
-    // 左辺の高さは、立ち絵の上限の高さ（th）にそろえる。文字は、その高さに合わせて縦に伸びる
+    // 名前：縦書き。立ち絵の右うしろ。左辺は立ち絵の高さの上限（th）の 1/2、右辺は th（右がひろがる形）。文字は、その形に合わせて縦に伸びる
     const text = [...nameEl.textContent.trim()];
     const n = Math.max(1, text.length);
     const fs = Math.min(sh * 0.23, (sh * 0.46) / n, sw * 0.34);
@@ -362,19 +373,15 @@
 
     const tachieRight = cx + (shownH * ratio) / 2;
     const left = Math.max(6, Math.min(tachieRight - w * 0.35, sw - w - 6));
-    const tanA = Math.tan(ALPHA);                               // 下の辺の傾き（床の辺と同じ角度）
-    const tanB = Math.tan(BETA);                                // 上の辺の傾き
-    // 右下の角が、画面の下から出ないように、傾きをゆるめる
-    const s = Math.min(1, Math.max(0.15, (feet - 6) / (w * tanA)));
 
     nameEl.style.fontSize = fs + "px";
     nameEl.style.width = w + "px";
     nameEl.style.height = h0 + "px";
     nameEl.style.left = left + "px";
-    nameEl.style.top = sh - feet - th + "px";                   // 左辺の上の端 = 立ち絵の上の端
+    nameEl.style.top = sh - feet - th + "px";                   // 立ち絵の上限の高さの、上の端
     nameEl.style.transform = quadMatrix(
       [[0, 0], [w, 0], [w, h0], [0, h0]],
-      [[0, 0], [w, -w * tanB * s], [w, th + w * tanA * s], [0, th]]
+      [[0, th / 4], [w, 0], [w, th], [0, (th * 3) / 4]]         // 左辺：th/2（上下の真ん中にそろえる）、右辺：th
     );
 
     speech.style.left = cx + "px";
@@ -646,6 +653,21 @@
   });
   window.addEventListener("load", buildBack);
   buildBack();
+
+  /* =========================
+     ウィンドウが、下（波の中）からスライドして表示される
+  ========================= */
+  if (!reduce && "IntersectionObserver" in window) {
+    document.documentElement.classList.add("js-slide");
+    const slide = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        slide.unobserve(entry.target);
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".char-win").forEach((win) => slide.observe(win));
+  }
 
   /* =========================
      右下の、ページの一番上に戻るボタン

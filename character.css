@@ -168,9 +168,12 @@
     box-sizing: border-box;
     padding: 5px;
     background: #fff;
+    box-shadow: 4px 5px 3px rgba(0, 0, 0, 0.28);          /* ホームの一覧と同じ影 */
+    outline: 1px solid #e4e4e4;
 }
-.r-photo { grid-area: photo; padding: 6px; }          /* 写真の欄。白で埋める */
-.rp-inner { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #61b3ff; }   /* ホームの一覧と同じ青 */
+.r-photo { grid-area: photo; padding: 6px 10px 10px 6px; }          /* 写真の欄。白で埋める */
+.rp-inner { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #fff; transition: background-color 0.3s ease; }   /* 貼られる前は白 */
+.resume-photo.is-pasted .rp-inner { background: #61b3ff; }                                                          /* 貼られたら、ホームの一覧と同じ青 */
 .rp-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
 .resume-photo.is-pasted .rp-inner img { opacity: 1; }
 .resume-photo .tape {
@@ -290,3 +293,12 @@
     .win-info { width: 100%; }
     .info-body { font-size: 18px; }
 }
+
+
+/* ウィンドウが、下（波の中）からスライドして表示される（character.js が js-slide と is-in を付ける） */
+.js-slide .char-win {
+    opacity: 0;
+    translate: 0 90px;
+    transition: opacity 0.6s ease, translate 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+.js-slide .char-win.is-in { opacity: 1; translate: 0 0; }

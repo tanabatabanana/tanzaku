@@ -12,6 +12,12 @@
   const boxCaption = document.getElementById("lb-caption");
   if (!grid || !tabs || !box) return;
 
+  // ページ移動の青い画面（page-transition.js）が、全部の画像の読み込みが終わるまで待てるように、進み具合と完了を知らせる
+  let markReady = () => {};
+  window.__pageProgress = 0;
+  window.__pageReady = new Promise((resolve) => { markReady = resolve; });
+  setTimeout(() => markReady(), 20000);      // 念のため。長くても20秒で、表示する
+
   let filter = "ALL";
   let shown = [];
   let current = 0;
@@ -171,5 +177,17 @@
       computeKinds();
       renderTabs();
       renderGrid();
+
+      // 並べた全部の画像の読み込み（失敗も含む）が終わったら、完了を知らせる
+      const images = [...grid.querySelectorAll("img")];
+      let done = 0;
+      Promise.all(images.map((img) => new Promise((resolve) => {
+        const finish = () => { done++; window.__pageProgress = done / images.length; resolve(); };
+        if (img.complete) finish();
+        else {
+          img.addEventListener("load", finish, { once: true });
+          img.addEventListener("error", finish, { once: true });
+        }
+      }))).then(() => { window.__pageProgress = 1; markReady(); });
     });
 })();
