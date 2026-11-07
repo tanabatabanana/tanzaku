@@ -34,6 +34,14 @@
     };
     img.src = tries[0];
   }
+  document.title = NAME + " | 短冊の部屋";
+  const srH1 = document.querySelector("h1.sr-only");
+  if (srH1) srH1.textContent = NAME;
+  $("tachie-img").alt = NAME + "の立ち絵";
+  $("resume-img").alt = NAME + "の写真";
+  const dispImg = $("display-img");
+  if (dispImg) dispImg.alt = NAME + "のディスプレイ";
+
   const tachieImg = $("tachie-img");
   loadImage(tachieImg, body.dataset.tatie, "立ち絵");
   loadImage($("resume-img"), body.dataset.photo, "履歴書の写真");
@@ -50,6 +58,7 @@
   };
 
   let info = { text: "", lines: [] };
+  const dataTokens = [];          // 後ろで上っていく「データ」の言葉（データを読み込んだら、この探索者の能力値などが入る）
 
   /* =========================
      データを読み込んで、履歴書などを埋める
@@ -92,6 +101,19 @@
     }
   };
 
+  // ホームの探索者一覧（index.html）から、この探索者の HO を探す
+  async function findHo() {
+    try {
+      const res = await fetch("../index.html");
+      if (!res.ok) return "";
+      const text = await res.text();
+      for (const m of text.matchAll(/\["(\d+)", "([^"]*)", "([^"]*)", "([^"]*)", "([^"]*)"(?:, "x")?\]/g)) {
+        if (plain(m[2]) === plain(NAME)) return m[5];
+      }
+    } catch (e) { /* 何もしない */ }
+    return "";
+  }
+
   function fill(d) {
     const dash = "—";
 
@@ -113,10 +135,24 @@
       setText("r-height", height ? (/cm$/i.test(height) ? height : height + "cm") : dash);          // 最後は必ず cm
       setText("r-job", (d && (d.job || d.syokugyo)) || body.dataset.job || dash);                     // 職業
       setText("r-drawn", (d && d.drawn) || body.dataset.drawn || dash);                              // 描いた日（例：2023.11）
-      setText("r-birth", (d && d.birthscenario) || dash);
+      // 出身シナリオ名の横に、（HO名）。HOは、データの ho／HO、<body> の data-ho、ホームの一覧の順で探す
+      const birth = (d && d.birthscenario) || "";
+      const hoNow = (d && (d.ho || d.HO)) || body.dataset.ho || "";
+      setText("r-birth", birth ? birth + (hoNow ? "（" + hoNow + "）" : "") : dash);
+      if (birth && !hoNow) {
+        findHo().then((ho) => { if (ho) setText("r-birth", birth + "（" + ho + "）"); });
+      }
     });
 
-    step("性別", () => renderGender(d && d.gender));
+    // ウィンドウの後ろで上っていく「データ」の言葉：この探索者の能力値・名前・シナリオなど
+    step("データの演出", () => {
+      dataTokens.length = 0;
+      const status = ((d && d.status) || []).filter((s) => s.label !== "SAN");
+      ((d && d.params) || []).concat(status).forEach((p) => dataTokens.push(p.label + " " + p.value));
+      [NAME, d && d.birthscenario, d && d.edition ? d.edition + "版" : "", body.dataset.drawn].concat(d ? [].concat(d.GOscenario || []) : []).forEach((t) => { if (t) dataTokens.push(String(t).trim()); });
+    });
+
+    step("性別", () => renderGender(d ? d.gender || d.sex || d["性別"] || d.seibetsu || body.dataset.gender : body.dataset.gender));
 
     // 通過シナリオ（配列でも、1つの文字列でも）
     step("通過シナリオ", () => {
@@ -197,8 +233,20 @@
       t.textContent = k;
     });
 
-    // チャートの窓が見えたら、ぶわっと広がる
+    // チャートの窓が見えたら、ぶわっと広がる。窓の×を押すと、もう一度広がる
     const win = svg.closest(".win-radar");
+    if (win) {
+      const again = document.createElement("button");
+      again.type = "button";
+      again.className = "win-x";
+      again.setAttribute("aria-label", "チャートをもう一度広げる");
+      again.addEventListener("click", () => {
+        win.classList.remove("is-bloom");
+        void win.offsetWidth;
+        win.classList.add("is-bloom");
+      });
+      win.append(again);
+    }
     if (win && "IntersectionObserver" in window) {
       const io = new IntersectionObserver((entries) => {
         if (!entries[0].isIntersecting) return;
@@ -217,13 +265,14 @@
   const stage = $("stage");
   const floor = $("stage-floor");
   const nameEl = $("stage-name");
+  nameEl.textContent = NAME.replace(/\s+/g, "");           // 大きい名前（data-character から入る）
   const tachieBtn = $("tachie");
   const speech = $("speech");
 
   // 床：下の辺が広く、奥の辺が狭い台形。左辺の傾き(ALPHA)に、名前の下の辺も合わせる
   const FLOOR = { W: 640, H: 200, topY: 78, inset: 200 };
   const ALPHA = Math.atan2(FLOOR.H - FLOOR.topY, FLOOR.inset);
-  const BETA = (14 * Math.PI) / 180;     // 名前の上の辺の傾き（右下がり）
+  const TACHIE_LIMIT = 0.86;             // 立ち絵の高さの上限：画面に入る最大の高さに対する割合（小さくすると、立ち絵も小さくなる）
 
   function buildFloor() {
     const NS = "http://www.w3.org/2000/svg";
@@ -304,50 +353,45 @@
     lastH = sh;
 
     const cx = sw * 0.38;                                       // 立ち絵と床の中心（右に名前が入る分、少し左寄り）
-    const floorW = Math.min(620, sw * 1.3);
+    const floorW = Math.min(620, sw - 8);                       // 床は、ステージの幅の中に収める（左下が切れないように）
     const k = floorW / FLOOR.W;
     const floorH = FLOOR.H * k;
-    floor.style.left = cx + "px";
+    const floorCx = Math.max(floorW / 2 + 4, Math.min(cx, sw - floorW / 2 - 4));   // 床の中心：ステージの中に収まる位置
+    floor.style.left = floorCx + "px";
     floor.style.width = floorW + "px";
     floor.style.height = floorH + "px";
     const floorBottom = parseFloat(getComputedStyle(floor).bottom) || 0;
 
-    // 立ち絵：足が床の中ほどに立つ。できるだけ大きく
+    // 立ち絵：足が床の中ほどに立つ。高さの上限（th）を決めて、どんな立ち絵も、縦横の比率を変えずに、その高さに合わせて表示する
+    // （横長で画面の幅に入らない時だけ、比率を保ったまま小さくする）。上限は、画面に入る最大の高さの 86%
     const feet = floorBottom + floorH * 0.3;
+    const th = Math.max(120, (sh - feet - 8) * TACHIE_LIMIT);
+    const ratio = tachieImg.naturalWidth && tachieImg.naturalHeight ? tachieImg.naturalWidth / tachieImg.naturalHeight : 0.45;
+    const shownH = Math.min(th, (sw * 0.92) / ratio);
     tachieBtn.style.left = cx + "px";
     tachieBtn.style.bottom = feet + "px";
-    const th = Math.max(120, sh - feet - 8);
-    tachieBtn.style.height = th + "px";
+    tachieBtn.style.height = shownH + "px";
 
-    // 名前：縦書き。下の辺は、床の左辺をそのまま延ばした線の上に置く（同じ傾き）
+    // 名前：縦書き。立ち絵の右うしろ。左辺は立ち絵の高さの上限（th）の 1/2、右辺は th（右がひろがる形）。文字は、その形に合わせて縦に伸びる
     const text = [...nameEl.textContent.trim()];
     const n = Math.max(1, text.length);
     const fs = Math.min(sh * 0.23, (sh * 0.46) / n, sw * 0.34);
     const rows = Math.max(1, Math.floor((sh * 0.5) / fs));
     const cols = Math.ceil(n / rows);
     const w = cols * fs;
-    const h = Math.min(n, rows) * fs;
+    const h0 = Math.min(n, rows) * fs;                          // 文字が並ぶ、もとの高さ
 
-    // 立ち絵の右うしろに置く（左の端が、立ち絵のうしろに少しかくれる）
-    const ratio = tachieImg.naturalWidth && tachieImg.naturalHeight ? tachieImg.naturalWidth / tachieImg.naturalHeight : 0.45;
-    const tachieRight = cx + (th * ratio) / 2;
-    const floorLeftX = cx - floorW / 2;                         // 床の左のかど
-    const bottomLeftX = Math.max(6, Math.min(tachieRight - w * 0.35, sw - w - 6));
-    // 名前の下の辺：床の左辺の線の上（床の左のかどから、右上へ同じ傾きで）
-    const bottomLeftY = sh - floorBottom - Math.max(0, bottomLeftX - floorLeftX) * Math.tan(ALPHA);
+    const tachieRight = cx + (shownH * ratio) / 2;
+    const left = Math.max(6, Math.min(tachieRight - w * 0.35, sw - w - 6));
 
     nameEl.style.fontSize = fs + "px";
     nameEl.style.width = w + "px";
-    nameEl.style.height = h + "px";
-    nameEl.style.left = bottomLeftX + "px";
-    nameEl.style.top = bottomLeftY - h + "px";
-    // 1文字の名前など、背が低い時は、右端がつぶれすぎないよう、傾きをゆるめる（背が高い名前は、床の左辺と同じ傾きのまま）
-    const tanA = Math.tan(ALPHA);
-    const tanB = Math.tan(BETA);
-    const soften = Math.min(1, (0.55 * h) / (w * (tanA + tanB)));
+    nameEl.style.height = h0 + "px";
+    nameEl.style.left = left + "px";
+    nameEl.style.top = sh - feet - th + "px";                   // 立ち絵の上限の高さの、上の端
     nameEl.style.transform = quadMatrix(
-      [[0, 0], [w, 0], [w, h], [0, h]],
-      [[0, 0], [w, w * tanB * soften], [w, h - w * tanA * soften], [0, h]]   // 上の辺は右下がり、下の辺は右上がり
+      [[0, 0], [w, 0], [w, h0], [0, h0]],
+      [[0, th / 4], [w, 0], [w, th], [0, (th * 3) / 4]]         // 左辺：th/2（上下の真ん中にそろえる）、右辺：th
     );
 
     speech.style.left = cx + "px";
@@ -619,6 +663,62 @@
   });
   window.addEventListener("load", buildBack);
   buildBack();
+
+  /* =========================
+     ウィンドウが、下（波の中）からスライドして表示される
+  ========================= */
+  if (!reduce && "IntersectionObserver" in window) {
+    document.documentElement.classList.add("js-slide");
+    const slide = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-in");
+        slide.unobserve(entry.target);
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".char-win").forEach((win) => slide.observe(win));
+  }
+
+  /* =========================
+     ウィンドウの後ろで、データが下から上へ上っていく
+     （この探索者の能力値・名前・シナリオ名と、数字の羅列が、ゆっくり上って、消える）
+  ========================= */
+  if (!reduce) {
+    const layer = el("div", "data-rise");
+    layer.setAttribute("aria-hidden", "true");
+    document.body.prepend(layer);
+
+    const COLORS = ["rgba(0, 71, 255, 0.5)", "rgba(0, 71, 255, 0.32)", "rgba(255, 0, 200, 0.32)", "rgba(0, 150, 210, 0.45)"];
+    const hex = () => "0x" + Math.floor(Math.random() * 65536).toString(16).toUpperCase().padStart(4, "0");
+    const bits = () => Array.from({ length: 4 + Math.floor(Math.random() * 6) }, () => (Math.random() < 0.5 ? "0" : "1")).join("");
+    const GENERIC = ["DATA", "LOAD...", "OK", "404", "NO SIGNAL"];
+
+    const pick = () => {
+      const r = Math.random();
+      if (dataTokens.length && r < 0.5) return dataTokens[Math.floor(Math.random() * dataTokens.length)];   // この探索者のデータ
+      if (r < 0.7) return hex();
+      if (r < 0.9) return bits();
+      return GENERIC[Math.floor(Math.random() * GENERIC.length)];
+    };
+
+    let active = 0;
+    const spawn = () => {
+      if (!document.hidden && active < 30) {
+        const bit = el("span", "data-bit", pick());
+        const duration = rand(10, 20);
+        bit.style.left = rand(0, 94) + "%";
+        bit.style.fontSize = rand(12, 24) + "px";
+        bit.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        bit.style.setProperty("--dur", duration + "s");
+        layer.style.setProperty("--rise", -(layer.clientHeight + 80) + "px");
+        layer.append(bit);
+        active++;
+        setTimeout(() => { bit.remove(); active--; }, duration * 1000 + 200);
+      }
+      setTimeout(spawn, rand(260, 620));
+    };
+    spawn();
+  }
 
   /* =========================
      右下の、ページの一番上に戻るボタン
