@@ -58,6 +58,7 @@
   };
 
   let info = { text: "", lines: [] };
+  const dataTokens = [];          // 後ろで上っていく「データ」の言葉（データを読み込んだら、この探索者の能力値などが入る）
 
   /* =========================
      データを読み込んで、履歴書などを埋める
@@ -141,6 +142,14 @@
       if (birth && !hoNow) {
         findHo().then((ho) => { if (ho) setText("r-birth", birth + "（" + ho + "）"); });
       }
+    });
+
+    // ウィンドウの後ろで上っていく「データ」の言葉：この探索者の能力値・名前・シナリオなど
+    step("データの演出", () => {
+      dataTokens.length = 0;
+      const status = ((d && d.status) || []).filter((s) => s.label !== "SAN");
+      ((d && d.params) || []).concat(status).forEach((p) => dataTokens.push(p.label + " " + p.value));
+      [NAME, d && d.birthscenario, d && d.edition ? d.edition + "版" : "", body.dataset.drawn].concat(d ? [].concat(d.GOscenario || []) : []).forEach((t) => { if (t) dataTokens.push(String(t).trim()); });
     });
 
     step("性別", () => renderGender(d ? d.gender || d.sex || d["性別"] || d.seibetsu || body.dataset.gender : body.dataset.gender));
@@ -344,10 +353,11 @@
     lastH = sh;
 
     const cx = sw * 0.38;                                       // 立ち絵と床の中心（右に名前が入る分、少し左寄り）
-    const floorW = Math.min(620, sw * 1.3);
+    const floorW = Math.min(620, sw - 8);                       // 床は、ステージの幅の中に収める（左下が切れないように）
     const k = floorW / FLOOR.W;
     const floorH = FLOOR.H * k;
-    floor.style.left = cx + "px";
+    const floorCx = Math.max(floorW / 2 + 4, Math.min(cx, sw - floorW / 2 - 4));   // 床の中心：ステージの中に収まる位置
+    floor.style.left = floorCx + "px";
     floor.style.width = floorW + "px";
     floor.style.height = floorH + "px";
     const floorBottom = parseFloat(getComputedStyle(floor).bottom) || 0;
@@ -667,6 +677,47 @@
       });
     }, { threshold: 0.08 });
     document.querySelectorAll(".char-win").forEach((win) => slide.observe(win));
+  }
+
+  /* =========================
+     ウィンドウの後ろで、データが下から上へ上っていく
+     （この探索者の能力値・名前・シナリオ名と、数字の羅列が、ゆっくり上って、消える）
+  ========================= */
+  if (!reduce) {
+    const layer = el("div", "data-rise");
+    layer.setAttribute("aria-hidden", "true");
+    document.body.prepend(layer);
+
+    const COLORS = ["rgba(0, 71, 255, 0.5)", "rgba(0, 71, 255, 0.32)", "rgba(255, 0, 200, 0.32)", "rgba(0, 150, 210, 0.45)"];
+    const hex = () => "0x" + Math.floor(Math.random() * 65536).toString(16).toUpperCase().padStart(4, "0");
+    const bits = () => Array.from({ length: 4 + Math.floor(Math.random() * 6) }, () => (Math.random() < 0.5 ? "0" : "1")).join("");
+    const GENERIC = ["DATA", "LOAD...", "OK", "404", "NO SIGNAL"];
+
+    const pick = () => {
+      const r = Math.random();
+      if (dataTokens.length && r < 0.5) return dataTokens[Math.floor(Math.random() * dataTokens.length)];   // この探索者のデータ
+      if (r < 0.7) return hex();
+      if (r < 0.9) return bits();
+      return GENERIC[Math.floor(Math.random() * GENERIC.length)];
+    };
+
+    let active = 0;
+    const spawn = () => {
+      if (!document.hidden && active < 30) {
+        const bit = el("span", "data-bit", pick());
+        const duration = rand(10, 20);
+        bit.style.left = rand(0, 94) + "%";
+        bit.style.fontSize = rand(12, 24) + "px";
+        bit.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        bit.style.setProperty("--dur", duration + "s");
+        layer.style.setProperty("--rise", -(layer.clientHeight + 80) + "px");
+        layer.append(bit);
+        active++;
+        setTimeout(() => { bit.remove(); active--; }, duration * 1000 + 200);
+      }
+      setTimeout(spawn, rand(260, 620));
+    };
+    spawn();
   }
 
   /* =========================

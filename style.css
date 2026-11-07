@@ -1758,3 +1758,25 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
 }
 .pop-face { position: relative; }
 .pop-face .face-x { top: 0; left: 0; right: auto; width: 76px; height: 76px; }
+
+
+/* アバウト：シナリオ名・探索者名をクリックすると、探索者の顔が、名前の欄の上に出る */
+.sc-pcs { display: block; }
+.sc-title.is-clickable { cursor: pointer; }
+.sc-title.is-clickable:hover .sc-name { text-decoration: underline; text-underline-offset: 4px; }
+.sc-title:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.sc-row.has-pcs { cursor: default; }
+.sc-row.has-pcs:hover { background: transparent; }
+
+.sc-faces { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.sc-faces[hidden] { display: none; }
+.sc-face { position: relative; width: 72px; height: 72px; margin: 0; background: #61b3ff; box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.22); }
+.sc-face img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.sc-face.is-empty img { visibility: hidden; }
+.sc-face .face-x { top: 0; left: 0; right: 0; bottom: 0; aspect-ratio: auto; }
+
+.sc-chips { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+.sc-chip { padding: 1px 10px; background: #e8f0ff; border: 1px solid #aab4ff; color: #111; font: 14px/1.6 "TsunagiGothic", sans-serif; cursor: pointer; }
+.sc-chip:hover, .sc-chip.is-active { background: var(--blue); border-color: var(--blue); color: #fff; }
+.sc-chip.is-lost { background: #f4f4f4; border-color: #c4c4c4; color: #777; }
+.sc-chip.is-lost.is-active { background: #777; border-color: #777; color: #fff; }

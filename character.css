@@ -302,3 +302,23 @@
     transition: opacity 0.6s ease, translate 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
 }
 .js-slide .char-win.is-in { opacity: 1; translate: 0 0; }
+
+
+/* ウィンドウの後ろで、データが下から上へ上っていく（character.js）。ウィンドウ群の側（左）だけ。スマホは画面全体 */
+.data-rise { position: fixed; top: 0; bottom: 0; left: 0; right: 38%; z-index: -1; overflow: hidden; pointer-events: none; }
+.data-bit {
+    position: absolute;
+    bottom: -40px;
+    font: 14px "Courier New", monospace;
+    white-space: nowrap;
+    opacity: 0;
+    animation: data-up var(--dur, 14s) linear forwards;
+}
+@keyframes data-up {
+    0%   { opacity: 0; transform: translateY(0); }
+    10%  { opacity: 1; }
+    80%  { opacity: 0.9; }
+    100% { opacity: 0; transform: translateY(var(--rise, -110vh)); }
+}
+@media (max-width: 900px) { .data-rise { right: 0; } }
+@media (prefers-reduced-motion: reduce) { .data-rise { display: none; } }
