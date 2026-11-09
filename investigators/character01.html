@@ -26,6 +26,7 @@
     data-character … 名前（data/investigators.json の name と同じ）
     data-tatie     … 立ち絵（t_○○.png）    data-faces … 顔アップの差分のフォルダ    data-photo … 履歴書の写真（k-○○.png）
     data-display   … ディスプレイ（d-○○.png）
+    data-fa        … ファンアートのファイル名の前の部分（images/kaitemorota/ の kaki_○○1.png、kaki_○○2.png … を、自動で探す）。無ければ、窓は出ない
     data-tatie-labels … 全身立ち絵の差分のボタンの名前（t_○○.png、t_○○2.png、t_○○3.png … があれば自動で見つかる）
     data-drawn     … 描いた日    data-job … 職業（データに job という項目があれば、そちらを使う）
     顔アップのファイル名が自動で見つからない時は、data-face-files="名前1.png,名前2.png,…" を足すと、その順に表示される
@@ -37,7 +38,8 @@
       data-drawn="2023.11"
       data-faces="../images/hyojyo/hyo_xiao/"
       data-photo="../images/kao/k-xiaomao.png"
-      data-display="../images/display/d-xiaomao.png">
+      data-display="../images/display/d-xiaomao.png"
+      data-fa="kaki_xiao">
 
 <header class="site-header" id="header-window">
 
@@ -164,10 +166,21 @@
                     <svg id="radar" viewBox="-110 -105 220 210" role="img" aria-label="STRからINTまでの能力値のレーダーチャート"></svg>
                 </aside>
 
-            <!-- ディスプレイ -->
-            <aside class="char-win win-display" aria-label="ディスプレイ">
-                <img id="display-img" alt="小猫のディスプレイ">
-            </aside>
+            <!-- ディスプレイと、そのキャラのファンアート（FA.exe。あれば、ディスプレイの右横に出る） -->
+            <div class="win-row">
+                <aside class="char-win win-display" aria-label="ディスプレイ">
+                    <img id="display-img" alt="ディスプレイ">
+                </aside>
+
+                <aside class="char-win win-fa" id="fa-window" aria-label="ファンアート" hidden>
+                    <button type="button" class="fa-thumb" id="fa-thumb" aria-label="ファンアートを大きく表示"><img id="fa-thumb-img" alt=""></button>
+                    <div class="fa-ctrl">
+                        <button type="button" id="fa-prev" aria-label="前のファンアート">◀</button>
+                        <span id="fa-count"></span>
+                        <button type="button" id="fa-next" aria-label="次のファンアート">▶</button>
+                    </div>
+                </aside>
+            </div>
 
             <!-- 説明（見えた瞬間にタイピングされる。窓の大きさは全文に合わせて最初から固定） -->
             <article class="char-win win-info" id="win-info" aria-label="キャラクターの説明">

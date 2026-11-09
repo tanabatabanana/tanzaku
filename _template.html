@@ -9,6 +9,7 @@
            data-faces     … 顔アップの差分のフォルダ（images/hyojyo/hyo_○○/。中は 1.png, 2.png, 3.png … の数字）
            data-photo     … 履歴書の写真（images/kao/k-○○.png）
            data-display   … ディスプレイ（images/display/d-○○.png）
+           data-fa        … ファンアートのファイル名の前の部分（images/kaitemorota/ の kaki_○○1.png、kaki_○○2.png … を、自動で探す）。無ければ、FA.exe の窓は出ない
            data-drawn     … 描いた日（例：2023.11）。データに drawn があれば、そちらが使われる
            data-job / data-ho … 職業・HO。データか、ホームの一覧にあれば、書かなくてよい
       3. 能力値・シナリオ・ひとこと・説明などは、data/investigators.json のデータから自動で入る
@@ -44,6 +45,7 @@
       data-faces="../images/hyojyo/hyo_（○○）/"
       data-photo="../images/kao/k-（○○）.png"
       data-display="../images/display/d-（○○）.png"
+      data-fa="kaki_（○○）"
       data-drawn="（描いた日 例：2023.11）">
 
 <header class="site-header" id="header-window">
@@ -171,10 +173,21 @@
                     <svg id="radar" viewBox="-110 -105 220 210" role="img" aria-label="STRからINTまでの能力値のレーダーチャート"></svg>
                 </aside>
 
-            <!-- ディスプレイ -->
-            <aside class="char-win win-display" aria-label="ディスプレイ">
-                <img id="display-img" alt="（名前）のディスプレイ">
-            </aside>
+            <!-- ディスプレイと、そのキャラのファンアート（FA.exe。あれば、ディスプレイの右横に出る） -->
+            <div class="win-row">
+                <aside class="char-win win-display" aria-label="ディスプレイ">
+                    <img id="display-img" alt="ディスプレイ">
+                </aside>
+
+                <aside class="char-win win-fa" id="fa-window" aria-label="ファンアート" hidden>
+                    <button type="button" class="fa-thumb" id="fa-thumb" aria-label="ファンアートを大きく表示"><img id="fa-thumb-img" alt=""></button>
+                    <div class="fa-ctrl">
+                        <button type="button" id="fa-prev" aria-label="前のファンアート">◀</button>
+                        <span id="fa-count"></span>
+                        <button type="button" id="fa-next" aria-label="次のファンアート">▶</button>
+                    </div>
+                </aside>
+            </div>
 
             <!-- 説明（見えた瞬間にタイピングされる。窓の大きさは全文に合わせて最初から固定） -->
             <article class="char-win win-info" id="win-info" aria-label="キャラクターの説明">

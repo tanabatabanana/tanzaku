@@ -58,7 +58,6 @@
   };
 
   let info = { text: "", lines: [] };
-  const dataTokens = [];          // 後ろで上っていく「データ」の言葉（データを読み込んだら、この探索者の能力値などが入る）
 
   /* =========================
      データを読み込んで、履歴書などを埋める
@@ -142,14 +141,6 @@
       if (birth && !hoNow) {
         findHo().then((ho) => { if (ho) setText("r-birth", birth + "（" + ho + "）"); });
       }
-    });
-
-    // ウィンドウの後ろで上っていく「データ」の言葉：この探索者の能力値・名前・シナリオなど
-    step("データの演出", () => {
-      dataTokens.length = 0;
-      const status = ((d && d.status) || []).filter((s) => s.label !== "SAN");
-      ((d && d.params) || []).concat(status).forEach((p) => dataTokens.push(p.label + " " + p.value));
-      [NAME, d && d.birthscenario, d && d.edition ? d.edition + "版" : "", body.dataset.drawn].concat(d ? [].concat(d.GOscenario || []) : []).forEach((t) => { if (t) dataTokens.push(String(t).trim()); });
     });
 
     step("性別", () => renderGender(d ? d.gender || d.sex || d["性別"] || d.seibetsu || body.dataset.gender : body.dataset.gender));
@@ -343,6 +334,7 @@
   }
 
   let lastW = 0;
+  const metrics = { cx: 0, tachieTop: 0 };
   let lastH = 0;
 
   function layoutStage() {
@@ -381,21 +373,25 @@
     const w = cols * fs;
     const h0 = Math.min(n, rows) * fs;                          // 文字が並ぶ、もとの高さ
 
-    const tachieRight = cx + (shownH * ratio) / 2;
-    const left = Math.max(6, Math.min(tachieRight - w * 0.35, sw - w - 6));
+    // 左辺は、床の格子の右奥の角にそろえる（立ち絵が変わっても動かない）。左辺の下の端が、その角の高さに来る。
+    // 右辺の下の端が画面の下から出る時は、その分だけ上げる
+    const cornerX = floorCx - floorW / 2 + (FLOOR.W - FLOOR.inset) * k;
+    const cornerY = sh - floorBottom - floorH + FLOOR.topY * k;
+    const left = Math.max(6, Math.min(cornerX, sw - w - 6));
+    const nameTop = Math.max(4, Math.min(cornerY - (th * 3) / 4, sh - 6 - th));
 
     nameEl.style.fontSize = fs + "px";
     nameEl.style.width = w + "px";
     nameEl.style.height = h0 + "px";
     nameEl.style.left = left + "px";
-    nameEl.style.top = sh - feet - th + "px";                   // 立ち絵の上限の高さの、上の端
+    nameEl.style.top = nameTop + "px";
     nameEl.style.transform = quadMatrix(
       [[0, 0], [w, 0], [w, h0], [0, h0]],
       [[0, th / 4], [w, 0], [w, th], [0, (th * 3) / 4]]         // 左辺：th/2（上下の真ん中にそろえる）、右辺：th
     );
 
-    speech.style.left = cx + "px";
-    speech.style.top = sh * 0.22 + "px";
+    metrics.cx = cx;                                            // 吹き出しを、立ち絵の上に出すための位置
+    metrics.tachieTop = sh - feet - shownH;
   }
 
   buildFloor();
@@ -463,12 +459,94 @@
   let spoken = 0;
   let hideTimer = null;
 
+  // 吹き出し：ドット絵の枠（角は階段状、しっぽは右下に向かう）。文字の大きさに合わせて、ドットの数を決めて描く
+  const DOT = 5;                                    // ドット1つの大きさ（px）
+  function drawSpeech(text) {
+    speech.textContent = "";
+    speech.hidden = false;
+    speech.style.visibility = "hidden";
+
+    const label = el("span", "sp-text", text);
+    label.style.maxWidth = Math.max(120, Math.min(300, stage.clientWidth - 40)) + "px";
+    speech.append(label);
+    const textW = Math.ceil(label.offsetWidth);
+    const textH = Math.ceil(label.offsetHeight);
+    const cols = Math.max(18, Math.ceil(textW / DOT) + 6);
+    const rows = Math.max(7, Math.ceil(textH / DOT) + 4);
+
+    // 黒い枠のドットと、白い中身のドットを、場所で数えて決める
+    const black = new Set();
+    const white = new Set();
+    const put = (set, x, y) => set.add(x + "," + y);
+    const tail = cols - 12;                         // しっぽの、いちばん左の壁の場所
+    for (let y = 0; y < rows; y++) {
+      const cut = y === 0 || y === rows - 1 ? 3 : y === 1 || y === rows - 2 ? 2 : y === 2 || y === rows - 3 ? 1 : 0;   // 角を階段状に欠く
+      for (let x = cut; x < cols - cut; x++) put(white, x, y);
+      if (y === 0 || y === rows - 1) {
+        for (let x = 3; x <= cols - 4; x++) {
+          if (y === rows - 1 && x > tail && x < tail + 4) continue;                                                   // しっぽの口
+          put(black, x, y);
+        }
+      } else {
+        put(black, cut, y);
+        put(black, cols - 1 - cut, y);
+      }
+    }
+    // しっぽ：右下に向かって、1段ごとに1ドットずつ右へずれる
+    const down = rows;
+    for (let r = 0; r < 2; r++) {
+      put(black, tail + r, down + r);
+      put(black, tail + 4 + r, down + r);
+      for (let x = tail + 1 + r; x <= tail + 3 + r; x++) put(white, x, down + r);
+    }
+    for (let x = tail + 2; x <= tail + 6; x++) put(black, x, down + 2);
+
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", "0 0 " + cols + " " + (rows + 3));
+    svg.setAttribute("width", cols * DOT);
+    svg.setAttribute("height", (rows + 3) * DOT);
+    svg.setAttribute("shape-rendering", "crispEdges");
+    const fillPath = (set, color) => {
+      let d = "";
+      for (let y = 0; y < rows + 3; y++) {
+        for (let x = 0; x < cols; ) {
+          if (!set.has(x + "," + y)) { x++; continue; }
+          let run = 0;
+          while (set.has(x + run + "," + y)) run++;
+          d += "M" + x + " " + y + "h" + run + "v1h-" + run + "z";
+          x += run;
+        }
+      }
+      const path = document.createElementNS(NS, "path");
+      path.setAttribute("d", d);
+      path.setAttribute("fill", color);
+      svg.append(path);
+    };
+    fillPath(white, "#fff");
+    fillPath(black, "#111");
+
+    speech.textContent = "";
+    svg.classList.add("sp-bg");
+    label.style.width = textW + "px";
+    label.style.left = 3 * DOT + "px";
+    label.style.top = (rows * DOT - textH) / 2 + "px";
+    speech.append(svg, label);
+    speech.style.width = cols * DOT + "px";
+    speech.style.height = (rows + 3) * DOT + "px";
+
+    // 立ち絵の上に出す。しっぽの先が、立ち絵の頭のあたりに来る
+    const tipX = (tail + 4.5) * DOT;
+    speech.style.left = Math.max(4, Math.min(metrics.cx - tipX, stage.clientWidth - cols * DOT - 4)) + "px";
+    speech.style.top = Math.max(4, metrics.tachieTop - (rows + 3) * DOT + 2 * DOT) + "px";
+    speech.style.visibility = "";
+  }
+
   tachieBtn.addEventListener("click", () => {
     if (!info.lines.length) return;
     speech.hidden = true;
     void speech.offsetWidth;                         // 続けてタップしても、ポップをやり直す
-    speech.textContent = info.lines[spoken++ % info.lines.length];
-    speech.hidden = false;
+    drawSpeech(info.lines[spoken++ % info.lines.length]);
 
     if (!reduce) {
       tachieBtn.classList.remove("is-poyon");
@@ -680,6 +758,114 @@
   }
 
   /* =========================
+     ファンアート（FA.exe）
+     data-fa="kaki_xiao" なら、images/kaitemorota/ の kaki_xiao1.png、kaki_xiao2.png … を探して、
+     ディスプレイの右横に、1つずつ小さく出す（5秒ごとに切り替わる）。クリックすると、大きく表示される
+  ========================= */
+  const FA_DIR = body.dataset.faDir || "../images/kaitemorota/";
+  const FA_PREFIX = body.dataset.fa || "";
+
+  async function findFanart() {
+    if (!FA_PREFIX) return [];
+    const escaped = FA_PREFIX.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp("^" + escaped + "\\d+\\.[a-z0-9]+$", "i");              // 例：kaki_xiao1.png（kaki_xiaoyu1.png は含めない）
+    const names = (await listFolder(FA_DIR)).filter((name) => pattern.test(name));
+    if (names.length) return names.map((name) => FA_DIR + name);                       // GitHub Pages なら、フォルダの一覧から（拡張子は何でもよい）
+    const found = [];                                                                  // 一覧を取れない時は、番号を順に確かめる（.png）
+    let misses = 0;
+    for (let n = 1; n <= 60; n++) {
+      const url = FA_DIR + FA_PREFIX + n + ".png";
+      if (await exists(url)) { found.push(url); misses = 0; } else if (++misses >= 2) break;
+    }
+    return found;
+  }
+
+  // 大きく表示（ギャラリーの拡大表示と同じ見た目）
+  function openViewer(files, start) {
+    let box = document.getElementById("fa-viewer");
+    if (!box) {
+      box = el("div", "lightbox");
+      box.id = "fa-viewer";
+      box.hidden = true;
+      const win = el("div", "lightbox-window");
+      win.setAttribute("role", "dialog");
+      win.setAttribute("aria-modal", "true");
+      win.setAttribute("aria-label", "ファンアートの拡大表示");
+      win.style.setProperty("--title", '"FA.exe"');
+      const close = el("button", "lightbox-close");
+      close.type = "button";
+      close.setAttribute("aria-label", "閉じる");
+      const big = el("img");
+      big.id = "fa-viewer-img";
+      const bar = el("div", "lightbox-bar");
+      const prev = el("button", "", "◀");
+      prev.type = "button";
+      const cap = el("span", "");
+      cap.id = "fa-viewer-cap";
+      const next = el("button", "", "▶");
+      next.type = "button";
+      bar.append(prev, cap, next);
+      win.append(close, big, bar);
+      box.append(win);
+      document.body.append(box);
+
+      box._files = files;
+      box._i = 0;
+      const show = (n) => {
+        box._i = (n + box._files.length) % box._files.length;
+        big.src = box._files[box._i];
+        cap.textContent = box._i + 1 + " / " + box._files.length;
+      };
+      box._show = show;
+      const closeIt = () => { box.hidden = true; };
+      close.addEventListener("click", closeIt);
+      prev.addEventListener("click", () => show(box._i - 1));
+      next.addEventListener("click", () => show(box._i + 1));
+      box.addEventListener("click", (e) => { if (e.target === box) closeIt(); });
+      document.addEventListener("keydown", (e) => {
+        if (box.hidden) return;
+        if (e.key === "Escape") closeIt();
+        if (e.key === "ArrowLeft") show(box._i - 1);
+        if (e.key === "ArrowRight") show(box._i + 1);
+      });
+    }
+    box._files = files;
+    box._show(start);
+    box.hidden = false;
+  }
+
+  async function setupFanart() {
+    const win = $("fa-window");
+    if (!win) return;
+    const files = await findFanart();
+    if (!files.length) return;                                   // ファンアートが無いキャラクターには、窓は出ない
+
+    const thumb = $("fa-thumb-img");
+    const count = $("fa-count");
+    let i = 0;
+    let timer = null;
+    const show = (n) => {
+      i = (n + files.length) % files.length;
+      thumb.src = files[i];
+      thumb.alt = NAME + "のファンアート " + (i + 1);
+      count.textContent = i + 1 + " / " + files.length;
+    };
+    const restart = () => {
+      clearInterval(timer);
+      if (files.length > 1 && !reduce) timer = setInterval(() => { if (!document.hidden) show(i + 1); }, 5000);
+    };
+
+    win.hidden = false;
+    show(0);
+    restart();
+    if (files.length < 2) win.classList.add("is-single");        // 1枚だけの時は、切り替えのボタンを出さない
+    $("fa-prev").addEventListener("click", () => { show(i - 1); restart(); });
+    $("fa-next").addEventListener("click", () => { show(i + 1); restart(); });
+    $("fa-thumb").addEventListener("click", () => openViewer(files, i));
+  }
+  setupFanart();
+
+  /* =========================
      ウィンドウの後ろで、データが下から上へ上っていく
      （この探索者の能力値・名前・シナリオ名と、数字の羅列が、ゆっくり上って、消える）
   ========================= */
@@ -689,33 +875,25 @@
     document.body.prepend(layer);
 
     const COLORS = ["rgba(0, 71, 255, 0.5)", "rgba(0, 71, 255, 0.32)", "rgba(255, 0, 200, 0.32)", "rgba(0, 150, 210, 0.45)"];
-    const hex = () => "0x" + Math.floor(Math.random() * 65536).toString(16).toUpperCase().padStart(4, "0");
-    const bits = () => Array.from({ length: 4 + Math.floor(Math.random() * 6) }, () => (Math.random() < 0.5 ? "0" : "1")).join("");
-    const GENERIC = ["DATA", "LOAD...", "OK", "404", "NO SIGNAL"];
-
-    const pick = () => {
-      const r = Math.random();
-      if (dataTokens.length && r < 0.5) return dataTokens[Math.floor(Math.random() * dataTokens.length)];   // この探索者のデータ
-      if (r < 0.7) return hex();
-      if (r < 0.9) return bits();
-      return GENERIC[Math.floor(Math.random() * GENERIC.length)];
-    };
+    // 意味のない文字列：英数字・記号・半角カナを、でたらめに並べる（縦書きで上っていく）
+    const CHARS = "0123456789ABCDEFabcdef<>/\\|=+*#%$&@ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ";
+    const gibberish = () => Array.from({ length: 6 + Math.floor(Math.random() * 12) }, () => CHARS[Math.floor(Math.random() * CHARS.length)]).join("");
 
     let active = 0;
     const spawn = () => {
-      if (!document.hidden && active < 30) {
-        const bit = el("span", "data-bit", pick());
-        const duration = rand(10, 20);
-        bit.style.left = rand(0, 94) + "%";
-        bit.style.fontSize = rand(12, 24) + "px";
+      if (!document.hidden && active < 26) {
+        const bit = el("span", "data-bit", gibberish());
+        const duration = rand(11, 22);
+        bit.style.left = rand(0, 96) + "%";
+        bit.style.fontSize = rand(12, 22) + "px";
         bit.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
         bit.style.setProperty("--dur", duration + "s");
-        layer.style.setProperty("--rise", -(layer.clientHeight + 80) + "px");
         layer.append(bit);
+        bit.style.setProperty("--rise", -(layer.clientHeight + bit.offsetHeight + 40) + "px");     // 縦に長い文字列も、画面の外まで上る
         active++;
         setTimeout(() => { bit.remove(); active--; }, duration * 1000 + 200);
       }
-      setTimeout(spawn, rand(260, 620));
+      setTimeout(spawn, rand(300, 700));
     };
     spawn();
   }
