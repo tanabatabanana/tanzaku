@@ -9,7 +9,7 @@
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const root = document.documentElement;
 
-  const LINKS = ".site-header a, .water-gallery, .water-about, .memo-window";
+  const LINKS = ".site-header a, .water-gallery, .water-about, .memo-window, .cc-item";
   const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   // 点（x, y）から、画面のいちばん遠い角までの距離

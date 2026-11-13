@@ -151,6 +151,128 @@
     return figure;
   }
 
+  /* ---------- 吹き出し（キャラクターのページの一言セリフと同じ、ドット絵の枠。しっぽは左） ---------- */
+  const DOT = 5;                                    // ドット1つの大きさ（px）
+  const TAIL = 4;                                   // しっぽの、いちばん左の壁の場所
+
+  // 中に入れる要素（content）に合わせて、吹き出しを作る。{ node, tipX, height } を返す
+  function makeBubble(content) {
+    // 中身の大きさは、画面の外で、先に測る
+    const probe = el("div", "sc-bubble-probe");
+    probe.append(content.cloneNode(true));
+    document.body.append(probe);
+    const cw = Math.ceil(probe.offsetWidth);
+    const ch = Math.ceil(probe.offsetHeight);
+    probe.remove();
+
+    const cols = Math.max(24, Math.ceil(cw / DOT) + 6);
+    const rows = Math.max(7, Math.ceil(ch / DOT) + 4);
+
+    // 黒い枠のドットと、白い中身のドットを、場所で数えて決める（角は階段状）
+    const black = new Set();
+    const white = new Set();
+    const put = (set, x, y) => set.add(x + "," + y);
+    for (let y = 0; y < rows; y++) {
+      const cut = y === 0 || y === rows - 1 ? 3 : y === 1 || y === rows - 2 ? 2 : y === 2 || y === rows - 3 ? 1 : 0;
+      for (let x = cut; x < cols - cut; x++) put(white, x, y);
+      if (y === 0 || y === rows - 1) {
+        for (let x = 3; x <= cols - 4; x++) {
+          if (y === rows - 1 && x > TAIL && x < TAIL + 4) continue;                  // しっぽの口
+          put(black, x, y);
+        }
+      } else {
+        put(black, cut, y);
+        put(black, cols - 1 - cut, y);
+      }
+    }
+    // しっぽ：1段ごとに1ドットずつ右へずれながら、下へ
+    for (let r = 0; r < 2; r++) {
+      put(black, TAIL + r, rows + r);
+      put(black, TAIL + 4 + r, rows + r);
+      for (let x = TAIL + 1 + r; x <= TAIL + 3 + r; x++) put(white, x, rows + r);
+    }
+    for (let x = TAIL + 2; x <= TAIL + 6; x++) put(black, x, rows + 2);
+
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(NS, "svg");
+    svg.setAttribute("viewBox", "0 0 " + cols + " " + (rows + 3));
+    svg.setAttribute("width", cols * DOT);
+    svg.setAttribute("height", (rows + 3) * DOT);
+    svg.setAttribute("shape-rendering", "crispEdges");
+    svg.setAttribute("class", "sp-bg");
+    const fillPath = (set, color) => {
+      let d = "";
+      for (let y = 0; y < rows + 3; y++) {
+        for (let x = 0; x < cols; ) {
+          if (!set.has(x + "," + y)) { x++; continue; }
+          let run = 0;
+          while (set.has(x + run + "," + y)) run++;
+          d += "M" + x + " " + y + "h" + run + "v1h-" + run + "z";
+          x += run;
+        }
+      }
+      const path = document.createElementNS(NS, "path");
+      path.setAttribute("d", d);
+      path.setAttribute("fill", color);
+      svg.append(path);
+    };
+    fillPath(white, "#fff");
+    fillPath(black, "#111");
+
+    content.style.position = "absolute";
+    content.style.left = 3 * DOT + "px";
+    content.style.top = (rows * DOT - ch) / 2 + "px";
+    content.style.width = cw + "px";
+
+    const node = el("div", "sc-bubble");
+    node.style.width = cols * DOT + "px";
+    node.style.height = (rows + 3) * DOT + "px";
+    node.setAttribute("aria-hidden", "true");
+    node.append(svg, content);
+    return { node, tipX: (TAIL + 4.5) * DOT, height: (rows + 3) * DOT, width: cols * DOT };
+  }
+
+  // 名前（シナリオ名・探索者名）をクリックすると、その上に、吹き出しで探索者の顔が出る。もう一度クリックすると、消える
+  let pop = null;
+  let popAnchor = null;
+
+  function closePop() {
+    if (pop) pop.remove();
+    if (popAnchor) popAnchor.classList.remove("is-active");
+    pop = null;
+    popAnchor = null;
+  }
+
+  function openPop(anchor, pcs) {
+    const same = popAnchor === anchor;
+    closePop();
+    if (same) return;
+
+    const faces = el("div", "sc-pop-faces");
+    pcs.forEach((pc) => faces.append(faceFigure(pc, "sc-face")));
+    const bubble = makeBubble(faces);
+    document.body.append(bubble.node);
+
+    // 名前の上に出す。しっぽの先が、名前の左の方に来る
+    const r = anchor.getBoundingClientRect();
+    const pointX = r.left + Math.min(r.width / 2, 40);
+    const left = Math.max(8, Math.min(pointX - bubble.tipX, window.innerWidth - bubble.width - 8));
+    bubble.node.style.left = left + window.scrollX + "px";
+    bubble.node.style.top = r.top + window.scrollY - bubble.height - 4 + "px";
+
+    pop = bubble.node;
+    popAnchor = anchor;
+    anchor.classList.add("is-active");
+  }
+
+  // 吹き出しの外をクリックするか、Esc キーで閉じる
+  document.addEventListener("click", (event) => {
+    if (!pop) return;
+    if (pop.contains(event.target) || event.target.closest(".sc-chip, .sc-title.is-clickable")) return;
+    closePop();
+  });
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") closePop(); });
+
   /* ---------- 通過済みシナリオの一覧 ---------- */
   function renderRow(s) {
     const row = el("div", "sc-row" + (s.external ? " is-external" : "") + (s.pcs.length ? " has-pcs" : ""));
@@ -166,31 +288,16 @@
     if (s.name !== s.short) title.append(el("span", "sc-short", "：" + s.short));
     row.append(title);
 
-    // 右側：探索者の名前の欄。その上に、探索者の顔が出る（クリックで出し入れ）
+    // 右側：探索者の名前の欄
     const box = el("div", "sc-pcs");
-    const faces = el("div", "sc-faces");
-    faces.hidden = true;
     const chips = el("div", "sc-chips");
-    box.append(faces, chips);
-
-    let shown = null;                                                // 顔を出している探索者（"all" = 全員、探索者の名前、null = 出していない）
-    const chipOf = new Map();
-    const showFaces = (mode) => {
-      shown = shown === mode ? null : mode;
-      faces.textContent = "";
-      const targets = shown === "all" ? s.pcs : s.pcs.filter((pc) => pc.name === shown);
-      targets.forEach((pc) => faces.append(faceFigure(pc, "sc-face")));
-      faces.hidden = shown === null;
-      chipOf.forEach((chip, name) => chip.classList.toggle("is-active", shown === "all" || shown === name));
-    };
-
     s.pcs.forEach((pc) => {
       const chip = el("button", "sc-chip" + (pc.lost ? " is-lost" : ""), pcLabel(pc));
       chip.type = "button";
-      chip.addEventListener("click", () => showFaces(pc.name));       // 探索者名をクリック：その探索者の顔
-      chipOf.set(pc.name, chip);
+      chip.addEventListener("click", () => openPop(chip, [pc]));      // 探索者名をクリック：その探索者の顔の吹き出し
       chips.append(chip);
     });
+    box.append(chips);
     if (s.note) box.append(el("p", "sc-note", s.note));
     row.append(box);
 
@@ -198,8 +305,8 @@
       title.classList.add("is-clickable");
       title.tabIndex = 0;
       title.setAttribute("role", "button");
-      title.addEventListener("click", () => showFaces("all"));        // シナリオ名をクリック：出身の探索者の顔
-      title.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); showFaces("all"); } });
+      title.addEventListener("click", () => openPop(title, s.pcs));    // シナリオ名をクリック：出身の探索者の顔の吹き出し
+      title.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openPop(title, s.pcs); } });
     }
     return row;
   }
@@ -207,6 +314,7 @@
   function renderScenarios() {
     const q = norm(input.value);
     list.textContent = "";
+    closePop();
 
     const hits = scenarios.filter((s) => !q || norm([s.name, s.short, s.note].concat(s.pcs.map(pcLabel)).join(" ")).includes(q));
 

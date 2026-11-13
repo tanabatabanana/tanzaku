@@ -1780,3 +1780,11 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
 .sc-chip:hover, .sc-chip.is-active { background: var(--blue); border-color: var(--blue); color: #fff; }
 .sc-chip.is-lost { background: #f4f4f4; border-color: #c4c4c4; color: #777; }
 .sc-chip.is-lost.is-active { background: #777; border-color: #777; color: #fff; }
+
+
+/* アバウト：名前をクリックすると出る、探索者の顔の吹き出し（キャラクターページの一言セリフと同じ見た目） */
+.sc-bubble { position: absolute; z-index: 60; transform-origin: 15% 100%; animation: sc-bubble-in 0.2s ease-out both; pointer-events: none; }
+.sc-bubble .sp-bg { position: absolute; inset: 0; display: block; }
+.sc-pop-faces { display: flex; flex-wrap: wrap; gap: 8px; max-width: 320px; }
+.sc-bubble-probe { position: fixed; left: -9999px; top: 0; visibility: hidden; display: inline-block; max-width: 340px; }
+@keyframes sc-bubble-in { from { opacity: 0; transform: translateY(6px) scale(0.9); } to { opacity: 1; transform: none; } }

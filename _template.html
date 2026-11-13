@@ -179,14 +179,8 @@
                     <img id="display-img" alt="ディスプレイ">
                 </aside>
 
-                <aside class="char-win win-fa" id="fa-window" aria-label="ファンアート" hidden>
-                    <button type="button" class="fa-thumb" id="fa-thumb" aria-label="ファンアートを大きく表示"><img id="fa-thumb-img" alt=""></button>
-                    <div class="fa-ctrl">
-                        <button type="button" id="fa-prev" aria-label="前のファンアート">◀</button>
-                        <span id="fa-count"></span>
-                        <button type="button" id="fa-next" aria-label="次のファンアート">▶</button>
-                    </div>
-                </aside>
+                <!-- ファンアートが複数ある時は、窓を重ねて並べる（character.js が作る） -->
+                <div class="fa-stack" id="fa-stack"></div>
             </div>
 
             <!-- 説明（見えた瞬間にタイピングされる。窓の大きさは全文に合わせて最初から固定） -->
@@ -200,9 +194,16 @@
 </div>
 
 <!-- ページの下部の波：ウィンドウ達は、この中から現れる -->
-<div class="char-waves" aria-hidden="true">
-    <i class="w1"></i><i class="w2"></i><i class="w3"></i>
-    <div class="char-water"></div>
+<div class="char-waves">
+    <i class="w1" aria-hidden="true"></i><i class="w2" aria-hidden="true"></i><i class="w3" aria-hidden="true"></i>
+    <div class="char-water" aria-hidden="true"></div>
+
+    <!-- ページの一番下まで来ると、波が少し上がって、ほかのキャラクターの顔と名前が、ここにカルーセルで出る -->
+    <nav class="char-carousel" aria-label="ほかのキャラクター">
+        <button type="button" class="cc-nav" id="cc-prev" aria-label="前へ">◀</button>
+        <div class="cc-track" id="cc-track"></div>
+        <button type="button" class="cc-nav" id="cc-next" aria-label="次へ">▶</button>
+    </nav>
 </div>
 
 <!-- ページの一番上に戻るボタン（ドットの矢印） -->

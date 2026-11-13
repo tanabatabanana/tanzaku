@@ -5,6 +5,7 @@
   "use strict";
 
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let slideObserver = null;                    // ウィンドウのスライド（あとから増える窓も、これで出す）。ファイルの先頭で宣言しておく
   const body = document.body;
   const $ = (id) => document.getElementById(id);
   const rand = (min, max) => Math.random() * (max - min) + min;
@@ -376,9 +377,8 @@
     // 左辺は、床の格子の右奥の角にそろえる（立ち絵が変わっても動かない）。左辺の下の端が、その角の高さに来る。
     // 右辺の下の端が画面の下から出る時は、その分だけ上げる
     const cornerX = floorCx - floorW / 2 + (FLOOR.W - FLOOR.inset) * k;
-    const cornerY = sh - floorBottom - floorH + FLOOR.topY * k;
     const left = Math.max(6, Math.min(cornerX, sw - w - 6));
-    const nameTop = Math.max(4, Math.min(cornerY - (th * 3) / 4, sh - 6 - th));
+    const nameTop = sh - feet - shownH / 2 - th / 2;             // 名前の高さの中心 = 立ち絵の高さの中心
 
     nameEl.style.fontSize = fs + "px";
     nameEl.style.width = w + "px";
@@ -466,19 +466,22 @@
     speech.hidden = false;
     speech.style.visibility = "hidden";
 
+    // 文字の大きさは、吹き出しとは別の場所で、先に測る（最初のタップで、まだ大きさの決まっていない吹き出しの幅に引っぱられて、縦長にならないように）
+    const probe = el("span", "sp-text sp-probe", text);
+    probe.style.maxWidth = Math.max(200, Math.min(340, stage.clientWidth - 24)) + "px";
+    document.body.append(probe);
+    const textW = Math.ceil(probe.offsetWidth);
+    const textH = Math.ceil(probe.offsetHeight);
+    probe.remove();
     const label = el("span", "sp-text", text);
-    label.style.maxWidth = Math.max(120, Math.min(300, stage.clientWidth - 40)) + "px";
-    speech.append(label);
-    const textW = Math.ceil(label.offsetWidth);
-    const textH = Math.ceil(label.offsetHeight);
-    const cols = Math.max(18, Math.ceil(textW / DOT) + 6);
+    const cols = Math.max(24, Math.ceil(textW / DOT) + 6);
     const rows = Math.max(7, Math.ceil(textH / DOT) + 4);
 
     // 黒い枠のドットと、白い中身のドットを、場所で数えて決める
     const black = new Set();
     const white = new Set();
     const put = (set, x, y) => set.add(x + "," + y);
-    const tail = cols - 12;                         // しっぽの、いちばん左の壁の場所
+    const tail = 4;                                 // しっぽの、いちばん左の壁の場所（吹き出しの左側）
     for (let y = 0; y < rows; y++) {
       const cut = y === 0 || y === rows - 1 ? 3 : y === 1 || y === rows - 2 ? 2 : y === 2 || y === rows - 3 ? 1 : 0;   // 角を階段状に欠く
       for (let x = cut; x < cols - cut; x++) put(white, x, y);
@@ -747,14 +750,14 @@
   ========================= */
   if (!reduce && "IntersectionObserver" in window) {
     document.documentElement.classList.add("js-slide");
-    const slide = new IntersectionObserver((entries) => {
+    slideObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add("is-in");
-        slide.unobserve(entry.target);
+        slideObserver.unobserve(entry.target);
       });
     }, { threshold: 0.08 });
-    document.querySelectorAll(".char-win").forEach((win) => slide.observe(win));
+    document.querySelectorAll(".char-win").forEach((win) => slideObserver.observe(win));
   }
 
   /* =========================
@@ -780,8 +783,8 @@
     return found;
   }
 
-  // 大きく表示（ギャラリーの拡大表示と同じ見た目）
-  function openViewer(files, start) {
+  // 大きく表示（ギャラリーの拡大表示と同じ見た目）。ディスプレイ・ファンアートで使う
+  function openViewer(files, start, title) {
     let box = document.getElementById("fa-viewer");
     if (!box) {
       box = el("div", "lightbox");
@@ -790,13 +793,10 @@
       const win = el("div", "lightbox-window");
       win.setAttribute("role", "dialog");
       win.setAttribute("aria-modal", "true");
-      win.setAttribute("aria-label", "ファンアートの拡大表示");
-      win.style.setProperty("--title", '"FA.exe"');
       const close = el("button", "lightbox-close");
       close.type = "button";
       close.setAttribute("aria-label", "閉じる");
       const big = el("img");
-      big.id = "fa-viewer-img";
       const bar = el("div", "lightbox-bar");
       const prev = el("button", "", "◀");
       prev.type = "button";
@@ -809,59 +809,80 @@
       box.append(win);
       document.body.append(box);
 
-      box._files = files;
+      box._win = win;
+      box._bar = bar;
       box._i = 0;
-      const show = (n) => {
+      box._show = (n) => {
         box._i = (n + box._files.length) % box._files.length;
         big.src = box._files[box._i];
-        cap.textContent = box._i + 1 + " / " + box._files.length;
+        cap.textContent = box._files.length > 1 ? box._i + 1 + " / " + box._files.length : "";
       };
-      box._show = show;
       const closeIt = () => { box.hidden = true; };
       close.addEventListener("click", closeIt);
-      prev.addEventListener("click", () => show(box._i - 1));
-      next.addEventListener("click", () => show(box._i + 1));
+      prev.addEventListener("click", () => box._show(box._i - 1));
+      next.addEventListener("click", () => box._show(box._i + 1));
       box.addEventListener("click", (e) => { if (e.target === box) closeIt(); });
       document.addEventListener("keydown", (e) => {
         if (box.hidden) return;
         if (e.key === "Escape") closeIt();
-        if (e.key === "ArrowLeft") show(box._i - 1);
-        if (e.key === "ArrowRight") show(box._i + 1);
+        if (e.key === "ArrowLeft") box._show(box._i - 1);
+        if (e.key === "ArrowRight") box._show(box._i + 1);
       });
     }
     box._files = files;
+    box._win.style.setProperty("--title", '"' + (title || "FA.exe") + '"');
+    box._win.setAttribute("aria-label", title === "DISPLAY.exe" ? "ディスプレイの拡大表示" : "ファンアートの拡大表示");
+    box._bar.classList.toggle("is-single", files.length < 2);          // 1枚だけの時は、前へ・次へのボタンを隠す
     box._show(start);
     box.hidden = false;
   }
 
+  // ディスプレイは、クリックすると、大きく表示される
+  if (dispImg) {
+    dispImg.addEventListener("click", () => openViewer([dispImg.currentSrc || dispImg.src], 0, "DISPLAY.exe"));
+  }
+
+  // ファンアートが複数ある時は、1枚ずつ別の窓（FA.exe）にして、前の窓の右端に、次の窓の左上が少し重なるように、重ねていく
   async function setupFanart() {
-    const win = $("fa-window");
-    if (!win) return;
+    const stack = $("fa-stack");
+    if (!stack) return;
     const files = await findFanart();
     if (!files.length) return;                                   // ファンアートが無いキャラクターには、窓は出ない
 
-    const thumb = $("fa-thumb-img");
-    const count = $("fa-count");
-    let i = 0;
-    let timer = null;
-    const show = (n) => {
-      i = (n + files.length) % files.length;
-      thumb.src = files[i];
-      thumb.alt = NAME + "のファンアート " + (i + 1);
-      count.textContent = i + 1 + " / " + files.length;
-    };
-    const restart = () => {
-      clearInterval(timer);
-      if (files.length > 1 && !reduce) timer = setInterval(() => { if (!document.hidden) show(i + 1); }, 5000);
-    };
+    const wins = files.map((url, i) => {
+      const win = el("aside", "char-win win-fa");
+      win.setAttribute("aria-label", "ファンアート " + (i + 1));
+      const button = el("button", "fa-thumb");
+      button.type = "button";
+      button.setAttribute("aria-label", "ファンアートを大きく表示");
+      const img = el("img");
+      img.src = url;
+      img.alt = NAME + "のファンアート " + (i + 1);
+      button.append(img);
+      button.addEventListener("click", () => openViewer(files, i, "FA.exe"));
+      win.append(button);
+      stack.append(win);
+      if (slideObserver) slideObserver.observe(win);
+      else win.classList.add("is-in");
+      return win;
+    });
 
-    win.hidden = false;
-    show(0);
-    restart();
-    if (files.length < 2) win.classList.add("is-single");        // 1枚だけの時は、切り替えのボタンを出さない
-    $("fa-prev").addEventListener("click", () => { show(i - 1); restart(); });
-    $("fa-next").addEventListener("click", () => { show(i + 1); restart(); });
-    $("fa-thumb").addEventListener("click", () => openViewer(files, i));
+    const STEP_Y = 18;                                           // 重ねるたびに、少しずつ下へ
+    const arrange = () => {
+      const w = wins[0].offsetWidth || 132;
+      const room = stack.clientWidth;
+      // 横は、窓の幅から22px引いた分ずつずらす（前の窓の右端に、次の窓の左上が22px重なる）。場所が足りない時は、重なりを増やす
+      const step = wins.length > 1 ? Math.max(36, Math.min(w - 22, (room - w) / (wins.length - 1))) : 0;
+      wins.forEach((win, i) => {
+        win.style.left = i * step + "px";
+        win.style.top = i * STEP_Y + "px";
+        win.style.zIndex = String(3 + i);
+      });
+      stack.style.height = (wins.length - 1) * STEP_Y + wins[0].offsetHeight + "px";
+    };
+    arrange();
+    window.addEventListener("resize", arrange);
+    window.addEventListener("load", arrange);
   }
   setupFanart();
 
@@ -897,6 +918,98 @@
     };
     spawn();
   }
+
+  /* =========================
+     ページの一番下：波が少し上がって、ほかのキャラクターの顔と名前が、カルーセルで出る（押すと、そのキャラクターのページへ）
+  ========================= */
+  const waves = document.querySelector(".char-waves");
+  const track = $("cc-track");
+  let carouselReady = false;
+
+  // ホームの探索者一覧から、番号・名前・画像名を読み込む
+  async function loadRows() {
+    try {
+      const res = await fetch("../index.html");
+      if (!res.ok) return [];
+      const text = await res.text();
+      return [...text.matchAll(/\["(\d+)", "([^"]*)", "([^"]*)", "([^"]*)", "([^"]*)"(?:, "x")?\]/g)]
+        .map((m) => ({ no: Number(m[1]), name: m[2], img: m[3] }))
+        .sort((a, b) => a.no - b.no);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  async function buildCarousel() {
+    carouselReady = true;
+    const rows = await loadRows();
+    if (!rows.length || !track) return;
+
+    const here = /character(\d+)\.html/.exec(location.pathname);
+    const hereNo = here ? Number(here[1]) : -1;
+    const items = rows.map((r) => {
+      const no = String(r.no).padStart(2, "0");
+      const a = el("a", "cc-item");
+      a.href = "character" + no + ".html";
+      const img = el("img");
+      img.src = "../images/kao/k-" + r.img + ".png";
+      img.alt = "";
+      img.loading = "lazy";
+      a.append(img, el("span", "", r.name));
+      if (r.no === hereNo) {                                     // 今見ているキャラクター
+        a.classList.add("is-current");
+        a.removeAttribute("href");
+        a.setAttribute("aria-current", "page");
+      }
+      track.append(a);
+      return { a, no };
+    });
+
+    // ページがまだ無いキャラクターは、「準備中」にして、押せないようにする
+    for (let i = 0; i < items.length; i += 8) {
+      await Promise.all(items.slice(i, i + 8).map(async ({ a, no }) => {
+        if (a.classList.contains("is-current")) return;
+        if (!(await exists("character" + no + ".html"))) {
+          a.classList.add("is-soon");
+          a.removeAttribute("href");
+          a.title = "準備中";
+        }
+      }));
+    }
+    const current = track.querySelector(".is-current");
+    if (current) track.scrollLeft = current.offsetLeft - track.clientWidth / 2 + current.offsetWidth / 2;   // 今のキャラクターを、真ん中に
+  }
+
+  // 左右のボタンと、自動で少しずつ進める動き
+  if (track) {
+    const stepOf = () => { const item = track.querySelector(".cc-item"); return (item ? item.offsetWidth : 84) + 14; };
+    const move = (dir) => track.scrollBy({ left: dir * stepOf() * 3, behavior: reduce ? "auto" : "smooth" });
+    const prev = $("cc-prev");
+    const next = $("cc-next");
+    if (prev) prev.addEventListener("click", () => move(-1));
+    if (next) next.addEventListener("click", () => move(1));
+
+    let hover = false;
+    track.addEventListener("pointerenter", () => { hover = true; });
+    track.addEventListener("pointerleave", () => { hover = false; });
+    setInterval(() => {
+      if (reduce || hover || !waves || !waves.classList.contains("is-up")) return;
+      if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 4) track.scrollTo({ left: 0, behavior: "smooth" });
+      else track.scrollBy({ left: stepOf(), behavior: "smooth" });
+    }, 3500);
+  }
+
+  // ページの一番下まで来たら、波が上がる
+  const atBottom = () => window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 24;
+  const checkBottom = () => {
+    const up = atBottom();
+    if (waves) waves.classList.toggle("is-up", up);
+    document.body.classList.toggle("is-bottom", up);
+    if (up && !carouselReady) buildCarousel();
+  };
+  window.addEventListener("scroll", checkBottom, { passive: true });
+  window.addEventListener("resize", checkBottom);
+  window.addEventListener("load", checkBottom);
 
   /* =========================
      右下の、ページの一番上に戻るボタン
