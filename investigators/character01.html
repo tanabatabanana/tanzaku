@@ -13,7 +13,11 @@
 
     <script>
         // ホームから探索者の写真を押して来た時は、波が画面をおおった状態から始める（ちらつき防止）
-        try { if (sessionStorage.getItem("charFly")) document.documentElement.classList.add("arriving"); } catch (e) {}
+        try {
+            // ホームから来た時は波（arriving）、ほかのキャラクターから来た時は、立ち絵・名前を隠す（char-in）
+            var fly = sessionStorage.getItem("charFly");
+            if (fly) document.documentElement.classList.add(/"mode":\s*"char"/.test(fly) ? "char-in" : "arriving");
+        } catch (e) {}
     </script>
     <script>
         // 別のページから青い円で移動してきた時は、画面を青でおおった状態から始める（ちらつき防止）

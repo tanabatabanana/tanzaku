@@ -361,7 +361,9 @@
     const th = Math.max(120, (sh - feet - 8) * TACHIE_LIMIT);
     const ratio = tachieImg.naturalWidth && tachieImg.naturalHeight ? tachieImg.naturalWidth / tachieImg.naturalHeight : 0.45;
     const shownH = Math.min(th, (sw * 0.92) / ratio);
-    tachieBtn.style.left = cx + "px";
+    const mobile = window.matchMedia("(max-width: 900px)").matches;
+    const tachieCx = mobile ? sw * 0.5 : cx;                    // スマホでは、立ち絵は画面の真ん中。床と名前の位置は、そのまま
+    tachieBtn.style.left = tachieCx + "px";
     tachieBtn.style.bottom = feet + "px";
     tachieBtn.style.height = shownH + "px";
 
@@ -390,7 +392,7 @@
       [[0, th / 4], [w, 0], [w, th], [0, (th * 3) / 4]]         // 左辺：th/2（上下の真ん中にそろえる）、右辺：th
     );
 
-    metrics.cx = cx;                                            // 吹き出しを、立ち絵の上に出すための位置
+    metrics.cx = tachieCx;                                            // 吹き出しを、立ち絵の上に出すための位置
     metrics.tachieTop = sh - feet - shownH;
   }
 
@@ -954,8 +956,11 @@
       const img = el("img");
       img.src = "../images/kao/k-" + r.img + ".png";
       img.alt = "";
-      img.loading = "lazy";
-      a.append(img, el("span", "", r.name));
+      const card = el("div", "cc-card");                         // ホームの探索者一覧と同じ、白い枠と 3:4 の写真
+      const photo = el("div", "cc-photo");
+      photo.append(img);
+      card.append(photo);
+      a.append(card, el("span", "", r.name));
       if (r.no === hereNo) {                                     // 今見ているキャラクター
         a.classList.add("is-current");
         a.removeAttribute("href");
@@ -976,39 +981,39 @@
         }
       }));
     }
-    const current = track.querySelector(".is-current");
-    if (current) track.scrollLeft = current.offsetLeft - track.clientWidth / 2 + current.offsetWidth / 2;   // 今のキャラクターを、真ん中に
+    centerCurrent();
   }
 
-  // 左右のボタンと、自動で少しずつ進める動き
+  // 今のキャラクターを、カルーセルの真ん中に
+  function centerCurrent() {
+    const current = track && track.querySelector(".is-current");
+    if (current) track.scrollLeft = current.offsetLeft - (track.clientWidth - current.offsetWidth) / 2;
+  }
+
+  // 左右のボタン（カルーセルは、自分で動かした時だけ動く。勝手には動かない）
   if (track) {
-    const stepOf = () => { const item = track.querySelector(".cc-item"); return (item ? item.offsetWidth : 84) + 14; };
+    const stepOf = () => { const item = track.querySelector(".cc-item"); return (item ? item.offsetWidth : 76) + 14; };
     const move = (dir) => track.scrollBy({ left: dir * stepOf() * 3, behavior: reduce ? "auto" : "smooth" });
     const prev = $("cc-prev");
     const next = $("cc-next");
     if (prev) prev.addEventListener("click", () => move(-1));
     if (next) next.addEventListener("click", () => move(1));
-
-    let hover = false;
-    track.addEventListener("pointerenter", () => { hover = true; });
-    track.addEventListener("pointerleave", () => { hover = false; });
-    setInterval(() => {
-      if (reduce || hover || !waves || !waves.classList.contains("is-up")) return;
-      if (track.scrollLeft >= track.scrollWidth - track.clientWidth - 4) track.scrollTo({ left: 0, behavior: "smooth" });
-      else track.scrollBy({ left: stepOf(), behavior: "smooth" });
-    }, 3500);
   }
 
-  // ページの一番下まで来たら、波が上がる
+  // 最後の窓（キャラの説明）が終わって、下の波の上に見えたら、すぐ波が上がる（ページの一番下まで行かなくてよい）
+  const lastWin = document.querySelector(".win-info");
   const atBottom = () => window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 24;
   const checkBottom = () => {
-    const up = atBottom();
+    const done = lastWin ? lastWin.getBoundingClientRect().bottom <= window.innerHeight - 100 : false;
+    const up = done || atBottom();
+    const was = waves && waves.classList.contains("is-up");
     if (waves) waves.classList.toggle("is-up", up);
     document.body.classList.toggle("is-bottom", up);
     if (up && !carouselReady) buildCarousel();
+    if (up && !was) requestAnimationFrame(centerCurrent);          // 出てきた時に、今のキャラクターを真ん中にそろえる
   };
   window.addEventListener("scroll", checkBottom, { passive: true });
-  window.addEventListener("resize", checkBottom);
+  window.addEventListener("resize", () => { checkBottom(); centerCurrent(); });
   window.addEventListener("load", checkBottom);
 
   /* =========================

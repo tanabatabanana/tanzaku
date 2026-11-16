@@ -76,7 +76,7 @@
 /* =========================================
    右：ウィンドウ達
 ========================================= */
-.char-right { position: relative; grid-column: 1; grid-row: 1; padding: 17vh 1vw 320px 9vw; }   /* 左の余白を広げて、ウィンドウ群を右に寄せる */
+.char-right { position: relative; grid-column: 1; grid-row: 1; padding: 17vh 1vw 160px 9vw; }   /* 左の余白を広げて、ウィンドウ群を右に寄せる */
 
 .char-windows { position: relative; z-index: 2; display: flex; flex-direction: column; max-width: 840px; }
 
@@ -103,7 +103,7 @@
 
 .resume {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 72px clamp(110px, 19%, 150px);
+    grid-template-columns: minmax(0, 1fr) 72px clamp(130px, 33%, 190px);   /* 写真の欄を広げて、写真の下の空白をなくす */
     grid-template-rows: auto minmax(62px, 1fr) auto auto;
     grid-template-areas:
         "yomi   gender photo"
@@ -166,7 +166,8 @@
     box-shadow: 4px 5px 3px rgba(0, 0, 0, 0.28);          /* ホームの一覧と同じ影 */
     outline: 1px solid #e4e4e4;
 }
-.r-photo { grid-area: photo; padding: 6px 10px 10px 6px; }          /* 写真の欄。白で埋める */
+.r-photo { grid-area: photo; display: flex; align-items: center; justify-content: center; padding: 6px 10px 10px 6px; }   /* 写真の欄。写真は欄の真ん中に */
+.r-photo .resume-photo { width: 100%; }
 .rp-inner { position: relative; width: 100%; aspect-ratio: 3 / 4; background: #fff; transition: background-color 0.3s ease; }   /* 貼られる前は白 */
 .resume-photo.is-pasted .rp-inner { background: #61b3ff; }                                                          /* 貼られたら、ホームの一覧と同じ青 */
 .rp-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; }
@@ -282,7 +283,7 @@
     .resume { grid-template-columns: minmax(0, 1fr) 62px 110px; }
     .r-statgrid { grid-template-columns: repeat(3, 1fr); }
     .win-radar { position: relative; top: auto; right: auto; width: 210px; margin: 30px 0 0 auto; }
-    .win-player { width: min(280px, 78%); margin: -40px -4px 0 auto; }
+    .win-player { z-index: 2; width: min(280px, 78%); margin: -72px auto 0 -4px; }   /* チャート（右）の左下に、チャートの下に重なるように */
     .r-agehei { grid-template-columns: 1fr 1fr; }
     .r-drawn { grid-column: 1 / -1; }
     .win-display { width: min(100%, 360px); }
@@ -340,8 +341,8 @@
 
 /* ページの一番下：波が少し上がって、ほかのキャラクターのカルーセルが出る */
 .char-waves { transition: height 0.7s cubic-bezier(0.3, 1.2, 0.4, 1); }
-.char-waves.is-up { height: 250px; z-index: 40; }               /* 立ち絵のステージ（25）より手前に出す */
-body.is-bottom .to-top { bottom: 270px; }                        /* 戻るボタンは、上がった波の上に */
+.char-waves.is-up { height: 270px; z-index: 40; }               /* 立ち絵のステージ（25）より手前に出す */
+body.is-bottom .to-top { bottom: 290px; }                        /* 戻るボタンは、上がった波の上に */
 
 .char-carousel {
     position: absolute;
@@ -360,13 +361,58 @@ body.is-bottom .to-top { bottom: 270px; }                        /* 戻るボタ
 }
 .char-waves.is-up .char-carousel { opacity: 1; transform: none; pointer-events: auto; }
 
-.cc-track { display: flex; flex: 1; gap: 14px; padding: 6px 4px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.cc-track { position: relative; display: flex; flex: 1; gap: 14px; padding: 6px 4px; overflow-x: auto; scrollbar-width: none; }
 .cc-track::-webkit-scrollbar { display: none; }
-.cc-item { flex: none; width: 84px; color: #fff; font: 12px/1.3 "TsunagiGothic", sans-serif; text-align: center; text-decoration: none; scroll-snap-align: start; }
-.cc-item img { display: block; width: 84px; height: 84px; object-fit: cover; object-position: top; background: #61b3ff; border: 3px solid #fff; box-shadow: 3px 3px 0 rgba(0, 0, 80, 0.3); }
+.cc-item { flex: none; width: 76px; color: #fff; font: 12px/1.3 "TsunagiGothic", sans-serif; text-align: center; text-decoration: none; }
+.cc-card { padding: 5px; background: #fff; box-shadow: 3px 3px 0 rgba(0, 0, 80, 0.3); }          /* ホームの探索者一覧と同じ、白い枠 */
+.cc-photo { position: relative; aspect-ratio: 3 / 4; background: #61b3ff; }                      /* 写真は 3:4 */
+.cc-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .cc-item span { display: block; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 2px rgba(0, 0, 80, 0.6); white-space: nowrap; }
-.cc-item:hover img, .cc-item:focus-visible img { border-color: #ffe600; outline: none; }
-.cc-item.is-current img { border-color: #ffe600; }
+.cc-item:hover .cc-card, .cc-item:focus-visible .cc-card { outline: 3px solid #ffe600; }
+.cc-item:focus-visible { outline: none; }
+.cc-item.is-current .cc-card { outline: 3px solid #ffe600; }
 .cc-item.is-soon { opacity: 0.5; cursor: default; }
 .cc-nav { flex: none; width: 34px; height: 34px; padding: 0; background: #fff; border: 3px solid var(--blue); color: var(--blue); font: bold 13px "Courier New", monospace; cursor: pointer; }
 .cc-nav:hover { background: var(--blue); color: #fff; }
+
+
+/* =========================================
+   キャラクターからキャラクターへの移動（char-transition.js）
+   立ち絵：電源が切れるように「ブチッ」と消え、次の立ち絵は、ブラウン管のノイズとともに映る。名前は文字化けしてから、次の名前に変わる
+========================================= */
+/* 移動してきた直後、演出が始まるまで、立ち絵と名前は見えない（ちらつき防止） */
+html.char-in .stage-tachie, html.char-in .stage-name { opacity: 0; }
+
+.stage-name.is-glitch { animation: name-glitch 0.16s steps(2) infinite; }
+@keyframes name-glitch {
+    0%   { translate: 0 0; filter: none; opacity: 1; text-shadow: none; }
+    25%  { translate: -6px 2px; filter: hue-rotate(60deg) saturate(2); text-shadow: 4px 0 #ff00c8, -4px 0 #00d5ff; }
+    50%  { translate: 5px -3px; opacity: 0.6; }
+    75%  { translate: -3px 0; filter: contrast(1.8); text-shadow: -4px 0 #ff00c8, 4px 0 #00d5ff; }
+    100% { translate: 0 0; filter: none; opacity: 1; text-shadow: none; }
+}
+
+.crt-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 7;
+    pointer-events: none;
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") 0 0 / 160px 160px,
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.45) 0 2px, transparent 2px 4px);
+    mix-blend-mode: hard-light;
+    animation: crt-noise 1s steps(1, end) forwards;
+}
+@keyframes crt-noise {
+    0%   { opacity: 0.95; background-position: 0 0, 0 0; }
+    10%  { background-position: -50px 30px, 0 3px; }
+    20%  { background-position: 40px -60px, 0 1px; }
+    30%  { background-position: -90px 10px, 0 4px; }
+    40%  { opacity: 0.8; background-position: 20px 70px, 0 2px; }
+    50%  { background-position: -30px -40px, 0 0; }
+    60%  { opacity: 0.55; background-position: 60px 20px, 0 3px; }
+    75%  { opacity: 0.3; background-position: -70px -20px, 0 1px; }
+    90%  { opacity: 0.12; }
+    100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .crt-noise { display: none; } }
