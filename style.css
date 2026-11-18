@@ -1788,3 +1788,9 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
 .sc-pop-faces { display: flex; flex-wrap: wrap; gap: 8px; max-width: 320px; }
 .sc-bubble-probe { position: fixed; left: -9999px; top: 0; visibility: hidden; display: inline-block; max-width: 340px; }
 @keyframes sc-bubble-in { from { opacity: 0; transform: translateY(6px) scale(0.9); } to { opacity: 1; transform: none; } }
+
+
+/* ホームの探索者一覧：シナリオ名の吹き出しを、アバウトと同じドット絵の吹き出しに（window-buttons.js が描く） */
+.scenario-bubble.is-pixel { padding: 0; background: none; box-shadow: none; max-width: none; white-space: nowrap; transform-origin: 12% 100%; }
+.scenario-bubble.is-pixel .sp-bg { position: absolute; inset: 0; display: block; }
+.scenario-bubble .sb-text { position: relative; display: block; color: #111; }
