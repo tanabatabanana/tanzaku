@@ -3,6 +3,14 @@
 (() => {
   "use strict";
 
+  // ブラウン管テレビ風のフィルター（全ページ共通）の部品を読み込む。ヘッダーに、オン・オフのボタンを足す
+  const self = document.currentScript;
+  if (self && self.src) {
+    const filter = document.createElement("script");
+    filter.src = self.src.replace(/header\.js(\?.*)?$/, "crt-filter.js");
+    document.head.append(filter);
+  }
+
   const headerWindow = document.getElementById("header-window");
   const titlebar = document.getElementById("header-titlebar");
   const toggle = document.getElementById("header-toggle");

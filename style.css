@@ -1794,3 +1794,50 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
 .scenario-bubble.is-pixel { padding: 0; background: none; box-shadow: none; max-width: none; white-space: nowrap; transform-origin: 12% 100%; }
 .scenario-bubble.is-pixel .sp-bg { position: absolute; inset: 0; display: block; }
 .scenario-bubble .sb-text { position: relative; display: block; color: #111; }
+
+
+/* =========================================
+   ブラウン管テレビ風のフィルター（crt-filter.js）。html に crt-on が付いている間だけ
+========================================= */
+.crt-overlay { position: fixed; inset: 0; z-index: 9990; display: none; pointer-events: none; animation: crt-flicker 0.14s steps(2) infinite; }
+html.crt-on .crt-overlay { display: block; }
+
+/* 走査線と、蛍光体の細かい縞（赤・緑・青） */
+.crt-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0 1px, rgba(0, 0, 0, 0) 1px 3px),
+        repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.05) 0 1px, rgba(0, 255, 0, 0.05) 1px 2px, rgba(0, 0, 255, 0.05) 2px 3px);
+}
+/* 周辺が暗い（ブラウン管の丸み）。色は少しこく、コントラストは少し強く */
+.crt-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 56%, rgba(0, 0, 25, 0.36) 100%);
+    box-shadow: inset 0 0 110px rgba(0, 0, 0, 0.32);
+    -webkit-backdrop-filter: contrast(1.08) saturate(1.18) brightness(1.02);
+    backdrop-filter: contrast(1.08) saturate(1.18) brightness(1.02);
+}
+/* ゆっくり流れる、明るい帯 */
+.crt-roll { position: absolute; left: 0; right: 0; top: -20%; height: 18%; background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)); animation: crt-roll 8s linear infinite; }
+/* 細かい砂嵐 */
+.crt-grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") 0 0 / 160px 160px;
+    animation: crt-grain 0.6s steps(1, end) infinite;
+}
+@keyframes crt-roll { from { top: -20%; } to { top: 110%; } }
+@keyframes crt-grain { 0% { background-position: 0 0; } 25% { background-position: -40px 25px; } 50% { background-position: 30px -35px; } 75% { background-position: -20px -45px; } }
+@keyframes crt-flicker { 0% { opacity: 1; } 50% { opacity: 0.95; } 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .crt-overlay, .crt-roll, .crt-grain { animation: none; } }
+
+/* ヘッダーの「CRT」ボタン：オンの時は、色が反転する */
+.header-window-controls .header-crt { width: auto; padding: 0 6px; font: bold 11px/1 "Courier New", monospace; letter-spacing: 0.04em; }
+.header-window-controls .header-crt[aria-pressed="true"] { background: var(--blue); color: #fff; }
+.header-window-controls .header-crt[aria-pressed="true"]:hover { background: #fff; color: var(--blue); }
