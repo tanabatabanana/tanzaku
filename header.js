@@ -91,7 +91,7 @@
     '<path fill="#ffffff" d="M12 8h1v1h-1zM12 10h1v1h-1z"/></svg>';
   const root = document.documentElement;
   const CSS = `
-.crt-overlay { position: fixed; inset: 0; z-index: 9990; display: none; pointer-events: none; animation: crt-flicker 0.14s steps(2) infinite; }
+.crt-overlay { position: fixed; inset: 0; z-index: 2147483000; display: none; pointer-events: none; animation: crt-flicker 0.14s steps(2) infinite; }
 html.crt-on .crt-overlay { display: block; }
 
 /* 走査線と、蛍光体の細かい縞（赤・緑・青） */
@@ -100,26 +100,29 @@ html.crt-on .crt-overlay { display: block; }
     position: absolute;
     inset: 0;
     background:
-        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.09) 0 1px, rgba(0, 0, 0, 0) 1px 3px),
-        repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.03) 0 1px, rgba(0, 255, 0, 0.03) 1px 2px, rgba(0, 0, 255, 0.03) 2px 3px);
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.14) 0 1px, rgba(0, 0, 0, 0) 1px 3px),
+        repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.04) 0 1px, rgba(0, 255, 0, 0.04) 1px 2px, rgba(0, 0, 255, 0.04) 2px 3px);
+    /* 走査線と縞は、中央では、よく見るとわかるくらいに薄く、端に向かって濃くなる */
+    -webkit-mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.22) 38%, #000 100%);
+    mask-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.22) 38%, #000 100%);
 }
 /* 周辺が暗い（ブラウン管の丸み）。色は少しこく、コントラストは少し強く */
 .crt-overlay::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 70%, rgba(0, 0, 25, 0.34) 100%);
-    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.26);
-    -webkit-backdrop-filter: contrast(1.02) saturate(1.08) brightness(1.08);
-    backdrop-filter: contrast(1.02) saturate(1.08) brightness(1.08);
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 74%, rgba(0, 0, 25, 0.34) 100%);
+    box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.24);
+    -webkit-backdrop-filter: contrast(1) saturate(1.04) brightness(1.13);
+    backdrop-filter: contrast(1) saturate(1.04) brightness(1.13);
 }
 /* ゆっくり流れる、明るい帯 */
-.crt-roll { position: absolute; left: 0; right: 0; top: -20%; height: 18%; background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)); animation: crt-roll 8s linear infinite; }
+.crt-roll { position: absolute; left: 0; right: 0; top: -20%; height: 18%; background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)); animation: crt-roll 8s linear infinite; }
 /* 細かい砂嵐 */
 .crt-grain {
     position: absolute;
     inset: 0;
-    opacity: 0.04;
+    opacity: 0.025;
     mix-blend-mode: overlay;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") 0 0 / 160px 160px;
     animation: crt-grain 0.6s steps(1, end) infinite;

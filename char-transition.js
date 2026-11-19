@@ -152,9 +152,16 @@
 
       event.preventDefault();
       leaving = true;
+      window.__charDeparting = true;                                  // 波が、また上がってこないように（character.js が見る）
 
       const rect = card.getBoundingClientRect();
       const src = photo.currentSrc || photo.src;
+
+      // 1. まず、波が下に下がる。そのあとで、ほかの演出が始まる
+      const waves = document.querySelector(".char-waves");
+      const WAIT = waves && waves.classList.contains("is-up") ? 650 : 0;
+      if (waves) waves.classList.remove("is-up", "is-up2");
+      document.body.classList.remove("is-bottom", "is-bottom2");
 
       // 演出のどこかで失敗しても移動できるよう、移動の予約を先にしておく
       setTimeout(() => {
@@ -162,28 +169,38 @@
           sessionStorage.setItem(KEY, JSON.stringify({ mode: "char", src, left: rect.left, top: rect.top, width: rect.width, height: rect.height }));
         } catch (e) { /* 保存できなくても移動する */ }
         location.href = url.href;
-      }, 1100);
+      }, WAIT + 1100);
 
       try {
-        // 押した写真が、浮かび上がる
+        // 押した写真が、浮かび上がる（波が下がっている間も、そのまま浮かんでいる）
         const fly = makeFly(src, rect);
         document.body.append(fly);
         card.style.visibility = "hidden";
         fly.animate([{ transform: "none" }, { transform: LIFT }], { duration: 450, easing: "cubic-bezier(0.2, 0.9, 0.3, 1.2)", fill: "forwards" });
-
-        // ウィンドウ群が、上へ上がっていく
-        document.querySelectorAll(".char-win").forEach((win, i) => {
-          win.animate([{ translate: "0 0" }, { translate: "0 -130vh" }], { duration: 750, delay: i * 40, easing: "cubic-bezier(0.5, 0, 0.9, 0.4)", fill: "forwards" });
-        });
-        const back = document.getElementById("back-windows");
-        if (back) back.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: "forwards" });
-
-        // 立ち絵：テレビの電源が切れるように消える。名前：文字化けする
-        crtOff(document.getElementById("tachie"));
-        garble(document.getElementById("stage-name"));
       } catch (e) {
         console.warn(e);
       }
+
+      setTimeout(() => {
+        try {
+          // ウィンドウ群が、上へ上がっていく
+          document.querySelectorAll(".char-win").forEach((win, i) => {
+            win.animate([{ translate: "0 0" }, { translate: "0 -130vh" }], { duration: 750, delay: i * 40, easing: "cubic-bezier(0.5, 0, 0.9, 0.4)", fill: "forwards" });
+          });
+          const back = document.getElementById("back-windows");
+          if (back) back.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 500, fill: "forwards" });
+
+          // 立ち絵・その下の格子・差分の切り替え・吹き出し：テレビの電源が切れるように消える。名前：文字化けする
+          crtOff(document.getElementById("tachie"));
+          crtOff(document.getElementById("stage-floor"));
+          crtOff(document.getElementById("tachie-switch"));
+          const speech = document.getElementById("speech");
+          if (speech && !speech.hidden) crtOff(speech);
+          garble(document.getElementById("stage-name"));
+        } catch (e) {
+          console.warn(e);
+        }
+      }, WAIT);
     });
 
     // 「戻る」で戻ってきた時に、演出の途中の状態が残らないよう、読み込みなおす
@@ -210,11 +227,25 @@
       if (document.fonts && document.fonts.ready) await Promise.race([document.fonts.ready, wait(1500)]);
       await wait(350);                                                // この間に、ウィンドウ群が、下からスライドして出てくる
 
-      // 立ち絵：電源が入るように映る（ノイズは入れない）。名前：文字化けから、本当の名前へ
+      // 立ち絵の画像が読み込まれて、立ち絵・名前の配置が終わるまで待つ（早すぎると、何も映らないうちに演出が終わって、「効果が出ない」ことになる）
+      const tachieImg = document.querySelector("#tachie img");
+      for (let waited = 0; waited < 5000; waited += 50) {
+        const placed = nameEl && nameEl.style.transform;
+        if ((!tachieImg || tachieImg.complete) && placed) break;
+        await wait(50);
+      }
+
+      // 立ち絵：電源が入るように映る（ノイズは入れない）。名前：文字化けから、本当の名前へ。履歴書：テレビがつくように登場する
       const finalName = nameEl ? nameEl.textContent : "";
       root.classList.remove("char-in", "arriving");
       crtOn(document.getElementById("tachie"));
       const decoding = decode(nameEl, finalName, 650, 550);
+      const resume = document.querySelector(".win-resume");
+      if (resume) {
+        resume.style.transition = "none";
+        resume.classList.add("is-in");
+        crtOn(resume);
+      }
       await wait(800);
 
       // 写真が、履歴書の写真のところに飛んでいって貼られる

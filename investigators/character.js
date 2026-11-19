@@ -382,12 +382,14 @@
     // 名前：縦書き。立ち絵の右うしろ。左辺は立ち絵の高さの上限（th）の 1/2、右辺は th（右がひろがる形）。文字は、その形に合わせて縦に伸びる
     const text = [...nameEl.textContent.replace(/\s+/g, "")];
     const n = Math.max(1, text.length);
-    // 名前の大きさは、キャラごとに変えない。基準は、2文字の名前（小猫）の大きさ：横幅は文字1つ分、高さは文字2つ分。
-    // 3文字以上の名前は、同じ高さの中に収まるよう、文字を小さくして、縦に並べる
+    // 【名前の大きさの基準】
+    //   ・文字の幅は、どの名前でも同じ（base）。基準は、2文字の名前（小猫）の大きさ
+    //   ・名前の枠の高さ（右辺＝立ち絵の高さの上限、左辺＝その半分）も、どの名前でも同じ
+    //   ・文字が多いほど、1文字の高さは縮む（2文字の小猫が、縮みなしの基準。1文字なら、縦に伸びる）
     const base = Math.min(sh * 0.23, sw * 0.34);
-    const fs = Math.min(base, (base * 2) / n);
+    const fs = base;
     const w = base;
-    const h0 = base * 2;                          // 文字が並ぶ、もとの高さ
+    const h0 = n * base;                          // 文字が並ぶ、もとの高さ
 
     // 左辺は、床の格子の右奥の角にそろえる（立ち絵が変わっても動かない）。左辺の下の端が、その角の高さに来る。
     // 右辺の下の端が画面の下から出る時は、その分だけ上げる
@@ -771,8 +773,11 @@
 
     // 入室した時、最初から画面にある窓は、下（波の中）から、上のものから順に浮かび上がってくる（ほかのキャラクターに切り替えた時も）。
     // 下の方にある窓は、スクロールして見えた時に、浮かび上がる。（js-slide を付ける前に、位置を測る）
+    // 他のキャラクターから来た時は、履歴書だけ、テレビがつくように登場する（char-transition.js が出す）。念のため、4秒たっても出ていなければ、出す
+    const tvResume = root.classList.contains("char-in") ? document.querySelector(".win-resume") : null;
+    if (tvResume) setTimeout(() => tvResume.classList.add("is-in"), 4000);
     const first = wins
-      .filter((win) => win.getBoundingClientRect().top < window.innerHeight)
+      .filter((win) => win !== tvResume && win.getBoundingClientRect().top < window.innerHeight)
       .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top || a.getBoundingClientRect().left - b.getBoundingClientRect().left);
     root.classList.add("js-slide");
     first.forEach((win, i) => {
@@ -789,8 +794,28 @@
         slideObserver.unobserve(entry.target);
       });
     }, { threshold: 0.08 });
-    wins.filter((win) => !first.includes(win)).forEach((win) => slideObserver.observe(win));
+    wins.filter((win) => win !== tvResume && !first.includes(win)).forEach((win) => slideObserver.observe(win));
   }
+
+  /* =========================
+     窓の×を押すと、ぽよんと弾む（チャートの窓は、×で、もう一度広がる）
+  ========================= */
+  function addPoyon(win) {
+    if (win.classList.contains("win-radar") || [...win.children].some((child) => child.classList && child.classList.contains("win-x"))) return;
+    const x = document.createElement("button");
+    x.type = "button";
+    x.className = "win-x";
+    x.setAttribute("aria-label", "ぽよんと弾ませる");
+    x.addEventListener("click", (event) => {
+      event.stopPropagation();
+      win.classList.remove("is-poyon");
+      void win.offsetWidth;
+      win.classList.add("is-poyon");
+    });
+    win.addEventListener("animationend", (event) => { if (event.animationName === "win-poyon") win.classList.remove("is-poyon"); });
+    win.append(x);
+  }
+  document.querySelectorAll(".char-win").forEach(addPoyon);
 
   /* =========================
      ファンアート（FA.exe）
@@ -893,6 +918,7 @@
       button.append(img);
       button.addEventListener("click", () => openViewer(files, i, "FA.exe"));
       win.append(button);
+      addPoyon(win);
       stack.append(win);
       if (slideObserver) slideObserver.observe(win);
       else win.classList.add("is-in");
@@ -1014,11 +1040,16 @@
   }
 
   /* =========================
-     ページの一番下：波が少し上がって、ほかのキャラクターの顔と名前が、カルーセルで出る（押すと、そのキャラクターのページへ）
+     ページの終わり（2段階）
+       1段目：窓が画面の上の方まで上がったら、波が少し上がって、前のキャラクターが左端、次のキャラクターが右端に出る
+       2段目：さらに一番下までスクロールすると、波がもっと上がって、全キャラクターのカルーセルが出る
+     どちらも、押すと、そのキャラクターのページへ（char-transition.js が演出する）
   ========================= */
   const waves = document.querySelector(".char-waves");
   const track = $("cc-track");
+  const phone = window.matchMedia("(max-width: 900px)");
   let carouselReady = false;
+  let wasStage2 = false;
 
   // ホームの探索者一覧から、番号・名前・画像名を読み込む
   async function loadRows() {
@@ -1034,39 +1065,48 @@
     }
   }
 
+  // 1人分（顔と名前）。ホームの探索者一覧と同じ、白い枠と 3:4 の写真
+  function charItem(row, extraClass, dirText) {
+    const a = el("a", "cc-item" + (extraClass ? " " + extraClass : ""));
+    a.href = "character" + String(row.no).padStart(2, "0") + ".html";
+    if (dirText) a.append(el("span", "cc-dir", dirText));
+    const img = el("img");
+    img.src = "../images/kao/k-" + row.img + ".png";
+    img.alt = "";
+    const photo = el("div", "cc-photo");
+    photo.append(img);
+    const card = el("div", "cc-card");
+    card.append(photo);
+    a.append(card);
+    a.append(el("span", "cc-name", row.name));
+    return a;
+  }
+
   async function buildCarousel() {
     carouselReady = true;
     const rows = await loadRows();
-    if (!rows.length || !track) return;
+    if (!rows.length) return;
 
     const here = /character(\d+)\.html/.exec(location.pathname);
     const hereNo = here ? Number(here[1]) : -1;
+
+    // 全キャラクターのカルーセル
     const items = rows.map((r) => {
-      const no = String(r.no).padStart(2, "0");
-      const a = el("a", "cc-item");
-      a.href = "character" + no + ".html";
-      const img = el("img");
-      img.src = "../images/kao/k-" + r.img + ".png";
-      img.alt = "";
-      const card = el("div", "cc-card");                         // ホームの探索者一覧と同じ、白い枠と 3:4 の写真
-      const photo = el("div", "cc-photo");
-      photo.append(img);
-      card.append(photo);
-      a.append(card, el("span", "", r.name));
+      const a = charItem(r);
       if (r.no === hereNo) {                                     // 今見ているキャラクター
         a.classList.add("is-current");
         a.removeAttribute("href");
         a.setAttribute("aria-current", "page");
       }
-      track.append(a);
-      return { a, no };
+      if (track) track.append(a);
+      return { a, r };
     });
 
     // ページがまだ無いキャラクターは、「準備中」にして、押せないようにする
     for (let i = 0; i < items.length; i += 8) {
-      await Promise.all(items.slice(i, i + 8).map(async ({ a, no }) => {
+      await Promise.all(items.slice(i, i + 8).map(async ({ a, r }) => {
         if (a.classList.contains("is-current")) return;
-        if (!(await exists("character" + no + ".html"))) {
+        if (!(await exists("character" + String(r.no).padStart(2, "0") + ".html"))) {
           a.classList.add("is-soon");
           a.removeAttribute("href");
           a.title = "準備中";
@@ -1074,6 +1114,16 @@
       }));
     }
     centerCurrent();
+
+    // 前・次のキャラクター（ページがあるものだけ。いちばん端から先は、ぐるっとつながる）
+    const alive = items.filter(({ a }) => !a.classList.contains("is-soon"));
+    const at = alive.findIndex(({ r }) => r.no === hereNo);
+    if (waves && at >= 0 && alive.length > 1) {
+      const pn = el("div", "cc-pn");
+      pn.append(charItem(alive[(at - 1 + alive.length) % alive.length].r, "cc-pn-item", "◀ PREV"));
+      pn.append(charItem(alive[(at + 1) % alive.length].r, "cc-pn-item", "NEXT ▶"));
+      waves.append(pn);
+    }
   }
 
   // 今のキャラクターを、カルーセルの真ん中に
@@ -1092,17 +1142,25 @@
     if (next) next.addEventListener("click", () => move(1));
   }
 
-  // 最後の窓（キャラの説明）が終わって、下の波の上に見えたら、すぐ波が上がる（ページの一番下まで行かなくてよい）
   const lastWin = document.querySelector(".win-info");
-  const atBottom = () => window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 24;
+  const atBottom = () => window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 40;
   const checkBottom = () => {
-    const done = lastWin ? lastWin.getBoundingClientRect().bottom <= window.innerHeight - 100 : false;
-    const up = done || atBottom();
-    const was = waves && waves.classList.contains("is-up");
-    if (waves) waves.classList.toggle("is-up", up);
-    document.body.classList.toggle("is-bottom", up);
-    if (up && !carouselReady) buildCarousel();
-    if (up && !was) requestAnimationFrame(centerCurrent);          // 出てきた時に、今のキャラクターを真ん中にそろえる
+    if (window.__charDeparting) return;                          // ページ移動の演出中は、波を動かさない
+    // 1段目：最後の窓（キャラの説明）が、画面の上の方（パソコンは真ん中より上、スマホは6割より上）まで上がったら
+    const lastBottom = lastWin ? lastWin.getBoundingClientRect().bottom : Infinity;
+    const stage1 = lastBottom <= window.innerHeight * (phone.matches ? 0.6 : 0.5) || atBottom();
+    // 2段目：さらに、一番下までスクロールしたら
+    const stage2 = stage1 && atBottom();
+
+    if (waves) {
+      waves.classList.toggle("is-up", stage1);
+      waves.classList.toggle("is-up2", stage2);
+    }
+    document.body.classList.toggle("is-bottom", stage1);
+    document.body.classList.toggle("is-bottom2", stage2);
+    if (stage1 && !carouselReady) buildCarousel();
+    if (stage2 && !wasStage2) requestAnimationFrame(centerCurrent);   // カルーセルが出た時に、今のキャラクターを真ん中にそろえる
+    wasStage2 = stage2;
   };
   window.addEventListener("scroll", checkBottom, { passive: true });
   window.addEventListener("resize", () => { checkBottom(); centerCurrent(); });

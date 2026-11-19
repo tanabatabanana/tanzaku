@@ -76,7 +76,7 @@
 /* =========================================
    右：ウィンドウ達
 ========================================= */
-.char-right { position: relative; overflow-y: clip; grid-column: 1; grid-row: 1; padding: 17vh 1vw 140px 9vw; }   /* overflow-y: clip …ぼかした背景の窓などが、下にはみ出してスクロールが延びないように */   /* 左の余白を広げて、ウィンドウ群を右に寄せる */
+.char-right { position: relative; overflow-y: clip; grid-column: 1; grid-row: 1; padding: 17vh 1vw 200px 9vw; }   /* overflow-y: clip …ぼかした背景の窓などが、下にはみ出してスクロールが延びないように */   /* 左の余白を広げて、ウィンドウ群を右に寄せる */
 
 .char-windows { position: relative; z-index: 2; display: flex; flex-direction: column; max-width: 840px; }
 
@@ -277,7 +277,7 @@
     .char-left { position: relative; }
     .stage { position: relative; z-index: 1; height: calc(var(--vh) * 80); margin-top: 104px; }   /* 上の104pxは、固定したヘッダーの分 */
 
-    .char-right { padding: 24px 12px 150px; }
+    .char-right { padding: 24px 12px calc(150px + var(--vh) * 40); }
     .char-windows { max-width: none; }
     .win-resume { width: 100%; }
     .resume { grid-template-columns: minmax(0, 1fr) 62px 110px; }
@@ -339,17 +339,39 @@
 /* 拡大表示：1枚だけの時は、前へ・次へのボタンを隠す */
 .lightbox-bar.is-single button { visibility: hidden; }
 
-/* ページの一番下：波が少し上がって、ほかのキャラクターのカルーセルが出る */
+/* ページの終わり（2段階）：
+   1段目（is-up） … 波が少し上がって、前のキャラクター（左端）と次のキャラクター（右端）が出る
+   2段目（is-up2）… さらに波が上がって、全キャラクターのカルーセルが出る */
 .char-waves { transition: height 0.7s cubic-bezier(0.3, 1.2, 0.4, 1); }
-.char-waves.is-up { height: 270px; z-index: 40; }               /* 立ち絵のステージ（25）より手前に出す */
-body.is-bottom .to-top { bottom: 290px; }                        /* 戻るボタンは、上がった波の上に */
+.char-waves.is-up { height: 210px; z-index: 40; }                /* 立ち絵のステージ（25）より手前に出す */
+.char-waves.is-up2 { height: 400px; }
+body.is-bottom .to-top { bottom: 230px; }                        /* 戻るボタンは、上がった波の上に */
+body.is-bottom2 .to-top { bottom: 420px; }
 
+/* 前・次のキャラクター */
+.cc-pn {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 62px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 18px;
+    opacity: 0;
+    transform: translateY(24px);
+    pointer-events: none;
+    transition: opacity 0.4s ease 0.25s, transform 0.5s ease 0.25s;
+}
+.char-waves.is-up .cc-pn { opacity: 1; transform: none; pointer-events: auto; }
+.cc-dir { display: block; margin-bottom: 4px; color: #fff; font: bold 11px/1 "Courier New", monospace; letter-spacing: 0.08em; text-shadow: 0 1px 2px rgba(0, 0, 80, 0.6); }
+
+/* 全キャラクターのカルーセル（2段目） */
 .char-carousel {
     position: absolute;
     left: 0;
     right: 0;
-    top: 64px;
-    bottom: 12px;
+    top: 215px;
+    bottom: 14px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -359,15 +381,16 @@ body.is-bottom .to-top { bottom: 290px; }                        /* 戻るボタ
     pointer-events: none;
     transition: opacity 0.4s ease 0.25s, transform 0.5s ease 0.25s;
 }
-.char-waves.is-up .char-carousel { opacity: 1; transform: none; pointer-events: auto; }
+.char-waves.is-up2 .char-carousel { opacity: 1; transform: none; pointer-events: auto; }
 
 .cc-track { position: relative; display: flex; flex: 1; gap: 14px; padding: 6px 4px; overflow-x: auto; scrollbar-width: none; }
 .cc-track::-webkit-scrollbar { display: none; }
 .cc-item { flex: none; width: 76px; color: #fff; font: 12px/1.3 "TsunagiGothic", sans-serif; text-align: center; text-decoration: none; }
+.cc-pn-item { width: 84px; }
 .cc-card { padding: 5px; background: #fff; box-shadow: 3px 3px 0 rgba(0, 0, 80, 0.3); }          /* ホームの探索者一覧と同じ、白い枠 */
 .cc-photo { position: relative; aspect-ratio: 3 / 4; background: #61b3ff; }                      /* 写真は 3:4 */
 .cc-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.cc-item span { display: block; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 2px rgba(0, 0, 80, 0.6); white-space: nowrap; }
+.cc-name { display: block; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 2px rgba(0, 0, 80, 0.6); white-space: nowrap; }
 .cc-item:hover .cc-card, .cc-item:focus-visible .cc-card { outline: 3px solid #ffe600; }
 .cc-item:focus-visible { outline: none; }
 .cc-item.is-current .cc-card { outline: 3px solid #ffe600; }
@@ -445,3 +468,15 @@ html.char-in .stage-tachie, html.char-in .stage-name { opacity: 0; }
 @keyframes fish-swim { from { transform: translateX(var(--from, -200px)); } to { transform: translateX(var(--to, 110vw)); } }
 @keyframes fish-bob { 0%, 100% { transform: translateY(0); } 25% { transform: translateY(-9px); } 75% { transform: translateY(8px); } }
 @media (prefers-reduced-motion: reduce) { .fish-layer { display: none; } }
+
+
+/* ×を押すと、窓がぽよんと弾む（チャートの窓以外） */
+.char-win.is-poyon { animation: win-poyon 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) both; }
+@keyframes win-poyon {
+    0%   { scale: 1; }
+    18%  { scale: 0.9 1.08; }
+    40%  { scale: 1.07 0.94; }
+    62%  { scale: 0.97 1.03; }
+    82%  { scale: 1.01 0.99; }
+    100% { scale: 1; }
+}
