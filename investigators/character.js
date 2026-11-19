@@ -380,13 +380,14 @@
     tachieBtn.style.height = shownH + "px";
 
     // 名前：縦書き。立ち絵の右うしろ。左辺は立ち絵の高さの上限（th）の 1/2、右辺は th（右がひろがる形）。文字は、その形に合わせて縦に伸びる
-    const text = [...nameEl.textContent.trim()];
+    const text = [...nameEl.textContent.replace(/\s+/g, "")];
     const n = Math.max(1, text.length);
-    const fs = Math.min(sh * 0.23, (sh * 0.46) / n, sw * 0.34);
-    const rows = Math.max(1, Math.floor((sh * 0.5) / fs));
-    const cols = Math.ceil(n / rows);
-    const w = cols * fs;
-    const h0 = Math.min(n, rows) * fs;                          // 文字が並ぶ、もとの高さ
+    // 名前の大きさは、キャラごとに変えない。基準は、2文字の名前（小猫）の大きさ：横幅は文字1つ分、高さは文字2つ分。
+    // 3文字以上の名前は、同じ高さの中に収まるよう、文字を小さくして、縦に並べる
+    const base = Math.min(sh * 0.23, sw * 0.34);
+    const fs = Math.min(base, (base * 2) / n);
+    const w = base;
+    const h0 = base * 2;                          // 文字が並ぶ、もとの高さ
 
     // 左辺は、床の格子の右奥の角にそろえる（立ち絵が変わっても動かない）。左辺の下の端が、その角の高さに来る。
     // 右辺の下の端が画面の下から出る時は、その分だけ上げる
@@ -395,6 +396,9 @@
     const nameTop = sh - feet - shownH / 2 - th / 2;             // 名前の高さの中心 = 立ち絵の高さの中心
 
     nameEl.style.fontSize = fs + "px";
+    nameEl.style.display = "flex";                              // 枠の中で、文字を真ん中に
+    nameEl.style.alignItems = "center";
+    nameEl.style.justifyContent = "center";
     nameEl.style.width = w + "px";
     nameEl.style.height = h0 + "px";
     nameEl.style.left = left + "px";
@@ -552,9 +556,8 @@
     speech.style.width = cols * DOT + "px";
     speech.style.height = (rows + 3) * DOT + "px";
 
-    // 立ち絵の上に出す。しっぽの先が、立ち絵の頭のあたりに来る
-    const tipX = (tail + 4.5) * DOT;
-    speech.style.left = Math.max(4, Math.min(metrics.cx - tipX, stage.clientWidth - cols * DOT - 4)) + "px";
+    // 立ち絵の上に出す
+    speech.style.left = Math.max(4, Math.min(metrics.cx - (cols * DOT) / 2, stage.clientWidth - cols * DOT - 4)) + "px";   // 吹き出しの真ん中 = 立ち絵の真ん中
     speech.style.top = Math.max(4, metrics.tachieTop - (rows + 3) * DOT + 2 * DOT) + "px";
     speech.style.visibility = "";
   }
@@ -763,7 +766,22 @@
      ウィンドウが、下（波の中）からスライドして表示される
   ========================= */
   if (!reduce && "IntersectionObserver" in window) {
-    document.documentElement.classList.add("js-slide");
+    const root = document.documentElement;
+    const wins = [...document.querySelectorAll(".char-win")];
+
+    // 入室した時、最初から画面にある窓は、下（波の中）から、上のものから順に浮かび上がってくる（ほかのキャラクターに切り替えた時も）。
+    // 下の方にある窓は、スクロールして見えた時に、浮かび上がる。（js-slide を付ける前に、位置を測る）
+    const first = wins
+      .filter((win) => win.getBoundingClientRect().top < window.innerHeight)
+      .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top || a.getBoundingClientRect().left - b.getBoundingClientRect().left);
+    root.classList.add("js-slide");
+    first.forEach((win, i) => {
+      win.style.setProperty("--rise", "75vh");
+      win.style.setProperty("--delay", i * 0.12 + "s");
+    });
+    void root.offsetWidth;                                       // 隠れた状態を、いったん確定させてから、浮かべる
+    requestAnimationFrame(() => requestAnimationFrame(() => first.forEach((win) => win.classList.add("is-in"))));
+
     slideObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -771,7 +789,7 @@
         slideObserver.unobserve(entry.target);
       });
     }, { threshold: 0.08 });
-    document.querySelectorAll(".char-win").forEach((win) => slideObserver.observe(win));
+    wins.filter((win) => !first.includes(win)).forEach((win) => slideObserver.observe(win));
   }
 
   /* =========================

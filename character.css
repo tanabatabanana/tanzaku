@@ -295,8 +295,8 @@
 /* ウィンドウが、下（波の中）からスライドして表示される（character.js が js-slide と is-in を付ける） */
 .js-slide .char-win {
     opacity: 0;
-    translate: 0 90px;
-    transition: opacity 0.6s ease, translate 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
+    translate: 0 var(--rise, 90px);                              /* 入室時に画面にある窓は、画面の高さの 75% ぶん下（波の中）から */
+    transition: opacity 0.9s ease var(--delay, 0s), translate 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.08) var(--delay, 0s);
 }
 .js-slide .char-win.is-in { opacity: 1; translate: 0 0; }
 

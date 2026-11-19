@@ -86,9 +86,9 @@
       { transform: "scale(0, 0)", filter: "brightness(8)", opacity: 0, offset: 0 },
       { transform: "scale(0.012, 0.012)", filter: "brightness(8)", opacity: 1, offset: 0.12 },
       { transform: "scale(1.04, 0.012)", filter: "brightness(5) contrast(1.4)", opacity: 1, offset: 0.3 },
-      { transform: "scale(1.02, 1.05)", filter: "brightness(2.4) contrast(1.6) saturate(0.4)", opacity: 1, offset: 0.55 },
-      { transform: "scale(1, 1)", filter: "brightness(1.5) hue-rotate(25deg)", opacity: 0.7, offset: 0.68 },
-      { transform: "scale(1, 1)", filter: "brightness(1.2) contrast(1.3)", opacity: 1, offset: 0.8 },
+      { transform: "scale(1.02, 1.05)", filter: "brightness(2)", opacity: 1, offset: 0.55 },
+      { transform: "scale(1, 1)", filter: "brightness(1.4)", opacity: 1, offset: 0.68 },
+      { transform: "scale(1, 1)", filter: "brightness(1.15)", opacity: 1, offset: 0.8 },
       { transform: "scale(1, 1)", filter: "brightness(1)", opacity: 1, offset: 1 }
     ], { duration: 950, easing: "linear", fill: "both" });
     // 映ったあとは、演出の状態を残さない（立ち絵をタップした時の、ぽよんと跳ねる動きなどが、きちんと動くように）
@@ -210,10 +210,9 @@
       if (document.fonts && document.fonts.ready) await Promise.race([document.fonts.ready, wait(1500)]);
       await wait(350);                                                // この間に、ウィンドウ群が、下からスライドして出てくる
 
-      // 立ち絵：ノイズとともに映る。名前：文字化けから、本当の名前へ
+      // 立ち絵：電源が入るように映る（ノイズは入れない）。名前：文字化けから、本当の名前へ
       const finalName = nameEl ? nameEl.textContent : "";
       root.classList.remove("char-in", "arriving");
-      crtNoise(document.getElementById("stage"));
       crtOn(document.getElementById("tachie"));
       const decoding = decode(nameEl, finalName, 650, 550);
       await wait(800);

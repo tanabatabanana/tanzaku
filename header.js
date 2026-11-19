@@ -74,12 +74,21 @@
 /* =========================================
    ブラウン管テレビ風のフィルター（全ページ共通）。このファイルだけで動く（style.css や、ほかのファイルは要らない）
    ・画面全体に、走査線・蛍光体の細かい縞・周辺の暗がり・少しのちらつき・砂嵐・ゆっくり流れる帯をかぶせる
-   ・ヘッダーのタイトルバーの「CRT」ボタンで、オン・オフを切り替える（選んだ状態は、次に開いた時も続く）
+   ・ヘッダーのメニュー（HOME などのアイコンの並び）の「RETRO ON / OFF」ボタンで、オン・オフを切り替える（選んだ状態は、次に開いた時も続く）
 ========================================= */
 (() => {
   "use strict";
 
   const KEY = "crtFilter";
+  // テレビのドット絵アイコン（HOME などと同じ 16×16）。オンの時は、画面が明るく、走査線が出る
+  const TV_ICON = '<svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">' +
+    '<path fill="#0b1f66" d="M5 0h1v1h-1zM10 0h1v1h-1zM6 1h1v1h-1zM9 1h1v1h-1zM7 2h2v1h-2zM1 3h14v1h-14zM1 4h1v9h-1zM14 4h1v9h-1zM1 13h14v1h-14zM3 14h2v1h-2zM11 14h2v1h-2z"/>' +
+    '<path fill="#0047ff" d="M2 4h12v9h-12z"/>' +
+    '<path fill="#0b1f66" d="M3 5h8v1h-8zM3 6h1v5h-1zM10 6h1v5h-1zM3 11h8v1h-8z"/>' +
+    '<path class="tv-screen" d="M4 6h6v5h-6z"/>' +
+    '<path class="tv-lines" fill="#ffffff" opacity=".55" d="M4 7h6v1h-6zM4 9h6v1h-6z"/>' +
+    '<path fill="#ffe600" d="M12 6h1v1h-1z"/>' +
+    '<path fill="#ffffff" d="M12 8h1v1h-1zM12 10h1v1h-1z"/></svg>';
   const root = document.documentElement;
   const CSS = `
 .crt-overlay { position: fixed; inset: 0; z-index: 9990; display: none; pointer-events: none; animation: crt-flicker 0.14s steps(2) infinite; }
@@ -91,39 +100,43 @@ html.crt-on .crt-overlay { display: block; }
     position: absolute;
     inset: 0;
     background:
-        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.2) 0 1px, rgba(0, 0, 0, 0) 1px 3px),
-        repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.05) 0 1px, rgba(0, 255, 0, 0.05) 1px 2px, rgba(0, 0, 255, 0.05) 2px 3px);
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.09) 0 1px, rgba(0, 0, 0, 0) 1px 3px),
+        repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.03) 0 1px, rgba(0, 255, 0, 0.03) 1px 2px, rgba(0, 0, 255, 0.03) 2px 3px);
 }
 /* 周辺が暗い（ブラウン管の丸み）。色は少しこく、コントラストは少し強く */
 .crt-overlay::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 56%, rgba(0, 0, 25, 0.36) 100%);
-    box-shadow: inset 0 0 110px rgba(0, 0, 0, 0.32);
-    -webkit-backdrop-filter: contrast(1.08) saturate(1.18) brightness(1.02);
-    backdrop-filter: contrast(1.08) saturate(1.18) brightness(1.02);
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 70%, rgba(0, 0, 25, 0.34) 100%);
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.26);
+    -webkit-backdrop-filter: contrast(1.02) saturate(1.08) brightness(1.08);
+    backdrop-filter: contrast(1.02) saturate(1.08) brightness(1.08);
 }
 /* ゆっくり流れる、明るい帯 */
-.crt-roll { position: absolute; left: 0; right: 0; top: -20%; height: 18%; background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)); animation: crt-roll 8s linear infinite; }
+.crt-roll { position: absolute; left: 0; right: 0; top: -20%; height: 18%; background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)); animation: crt-roll 8s linear infinite; }
 /* 細かい砂嵐 */
 .crt-grain {
     position: absolute;
     inset: 0;
-    opacity: 0.07;
+    opacity: 0.04;
     mix-blend-mode: overlay;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") 0 0 / 160px 160px;
     animation: crt-grain 0.6s steps(1, end) infinite;
 }
 @keyframes crt-roll { from { top: -20%; } to { top: 110%; } }
 @keyframes crt-grain { 0% { background-position: 0 0; } 25% { background-position: -40px 25px; } 50% { background-position: 30px -35px; } 75% { background-position: -20px -45px; } }
-@keyframes crt-flicker { 0% { opacity: 1; } 50% { opacity: 0.95; } 100% { opacity: 1; } }
+@keyframes crt-flicker { 0% { opacity: 1; } 50% { opacity: 0.97; } 100% { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .crt-overlay, .crt-roll, .crt-grain { animation: none; } }
 
-/* ヘッダーの「CRT」ボタン：オンの時は、色が反転する */
-.header-window-controls .header-crt { width: auto; padding: 0 6px; font: bold 11px/1 "Courier New", monospace; letter-spacing: 0.04em; }
-.header-window-controls .header-crt[aria-pressed="true"] { background: var(--blue); color: #fff; }
-.header-window-controls .header-crt[aria-pressed="true"]:hover { background: #fff; color: var(--blue); }
+/* ヘッダーのメニューの「RETRO」ボタン（HOME などのアイコンと同じ並び）。ON・OFF が、色と文字と、テレビの画面でわかる */
+.header-retro { background: transparent; cursor: pointer; }
+.header-retro .tv-screen { fill: #8f99ad; }
+.header-retro[aria-pressed="true"] .tv-screen { fill: #61b3ff; }
+.header-retro .tv-lines { display: none; }
+.header-retro[aria-pressed="true"] .tv-lines { display: inline; }
+.retro-state { display: inline-block; margin-left: 3px; padding: 0 4px; background: #c7cfdd; color: #3b4660; font-weight: normal; }
+.header-retro[aria-pressed="true"] .retro-state { background: #0047ff; color: #fff; }
 `;
 
   function setup() {
@@ -144,16 +157,18 @@ html.crt-on .crt-overlay { display: block; }
     overlay.innerHTML = '<i class="crt-roll"></i><i class="crt-grain"></i>';
     document.body.append(overlay);
 
-    // ヘッダーの右上に、オン・オフのボタン（－ □ × の左）
-    const controls = document.querySelector(".header-window-controls");
+    // ヘッダーのメニュー（HOME などのアイコンの並び）に、「RETRO  ON / OFF」のボタン。テレビのアイコン付き
+    const menu = document.querySelector(".header-menu");
     let button = null;
-    if (controls) {
+    let stateLabel = null;
+    if (menu) {
       button = document.createElement("button");
       button.type = "button";
-      button.className = "header-crt";
-      button.textContent = "CRT";
+      button.className = "header-item header-retro";
       button.title = "ブラウン管フィルターのオン・オフ";
-      controls.prepend(button);
+      button.innerHTML = TV_ICON + '<span>RETRO <b class="retro-state">ON</b></span>';
+      stateLabel = button.querySelector(".retro-state");
+      menu.append(button);
       button.addEventListener("click", () => {
         on = !on;
         try { localStorage.setItem(KEY, on ? "on" : "off"); } catch (e) { /* 何もしない */ }
@@ -166,6 +181,7 @@ html.crt-on .crt-overlay { display: block; }
       if (button) {
         button.setAttribute("aria-pressed", String(on));
         button.setAttribute("aria-label", "ブラウン管フィルター：" + (on ? "オン" : "オフ"));
+        stateLabel.textContent = on ? "ON" : "OFF";
       }
     }
     apply();
@@ -177,7 +193,7 @@ html.crt-on .crt-overlay { display: block; }
 
 /* =========================================
    BGM（全ページ共通）。このファイルだけで動く
-   ・ヘッダーのタイトルバーの「BGM」ボタン（CRT の隣）で、オン・オフを切り替える。はじめは、オフ
+   ・ヘッダーのタイトルバー（－ □ × の左）の「BGM」ボタンで、オン・オフを切り替える。はじめは、オフ
    ・曲は、サイトのいちばん上のフォルダの audio/bgm.mp3（下の BGM_FILE で変えられる）
      ページごとに曲を変えたい時は、そのページの <body> に data-bgm="../audio/○○.mp3" と書く
    ・オンのまま別のページへ移っても、曲が続く（場所を覚えておいて、続きから流す。つなぎ目で、ほんの少し途切れる）
