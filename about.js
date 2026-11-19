@@ -266,15 +266,19 @@
 
   const togglePop = (anchor, pcs) => (popAnchor === anchor ? closePop() : showPop(anchor, pcs));
 
-  // 名前（シナリオ名・探索者名）にカーソルを合わせると、吹き出しで探索者の顔が出る。外れると消える。
+  // シナリオの枠（行）、または探索者名にカーソルを合わせると、吹き出しで探索者の顔が出る。外れると消える。
+  // target：カーソルを合わせる場所／anchor：吹き出しを出す位置の基準（名前の上）
   // カーソルを合わせられないタッチの端末では、タップで出し入れする。キーボードでは、フォーカスで出る
-  function bindPop(anchor, pcs) {
-    anchor.addEventListener("pointerdown", (e) => { anchor._touch = e.pointerType === "touch"; });
-    anchor.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") showPop(anchor, pcs); });
-    anchor.addEventListener("pointerleave", (e) => { if (e.pointerType !== "touch" && popAnchor === anchor) closePop(); });
-    anchor.addEventListener("focus", () => { if (!anchor._touch) showPop(anchor, pcs); });
-    anchor.addEventListener("blur", () => { if (popAnchor === anchor) closePop(); });
-    anchor.addEventListener("click", () => { if (anchor._touch) togglePop(anchor, pcs); });
+  function bindPop(target, anchor, pcs) {
+    target.addEventListener("pointerdown", (e) => { target._touch = e.pointerType === "touch"; });
+    target.addEventListener("pointerenter", (e) => { if (e.pointerType !== "touch") showPop(anchor, pcs); });
+    target.addEventListener("pointerleave", (e) => { if (e.pointerType !== "touch" && popAnchor === anchor) closePop(); });
+    target.addEventListener("focus", () => { if (!target._touch) showPop(anchor, pcs); });
+    target.addEventListener("blur", () => { if (popAnchor === anchor) closePop(); });
+    target.addEventListener("click", (e) => {
+      const inChip = e.target.closest && e.target.closest(".sc-chip");
+      if (target._touch && (!inChip || inChip === target)) togglePop(anchor, pcs);       // 枠のタップでは、探索者名のボタンの分は数えない
+    });
   }
 
   // 吹き出しの外をクリックするか、Esc キーで閉じる
@@ -306,7 +310,10 @@
     s.pcs.forEach((pc) => {
       const chip = el("button", "sc-chip" + (pc.lost ? " is-lost" : ""), pcLabel(pc));
       chip.type = "button";
-      bindPop(chip, [pc]);                                            // 探索者名にカーソル：その探索者の顔の吹き出し
+      bindPop(chip, chip, [pc]);                                      // 探索者名にカーソル：その探索者の顔の吹き出し
+      chip.addEventListener("pointerleave", (e) => {                  // 名前から外れても、まだ枠の中なら、枠の吹き出し（全員）に戻す
+        if (e.pointerType !== "touch" && row.matches(":hover")) showPop(title, s.pcs);
+      });
       chips.append(chip);
     });
     box.append(chips);
@@ -317,7 +324,9 @@
       title.classList.add("is-clickable");
       title.tabIndex = 0;
       title.setAttribute("role", "button");
-      bindPop(title, s.pcs);                                           // シナリオ名にカーソル：出身の探索者の顔の吹き出し
+      bindPop(row, title, s.pcs);                                      // シナリオの枠にカーソル：出身の探索者の顔の吹き出し（シナリオ名の上に出る）
+      title.addEventListener("focus", () => showPop(title, s.pcs));    // キーボードでシナリオ名に移った時も出す
+      title.addEventListener("blur", () => { if (popAnchor === title) closePop(); });
       title.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); togglePop(title, s.pcs); } });
     }
     return row;

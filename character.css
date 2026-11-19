@@ -239,7 +239,7 @@
 
 /* ディスプレイ（ウィンドウごと） */
 .win-row { position: relative; z-index: 3; display: flex; flex-wrap: wrap; gap: 20px 18px; align-items: flex-start; margin-top: 44px; }
-.win-display { --title: "DISPLAY.exe"; position: relative; z-index: 3; width: min(100%, 440px); margin-top: -84px; padding: 36px 6px 6px; }   /* ディスプレイは、少し上へ（ファンアートの位置は、そのまま） */
+.win-display { --title: "DISPLAY.exe"; position: relative; z-index: 3; width: min(100%, 440px); margin-top: -150px; padding: 36px 6px 6px; }   /* ディスプレイは、少し上へ（ファンアートの位置は、そのまま） */
 .win-display img { display: block; width: 100%; height: auto; cursor: zoom-in; }   /* クリックで、大きく表示 */
 
 /* ⑧ 説明（見えたら、タイピングされる）。窓の大きさは、全文が入る大きさに最初から固定 */
@@ -416,3 +416,32 @@ html.char-in .stage-tachie, html.char-in .stage-name { opacity: 0; }
     100% { opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .crt-noise { display: none; } }
+
+
+/* ページの終わりの猶予：窓群が終わったあと、右の立ち絵が、画面の真ん中あたりまで上がるまで、スクロールできる（パソコンのみ） */
+@media (min-width: 901px) {
+    .char-layout { margin-bottom: calc(var(--vh) * 45); }
+}
+
+/* 履歴書：通過済みシナリオの下の、メモ枠（文字は小さめ） */
+.r-memo { padding: 6px 12px 10px; border-top: 1px solid #111; }
+.r-memo[hidden] { display: none; }
+.r-memo > span { display: block; color: #333; font-size: 11px; }
+.r-memo p { margin: 2px 0 0; font-size: 12.5px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+
+/* 背景を泳ぐ、アスキーアートの魚（character.js）。ウィンドウや立ち絵の後ろ。動きを減らす設定の時は、出さない */
+.fish-layer { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.fish {
+    position: absolute;
+    left: 0;
+    margin: 0;
+    font: 16px/1.05 "Courier New", monospace;
+    white-space: pre;
+    animation: fish-swim linear forwards;
+    will-change: transform;
+}
+.fish-body { display: block; animation: fish-bob 4s ease-in-out infinite; }
+@keyframes fish-swim { from { transform: translateX(var(--from, -200px)); } to { transform: translateX(var(--to, 110vw)); } }
+@keyframes fish-bob { 0%, 100% { transform: translateY(0); } 25% { transform: translateY(-9px); } 75% { transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) { .fish-layer { display: none; } }

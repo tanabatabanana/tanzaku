@@ -67,7 +67,7 @@
     .then((res) => res.json())
     .then((list) => {
       const found = list.find((e) => e && e.data && plain(e.data.name) === plain(NAME));
-      fill(found ? found.data : null);
+      fill(found ? Object.assign({ memo: found.memo }, found.data) : null);      // memo は、data の中でも、外（1つ上）でもよい
     })
     .catch((err) => {
       console.error("探索者データを読み込めませんでした:", err);
@@ -142,6 +142,18 @@
       if (birth && !hoNow) {
         findHo().then((ho) => { if (ho) setText("r-birth", birth + "（" + ho + "）"); });
       }
+    });
+
+    // メモ（履歴書の一番下）。文字列でも、行ごとの配列でもよい。無ければ、枠ごと出さない
+    step("メモ", () => {
+      const box = document.getElementById("r-memo");
+      const text = document.getElementById("r-memo-text");
+      if (!box || !text) return;
+      let memo = d && (d.memo || d["メモ"] || d.notes);
+      if (Array.isArray(memo)) memo = memo.join("\n");
+      memo = memo ? String(memo).replace(/\\n/g, "\n").trim() : "";
+      text.textContent = memo;
+      box.hidden = !memo;
     });
 
     step("性別", () => renderGender(d ? d.gender || d.sex || d["性別"] || d.seibetsu || body.dataset.gender : body.dataset.gender));
@@ -887,6 +899,68 @@
     window.addEventListener("load", arrange);
   }
   setupFanart();
+
+  /* =========================
+     背景を泳ぐ、アスキーアートの魚（横から見た形）
+     大きさ・速さ・向き・高さがばらばらの魚が、ゆっくり画面を横切る。ウィンドウや立ち絵の後ろを泳ぐ
+  ========================= */
+  if (!reduce) {
+    const fishLayer = el("div", "fish-layer");
+    fishLayer.setAttribute("aria-hidden", "true");
+    document.body.prepend(fishLayer);
+
+    // 右向き（頭が右）の魚。左向きは、これを左右反転して作る。魚を足したい時は、ここに足す
+    const FISH = [
+      ["><(((°>"],
+      ["><))o>"],
+      ["   .-~-.", "><(  o  )>", "   '-~-'"],
+      ["    _.-~-._", "><<-(   o   )>", "    '-._.-'"],
+      ["      _.-._", "  ><,'  o  '.", "><<<(  ~~~    >", "    '.___.'"],
+      ["         ___---___", " ><<   .'   o     '.", "><<<=  <   ~~~~~~    >", " ><<   '.         .'", "         '---___---'"]
+    ];
+    const MIRROR = { "<": ">", ">": "<", "(": ")", ")": "(", "[": "]", "]": "[", "{": "}", "}": "{", "/": "\\", "\\": "/" };
+    const mirror = (lines) => {
+      const width = Math.max(...lines.map((line) => line.length));
+      return lines.map((line) => [...line.padEnd(width)].reverse().map((c) => MIRROR[c] || c).join(""));
+    };
+
+    const FISH_COLORS = ["rgba(0, 71, 255, 0.32)", "rgba(0, 71, 255, 0.2)", "rgba(0, 150, 210, 0.3)", "rgba(255, 0, 200, 0.18)"];
+    const MAX_FISH = window.matchMedia("(max-width: 900px)").matches ? 4 : 7;
+    let swimming = 0;
+
+    function spawnFish(midway) {
+      if (document.hidden || swimming >= MAX_FISH) return;
+      const rightward = Math.random() < 0.5;
+      const art = FISH[Math.floor(Math.random() * FISH.length)];
+      const size = rand(11, 22);                                   // 文字の大きさ（大きいほど、手前で、速い）
+
+      const fish = el("pre", "fish");
+      const body = el("span", "fish-body", (rightward ? art : mirror(art)).join("\n"));
+      fish.append(body);
+      fish.style.fontSize = size + "px";
+      fish.style.color = FISH_COLORS[Math.floor(Math.random() * FISH_COLORS.length)];
+      fish.style.top = rand(4, 88) + "%";
+      fishLayer.append(fish);
+
+      const width = fish.offsetWidth;
+      const room = fishLayer.clientWidth;
+      const speed = 14 + size * 2.2 + rand(0, 10);                 // 1秒に進むpx
+      const duration = (room + width + 40) / speed;
+      fish.style.setProperty("--from", (rightward ? -width - 20 : room + 20) + "px");
+      fish.style.setProperty("--to", (rightward ? room + 20 : -width - 20) + "px");
+      fish.style.animationDuration = duration + "s";
+      if (midway) fish.style.animationDelay = -rand(0, duration * 0.8) + "s";          // はじめから、画面の途中を泳いでいる魚
+      body.style.animationDuration = rand(3, 6) + "s";                                    // ゆらゆら、上下に揺れる
+      body.style.animationDelay = -rand(0, 4) + "s";
+
+      swimming++;
+      setTimeout(() => { fish.remove(); swimming--; }, Math.max(0, duration + (midway ? 0 : 0)) * 1000 + 300);
+    }
+
+    for (let i = 0; i < 3; i++) spawnFish(true);
+    const nextFish = () => { spawnFish(false); setTimeout(nextFish, rand(2000, 5500)); };
+    setTimeout(nextFish, 1500);
+  }
 
   /* =========================
      ウィンドウの後ろで、データが下から上へ上っていく
