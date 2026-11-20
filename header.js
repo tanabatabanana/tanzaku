@@ -140,6 +140,15 @@ html.crt-on .crt-overlay { display: block; }
 .header-retro[aria-pressed="true"] .tv-lines { display: inline; }
 .retro-state { display: inline-block; margin-left: 3px; padding: 0 4px; background: #c7cfdd; color: #3b4660; font-weight: normal; }
 .header-retro[aria-pressed="true"] .retro-state { background: #0047ff; color: #fff; }
+
+/* スマホ：ちかちかしないよう、動きをすべて止める（ちらつき・流れる帯・砂嵐）。走査線は、もっと薄く */
+@media (max-width: 900px), (pointer: coarse) {
+    .crt-overlay { animation: none; }
+    .crt-roll, .crt-grain { display: none; }
+    .crt-overlay::before { opacity: 0.55; }
+    .crt-overlay::after { -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .retro-state { margin-left: 1px; padding: 0 2px; }
+}
 `;
 
   function setup() {

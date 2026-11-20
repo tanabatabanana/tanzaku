@@ -14,19 +14,36 @@
   const COVER = "translateY(0)";                                        // 波が画面をおおった時
   const isChar = document.body.classList.contains("page-char");
 
-  // 波のカーテン（上のふちが波打っている）
+  // 波のカーテン（上のふちが波打っている）。
+  // 波1つの長さは、画面の幅に関係なく、スマホでもきちんと波に見える長さにする（以前は、画面の幅に合わせて縮めていたので、スマホでは細かいギザギザになっていた）
+  function wavePath(period, amplitude, total) {
+    const half = period / 2;
+    let d = "M0 45 q" + half / 2 + " " + -amplitude * 2 + " " + half + " 0";          // 上に膨らむ半波
+    for (let i = 1; i < Math.round(total / half); i++) d += " t" + half + " 0";         // 続けて、下・上・下…と、なめらかにつなぐ
+    return d + " V90 H0 Z";
+  }
+
   function makeCurtain() {
-    let d = "M0 45 q75 -28 150 0";                 // なだらかな波（高さ±14、波1つの長さ300）
-    for (let i = 0; i < 15; i++) d += " t150 0";
-    d += " V90 H0 Z";
+    const vw = window.innerWidth;
+    const period = Math.max(260, Math.round(vw / 4));          // 波1つの長さ（px）
+    const amplitude = 18;                                       // 波の高さ（片側・px）
+    const loops = Math.ceil(vw / period);                       // 画面の幅に入る波の数。この数ぶん流れると、ちょうど同じ形に戻る（つなぎ目なく繰り返せる）
+    const total = (loops * 2 + 1) * period;
 
     const curtain = document.createElement("div");
     curtain.className = "wave-curtain";
     curtain.setAttribute("aria-hidden", "true");
     curtain.innerHTML =
-      '<svg class="wave-edge" viewBox="0 0 2400 90" preserveAspectRatio="none"><path d="' + d + '"/></svg>' +
+      '<svg class="wave-edge" viewBox="0 0 ' + total + ' 90" preserveAspectRatio="none"><path d="' + wavePath(period, amplitude, total) + '"/></svg>' +
       '<div class="wave-body"></div>';
     curtain.style.transform = HIDDEN;
+
+    const edge = curtain.querySelector(".wave-edge");
+    edge.style.width = total + "px";
+    edge.style.animation = "none";
+    if (!reduce && edge.animate) {
+      edge.animate([{ transform: "translateX(0)" }, { transform: "translateX(" + -loops * period + "px)" }], { duration: 3400, iterations: Infinity, easing: "linear" });
+    }
     return curtain;
   }
 

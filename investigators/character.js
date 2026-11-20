@@ -770,6 +770,8 @@
   if (!reduce && "IntersectionObserver" in window) {
     const root = document.documentElement;
     const wins = [...document.querySelectorAll(".char-win")];
+    window.__charReady = true;                                   // HTML の先頭の小さなスクリプトに、動き出したことを知らせる
+    root.classList.add("no-anim");                               // 隠れた状態にする時は、動かさない（一瞬、下に消えていくように見えるのを防ぐ）
 
     // 入室した時、最初から画面にある窓は、下（波の中）から、上のものから順に浮かび上がってくる（ほかのキャラクターに切り替えた時も）。
     // 下の方にある窓は、スクロールして見えた時に、浮かび上がる。（js-slide を付ける前に、位置を測る）
@@ -785,6 +787,7 @@
       win.style.setProperty("--delay", i * 0.12 + "s");
     });
     void root.offsetWidth;                                       // 隠れた状態を、いったん確定させてから、浮かべる
+    root.classList.remove("no-anim");
     requestAnimationFrame(() => requestAnimationFrame(() => first.forEach((win) => win.classList.add("is-in"))));
 
     slideObserver = new IntersectionObserver((entries) => {
@@ -945,65 +948,120 @@
   setupFanart();
 
   /* =========================
-     背景を泳ぐ、アスキーアートの魚（横から見た形）
-     大きさ・速さ・向き・高さがばらばらの魚が、ゆっくり画面を横切る。ウィンドウや立ち絵の後ろを泳ぐ
+     背景を泳ぐ、アスキーアートの魚（横から見た形・4匹・1種類）
+     ・尾に向かって、体が波のようにくねる（頭はあまり動かず、尾ほど大きく振れる）
+     ・速さは、ゆっくり変わる。上下にもゆるやかに漂い、進む向きに合わせて、頭が少し上がったり下がったりする
+     ・画面の端に近づくか、ときどき、ゆっくり向きを変える（体が細くなって、反対向きに）
   ========================= */
   if (!reduce) {
     const fishLayer = el("div", "fish-layer");
     fishLayer.setAttribute("aria-hidden", "true");
     document.body.prepend(fishLayer);
 
-    // 右向き（頭が右）の魚。左向きは、これを左右反転して作る。魚を足したい時は、ここに足す
-    const FISH = [
-      ["><(((°>"],
-      ["><))o>"],
-      ["   .-~-.", "><(  o  )>", "   '-~-'"],
-      ["    _.-~-._", "><<-(   o   )>", "    '-._.-'"],
-      ["      _.-._", "  ><,'  o  '.", "><<<(  ~~~    >", "    '.___.'"],
-      ["         ___---___", " ><<   .'   o     '.", "><<<=  <   ~~~~~~    >", " ><<   '.         .'", "         '---___---'"]
-    ];
+    const ART = ["    _.-~-._", "><<-(   o   )>", "    '-._.-'"];        // 右向き（頭が右）。左向きは、左右反転して作る
     const MIRROR = { "<": ">", ">": "<", "(": ")", ")": "(", "[": "]", "]": "[", "{": "}", "}": "{", "/": "\\", "\\": "/" };
     const mirror = (lines) => {
       const width = Math.max(...lines.map((line) => line.length));
       return lines.map((line) => [...line.padEnd(width)].reverse().map((c) => MIRROR[c] || c).join(""));
     };
 
-    const FISH_COLORS = ["rgba(0, 71, 255, 0.32)", "rgba(0, 71, 255, 0.2)", "rgba(0, 150, 210, 0.3)", "rgba(255, 0, 200, 0.18)"];
-    const MAX_FISH = window.matchMedia("(max-width: 900px)").matches ? 4 : 7;
-    let swimming = 0;
+    const FISH_COLORS = ["rgba(0, 71, 255, 0.34)", "rgba(0, 71, 255, 0.22)", "rgba(0, 150, 210, 0.32)", "rgba(0, 71, 255, 0.28)"];
+    const COUNT = window.matchMedia("(max-width: 900px)").matches ? 3 : 4;
+    const CW = 0.6;                                              // 1文字の幅（em）
+    const LH = 1.05;                                             // 1行の高さ（em）
+    let screenW = window.innerWidth;
+    let screenH = window.innerHeight;
+    window.addEventListener("resize", () => { screenW = window.innerWidth; screenH = window.innerHeight; });
 
-    function spawnFish(midway) {
-      if (document.hidden || swimming >= MAX_FISH) return;
-      const rightward = Math.random() < 0.5;
-      const art = FISH[Math.floor(Math.random() * FISH.length)];
-      const size = rand(11, 22);                                   // 文字の大きさ（大きいほど、手前で、速い）
-
-      const fish = el("pre", "fish");
-      const body = el("span", "fish-body", (rightward ? art : mirror(art)).join("\n"));
-      fish.append(body);
-      fish.style.fontSize = size + "px";
-      fish.style.color = FISH_COLORS[Math.floor(Math.random() * FISH_COLORS.length)];
-      fish.style.top = rand(4, 88) + "%";
-      fishLayer.append(fish);
-
-      const width = fish.offsetWidth;
-      const room = fishLayer.clientWidth;
-      const speed = 14 + size * 2.2 + rand(0, 10);                 // 1秒に進むpx
-      const duration = (room + width + 40) / speed;
-      fish.style.setProperty("--from", (rightward ? -width - 20 : room + 20) + "px");
-      fish.style.setProperty("--to", (rightward ? room + 20 : -width - 20) + "px");
-      fish.style.animationDuration = duration + "s";
-      if (midway) fish.style.animationDelay = -rand(0, duration * 0.8) + "s";          // はじめから、画面の途中を泳いでいる魚
-      body.style.animationDuration = rand(3, 6) + "s";                                    // ゆらゆら、上下に揺れる
-      body.style.animationDelay = -rand(0, 4) + "s";
-
-      swimming++;
-      setTimeout(() => { fish.remove(); swimming--; }, Math.max(0, duration + (midway ? 0 : 0)) * 1000 + 300);
+    // 魚を、1文字ずつの部品にして並べる（尾に近い文字ほど、大きく揺らすため）
+    function setArt(fish) {
+      fish.node.textContent = "";
+      fish.parts = [];
+      const lines = fish.dir > 0 ? ART : mirror(ART);
+      const cols = Math.max(...lines.map((line) => line.length));
+      lines.forEach((line, row) => {
+        [...line].forEach((ch, col) => {
+          if (ch === " ") return;
+          const part = el("span", "", ch);
+          part.style.left = col * CW + "em";
+          part.style.top = row * LH + "em";
+          fish.node.append(part);
+          fish.parts.push({ part, t: (fish.dir > 0 ? cols - 1 - col : col) / (cols - 1) });     // 0＝頭、1＝尾
+        });
+      });
+      fish.w = cols * CW * fish.size;
+      fish.h = lines.length * LH * fish.size;
+      fish.node.style.width = fish.w + "px";
+      fish.node.style.height = fish.h + "px";
     }
 
-    for (let i = 0; i < 3; i++) spawnFish(true);
-    const nextFish = () => { spawnFish(false); setTimeout(nextFish, rand(2000, 5500)); };
-    setTimeout(nextFish, 1500);
+    const fishes = Array.from({ length: COUNT }, (_, i) => {
+      const size = rand(15, 21);
+      const fish = {
+        node: el("div", "fish"), size,
+        dir: Math.random() < 0.5 ? 1 : -1,
+        x: rand(0.1, 0.9) * screenW, y: rand(0.12, 0.85) * screenH,
+        base: rand(24, 38),                                      // 泳ぐ速さの目安（px/秒）
+        phase: rand(0, 6.28), freq: rand(1.1, 1.5),              // 尾を振る位置と、速さ
+        seed: rand(0, 100),
+        turning: -1, nextTurn: performance.now() + rand(12000, 30000)
+      };
+      fish.node.style.fontSize = size + "px";
+      fish.node.style.color = FISH_COLORS[i % FISH_COLORS.length];
+      setArt(fish);
+      fishLayer.append(fish.node);
+      return fish;
+    });
+
+    function swim(fish, now, dt) {
+      const sec = now / 1000;
+
+      // 速さ：ゆっくり変わる。向きを変えている間は、ほとんど進まない
+      let speed = fish.base * (0.8 + 0.2 * Math.sin(sec * 0.6 + fish.seed)) * (0.92 + 0.08 * Math.cos(fish.phase * 2));
+      if (fish.turning >= 0) speed *= 0.3;
+
+      // 上下：ゆるやかに漂う。画面の上や下に近づいたら、そっと戻る
+      let vy = Math.sin(sec * 0.35 + fish.seed) * 8 + Math.sin(sec * 0.9 + fish.seed * 2) * 3;
+      if (fish.y < screenH * 0.1) vy += (screenH * 0.1 - fish.y) * 0.8;
+      if (fish.y > screenH * 0.88) vy -= (fish.y - screenH * 0.88) * 0.8;
+
+      // 向きを変える：画面の端に近づいた時か、ときどき
+      if (fish.turning < 0 && ((fish.dir > 0 && fish.x > screenW - 40) || (fish.dir < 0 && fish.x < 40) || now > fish.nextTurn)) {
+        fish.turning = 0;
+        fish.nextTurn = now + rand(12000, 30000);
+      }
+      let squeeze = 1;
+      if (fish.turning >= 0) {
+        const before = fish.turning;
+        fish.turning += dt / 1.1;
+        squeeze = Math.max(0.04, Math.abs(Math.cos(Math.PI * fish.turning)));                // 体が細くなって、反対向きになる
+        if (before < 0.5 && fish.turning >= 0.5) { fish.dir = -fish.dir; setArt(fish); }
+        if (fish.turning >= 1) { fish.turning = -1; squeeze = 1; }
+      }
+
+      fish.x += fish.dir * speed * dt;
+      fish.y += vy * dt;
+      fish.phase += dt * Math.PI * 2 * fish.freq * (0.6 + (speed / fish.base) * 0.5);        // 速く泳ぐほど、尾を速く振る
+
+      // 体のくねり：尾に近いほど大きく、頭から尾へ、波が伝わる
+      const amp = fish.size * 0.34;
+      fish.parts.forEach(({ part, t }) => {
+        part.style.transform = "translateY(" + (amp * Math.pow(t, 1.4) * Math.sin(fish.phase - t * 2.8)).toFixed(2) + "px)";
+      });
+
+      // 進む向きに合わせて、頭が少し上がったり下がったりする
+      const pitch = Math.atan2(vy, Math.max(speed, 1)) * (180 / Math.PI) * 0.4;
+      fish.node.style.transform = "translate3d(" + (fish.x - fish.w / 2).toFixed(1) + "px," + (fish.y - fish.h / 2).toFixed(1) + "px,0) rotate(" + (fish.dir > 0 ? pitch : -pitch).toFixed(1) + "deg) scaleX(" + squeeze.toFixed(3) + ")";
+    }
+
+    let lastFrame = performance.now();
+    const frame = (now) => {
+      const dt = Math.min(0.05, (now - lastFrame) / 1000);
+      lastFrame = now;
+      if (!document.hidden) fishes.forEach((fish) => swim(fish, now, dt));
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
   }
 
   /* =========================
