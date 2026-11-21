@@ -453,10 +453,12 @@ html.char-in .stage-tachie, html.char-in .stage-name { opacity: 0; }
 .r-memo p { margin: 2px 0 0; font-size: 12.5px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
 
 
-/* 背景を泳ぐ魚（character.js）。線画・シルエットの、ベクターの絵。ウィンドウや立ち絵の後ろ。動きを減らす設定の時は、出さない */
+/* 背景を泳ぐ魚（character.js）。文字を敷きつめて作る、アスキーアートの魚。ウィンドウや立ち絵の後ろ。動きを減らす設定の時は、出さない */
 .fish-layer { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
 .fish { position: absolute; left: 0; top: 0; will-change: transform; }
-.fish svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.f-part { position: absolute; top: 0; height: 100%; transform-origin: right center; }       /* 後ろ半分・尾は、右端（つなぎ目）を中心に振れる */
+.f-front { transform-origin: left center; }
+.f-part pre { margin: 0; font-family: "Courier New", monospace; font-size: inherit; line-height: 1.2; white-space: pre; }
 @media (prefers-reduced-motion: reduce) { .fish-layer { display: none; } }
 
 
