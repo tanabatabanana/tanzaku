@@ -453,12 +453,9 @@ html.char-in .stage-tachie, html.char-in .stage-name { opacity: 0; }
 .r-memo p { margin: 2px 0 0; font-size: 12.5px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
 
 
-/* 背景を泳ぐ魚（character.js）。文字を敷きつめて作る、アスキーアートの魚。ウィンドウや立ち絵の後ろ。動きを減らす設定の時は、出さない */
+/* 背景を泳ぐ魚（character.js）。文字のマスに、魚の形を当てはめて描く。ウィンドウや立ち絵の後ろ。動きを減らす設定の時は、出さない */
 .fish-layer { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.fish { position: absolute; left: 0; top: 0; will-change: transform; }
-.f-part { position: absolute; top: 0; height: 100%; transform-origin: right center; }       /* 後ろ半分・尾は、右端（つなぎ目）を中心に振れる */
-.f-front { transform-origin: left center; }
-.f-part pre { margin: 0; font-family: "Courier New", monospace; font-size: inherit; line-height: 1.2; white-space: pre; }
+.fish { position: absolute; left: 0; top: 0; margin: 0; white-space: pre; will-change: transform; }
 @media (prefers-reduced-motion: reduce) { .fish-layer { display: none; } }
 
 
@@ -479,9 +476,42 @@ html.char-in .stage-tachie, html.char-in .stage-name { opacity: 0; }
 html.char-in .char-win { opacity: 0; }
 
 /* =========================================
-   スマホ：履歴書の文字を小さく／表情の窓が重なる分の空欄／ディスプレイの位置
+   画面の大きさごとの調整（スマホ・iPad・パソコン）
+     〜600px      … スマホ：窓を縦に並べる。履歴書の文字を小さく
+     601〜900px   … iPad（縦）など：窓を縦に並べる。窓は、真ん中の、読みやすい幅に。文字は、パソコンと同じ大きさ
+     901〜1180px  … iPad（横）など：パソコンと同じ並びで、窓群だけ、少し縮めて（zoom）、立ち絵の欄を少し細くする
 ========================================= */
+
+/* 窓を縦に並べる画面（〜900px）に、共通の調整 */
 @media (max-width: 900px) {
+    /* 履歴書の一番下に空欄をつくる。表情の窓が重なっても、通過済みシナリオやメモが読めるように */
+    .r-go::after { content: ""; display: block; height: 76px; }
+
+    /* ディスプレイは、チャートに重ならない位置に（パソコン用の「上へ上げる」は、使わない） */
+    .win-row { margin-top: 28px; }
+    .win-display { margin-top: 0; }
+}
+
+/* iPad（縦）など：窓が横に広がりすぎないよう、真ん中の、読みやすい幅にまとめる */
+@media (min-width: 601px) and (max-width: 900px) {
+    .char-right { padding: 24px 24px calc(150px + var(--vh) * 30); }
+    .char-windows { max-width: 700px; margin: 0 auto; }
+    .stage { height: calc(var(--vh) * 70); }
+    .win-radar { width: 240px; }
+    .win-player { width: min(340px, 70%); margin-top: -76px; }
+    .win-display { width: min(100%, 420px); }
+}
+
+/* iPad（横）など：パソコンと同じ並び。窓群は 88% に縮めて、立ち絵の欄を細くする */
+@media (min-width: 901px) and (max-width: 1180px) {
+    .char-layout { grid-template-columns: minmax(0, 1fr) 33%; }
+    .char-right { padding: 15vh 1vw 200px 3vw; }
+    .char-windows { zoom: 0.88; }
+    .data-rise { right: 33%; }
+}
+
+/* スマホ：履歴書の文字を小さく／性別の欄 */
+@media (max-width: 600px) {
     .win-resume { padding: 34px 12px 16px; }
     .resume { grid-template-columns: minmax(0, 1fr) 56px 100px; }
     .resume-title { font-size: 20px; }
@@ -500,11 +530,4 @@ html.char-in .char-win { opacity: 0; }
     .r-gender { padding: 3px; }
     .r-gender b { gap: 2px; font-size: 12px; }
     .r-gender .gm, .gm { padding: 0 2px; border-width: 1.5px; }
-
-    /* 履歴書の一番下に空欄をつくる。表情の窓が重なっても、通過済みシナリオやメモが読めるように */
-    .r-go::after { content: ""; display: block; height: 76px; }
-
-    /* ディスプレイは、チャートに重ならない位置に（パソコン用の「上へ上げる」は、スマホでは使わない） */
-    .win-row { margin-top: 28px; }
-    .win-display { margin-top: 0; }
 }
