@@ -215,26 +215,22 @@
   "kind": "character",
   "data": {
     "name": "阿吽 (あうん)",
-    "edition": 6,
     "initiative": 14,
-    "externalUrl": "https://iachara.com/view/8607554",
-    "iconUrl": "https://image.iaproject.app/7139232c-cdff-47ec-b721-bc2424b10f92",
+    "birthscenario": "ようこそ!冥迷市役所都市伝説課へ！",
+    "HO": "HO1",
+    "GOscenario": ["ようこそ!冥迷市役所都市伝説課へ！", "黄身と蜂蜜", "天国の偽証", "都市伝説課 おまけシナリオ", "ごぜんにじにあいにきて。", "都市伝説課 エイプリルフールシナリオ", "格付けチェッ", "微睡む君に花は降る"],
+    "edition": 6,
+    "sex": "女",
+    "height": 165,
+    "age": 28,
+    "job": "公務員",
+    "kaita": "2024.5",
+    "hitokoto": "カグ、帰りましょう。少し、遠回りで。",
+    "information": "鯉のぼりを背負った都市伝説課の職員。クールで、誰に対しても基本的に塩対応。ビビリだが、後輩の前では頼れる存在であろう努力をしている。\n\n仕事中は基本仮面をつけている。刃が仕込まれた大きな鯉のぼりと、腰に雑多に付けられた武器を使って戦う。",
     "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=55 【アイデア】\nCCB<=80 【幸運】\nCCB<=75 【知識】\nCCB<=77 【目星】\nCCB<=80 【聞き耳】\nCCB<=65 【図書館】\nCCB<=81 【回避】\nCCB<=50 【こぶし（パンチ）】\nCCB<=80 【鯉のぼり】\nCCB<=55 【ナイフ】\nCCB<=60 【日本刀】\nCCB<=58 【手斧】\nCCB<=10 【戦車砲】\nCCB<=66 【精神分析】\nCCB<=9 【味覚】\nCCB<=45 【信用】\nCCB<=83 【医学】\nCCB<=89 【オカルト】\nCCB<=5 【クトゥルフ神話】\nCCB<=21 【芸術（料理）】\n1d3+1D4 【ダメージ判定】\n1d4+1D4 【ダメージ判定】\n1d6+1D4 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
-    "status": [
-      {"label": "HP", "value": 11, "max": 11},
-      {"label": "MP", "value": 16, "max": 16},
-      {"label": "SAN", "value": 56, "max": 56}
-    ],
-    "params": [
-      {"label": "STR", "value": "12"},
-      {"label": "CON", "value": "6"},
-      {"label": "POW", "value": "16"},
-      {"label": "DEX", "value": "14"},
-      {"label": "APP", "value": "13"},
-      {"label": "SIZ", "value": "15"},
-      {"label": "INT", "value": "11"},
-      {"label": "EDU", "value": "15"}
-    ]
+    "status": [{"label": "HP", "value": 11, "max": 11}, {"label": "MP", "value": 16, "max": 16}, {"label": "SAN", "value": 56, "max": 56}],
+    "params": [{"label": "STR", "value": "12"}, {"label": "CON", "value": "6"}, {"label": "POW", "value": "16"}, {"label": "DEX", "value": "14"}, {"label": "APP", "value": "13"}, {"label": "SIZ", "value": "15"}, {"label": "INT", "value": "11"}, {"label": "EDU", "value": "15"}],
+    "memo": "鯉のぼり、狛犬がモチーフ。仁王像みたいな立ち方させたかった。\n\n(2024.5)"
   }
 },
 {
