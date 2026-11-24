@@ -953,7 +953,8 @@
        （濃いところは「# @ 8」、薄いところは「. ' :」。魚が動くたびに、マスの文字が入れ替わる）
      ・背は濃く、腹へ向かって薄くなる。尾に向かって、体が波のようにくねる。背びれ・腹びれ・胸びれ・えら・目もある
      ・速さは、ゆっくり変わる。上下にもゆるやかに漂い、進む向きに合わせて、頭が少し上がったり下がったりする
-     ・画面の端に近づくか、ときどき、ゆっくり向きを変える（体が細くなって、反対向きに）
+     ・画面の端に近づくか、ときどき、折り返す：体をCの字に曲げて、尾をひと振りしながら、ゆるやかな弧を描いて、反対向きになる
+       （進むはやさは、前 → 止まる → 反対向き、と変わる。奥行きで体が縮んで、少し大きくなり、上か下へ、少し沈む／浮く）
   ========================= */
   if (!reduce) {
     const fishLayer = el("div", "fish-layer");
@@ -972,10 +973,11 @@
     };
 
     // 魚の形：その場所（u：体に沿った位置、v：上下の位置。どちらも体の長さが 1）の濃さ（0〜1）を返す
-    function density(u, v, phase, amp) {
+    function density(u, v, phase, amp, bend) {
       if (u < -0.02 || u > 1) return 0;
       const s = 1 - u;                                                                  // 頭 0 → 尾 1
-      const dv = v - amp * Math.pow(Math.max(s, 0), 1.7) * Math.sin(phase - 3.4 * s);   // 体の中心線のずれ（尾ほど大きく、波が頭から尾へ伝わる）
+      const dv = v - amp * Math.pow(Math.max(s, 0), 1.7) * Math.sin(phase - 3.4 * s)    // 体の中心線のずれ（尾ほど大きく、波が頭から尾へ伝わる）
+                   - bend * (1 - 4 * (u - 0.5) * (u - 0.5));                            // 折り返す時の、体のCの字の曲がり（真ん中が、頭と尾より、ずれる）
       const a = Math.abs(dv);
       let d = 0;
 
@@ -1025,13 +1027,13 @@
 
     const phone = window.matchMedia("(max-width: 600px)").matches;
     const COUNT = phone ? 3 : 4;
-    const FS = phone ? 6 : Math.max(7.5, Math.min(9.5, screenW / 140));       // 文字の大きさ（px）
+    const FS = phone ? 5.2 : Math.max(6.5, Math.min(8, screenW / 170));       // 文字の大きさ（px）
     const CW = FS * 0.6;                                                      // 1マスの幅（等幅の文字）
     const CH = FS * 1.2;                                                      // 1マスの高さ
     const DRAW_EVERY = phone ? 100 : 62;                                      // 文字を選び直す間隔（ミリ秒）。スマホは、ゆっくり
 
     const fishes = Array.from({ length: COUNT }, (_, i) => {
-      const L = Math.max(170, Math.min(430, screenW * rand(0.2, 0.3)));       // 魚の長さ（px）
+      const L = phone ? Math.max(110, Math.min(170, screenW * rand(0.3, 0.42))) : Math.max(120, Math.min(260, screenW * rand(0.11, 0.17)));       // 魚の長さ（px）。以前より、ずっと小さく
       const pre = el("pre", "fish");
       pre.style.font = FS + "px/" + CH + "px 'Courier New', monospace";
       pre.style.color = "rgba(0, 71, 255, " + (0.36 + (i % 2) * 0.1).toFixed(2) + ")";
@@ -1040,62 +1042,84 @@
         pre, L,
         dir: Math.random() < 0.5 ? 1 : -1,
         x: rand(0.1, 0.9) * screenW, y: rand(0.15, 0.8) * screenH,
-        base: rand(16, 26) * (L / 330),                                       // 泳ぐ速さの目安（px/秒）。ゆったり
+        base: rand(26, 40) * (L / 200),                                       // 泳ぐ速さの目安（px/秒）。体の長さの、5分の1ほどを、1秒で進む
         phase: rand(0, 6.28), freq: rand(0.7, 1.0),                           // 尾を振る位置と、速さ
-        seed: rand(0, 100), effort: 1, angle: 0, squeeze: 1,
-        turning: -1, nextTurn: performance.now() + rand(20000, 45000),
-        lastDraw: 0
+        seed: rand(0, 100), effort: 1, angle: 0, squeeze: 1, bend: 0, scale: 1, turnFrom: 1, turnSign: 1,
+        turning: -1, nextTurn: performance.now() + rand(6000, 45000),         // 折り返す時期も、魚ごとにばらばら
+        // 文字を選び直す間隔・文字が入れ替わる周期・マスごとのばらつきも、魚ごとに別々（全部の魚が、同じ瞬間に切り替わらないように）
+        drawEvery: DRAW_EVERY * rand(0.8, 1.6),
+        lastDraw: performance.now() - rand(0, DRAW_EVERY),
+        tickPeriod: rand(140, 340) * (phone ? 1.6 : 1),
+        tickOffset: rand(0, 5000),
+        hashOffset: Math.floor(rand(0, 1000000))
       };
     });
 
     function swim(fish, now, dt) {
       const sec = now / 1000;
 
-      // 速さ：ゆっくり変わる。向きを変えている間は、ほとんど進まない
-      let speed = fish.base * (0.8 + 0.2 * Math.sin(sec * 0.45 + fish.seed)) * (0.94 + 0.06 * Math.cos(fish.phase * 2));
-      if (fish.turning >= 0) speed *= 0.3;
+      // 速さ：ゆっくり変わる
+      const speed = fish.base * (0.8 + 0.2 * Math.sin(sec * 0.45 + fish.seed)) * (0.94 + 0.06 * Math.cos(fish.phase * 2));
 
       // 上下：ゆるやかに漂う（いちばん右の項で、1分半ほどかけて、高さも変わっていく）。画面の上や下に近づいたら、そっと戻る
       let vy = Math.sin(sec * 0.3 + fish.seed) * 6 + Math.sin(sec * 0.8 + fish.seed * 2) * 2 + Math.sin(sec * 0.07 + fish.seed * 3) * 8;
       if (fish.y < screenH * 0.12) vy += (screenH * 0.12 - fish.y) * 0.6;
       if (fish.y > screenH * 0.86) vy -= (fish.y - screenH * 0.86) * 0.6;
 
-      // 向きを変える：画面の端に近づいた時か、ときどき
-      if (fish.turning < 0 && ((fish.dir > 0 && fish.x > screenW - fish.L * 0.4) || (fish.dir < 0 && fish.x < fish.L * 0.4) || now > fish.nextTurn)) {
+      // 折り返す：画面の端に近づいた時か、ときどき
+      if (fish.turning < 0 && ((fish.dir > 0 && fish.x > screenW - fish.L * 0.5) || (fish.dir < 0 && fish.x < fish.L * 0.5) || now > fish.nextTurn)) {
         fish.turning = 0;
-        fish.nextTurn = now + rand(20000, 45000);
+        fish.turnFrom = fish.dir;
+        fish.turnSign = Math.random() < 0.5 ? -1 : 1;                                    // 弧が、上向きか、下向きか
+        fish.nextTurn = now + rand(15000, 50000);
       }
+      let forward = fish.dir;                                                            // 進む向き（-1：左 〜 1：右）
+      let beat = 1;                                                                      // 尾を振る速さの倍率
       fish.squeeze = 1;
+      fish.bend = 0;
+      fish.scale = 1;
       if (fish.turning >= 0) {
         const before = fish.turning;
-        fish.turning += dt / 1.8;
-        fish.squeeze = Math.max(0.05, Math.abs(Math.cos(Math.PI * fish.turning)));       // 体が細くなって、反対向きになる
+        fish.turning += dt / 3.4;                                                        // 折り返しに、3.4秒ほどかける
+        const q = Math.min(1, fish.turning);
+        const turn = Math.sin(Math.PI * q);                                              // 0 → 1（折り返しの真ん中）→ 0
+        forward = fish.turnFrom * Math.cos(Math.PI * q);                                 // 前へ進む → ほとんど止まる → 反対向きへ進む
+        fish.squeeze = Math.max(0.14, Math.abs(Math.cos(Math.PI * q)));                  // 奥行きで、体が縮んで見える
+        fish.scale = 1 + 0.12 * turn;                                                    // こちらに近づくので、少し大きく
+        fish.bend = fish.turnSign * 0.07 * turn;                                         // 体を、Cの字に曲げる
+        beat = 1 + 0.7 * turn;                                                           // 尾を、速くひと振りする
+        vy += fish.turnSign * turn * speed * 0.5;                                        // 弧を描いて、上か下へ、少し動く
         if (before < 0.5 && fish.turning >= 0.5) fish.dir = -fish.dir;
-        if (fish.turning >= 1) { fish.turning = -1; fish.squeeze = 1; }
+        if (fish.turning >= 1) fish.turning = -1;
       }
 
-      fish.x += fish.dir * speed * dt;
+      fish.x += forward * speed * dt;
       fish.y += vy * dt;
       fish.effort = 0.6 + (speed / fish.base) * 0.4;                                      // 速く泳ぐほど、尾を速く・大きく振る
-      fish.phase += dt * Math.PI * 2 * fish.freq * fish.effort;
+      fish.phase += dt * Math.PI * 2 * fish.freq * fish.effort * beat;
+
+      // 画面の外に出てしまった時は、画面の中に戻す
+      if (fish.x < -fish.L) fish.x = fish.L * 0.5;
+      if (fish.x > screenW + fish.L) fish.x = screenW - fish.L * 0.5;
 
       // 進む向きに合わせて、頭が少し上がったり下がったりする（±7度まで）
-      const pitch = Math.max(-7, Math.min(7, Math.atan2(vy, Math.max(speed, 1)) * (180 / Math.PI) * 0.25));
+      const pitch = Math.max(-9, Math.min(9, Math.atan2(vy, Math.max(Math.abs(forward) * speed, 4)) * (180 / Math.PI) * 0.25 * Math.max(0.3, Math.abs(forward))));
       fish.angle = ((fish.dir > 0 ? pitch : -pitch) * Math.PI) / 180;
     }
 
     // 魚の形を、画面に固定した文字のマス目に当てはめて、マスごとに、濃さに合った文字を選ぶ
     function draw(fish, now) {
-      const halfW = fish.L * 0.62;
-      const halfH = fish.L * 0.36;
+      const L = fish.L * fish.scale;
+      const halfW = L * 0.62;
+      const halfH = L * 0.42;
       const gx0 = Math.floor((fish.x - halfW) / CW);
       const gx1 = Math.ceil((fish.x + halfW) / CW);
       const gy0 = Math.floor((fish.y - halfH) / CH);
       const gy1 = Math.ceil((fish.y + halfH) / CH);
       const cos = Math.cos(fish.angle);
       const sin = Math.sin(fish.angle);
-      const amp = 0.05 * fish.effort;
-      const tick = Math.floor(now / (phone ? 330 : 200));
+      const amp = 0.055 * fish.effort * (1 + 0.8 * Math.abs(fish.bend) / 0.07 * 0.5);        // 折り返す時は、尾の振れが大きい
+      const tick = Math.floor((now + fish.tickOffset) / fish.tickPeriod);                // 文字が入れ替わる周期（魚ごとに違う）
       const lines = [];
       for (let gy = gy0; gy < gy1; gy++) {
         let line = "";
@@ -1104,9 +1128,9 @@
           const Y = (gy + 0.5) * CH - fish.y;
           const lx = X * cos + Y * sin;
           const ly = -X * sin + Y * cos;
-          const d = density(0.5 + (lx * fish.dir) / (fish.L * fish.squeeze), ly / fish.L, fish.phase, amp);
+          const d = density(0.5 + (lx * fish.dir) / (L * fish.squeeze), ly / L, fish.phase, amp, fish.bend);
           if (d < 0.07) { line += " "; continue; }
-          const k = Math.round(d * 12 + (scatter(gx, gy, tick) - 0.5) * 2);
+          const k = Math.round(d * 12 + (scatter(gx + fish.hashOffset, gy, tick) - 0.5) * 2);
           line += RAMP[Math.max(1, Math.min(12, k))];
         }
         lines.push(line);
@@ -1122,7 +1146,7 @@
       if (!document.hidden) {
         fishes.forEach((fish) => {
           swim(fish, now, dt);
-          if (now - fish.lastDraw >= DRAW_EVERY) { fish.lastDraw = now; draw(fish, now); }
+          if (now - fish.lastDraw >= fish.drawEvery) { fish.lastDraw = now; draw(fish, now); }
         });
       }
       requestAnimationFrame(frame);
