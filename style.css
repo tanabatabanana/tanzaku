@@ -1174,7 +1174,7 @@ p {
     /* 4つのアイコンは必ず横一列（折り返さない）。ウィンドウの幅は一定にして、文字は画面の幅に合わせて縮める */
     .site-header { width: calc(100% - 28px); }
     .header-menu { flex-wrap: nowrap; justify-content: space-between; gap: 0; padding: 8px 4px 6px; }
-    .header-item { flex: 0 1 auto; min-width: 0; padding: 4px 1px; gap: 3px; font-size: clamp(5px, calc((100vw - 72px) / 48), 9.5px); }   /* 項目が増えたので、文字を小さく */
+    .header-item { flex: 0 1 auto; min-width: 0; padding: 4px 1px; gap: 3px; font-size: clamp(5px, calc((100vw - 72px) / 56), 9.5px); }   /* 項目が増えたので、文字を小さく */
     .header-item span { padding: 1px 1px; }
     .header-icon { width: 26px; height: 26px; }
 

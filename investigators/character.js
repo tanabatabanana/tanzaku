@@ -1048,7 +1048,7 @@
         turning: -1, nextTurn: performance.now() + rand(6000, 45000),         // 折り返す時期も、魚ごとにばらばら
         // 文字を選び直す間隔・文字が入れ替わる周期・マスごとのばらつきも、魚ごとに別々（全部の魚が、同じ瞬間に切り替わらないように）
         drawEvery: DRAW_EVERY * rand(0.8, 1.6),
-        lastDraw: performance.now() - rand(0, DRAW_EVERY),
+        nextDraw: performance.now() + rand(0, DRAW_EVERY * 2),
         tickPeriod: rand(140, 340) * (phone ? 1.6 : 1),
         tickOffset: rand(0, 5000),
         hashOffset: Math.floor(rand(0, 1000000))
@@ -1146,7 +1146,7 @@
       if (!document.hidden) {
         fishes.forEach((fish) => {
           swim(fish, now, dt);
-          if (now - fish.lastDraw >= fish.drawEvery) { fish.lastDraw = now; draw(fish, now); }
+          if (now >= fish.nextDraw) { draw(fish, now); fish.nextDraw = now + fish.drawEvery * rand(0.7, 1.3); }      // 次に選び直す時刻も、毎回少しずつ違う
         });
       }
       requestAnimationFrame(frame);

@@ -133,13 +133,17 @@ html.crt-on .crt-overlay { display: block; }
 @media (prefers-reduced-motion: reduce) { .crt-overlay, .crt-roll, .crt-grain { animation: none; } }
 
 /* ヘッダーのメニューの「RETRO」ボタン（HOME などのアイコンと同じ並び）。ON・OFF が、色と文字と、テレビの画面でわかる */
-.header-retro { background: transparent; cursor: pointer; }
+.header-retro, .header-bgm { background: transparent; cursor: pointer; }
 .header-retro .tv-screen { fill: #8f99ad; }
 .header-retro[aria-pressed="true"] .tv-screen { fill: #61b3ff; }
 .header-retro .tv-lines { display: none; }
 .header-retro[aria-pressed="true"] .tv-lines { display: inline; }
 .retro-state { display: inline-block; margin-left: 3px; padding: 0 4px; background: #c7cfdd; color: #3b4660; font-weight: normal; }
-.header-retro[aria-pressed="true"] .retro-state { background: #0047ff; color: #fff; }
+.header-retro[aria-pressed="true"] .retro-state, .header-bgm[aria-pressed="true"] .retro-state { background: #0047ff; color: #fff; }
+.header-bgm .bgm-head { fill: #8f99ad; }
+.header-bgm[aria-pressed="true"] .bgm-head { fill: #0047ff; }
+.header-bgm .bgm-wave { display: none; }
+.header-bgm[aria-pressed="true"] .bgm-wave { display: inline; }
 
 /* スマホ：ちかちかしないよう、動きをすべて止める（ちらつき・流れる帯・砂嵐）。走査線は、もっと薄く */
 @media (max-width: 900px), (pointer: coarse) {
@@ -205,27 +209,39 @@ html.crt-on .crt-overlay { display: block; }
 
 /* =========================================
    BGM（全ページ共通）。このファイルだけで動く
-   ・ヘッダーのタイトルバー（－ □ × の左）の「BGM」ボタンで、オン・オフを切り替える。はじめは、オフ
-   ・曲は、サイトのいちばん上のフォルダの audio/bgm.mp3（下の BGM_FILE で変えられる）
-     ページごとに曲を変えたい時は、そのページの <body> に data-bgm="../audio/○○.mp3" と書く
-   ・オンのまま別のページへ移っても、曲が続く（場所を覚えておいて、続きから流す。つなぎ目で、ほんの少し途切れる）
+   ・ヘッダーのメニュー（HOME などのアイコンの並び）の「BGM ON / OFF」ボタンで、オン・オフを切り替える。はじめは、オフ
+   ・曲は、サイトのいちばん上のフォルダにある bgm フォルダの「Floating Above the City」（mp3・m4a・ogg・wav のどれでもよい）
+     曲の名前を変えたい時は、下の BGM_FILE を書きかえる
+     ページごとに曲を変えたい時は、そのページの <body> に data-bgm="../bgm/○○.mp3" と書く
+   ・ホームをはじめ、どのページでも、オンにすれば流れる。オンのまま別のページへ移っても、曲が続く
+     （場所を覚えておいて、続きから流す。つなぎ目で、ほんの少し途切れる）
    ・曲のファイルが見つからない時は、ボタンを出さない
 ========================================= */
 (() => {
   "use strict";
 
-  const BGM_FILE = "audio/bgm.mp3";                  // 曲のファイル（サイトのいちばん上のフォルダからの場所）
+  const BGM_FILE = "bgm/Floating Above the City";   // 曲のファイル（サイトのいちばん上のフォルダからの場所。拡張子は付けない）
+  const BGM_EXTENSIONS = ["mp3", "m4a", "ogg", "wav"];   // 見つかるまで、この順に探す
   const VOLUME = 0.4;                                // 音量（0〜1）
   const KEY = "bgm";
   const POS = "bgmPos";
   const script = document.currentScript;            // このファイルの場所（曲の場所を決める基準）。読み込みの途中でしか取れない
 
-  function setup() {
-    const controls = document.querySelector(".header-window-controls");
-    if (!controls) return;
+  // 音符のドット絵アイコン（HOME などと同じ 16×16）。オンの時は、音符の玉が青く、まわりに音が広がる
+  const NOTE_ICON = '<svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">' +
+    '<path fill="#0b1f66" d="M9 2h1v10h-1zM10 2h2v1h-2zM11 3h2v2h-2zM12 5h1v2h-1zM11 7h1v1h-1z"/>' +
+    '<path class="bgm-head" d="M5 10h4v1h-4zM4 11h6v2h-6zM5 13h4v1h-4z"/>' +
+    '<path class="bgm-wave" fill="#0b1f66" d="M1 5h1v4h-1zM13 9h1v4h-1z"/></svg>';
 
+  function setup() {
+    const menu = document.querySelector(".header-menu");
+    if (!menu) return;
+
+    // 曲の候補（拡張子を変えて、順に試す）。<body data-bgm="..."> があれば、それだけ
     const own = document.body.dataset.bgm;
-    const src = own ? new URL(own, location.href).href : new URL(BGM_FILE, script && script.src ? script.src : location.href).href;
+    const base = script && script.src ? script.src : location.href;
+    const candidates = own ? [new URL(own, location.href).href] : BGM_EXTENSIONS.map((ext) => new URL(BGM_FILE + "." + ext, base).href);
+    const trackId = own || BGM_FILE;                 // 続きから流す時の、曲の目印
 
     let on = false;                                  // はじめは、オフ
     try { on = localStorage.getItem(KEY) === "on"; } catch (e) { /* 保存できなくても動く */ }
@@ -234,32 +250,37 @@ html.crt-on .crt-overlay { display: block; }
     audio.preload = "metadata";
     audio.loop = true;
     audio.volume = 0;
-    audio.src = src;
+    let tried = 0;
+    audio.src = candidates[0];
 
-    // ヘッダーの右上に、ボタン（CRT があれば、その右隣）
+    // ヘッダーのメニューに、「BGM  ON / OFF」のボタン（音符のアイコン付き。RETRO の隣）
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "header-crt header-bgm";
-    button.textContent = "BGM";
+    button.className = "header-item header-bgm";
     button.title = "BGMのオン・オフ";
-    const crt = controls.querySelector(".header-crt");
-    if (crt) crt.after(button);
-    else controls.prepend(button);
+    button.innerHTML = NOTE_ICON + '<span>BGM <b class="retro-state">OFF</b></span>';
+    const stateLabel = button.querySelector(".retro-state");
+    menu.append(button);
 
-    // 曲のファイルが無い・開けない時は、ボタンを出さない
-    audio.addEventListener("error", () => { button.remove(); });
+    // 曲のファイルが開けなかった時は、次の拡張子を試す。全部だめなら、ボタンを出さない
+    audio.addEventListener("error", () => {
+      tried++;
+      if (tried < candidates.length) audio.src = candidates[tried];
+      else button.remove();
+    });
 
     // 前のページで流れていた場所から、続きを流す
     let startAt = 0;
     try {
       const saved = JSON.parse(sessionStorage.getItem(POS) || "null");
-      if (saved && saved.src === src) startAt = saved.t || 0;
+      if (saved && saved.track === trackId) startAt = saved.t || 0;
     } catch (e) { /* 最初から流す */ }
     audio.addEventListener("loadedmetadata", () => {
       if (startAt && audio.duration && startAt < audio.duration) audio.currentTime = startAt;
-    }, { once: true });
+      startAt = 0;
+    });
     const savePosition = () => {
-      try { sessionStorage.setItem(POS, JSON.stringify({ src, t: audio.currentTime })); } catch (e) { /* 何もしない */ }
+      try { sessionStorage.setItem(POS, JSON.stringify({ track: trackId, t: audio.currentTime })); } catch (e) { /* 何もしない */ }
     };
     setInterval(() => { if (!audio.paused) savePosition(); }, 1000);
     window.addEventListener("pagehide", savePosition);
@@ -286,6 +307,7 @@ html.crt-on .crt-overlay { display: block; }
     function apply() {
       button.setAttribute("aria-pressed", String(on));
       button.setAttribute("aria-label", "BGM：" + (on ? "オン" : "オフ"));
+      stateLabel.textContent = on ? "ON" : "OFF";
     }
 
     button.addEventListener("click", () => {
