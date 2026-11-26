@@ -944,26 +944,22 @@
   "kind": "character",
   "data": {
     "name": "センバ",
-    "edition": 6,
     "initiative": 16,
-    "externalUrl": "https://iachara.com/view/8184629",
-    "iconUrl": "https://image.iaproject.app/66a371db-9a4a-4892-9eba-939126b0dd97",
-    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=60 【アイデア】\nCCB<=70 【幸運】\nCCB<=75 【知識】\nCCB<=45 【目星】\nCCB<=69 【聞き耳】\nCCB<=69 【図書館】\nCCB<=62 【回避】\nCCB<=58 【こぶし（パンチ）】\nCCB<=79 【ライフル】\nCCB<=78 【応急手当】\nCCB<=70 【精神分析】\nCCB<=50 【運転】\nCCB<=50 【信用】\nCCB<=45 【英語】\nCCB<=65 【医学】\nCCB<=4 【クトゥルフ神話】\nCCB<=6 【心理学】",
-    "status": [
-      {"label": "HP", "value": 11, "max": 11},
-      {"label": "MP", "value": 14, "max": 14},
-      {"label": "SAN", "value": 84, "max": 84}
-    ],
-    "params": [
-      {"label": "STR", "value": "8"},
-      {"label": "CON", "value": "12"},
-      {"label": "POW", "value": "14"},
-      {"label": "DEX", "value": "16"},
-      {"label": "APP", "value": "9"},
-      {"label": "SIZ", "value": "10"},
-      {"label": "INT", "value": "12"},
-      {"label": "EDU", "value": "15"}
-    ]
+    "birthscenario": "二人だけの終末旅行",
+    "HO": "HO2",
+    "GOscenario": ["二人だけの終末旅行", "ひもろぎ封じ", "最後に笑うのはお嬢様になった私でしてよ！", "近くて遠きは終着点", "だまれ", "裏側の獏の裏", "ただいまを言いに。"],
+    "edition": 6,
+    "sex": "男",
+    "height": 170,
+    "age": 25,
+    "job": "形成外科医",
+    "kaita": "2023.10",
+    "hitokoto": "なぜこの髪色か？2徹したあとに髪染めたら大失敗しました。",
+    "information": "無表情な形成外科医。一見するとミステリアスな青年だが、ただのポンコツである。センバが苗字なのか名前なのか不明。シナリオを通して知り合う探索者のキャラが濃い。神話生物を見れば嫌悪感を示して、すぐにライフルを持ち出す。焼き芋が好物。\n沖縄に両親がいる。アメリカ人の父と日本人の母を持つハーフ。でも英語はあんまりできない。医者だけどドイツ語もできない。無理。",
+    "commands": "1d100<={SAN} 【正気度ロール】\nCCB<=60 【アイデア】\nCCB<=70 【幸運】\nCCB<=75 【知識】\nCCB<=45 【目星】\nCCB<=69 【聞き耳】\nCCB<=69 【図書館】\nCCB<=62 【回避】\nCCB<=58 【こぶし（パンチ）】\nCCB<=79 【ライフル】\nCCB<=78 【応急手当】\nCCB<=70 【精神分析】\nCCB<=50 【運転】\nCCB<=50 【信用】\nCCB<=45 【英語】\nCCB<=65 【医学】\nCCB<=4 【クトゥルフ神話】\nCCB<=6 【心理学】\n1d3+0 【ダメージ判定】\n1d4+0 【ダメージ判定】\n1d6+0 【ダメージ判定】\nCCB<={STR}*5 【STR × 5】\nCCB<={CON}*5 【CON × 5】\nCCB<={POW}*5 【POW × 5】\nCCB<={DEX}*5 【DEX × 5】\nCCB<={APP}*5 【APP × 5】\nCCB<={SIZ}*5 【SIZ × 5】\nCCB<={INT}*5 【INT × 5】\nCCB<={EDU}*5 【EDU × 5】\n",
+    "status": [{"label": "HP", "value": 11, "max": 11}, {"label": "MP", "value": 14, "max": 14}, {"label": "SAN", "value": 84, "max": 84}],
+    "params": [{"label": "STR", "value": "8"}, {"label": "CON", "value": "12"}, {"label": "POW", "value": "14"}, {"label": "DEX", "value": "16"}, {"label": "APP", "value": "9"}, {"label": "SIZ", "value": "10"}, {"label": "INT", "value": "12"}, {"label": "EDU", "value": "15"}],
+    "memo": "グッピー×千羽鶴\n千羽鶴折っている最中にできる一番好きな形をモチーフにした。あと、横からフード被ってるの面白そうだなと思った。\n(2023.10)"
   }
 },
 
