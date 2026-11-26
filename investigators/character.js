@@ -788,7 +788,16 @@
     });
     void root.offsetWidth;                                       // 隠れた状態を、いったん確定させてから、浮かべる
     root.classList.remove("no-anim");
-    requestAnimationFrame(() => requestAnimationFrame(() => first.forEach((win) => win.classList.add("is-in"))));
+
+    // 入室の演出（char-transition.js）の合図で、下から浮かび上がる。合図が来なくても、3.5秒たったら、浮かべる
+    const enterWindows = () => {
+      if (enterWindows.done) return;
+      enterWindows.done = true;
+      requestAnimationFrame(() => requestAnimationFrame(() => first.forEach((win) => win.classList.add("is-in"))));
+    };
+    window.__charEnterWindows = enterWindows;
+    if (root.classList.contains("char-in")) setTimeout(enterWindows, 3500);
+    else enterWindows();                                         // 入室の演出が無い時（古いHTML）は、すぐ浮かべる
 
     slideObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {

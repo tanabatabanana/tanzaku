@@ -224,17 +224,65 @@
     window.addEventListener("pageshow", (event) => { if (event.persisted && leaving) location.reload(); });
   }
 
-  // キャラクターのページに着いた時（カルーセルから来た時）
+  // 入室の演出（キャラクターページに入った時。どこから来ても、同じ）
+  //   立ち絵：テレビがつくように映る／名前：文字化けから、本当の名前へ／履歴書：テレビがつくように登場／ほかの窓：下から浮かぶ／音：Cyber13-1
+  //   写真（fly）があれば（ホーム・カルーセルの写真を押して来た時）、最後に、履歴書の写真のところに飛んでいって貼られる
+  async function enter(data, fly) {
+    const root = document.documentElement;
+    const nameEl = document.getElementById("stage-name");
+
+    // 立ち絵の画像が読み込まれて、立ち絵・名前の配置が終わるまで待つ（早すぎると、何も映らないうちに演出が終わって、「効果が出ない」ことになる）
+    const tachieImg = document.querySelector("#tachie img");
+    for (let waited = 0; waited < 5000; waited += 50) {
+      const placed = nameEl && nameEl.style.transform;
+      if ((!tachieImg || tachieImg.complete) && placed) break;
+      await wait(50);
+    }
+
+    const finalName = nameEl ? nameEl.textContent : "";
+    root.classList.remove("char-in", "arriving");
+    window.__charEntered = true;
+    if (window.__se) window.__se.play("enter");                       // 入室の音
+    crtOn(document.getElementById("tachie"));
+    const decoding = decode(nameEl, finalName, 650, 550);
+    const resume = document.querySelector(".win-resume");
+    if (resume) {
+      resume.style.transition = "none";
+      resume.classList.add("is-in");
+      crtOn(resume);
+    }
+    if (window.__charEnterWindows) window.__charEnterWindows();       // ほかの窓が、下から浮かんでくる（character.js）
+    await wait(800);
+
+    // 写真が、履歴書の写真のところに飛んでいって貼られる
+    const target = document.getElementById("resume-photo");
+    if (fly && data && target) {
+      const t = target.getBoundingClientRect();
+      await fly.animate(
+        [
+          { left: data.left + "px", top: data.top + "px", width: data.width + "px", height: data.height + "px", transform: LIFT },
+          { left: t.left + "px", top: t.top + "px", width: t.width + "px", height: t.height + "px", transform: "none" }
+        ],
+        { duration: 900, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
+      ).finished;
+    }
+    await decoding;
+  }
+
+  // 直接開いた時・ほかのキャラクターから来た時
   async function arriveChar(data) {
     const root = document.documentElement;
-    window.__charFlying = true;                                       // character.js が、写真を最初から貼らないための目印
+    if (data) window.__charFlying = true;                             // character.js が、写真を最初から貼らないための目印
     try { history.scrollRestoration = "manual"; } catch (e) { /* 何もしない */ }
     window.scrollTo(0, 0);
 
-    // カルーセルで押した写真が、浮かんだまま、そこにある
-    const fly = makeFly(data.src, data);
-    fly.style.transform = LIFT;
-    document.body.append(fly);
+    // 押した写真が、浮かんだまま、そこにある
+    let fly = null;
+    if (data) {
+      fly = makeFly(data.src, data);
+      fly.style.transform = LIFT;
+      document.body.append(fly);
+    }
     const nameEl = document.getElementById("stage-name");
 
     try {
@@ -242,52 +290,19 @@
         await Promise.race([new Promise((resolve) => window.addEventListener("load", resolve, { once: true })), wait(3000)]);
       }
       if (document.fonts && document.fonts.ready) await Promise.race([document.fonts.ready, wait(1500)]);
-      await wait(350);                                                // この間に、ウィンドウ群が、下からスライドして出てくる
-
-      // 立ち絵の画像が読み込まれて、立ち絵・名前の配置が終わるまで待つ（早すぎると、何も映らないうちに演出が終わって、「効果が出ない」ことになる）
-      const tachieImg = document.querySelector("#tachie img");
-      for (let waited = 0; waited < 5000; waited += 50) {
-        const placed = nameEl && nameEl.style.transform;
-        if ((!tachieImg || tachieImg.complete) && placed) break;
-        await wait(50);
-      }
-
-      // 立ち絵：電源が入るように映る（ノイズは入れない）。名前：文字化けから、本当の名前へ。履歴書：テレビがつくように登場する
-      const finalName = nameEl ? nameEl.textContent : "";
-      root.classList.remove("char-in", "arriving");
-      crtOn(document.getElementById("tachie"));
-      const decoding = decode(nameEl, finalName, 650, 550);
-      const resume = document.querySelector(".win-resume");
-      if (resume) {
-        resume.style.transition = "none";
-        resume.classList.add("is-in");
-        crtOn(resume);
-      }
-      await wait(800);
-
-      // 写真が、履歴書の写真のところに飛んでいって貼られる
-      const target = document.getElementById("resume-photo");
-      if (target) {
-        const t = target.getBoundingClientRect();
-        await fly.animate(
-          [
-            { left: data.left + "px", top: data.top + "px", width: data.width + "px", height: data.height + "px", transform: LIFT },
-            { left: t.left + "px", top: t.top + "px", width: t.width + "px", height: t.height + "px", transform: "none" }
-          ],
-          { duration: 900, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
-        ).finished;
-      }
-      await decoding;
+      await wait(data ? 350 : 150);                                   // この間に、窓が、隠れた状態で待つ
+      await enter(data, fly);
     } catch (e) {
       console.warn(e);
     } finally {
       // 何があっても、写真は貼った状態にして、演出の控えを消す
       const target = document.getElementById("resume-photo");
       if (target) target.classList.add("is-pasted");
-      fly.remove();
+      if (fly) fly.remove();
       root.classList.remove("char-in", "arriving");
       if (nameEl) nameEl.classList.remove("is-glitch");
       window.__charFlying = false;
+      window.__charEntered = true;
     }
   }
 
@@ -386,11 +401,13 @@
       sessionStorage.removeItem(KEY);
     } catch (e) { /* 何もしない */ }
 
-    if (!data || reduce) {
+    if (reduce) {
       root.classList.remove("arriving", "char-in");
+      window.__charEntered = true;
       return;
     }
-    if (data.mode === "char") return arriveChar(data);              // カルーセルの写真から来た時
+    if (!data || data.mode === "char") return arriveChar(data);     // 直接開いた時・ほかのキャラクターから来た時（カルーセルの写真）
+    // ここから下は、ホームの写真を押して来た時：波が引いてから、同じ入室の演出（enter）が始まる
 
     window.__charFlying = true;      // character.js が、写真を最初から貼らないための目印
     try { history.scrollRestoration = "manual"; } catch (e) { /* 何もしない */ }
@@ -417,19 +434,9 @@
       curtain.animate([{ transform: COVER }, { transform: HIDDEN }], { duration: 1700, easing: "cubic-bezier(0.45, 0, 0.3, 1)", fill: "forwards" })
         .finished.then(() => curtain.remove());
 
-      // 写真が、履歴書の写真のところに飛んでいって貼られる
-      await wait(300);
-      const target = document.getElementById("resume-photo");
-      if (target) {
-        const t = target.getBoundingClientRect();
-        await fly.animate(
-          [
-            { left: data.left + "px", top: data.top + "px", width: data.width + "px", height: data.height + "px", transform: LIFT },
-            { left: t.left + "px", top: t.top + "px", width: t.width + "px", height: t.height + "px", transform: "none" }
-          ],
-          { duration: 1100, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" }
-        ).finished;
-      }
+      // 波が、ほとんど引いたところで、入室の演出（立ち絵・名前・窓・写真）が始まる
+      await wait(900);
+      await enter(data, fly);
     } catch (e) {
       console.warn(e);
     } finally {
@@ -438,8 +445,11 @@
       if (target) target.classList.add("is-pasted");
       fly.remove();
       curtain.remove();
-      root.classList.remove("arriving");
+      root.classList.remove("arriving", "char-in");
+      const nameEl = document.getElementById("stage-name");
+      if (nameEl) nameEl.classList.remove("is-glitch");
       window.__charFlying = false;
+      window.__charEntered = true;
     }
   }
 

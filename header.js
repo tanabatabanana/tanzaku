@@ -209,7 +209,8 @@ html.crt-on .crt-overlay { display: block; }
 
 /* =========================================
    BGM（全ページ共通）。このファイルだけで動く
-   ・ヘッダーのメニュー（HOME などのアイコンの並び）の「BGM ON / OFF」ボタンで、オン・オフを切り替える。はじめは、オフ
+   ・画面のいちばん上の右端にある操作部（音符のボタン「BGM ON / OFF」と、音量のつまみ）で、オン・オフと音量を切り替える。はじめは、オフ
+     （音量は、次に開いた時も続く）
    ・曲は、サイトのいちばん上のフォルダにある bgm フォルダの「Floating Above the City」（mp3・m4a・ogg・wav のどれでもよい）
      曲の名前を変えたい時は、下の BGM_FILE を書きかえる
      ページごとに曲を変えたい時は、そのページの <body> に data-bgm="../bgm/○○.mp3" と書く
@@ -222,8 +223,9 @@ html.crt-on .crt-overlay { display: block; }
 
   const BGM_FILE = "bgm/Floating Above the City";   // 曲のファイル（サイトのいちばん上のフォルダからの場所。拡張子は付けない）
   const BGM_EXTENSIONS = ["mp3", "m4a", "ogg", "wav"];   // 見つかるまで、この順に探す
-  const VOLUME = 0.4;                                // 音量（0〜1）
+  const DEFAULT_VOLUME = 40;                         // はじめの音量（0〜100）。操作部のつまみで変えられる
   const KEY = "bgm";
+  const VOLUME_KEY = "bgmVolume";
   const POS = "bgmPos";
   const script = document.currentScript;            // このファイルの場所（曲の場所を決める基準）。読み込みの途中でしか取れない
 
@@ -233,10 +235,32 @@ html.crt-on .crt-overlay { display: block; }
     '<path class="bgm-head" d="M5 10h4v1h-4zM4 11h6v2h-6zM5 13h4v1h-4z"/>' +
     '<path class="bgm-wave" fill="#0b1f66" d="M1 5h1v4h-1zM13 9h1v4h-1z"/></svg>';
 
-  function setup() {
-    const menu = document.querySelector(".header-menu");
-    if (!menu) return;
+  // 右上の操作部の見た目（このファイルの中だけで完結させる）
+  const WIDGET_CSS = `
+.bgm-widget { position: fixed; top: 8px; right: 8px; z-index: 9000; display: flex; align-items: center; gap: 10px; padding: 5px 9px; background: #fff; border: 2px solid #064bff; box-shadow: 3px 3px 0 rgba(0, 75, 255, 0.25); color: #064bff; font: 12px/1 "Courier New", monospace; }
+.bgm-toggle { display: flex; align-items: center; gap: 5px; margin: 0; padding: 0; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
+.bgm-toggle svg { width: 22px; height: 22px; }
+.bgm-state { display: inline-block; margin-left: 2px; padding: 2px 5px; background: #c7cfdd; color: #3b4660; font-weight: normal; }
+.bgm-toggle[aria-pressed="true"] .bgm-state { background: #0047ff; color: #fff; }
+.bgm-head { fill: #8f99ad; }
+.bgm-toggle[aria-pressed="true"] .bgm-head { fill: #0047ff; }
+.bgm-wave { display: none; }
+.bgm-toggle[aria-pressed="true"] .bgm-wave { display: inline; }
+.bgm-volume { -webkit-appearance: none; appearance: none; width: 88px; height: 14px; margin: 0; background: transparent; cursor: pointer; }
+.bgm-volume::-webkit-slider-runnable-track { height: 6px; background: #c7cfdd; border: 1px solid #064bff; }
+.bgm-volume::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 14px; margin-top: -5px; background: #0047ff; border: 2px solid #fff; box-shadow: 0 0 0 1px #064bff; }
+.bgm-volume::-moz-range-track { height: 6px; background: #c7cfdd; border: 1px solid #064bff; }
+.bgm-volume::-moz-range-thumb { width: 8px; height: 12px; background: #0047ff; border: 2px solid #fff; border-radius: 0; box-shadow: 0 0 0 1px #064bff; }
+/* スマホ：細い縦長の形にして、ヘッダーの右に収める */
+@media (max-width: 800px) {
+    .bgm-widget { top: 14px; right: 6px; flex-direction: column; align-items: stretch; gap: 4px; width: 46px; padding: 3px 3px 4px; box-sizing: border-box; font-size: 9px; }
+    .bgm-toggle { flex-direction: column; gap: 2px; }
+    .bgm-label i { display: none; }
+    .bgm-volume { width: 100%; }
+}
+`;
 
+  function setup() {
     // 曲の候補（拡張子を変えて、順に試す）。<body data-bgm="..."> があれば、それだけ
     const own = document.body.dataset.bgm;
     const base = script && script.src ? script.src : location.href;
@@ -253,20 +277,45 @@ html.crt-on .crt-overlay { display: block; }
     let tried = 0;
     audio.src = candidates[0];
 
-    // ヘッダーのメニューに、「BGM  ON / OFF」のボタン（音符のアイコン付き。RETRO の隣）
+    // 画面のいちばん上の右端に、操作部（音符のボタン「BGM ON / OFF」と、音量のつまみ）
+    const style = document.createElement("style");
+    style.id = "bgm-style";
+    style.textContent = WIDGET_CSS;
+    document.head.append(style);
+
+    let volume = DEFAULT_VOLUME / 100;                                       // 音量（0〜1）
+    try {
+      const savedVolume = localStorage.getItem(VOLUME_KEY);
+      if (savedVolume !== null && !Number.isNaN(Number(savedVolume))) volume = Math.max(0, Math.min(1, Number(savedVolume) / 100));
+    } catch (e) { /* はじめの音量で */ }
+
+    const widget = document.createElement("div");
+    widget.className = "bgm-widget";
+    widget.setAttribute("role", "group");
+    widget.setAttribute("aria-label", "BGM");
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "header-item header-bgm";
+    button.className = "bgm-toggle";
     button.title = "BGMのオン・オフ";
-    button.innerHTML = NOTE_ICON + '<span>BGM <b class="retro-state">OFF</b></span>';
-    const stateLabel = button.querySelector(".retro-state");
-    menu.append(button);
+    button.innerHTML = NOTE_ICON + '<span class="bgm-label"><i>BGM </i><b class="bgm-state">OFF</b></span>';
+    const stateLabel = button.querySelector(".bgm-state");
+    const slider = document.createElement("input");
+    slider.type = "range";
+    slider.className = "bgm-volume";
+    slider.min = "0";
+    slider.max = "100";
+    slider.step = "1";
+    slider.value = String(Math.round(volume * 100));
+    slider.title = "BGMの音量";
+    slider.setAttribute("aria-label", "BGMの音量");
+    widget.append(button, slider);
+    document.body.append(widget);
 
     // 曲のファイルが開けなかった時は、次の拡張子を試す。全部だめなら、ボタンを出さない
     audio.addEventListener("error", () => {
       tried++;
       if (tried < candidates.length) audio.src = candidates[tried];
-      else button.remove();
+      else widget.remove();
     });
 
     // 前のページで流れていた場所から、続きを流す
@@ -301,7 +350,7 @@ html.crt-on .crt-overlay { display: block; }
       }, 40);
     };
 
-    const start = () => audio.play().then(() => { fade(VOLUME); return true; }).catch(() => false);
+    const start = () => audio.play().then(() => { fade(volume); return true; }).catch(() => false);
     const stop = () => fade(0, () => audio.pause());
 
     function apply() {
@@ -309,6 +358,16 @@ html.crt-on .crt-overlay { display: block; }
       button.setAttribute("aria-label", "BGM：" + (on ? "オン" : "オフ"));
       stateLabel.textContent = on ? "ON" : "OFF";
     }
+
+    // 音量のつまみ：動かすと、すぐに音量が変わる（オフの時は、次に流す時の音量になる）
+    slider.addEventListener("input", () => {
+      volume = Number(slider.value) / 100;
+      try { localStorage.setItem(VOLUME_KEY, String(Math.round(volume * 100))); } catch (e) { /* 何もしない */ }
+      if (on && !audio.paused) {
+        clearInterval(fadeTimer);
+        audio.volume = volume;
+      }
+    });
 
     button.addEventListener("click", () => {
       on = !on;
@@ -343,4 +402,85 @@ html.crt-on .crt-overlay { display: block; }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", setup, { once: true });
   else setup();
+})();
+
+/* =========================================
+   効果音（全ページ共通）。このファイルだけで動く
+   ・クリックすると何かが起こる所（リンク・ボタン・カード・窓の×・立ち絵など）を押すと、「PC-Mouse05-1」が鳴る
+   ・キャラクターの写真（ホームの探索者の写真、キャラクターページの下のカルーセルの写真）を押すと、「se_08_page_para」が鳴る
+   ・キャラクターページに入った時（どこから来ても）、「Cyber13-1」が鳴る（char-transition.js が、window.__se.play("enter") で鳴らす）
+   ・音のファイルは、サイトのいちばん上のフォルダの se フォルダに入れる（mp3・wav・ogg・m4a のどれでもよい）
+   ・ファイルが見つからない音は、鳴らさない（ほかの動きは、そのまま）
+========================================= */
+(() => {
+  "use strict";
+
+  const SE_FOLDER = "se";                              // 効果音のフォルダ（サイトのいちばん上のフォルダからの場所）
+  const EXTENSIONS = ["mp3", "wav", "ogg", "m4a"];     // 見つかるまで、この順に探す
+  const SOUNDS = {
+    click: { file: "PC-Mouse05-1", volume: 0.5 },     // クリック
+    photo: { file: "se_08_page_para", volume: 0.6 },   // キャラクターの写真を押した時
+    enter: { file: "Cyber13-1", volume: 0.6 }          // キャラクターページに入った時
+  };
+  const script = document.currentScript;
+  const base = script && script.src ? script.src : location.href;
+  const bank = {};
+
+  // 音のファイルを、読み込んでおく。開けなかった時は、次の拡張子を試す
+  function open(key) {
+    const sound = SOUNDS[key];
+    const entry = { tried: 0, failed: false, audio: new Audio() };
+    const candidates = EXTENSIONS.map((ext) => new URL(SE_FOLDER + "/" + sound.file + "." + ext, base).href);
+    entry.audio.preload = "auto";
+    entry.audio.addEventListener("error", () => {
+      entry.tried++;
+      if (entry.tried < candidates.length) entry.audio.src = candidates[entry.tried];
+      else entry.failed = true;
+    });
+    entry.audio.src = candidates[0];
+    bank[key] = entry;
+    return entry;
+  }
+
+  function play(key) {
+    const entry = bank[key] || open(key);
+    if (entry.failed) return;
+    try {
+      const node = entry.audio.cloneNode(true);       // 続けて鳴らしても、前の音を止めないように、複製して鳴らす
+      node.volume = SOUNDS[key].volume;
+      const result = node.play();
+      if (result && result.catch) result.catch(() => { /* ブラウザに止められた時は、鳴らさない */ });
+    } catch (e) { /* 何もしない */ }
+  }
+  window.__se = { play };
+
+  // 3つとも、先に読み込んでおく（はじめのクリックから、すぐ鳴らせるように）
+  const preload = () => Object.keys(SOUNDS).forEach((key) => { if (!bank[key]) open(key); });
+  if (document.readyState === "complete") preload();
+  else window.addEventListener("load", preload, { once: true });
+
+  // クリックを見張る（ほかの処理が、クリックを止めても、先に鳴らせるよう、いちばん先に受け取る）
+  const INTERACTIVE = 'a[href], button, [role="button"], summary, select, label, .investigator-card';
+  document.addEventListener("click", (event) => {
+    if (!event.isTrusted) return;                     // プログラムが起こしたクリックでは、鳴らさない
+    const target = event.target;
+    if (!target || !target.closest) return;
+    if (target.closest(".bgm-volume")) return;        // 音量のつまみは、鳴らさない
+
+    // キャラクターの写真（押せるものだけ。準備中・今のキャラクターは、押せないので鳴らさない）
+    const photo = target.closest(".investigator-card, .cc-item");
+    if (photo) {
+      if (!photo.classList.contains("is-soon") && !photo.classList.contains("is-current")) play("photo");
+      return;
+    }
+
+    // ほかに、押すと何かが起こる所（押せる形のもの、または、カーソルが指の形になるもの）
+    for (let node = target; node && node.nodeType === 1 && node !== document.body; node = node.parentElement) {
+      if (node.disabled) return;
+      if (node.matches(INTERACTIVE) || getComputedStyle(node).cursor === "pointer") {
+        play("click");
+        return;
+      }
+    }
+  }, true);
 })();

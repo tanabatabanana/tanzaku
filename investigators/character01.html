@@ -12,20 +12,22 @@
     <link rel="stylesheet" href="../character.css">
 
     <script>
-        // ホームから探索者の写真を押して来た時は、波が画面をおおった状態から始める（ちらつき防止）
+        // 入室の演出：どこから来ても、同じ演出で入る。立ち絵・名前・窓は、演出が始まるまで隠しておく（ちらつき防止）。
+        // ホームの写真を押して来た時は、さらに、波が画面をおおった状態から始める
         try {
-            // ホームから来た時は波（arriving）、ほかのキャラクターから来た時は、立ち絵・名前を隠す（char-in）
+            var root = document.documentElement;
             var fly = sessionStorage.getItem("charFly");
-            if (fly) document.documentElement.classList.add(/"mode":\s*"char"/.test(fly) ? "char-in" : "arriving");
-        } catch (e) {}
+            root.classList.add("char-in");
+            if (fly && !/"mode":\s*"char"/.test(fly)) root.classList.add("arriving");
 
-        // 窓群は、最初から隠した状態で始める（読み込み中に、一瞬見えてから消える、ということを防ぐ）。
-        // character.js が動き出さなければ（6秒たっても）、隠すのをやめる
-        try {
+            // 窓群は、最初から隠した状態で始める（読み込み中に、一瞬見えてから消える、ということを防ぐ）。
+            // character.js が動き出さなければ（6秒たっても）、隠すのをやめる
             if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
-                document.documentElement.classList.add("js-slide");
-                setTimeout(function () { if (!window.__charReady) document.documentElement.classList.remove("js-slide"); }, 6000);
+                root.classList.add("js-slide");
+                setTimeout(function () { if (!window.__charReady) root.classList.remove("js-slide"); }, 6000);
             }
+            // 演出が動き出さなくても（スクリプトが読み込めなかった時など）、7秒たったら、隠すのをやめる
+            setTimeout(function () { if (!window.__charEntered) root.classList.remove("char-in", "arriving"); }, 7000);
         } catch (e) {}
     </script>
     <script>

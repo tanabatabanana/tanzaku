@@ -1172,9 +1172,9 @@ p {
 
     /* ヘッダー */
     /* 4つのアイコンは必ず横一列（折り返さない）。ウィンドウの幅は一定にして、文字は画面の幅に合わせて縮める */
-    .site-header { width: calc(100% - 28px); }
+    .site-header { width: calc(100% - 78px); }          /* 右上の BGM の操作部（幅46px）の分をあける */
     .header-menu { flex-wrap: nowrap; justify-content: space-between; gap: 0; padding: 8px 4px 6px; }
-    .header-item { flex: 0 1 auto; min-width: 0; padding: 4px 1px; gap: 3px; font-size: clamp(5px, calc((100vw - 72px) / 56), 9.5px); }   /* 項目が増えたので、文字を小さく */
+    .header-item { flex: 0 1 auto; min-width: 0; padding: 4px 1px; gap: 3px; font-size: clamp(5px, calc((100vw - 126px) / 56), 9.5px); }   /* 項目が増えたので、文字を小さく */
     .header-item span { padding: 1px 1px; }
     .header-icon { width: 26px; height: 26px; }
 
@@ -1802,3 +1802,8 @@ html.arriving::before { content: ""; position: fixed; inset: 0; z-index: 99999; 
 
 /* ホーム：探索者一覧のウィンドウの白を、少し透かす（数字を小さくすると、もっと透ける。1 で、これまでの真っ白） */
 .investigators-page { background-color: rgba(255, 255, 255, 0.72); }
+
+/* iPadなど（801〜1180px）：ヘッダーが、右上の BGM の操作部に重ならないように、幅を少し控える */
+@media (min-width: 801px) and (max-width: 1180px) {
+    .site-header { max-width: calc(100% - 28px - 250px); }
+}
