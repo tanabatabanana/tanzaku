@@ -209,7 +209,7 @@ html.crt-on .crt-overlay { display: block; }
 
 /* =========================================
    BGM（全ページ共通）。このファイルだけで動く
-   ・画面のいちばん上の右端にある操作部（音符のボタン「BGM ON / OFF」と、音量のつまみ）で、オン・オフと音量を切り替える。はじめは、オフ
+   ・画面のいちばん上の右端にある操作部の、いちばん上の行（音符のボタン「BGM ON / OFF」と、音量のつまみ）で、オン・オフと音量を切り替える。はじめは、オフ
      （音量は、次に開いた時も続く）
    ・曲は、サイトのいちばん上のフォルダにある bgm フォルダの「Floating Above the City」（mp3・m4a・ogg・wav のどれでもよい）
      曲の名前を変えたい時は、下の BGM_FILE を書きかえる
@@ -235,28 +235,30 @@ html.crt-on .crt-overlay { display: block; }
     '<path class="bgm-head" d="M5 10h4v1h-4zM4 11h6v2h-6zM5 13h4v1h-4z"/>' +
     '<path class="bgm-wave" fill="#0b1f66" d="M1 5h1v4h-1zM13 9h1v4h-1z"/></svg>';
 
-  // 右上の操作部の見た目（このファイルの中だけで完結させる）
+  // 右上の操作部（BGM の行と、SE の行が並ぶ）の見た目。このファイルの中だけで完結させる
   const WIDGET_CSS = `
-.bgm-widget { position: fixed; top: 8px; right: 8px; z-index: 9000; display: flex; align-items: center; gap: 10px; padding: 5px 9px; background: #fff; border: 2px solid #064bff; box-shadow: 3px 3px 0 rgba(0, 75, 255, 0.25); color: #064bff; font: 12px/1 "Courier New", monospace; }
-.bgm-toggle { display: flex; align-items: center; gap: 5px; margin: 0; padding: 0; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
+.bgm-widget { position: fixed; top: 8px; right: 8px; z-index: 9000; display: flex; flex-direction: column; gap: 5px; padding: 5px 9px; background: #fff; border: 2px solid #064bff; box-shadow: 3px 3px 0 rgba(0, 75, 255, 0.25); color: #064bff; font: 12px/1 "Courier New", monospace; }
+.audio-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.bgm-toggle { display: flex; align-items: center; gap: 5px; min-width: 88px; margin: 0; padding: 0; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
 .bgm-toggle svg { width: 22px; height: 22px; }
 .bgm-state { display: inline-block; margin-left: 2px; padding: 2px 5px; background: #c7cfdd; color: #3b4660; font-weight: normal; }
 .bgm-toggle[aria-pressed="true"] .bgm-state { background: #0047ff; color: #fff; }
-.bgm-head { fill: #8f99ad; }
-.bgm-toggle[aria-pressed="true"] .bgm-head { fill: #0047ff; }
-.bgm-wave { display: none; }
-.bgm-toggle[aria-pressed="true"] .bgm-wave { display: inline; }
+.bgm-head, .se-head { fill: #8f99ad; }
+.bgm-toggle[aria-pressed="true"] .bgm-head, .bgm-toggle[aria-pressed="true"] .se-head { fill: #0047ff; }
+.bgm-wave, .se-wave { display: none; }
+.bgm-toggle[aria-pressed="true"] .bgm-wave, .bgm-toggle[aria-pressed="true"] .se-wave { display: inline; }
 .bgm-volume { -webkit-appearance: none; appearance: none; width: 88px; height: 14px; margin: 0; background: transparent; cursor: pointer; }
 .bgm-volume::-webkit-slider-runnable-track { height: 6px; background: #c7cfdd; border: 1px solid #064bff; }
 .bgm-volume::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 14px; margin-top: -5px; background: #0047ff; border: 2px solid #fff; box-shadow: 0 0 0 1px #064bff; }
 .bgm-volume::-moz-range-track { height: 6px; background: #c7cfdd; border: 1px solid #064bff; }
 .bgm-volume::-moz-range-thumb { width: 8px; height: 12px; background: #0047ff; border: 2px solid #fff; border-radius: 0; box-shadow: 0 0 0 1px #064bff; }
-/* スマホ：細い縦長の形にして、ヘッダーの右に収める */
+.audio-all { display: none; }
+/* スマホ：音量のつまみは出さない。BGM と SE を、1つのボタンにまとめる（細い縦長の形にして、ヘッダーの右に収める） */
 @media (max-width: 800px) {
-    .bgm-widget { top: 14px; right: 6px; flex-direction: column; align-items: stretch; gap: 4px; width: 46px; padding: 3px 3px 4px; box-sizing: border-box; font-size: 9px; }
-    .bgm-toggle { flex-direction: column; gap: 2px; }
+    .bgm-widget { top: 14px; right: 6px; width: 46px; padding: 3px 3px 4px; box-sizing: border-box; font-size: 9px; }
+    .audio-row { display: none; }
+    .audio-all { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
     .bgm-label i { display: none; }
-    .bgm-volume { width: 100%; }
 }
 `;
 
@@ -289,10 +291,18 @@ html.crt-on .crt-overlay { display: block; }
       if (savedVolume !== null && !Number.isNaN(Number(savedVolume))) volume = Math.max(0, Math.min(1, Number(savedVolume) / 100));
     } catch (e) { /* はじめの音量で */ }
 
-    const widget = document.createElement("div");
-    widget.className = "bgm-widget";
-    widget.setAttribute("role", "group");
-    widget.setAttribute("aria-label", "BGM");
+    // 操作部の枠（BGM の行と、SE の行が、ここに並ぶ）。先に作った方が作り、もう一方は、それを使う
+    let panel = document.getElementById("audio-panel");
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "audio-panel";
+      panel.className = "bgm-widget";
+      panel.setAttribute("role", "group");
+      panel.setAttribute("aria-label", "音の設定");
+      document.body.append(panel);
+    }
+    const widget = document.createElement("div");                           // BGM の行
+    widget.className = "audio-row bgm-row";
     const button = document.createElement("button");
     button.type = "button";
     button.className = "bgm-toggle";
@@ -309,13 +319,14 @@ html.crt-on .crt-overlay { display: block; }
     slider.title = "BGMの音量";
     slider.setAttribute("aria-label", "BGMの音量");
     widget.append(button, slider);
-    document.body.append(widget);
+    panel.prepend(widget);                                                  // BGM の行は、いちばん上
 
     // 曲のファイルが開けなかった時は、次の拡張子を試す。全部だめなら、ボタンを出さない
+    let missing = false;                                                    // 曲のファイルが見つからなかった
     audio.addEventListener("error", () => {
       tried++;
       if (tried < candidates.length) audio.src = candidates[tried];
-      else widget.remove();
+      else { missing = true; widget.remove(); }
     });
 
     // 前のページで流れていた場所から、続きを流す
@@ -369,13 +380,15 @@ html.crt-on .crt-overlay { display: block; }
       }
     });
 
-    button.addEventListener("click", () => {
-      on = !on;
+    const setOn = (value) => {
+      on = value;
       try { localStorage.setItem(KEY, on ? "on" : "off"); } catch (e) { /* 何もしない */ }
       apply();
       if (on) start();
       else stop();
-    });
+    };
+    button.addEventListener("click", () => setOn(!on));
+    window.__bgm = { isOn: () => on, set: setOn, isMissing: () => missing };      // スマホの、BGM と SE をまとめたボタンが使う
 
     // 画面を見ていない間は、止める
     document.addEventListener("visibilitychange", () => {
@@ -410,6 +423,7 @@ html.crt-on .crt-overlay { display: block; }
    ・キャラクターの写真（ホームの探索者の写真、キャラクターページの下のカルーセルの写真）を押すと、「se_08_page_para」が鳴る
    ・キャラクターページに入った時（どこから来ても）、「Cyber13-1」が鳴る（char-transition.js が、window.__se.play("enter") で鳴らす）
    ・音のファイルは、サイトのいちばん上のフォルダの se フォルダに入れる（mp3・wav・ogg・m4a のどれでもよい）
+   ・画面のいちばん上の右端にある操作部の、2行目（スピーカーのボタン「SE ON / OFF」と、音量のつまみ）で、オン・オフと音量を切り替える。はじめは、オン（音量は、次に開いた時も続く）
    ・ファイルが見つからない音は、鳴らさない（ほかの動きは、そのまま）
 ========================================= */
 (() => {
@@ -417,11 +431,21 @@ html.crt-on .crt-overlay { display: block; }
 
   const SE_FOLDER = "se";                              // 効果音のフォルダ（サイトのいちばん上のフォルダからの場所）
   const EXTENSIONS = ["mp3", "wav", "ogg", "m4a"];     // 見つかるまで、この順に探す
+  // weight：音量のつまみ（0〜100）に、かける割合。つまみが 50 の時の音量は、click が 0.5、photo と enter が 0.6
   const SOUNDS = {
-    click: { file: "PC-Mouse05-1", volume: 0.5 },     // クリック
-    photo: { file: "se_08_page_para", volume: 0.6 },   // キャラクターの写真を押した時
-    enter: { file: "Cyber13-1", volume: 0.6 }          // キャラクターページに入った時
+    click: { file: "PC-Mouse05-1", weight: 1 },        // クリック
+    photo: { file: "se_08_page_para", weight: 1.2 },    // キャラクターの写真を押した時
+    enter: { file: "Cyber13-1", weight: 1.2 }           // キャラクターページに入った時
   };
+  const ENABLED_KEY = "se";
+  const LEVEL_KEY = "seVolume";
+  let enabled = true;                                  // はじめは、オン
+  let level = 50;                                      // はじめの音量（0〜100）。操作部のつまみで変えられる
+  try {
+    enabled = localStorage.getItem(ENABLED_KEY) !== "off";
+    const savedLevel = localStorage.getItem(LEVEL_KEY);
+    if (savedLevel !== null && !Number.isNaN(Number(savedLevel))) level = Math.max(0, Math.min(100, Number(savedLevel)));
+  } catch (e) { /* はじめの設定で */ }
   const script = document.currentScript;
   const base = script && script.src ? script.src : location.href;
   const bank = {};
@@ -443,16 +467,109 @@ html.crt-on .crt-overlay { display: block; }
   }
 
   function play(key) {
+    if (!enabled || level <= 0) return;                // オフの時・音量が 0 の時は、鳴らさない
     const entry = bank[key] || open(key);
     if (entry.failed) return;
     try {
       const node = entry.audio.cloneNode(true);       // 続けて鳴らしても、前の音を止めないように、複製して鳴らす
-      node.volume = SOUNDS[key].volume;
+      node.volume = Math.min(1, (level / 100) * SOUNDS[key].weight);
       const result = node.play();
       if (result && result.catch) result.catch(() => { /* ブラウザに止められた時は、鳴らさない */ });
     } catch (e) { /* 何もしない */ }
   }
   window.__se = { play };
+
+  // 操作部の2行目：スピーカーのボタン「SE ON / OFF」と、音量のつまみ
+  const SPEAKER_ICON = '<svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">' +
+    '<path fill="#0b1f66" d="M2 6h1v4h-1zM3 5h3v1h-3zM3 10h3v1h-3zM6 4h1v1h-1zM6 11h1v1h-1zM7 3h1v1h-1zM7 12h1v1h-1zM8 3h1v10h-1z"/>' +
+    '<path class="se-head" d="M3 6h3v4h-3zM6 5h2v6h-2z"/>' +
+    '<path class="se-wave" fill="#0b1f66" d="M10 6h1v4h-1zM12 4h1v8h-1zM14 2h1v12h-1z"/></svg>';
+
+  // スマホ用のボタンのアイコン（音符と、音の広がり）。オンの時は、青く、音が広がる
+  const NOTE_ICON_ALL = '<svg class="header-icon" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">' +
+    '<path fill="#0b1f66" d="M9 2h1v10h-1zM10 2h2v1h-2zM11 3h2v2h-2zM12 5h1v2h-1zM11 7h1v1h-1z"/>' +
+    '<path class="bgm-head" d="M5 10h4v1h-4zM4 11h6v2h-6zM5 13h4v1h-4z"/>' +
+    '<path class="bgm-wave" fill="#0b1f66" d="M1 5h1v4h-1zM13 9h1v4h-1z"/></svg>';
+
+  function setupPanel() {
+    let panel = document.getElementById("audio-panel");
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "audio-panel";
+      panel.className = "bgm-widget";
+      panel.setAttribute("role", "group");
+      panel.setAttribute("aria-label", "音の設定");
+      document.body.append(panel);
+    }
+    const row = document.createElement("div");
+    row.className = "audio-row se-row";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "bgm-toggle se-toggle";
+    button.title = "効果音のオン・オフ";
+    button.innerHTML = SPEAKER_ICON + '<span class="bgm-label"><i>SE </i><b class="bgm-state">ON</b></span>';
+    const stateLabel = button.querySelector(".bgm-state");
+    const slider = document.createElement("input");
+    slider.type = "range";
+    slider.className = "bgm-volume";
+    slider.min = "0";
+    slider.max = "100";
+    slider.step = "1";
+    slider.value = String(level);
+    slider.title = "効果音の音量";
+    slider.setAttribute("aria-label", "効果音の音量");
+    row.append(button, slider);
+    panel.append(row);                                                      // SE の行は、BGM の行の下
+
+    const apply = () => {
+      button.setAttribute("aria-pressed", String(enabled));
+      button.setAttribute("aria-label", "効果音：" + (enabled ? "オン" : "オフ"));
+      stateLabel.textContent = enabled ? "ON" : "OFF";
+    };
+    apply();
+
+    const setEnabled = (value, preview) => {
+      enabled = value;
+      try { localStorage.setItem(ENABLED_KEY, enabled ? "on" : "off"); } catch (e) { /* 何もしない */ }
+      apply();
+      if (enabled && preview) play("click");                                // オンにした時は、鳴らして、音量を確かめられるように
+    };
+    button.addEventListener("click", () => setEnabled(!enabled, true));
+    window.__se.isOn = () => enabled;
+    window.__se.set = setEnabled;
+    slider.addEventListener("input", () => {
+      level = Number(slider.value);
+      try { localStorage.setItem(LEVEL_KEY, String(level)); } catch (e) { /* 何もしない */ }
+    });
+    slider.addEventListener("change", () => play("click"));                 // つまみを離した時に、鳴らして、音量を確かめられるように
+
+    // スマホ用：BGM と SE を、まとめて、オン・オフするボタン（パソコンでは、CSS で隠れている）。つまみは、スマホでは出さない。
+    // 両方がオンなら、「ON」。押すと、両方がオフになる。そうでなければ「OFF」。押すと、両方がオンになる
+    const all = document.createElement("button");
+    all.type = "button";
+    all.className = "bgm-toggle audio-all";
+    all.title = "音（BGM・効果音）のオン・オフ";
+    all.innerHTML = NOTE_ICON_ALL + '<span class="bgm-label"><b class="bgm-state">OFF</b></span>';
+    const allState = all.querySelector(".bgm-state");
+    const bgmIsOn = () => !window.__bgm || window.__bgm.isMissing() || window.__bgm.isOn();    // 曲が無い時は、数えない
+    const refreshAll = () => {
+      const both = bgmIsOn() && enabled;
+      all.setAttribute("aria-pressed", String(both));
+      all.setAttribute("aria-label", "音（BGM・効果音）：" + (both ? "オン" : "オフ"));
+      allState.textContent = both ? "ON" : "OFF";
+    };
+    all.addEventListener("click", () => {
+      const next = !(bgmIsOn() && enabled);
+      if (window.__bgm && !window.__bgm.isMissing()) window.__bgm.set(next);
+      setEnabled(next, next);
+      refreshAll();
+    });
+    panel.append(all);
+    refreshAll();
+    window.addEventListener("resize", refreshAll);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", setupPanel, { once: true });
+  else setupPanel();
 
   // 3つとも、先に読み込んでおく（はじめのクリックから、すぐ鳴らせるように）
   const preload = () => Object.keys(SOUNDS).forEach((key) => { if (!bank[key]) open(key); });

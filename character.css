@@ -450,7 +450,7 @@ html.char-in .stage-tachie, html.char-in .stage-name { opacity: 0; }
 .r-memo { padding: 6px 12px 10px; border-top: 1px solid #111; }
 .r-memo[hidden] { display: none; }
 .r-memo > span { display: block; color: #333; font-size: 11px; }
-.r-memo p { margin: 2px 0 0; font-size: 12.5px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+.r-memo p { margin: 2px 0 0; color: #111; font-size: 12.5px; font-weight: 700; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }   /* 太字 */
 
 
 /* 背景を泳ぐ魚（character.js）。文字のマスに、魚の形を当てはめて描く。ウィンドウや立ち絵の後ろ。動きを減らす設定の時は、出さない */

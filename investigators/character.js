@@ -367,14 +367,19 @@
     floor.style.height = floorH + "px";
     const floorBottom = parseFloat(getComputedStyle(floor).bottom) || 0;
 
-    // 立ち絵：足が床の中ほどに立つ。高さの上限（th）を決めて、どんな立ち絵も、縦横の比率を変えずに、その高さに合わせて表示する
-    // （横長で画面の幅に入らない時だけ、比率を保ったまま小さくする）。上限は、画面に入る最大の高さの 86%
+    // 立ち絵：足が床の中ほどに立つ。高さの上限（th）を決めて、どんな立ち絵も、縦横の比率を変えずに、その高さに合わせて表示する。
+    // 高さは、どの立ち絵も同じ（横幅が広くても、縮めない）。上限は、画面に入る最大の高さの 86%。
+    // 横が途切れないよう、立ち絵が欄に収まる所まで、左右にずらす。欄より広い立ち絵は、欄の真ん中に置いて、はみ出す分も、そのまま見せる
     const feet = floorBottom + floorH * 0.3;
     const th = Math.max(120, (sh - feet - 8) * TACHIE_LIMIT);
     const ratio = tachieImg.naturalWidth && tachieImg.naturalHeight ? tachieImg.naturalWidth / tachieImg.naturalHeight : 0.45;
-    const shownH = Math.min(th, (sw * 0.92) / ratio);
+    const shownH = th;
+    const shownW = shownH * ratio;
     const mobile = window.matchMedia("(max-width: 900px)").matches;
-    const tachieCx = mobile ? sw * 0.5 : cx;                    // スマホでは、立ち絵は画面の真ん中。床と名前の位置は、そのまま
+    let tachieCx = mobile ? sw * 0.5 : cx;                      // スマホでは、立ち絵は画面の真ん中。床と名前の位置は、そのまま
+    if (shownW + 8 <= sw) tachieCx = Math.max(shownW / 2 + 4, Math.min(tachieCx, sw - shownW / 2 - 4));    // 欄に収まるよう、左右にずらす
+    else tachieCx = sw / 2;                                     // 欄より広い立ち絵：真ん中に置く
+    stage.style.overflow = shownW + 8 > sw ? "visible" : "";    // 欄より広い時だけ、はみ出す分を、切らずに見せる
     tachieBtn.style.left = tachieCx + "px";
     tachieBtn.style.bottom = feet + "px";
     tachieBtn.style.height = shownH + "px";
